@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('property_status_id');
             $table->smallInteger('property_purpose_id');
             $table->longText('property_description');
-            $table->json('property_image')->default('');
-            $table->json('property_video')->nullable()->default('');
+            $table->json('property_image')->nullable();
+            $table->json('property_video')->nullable();
             $table->string('property_price');
         
             $table->string('property_seller_id');
