@@ -2,11 +2,11 @@
 
 return [
     'property-purpose' => [
-        FOR_RENT => 'For Rent',
-        FOR_SALE => 'For Sale',
-        FOR_INVEST => 'For Invest',
+        FOR_RENT => 'Nhà đất bán',
+        FOR_SALE => 'Cho thuê nhà đất',
+        FOR_INVEST => 'Dự án',
     ],
-    'order...' => [
+    'other...' => [
 
     ]
 ];

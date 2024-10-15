@@ -41,7 +41,7 @@ class HomeController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.property-create');
     }
 
     /**

@@ -10,7 +10,8 @@
     <div class="offcanvas-body">
         <div class="accordion" id="navbarAccordion">
             <div class="accordion-item">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                     Home
                 </button>
                 {{-- <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#navbarAccordion">
@@ -46,7 +47,8 @@
                 </div> --}}
             </div>
             <div class="accordion-item">
-                <button class="accordion-button collapsed active" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <button class="accordion-button collapsed active" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     Pages
                 </button>
                 <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#navbarAccordion">
@@ -127,7 +129,8 @@
                 </div>
             </div>
             <div class="accordion-item">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                     Property
                 </button>
                 <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#navbarAccordion">
@@ -198,7 +201,8 @@
                 </div>
             </div>
             <div class="accordion-item">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                     Blog
                 </button>
                 <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#navbarAccordion">
@@ -265,22 +269,30 @@
             </div>
         </div>
         <div class="others-option">
-            <div class="option-item">
-                <div class="user-info">
-                    <a href="{{ route('user.login.show') }}">Log In</a>
+            @guest
+                <div class="option-item">
+                    <div class="user-info">
+                        <a href="{{ route('user.login.show') }}">Đăng nhập</a>
+                    </div>
                 </div>
-            </div>
-            <div class="option-item">
-                <div class="user-info">
-                    <a href="{{ route('user.signup.show') }}">Register</a>
+                <div class="option-item">
+                    <div class="user-info">
+                        <a href="{{ route('user.signup.show') }}">Đăng ký</a>
+                    </div>
                 </div>
-            </div>
+            @else
+                <div class="option-item">
+                    <div class="user-info">
+                        <a href="{{ route('user.logout') }}">Đăng xuất</a>
+                    </div>
+                </div>
+            @endguest
             <div class="option-item">
-                <a href="contact-us.html" class="default-btn">Contact Us</a>
+                <a href="contact-us.html" class="default-btn">Đăng tin mới</a>
             </div>
             <div class="option-item">
                 <form class="search-form">
-                    <input type="text" class="search-field" placeholder="Search property">
+                    <input type="text" class="search-field" placeholder="Tìm kiếm bất động sản">
                     <button type="submit">
                         <i class="ri-search-line"></i>
                     </button>

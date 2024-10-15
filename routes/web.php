@@ -62,6 +62,7 @@ Route::name('user.')->prefix('user')->group(function () {
 
     Route::get      ('/home', [HomeController::class, 'index'])->name('home.index');
     Route::get      ('/home/{id}', [HomeController::class, 'show'])->name('home.show');
+    Route::get      ('/home/create', [HomeController::class, 'create'])->name('home.create');
     
 
     Route::middleware(['users.auth'])->group(function () {

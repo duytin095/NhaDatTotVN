@@ -8,17 +8,24 @@
                         style="animation-name: slideInLeft; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
                         <span class="sub">Your Pathway to Home Sweet Home.</span>
                         <h1>More than Property, We Offer Possibilities</h1>
+
                         <div class="search-info-tabs">
                             <ul class="nav nav-tabs" id="search_tab" role="tablist">
-                                <li class="nav-item" role="presentation"><a class="nav-link active" id="sell-tab"
-                                        data-bs-toggle="tab" href="#sell" role="tab" aria-controls="sell"
-                                        aria-selected="true">Sell</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" id="rent-tab"
-                                        data-bs-toggle="tab" href="#rent" role="tab" aria-controls="rent"
-                                        aria-selected="false" tabindex="-1">Rent</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" id="invest-tab"
-                                        data-bs-toggle="tab" href="#invest" role="tab" aria-controls="invest"
-                                        aria-selected="false" tabindex="-1">Invest</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="sell-tab" data-bs-toggle="tab" href="#sell" role="tab" aria-controls="sell">
+                                        {{ config('constants.property-purpose.property-purpose')[0]}}
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="rent-tab" data-bs-toggle="tab" href="#rent" role="tab" aria-controls="rent">
+                                        {{ config('constants.property-purpose.property-purpose')[1]}}
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="invest-tab" data-bs-toggle="tab" href="#invest" role="tab" aria-controls="invest">
+                                        {{ config('constants.property-purpose.property-purpose')[2]}}
+                                    </a>
+                                </li>
                             </ul>
                             <div class="tab-content" id="search_tab_content">
                                 <div class="tab-pane fade show active" id="sell" role="tabpanel"
@@ -75,7 +82,7 @@
                                                 <div class="form-group">
                                                     <button type="submit" class="default-btn">
                                                         <i class="ri-search-2-line"></i>
-                                                        Search Property
+                                                        Tìm kiếm
                                                     </button>
                                                 </div>
                                             </div>
@@ -455,7 +462,11 @@
                                         </div>
                                         <div class="bottom">
                                             <div class="user">
-                                                <img src="{{ asset('assets/user/images/user/user3.png') }}" alt="image">
+                                                @if ($property['seller']['admin_image'] === null)
+                                                    <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
+                                                @else
+                                                    <img src="{{ asset($property['seller']['admin_image']) }}" alt="image">
+                                                @endif
                                                 <a href="agent-profile.html">{{ $property['seller']['admin_name'] }}</a>
                                             </div>
                                             <ul class="group-info">
