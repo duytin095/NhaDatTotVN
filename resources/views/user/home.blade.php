@@ -381,7 +381,7 @@
                 <div class="tab-content" id="properties_tab_content">
                     <div class="tab-pane fade show active" id="for-sale" role="tabpanel" aria-labelledby="for-sale-tab">
                         <div class="row justify-content-center" data-cues="slideInUp" data-disabled="true">
-                            @foreach ($properties as $property)
+                            @foreach ($latestProperties as $property)
                             <div class="col-xl-4 col-md-6" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
                                 <div class="properties-item">
                                     <div class="properties-image">
@@ -4613,722 +4613,181 @@
         </div>
     </div>
 
-    <div class="featured-properties-area ptb-120">
-        <div class="container">
-            <div class="section-title text-center" data-cues="slideInUp" data-disabled="true">
-                <h2 data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">Featured Properties</h2>
-                <p data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
+    
+            <!-- Start Featured Properties Area -->
+            <div class="featured-properties-area ptb-120">
+                <div class="container">
+                    <div class="section-title text-center" data-cues="slideInUp">
+                        <h2>Dự án nổi bật</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="featured-properties-slide" data-cues="slideInUp">
+                        @foreach ($propertiesForInvest as $key => $property)
+                        <div class="slide {{ $key === 0 ? 'active' : '' }}" style="background-image: url(' {{ asset($property['property_images'][0]) }}')">
+                            <div class="properties-content">
+                                <div class="info">
+                                    <div class="media">
+                                        @if ($property['property_video'] !== "null")
+                                            <span>
+                                                <i class="ri-vidicon-fill"></i>
+                                            </span>
+                                        @endif
+                                        @if (isset($property['property_images']))
+                                            <span>
+                                                <i class="ri-image-line"></i>
+                                                {{ count($property['property_images']) }}
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <ul class="group-info">
+                                        <li>
+                                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Add To Favorites">
+                                                <i class="ri-heart-line"></i>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="content">
+                                    <h3>
+                                        <a class="property-title" href="{{ route('user.home.show', $property['property_id']) }}">{{ $property['property_name'] }}</a>
+                                    </h3>
+                                    <span>{{ $property['property_address'] }}</span>
+                                </div>
+                                <ul class="info-list">
+                                    <li>
+                                        <div class="icon">
+                                            <img src=" {{ asset('assets/user/images/properties/area.svg') }}" alt="area">
+                                        </div>
+                                        <span>{{ $property['property_acreage'] }}</span>
+                                    </li>
+                                </ul>
+                                <div class="price-and-user">
+                                    <div class="price">${{ $property['property_price'] }}</div>
+                                    <div class="user">
+                                        @if ($property['seller']['admin_image'] === null)
+                                            <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
+                                        @else
+                                            <img src="{{ asset($property['seller']['admin_image']) }}" alt="image">
+                                        @endif
+                                        <a href="agent-profile.html">{{ $property['seller']['admin_name'] }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="container-fluid">
-            <div class="featured-properties-slide" data-cues="slideInUp" data-disabled="true">
-                <div class="slide active bg-1" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="properties-content">
-                        <div class="info">
-                            <div class="media">
-                                <span><i class="ri-vidicon-fill"></i></span>
-                                <span><i class="ri-image-line"></i>5</span>
+            <!-- End Featured Properties Area -->
+    
+            <!-- Start Properties Area -->
+    <div class="properties-area pt-120 pb-95">
+        <div class="container">
+            <div class="section-title text-center" data-cues="slideInUp">
+                <h2>Dự án cho thuê</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
+            </div>
+            <div class="row justify-content-center" data-cues="slideInUp">
+                @foreach ($propertiesForSale as $property) 
+                    <div class="col-xl-4 col-md-6">
+                        <div class="properties-item">
+                            <div class="properties-image">
+                                <a href="property-details.html">
+                                    <img src=" {{ asset($property['property_images'][0]) }}" alt="image">
+                                </a>
+                                <ul class="action">
+                                    <li>
+                                        <a href="property-grid.html" class="featured-btn">Featured</a>
+                                    </li>
+                                    <li>
+                                        <div class="media">
+                                            @if ($property['property_video'] !== "null")
+                                                <span>
+                                                    <i class="ri-vidicon-fill"></i>
+                                                </span>
+                                            @endif
+                                            @if (isset($property['property_images']))
+                                                <span>
+                                                    <i class="ri-image-line"></i>
+                                                    {{ count($property['property_images']) }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul class="link-list">
+                                    <li>
+                                        <a href="property-grid.html" class="link-btn">{{ $property['type']['property_type_name'] }}</a>
+                                    </li>
+                                    <li>
+                                        <a href="property-grid.html" class="link-btn">{{ $property['property_purpose_name'] }}</a>
+                                    </li>
+                                </ul>
+                                <ul class="info-list">
+                                    {{-- <li>
+                                        <div class="icon">
+                                            <img src="assets/images/properties/bed.svg" alt="bed">
+                                        </div>
+                                        <span>6</span>
+                                    </li>
+                                    <li>
+                                        <div class="icon">
+                                            <img src="assets/images/properties/bathroom.svg" alt="bathroom">
+                                        </div>
+                                        <span>4</span>
+                                    </li>
+                                    <li>
+                                        <div class="icon">
+                                            <img src="assets/images/properties/parking.svg" alt="parking">
+                                        </div>
+                                        <span>1</span>
+                                    </li> --}}
+                                    <li>
+                                        <div class="icon">
+                                            <img src=" {{ asset('assets/user/images/properties/area.svg') }}" alt="area">
+                                        </div>
+                                        <span>{{ $property['property_acreage'] }}</span>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul class="group-info">
-                                <li>
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-share-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a href="https://www.facebook.com/" target="_blank">
-                                                    <i class="ri-facebook-fill"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://twitter.com/" target="_blank">
-                                                    <i class="ri-twitter-x-line"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://www.instagram.com/" target="_blank">
-                                                    <i class="ri-instagram-fill"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://bd.linkedin.com/" target="_blank">
-                                                    <i class="ri-linkedin-fill"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
+                            <div class="properties-content">
+                                <div class="top">
+                                    <div class="title">
+                                        <h3>
+                                            <a class="property-title" href="{{ route('user.home.show', $property['property_id']) }} ">{{ $property['property_name'] }}</a>
+                                        </h3>
+                                        <span>{{ $property['property_address'] }}</span>
                                     </div>
-                                </li>
-                                <li>
-                                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add To Favorites" data-bs-original-title="Add To Favorites">
-                                        <i class="ri-heart-line"></i>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Compare" data-bs-original-title="Compare">
-                                        <i class="ri-arrow-left-right-line"></i>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="content">
-                            <h3>
-                                <a href="property-details.html">Heritage Buildings</a>
-                            </h3>
-                            <span>194 Mercer Street, NY 10012, USA</span>
-                        </div>
-                        <ul class="info-list">
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/bed.svg" alt="bed">
+                                    <div class="price">${{ $property['property_price'] }}</div>
                                 </div>
-                                <span>6</span>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/bathroom.svg" alt="bathroom">
+                                <div class="bottom">
+                                    <div class="user">
+                                        @if ($property['seller']['admin_image'] === null)
+                                            <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
+                                        @else
+                                            <img src="{{ asset($property['seller']['admin_image']) }}" alt="image">
+                                        @endif
+                                        <a href="agent-profile.html">{{ $property['seller']['admin_name'] }}</a>
+                                    </div>
+                                    <ul class="group-info">
+                                        <li>
+                                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Add To Favorites">
+                                                <i class="ri-heart-line"></i>
+                                            </button>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <span>4</span>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/parking.svg" alt="parking">
-                                </div>
-                                <span>1</span>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/area.svg" alt="area">
-                                </div>
-                                <span>3250</span>
-                            </li>
-                        </ul>
-                        <div class="price-and-user">
-                            <div class="price">$95,000</div>
-                            <div class="user">
-                                <img src="assets/images/user/user1.png" alt="image">
-                                <a href="agent-profile.html">Thomas Klarck</a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="slide bg-2" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 180ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="properties-content">
-                        <div class="info">
-                            <div class="media">
-                                <span><i class="ri-vidicon-fill"></i></span>
-                                <span><i class="ri-image-line"></i>5</span>
-                            </div>
-                            <ul class="group-info">
-                                <li>
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-share-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a href="https://www.facebook.com/" target="_blank">
-                                                    <i class="ri-facebook-fill"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://twitter.com/" target="_blank">
-                                                    <i class="ri-twitter-x-line"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://www.instagram.com/" target="_blank">
-                                                    <i class="ri-instagram-fill"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://bd.linkedin.com/" target="_blank">
-                                                    <i class="ri-linkedin-fill"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add To Favorites" data-bs-original-title="Add To Favorites">
-                                        <i class="ri-heart-line"></i>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Compare" data-bs-original-title="Compare">
-                                        <i class="ri-arrow-left-right-line"></i>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="content">
-                            <h3>
-                                <a href="property-details.html">Industrial Spaces</a>
-                            </h3>
-                            <span>194 Mercer Street, NY 10012, USA</span>
-                        </div>
-                        <ul class="info-list">
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/bed.svg" alt="bed">
-                                </div>
-                                <span>6</span>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/bathroom.svg" alt="bathroom">
-                                </div>
-                                <span>4</span>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/parking.svg" alt="parking">
-                                </div>
-                                <span>1</span>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/area.svg" alt="area">
-                                </div>
-                                <span>3250</span>
-                            </li>
-                        </ul>
-                        <div class="price-and-user">
-                            <div class="price">$195,000</div>
-                            <div class="user">
-                                <img src="assets/images/user/user2.png" alt="image">
-                                <a href="agent-profile.html">Walter White</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="slide bg-3" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 360ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="properties-content">
-                        <div class="info">
-                            <div class="media">
-                                <span><i class="ri-vidicon-fill"></i></span>
-                                <span><i class="ri-image-line"></i>5</span>
-                            </div>
-                            <ul class="group-info">
-                                <li>
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-share-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a href="https://www.facebook.com/" target="_blank">
-                                                    <i class="ri-facebook-fill"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://twitter.com/" target="_blank">
-                                                    <i class="ri-twitter-x-line"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://www.instagram.com/" target="_blank">
-                                                    <i class="ri-instagram-fill"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://bd.linkedin.com/" target="_blank">
-                                                    <i class="ri-linkedin-fill"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add To Favorites" data-bs-original-title="Add To Favorites">
-                                        <i class="ri-heart-line"></i>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Compare" data-bs-original-title="Compare">
-                                        <i class="ri-arrow-left-right-line"></i>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="content">
-                            <h3>
-                                <a href="property-details.html">Newly Built Homes</a>
-                            </h3>
-                            <span>194 Mercer Street, NY 10012, USA</span>
-                        </div>
-                        <ul class="info-list">
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/bed.svg" alt="bed">
-                                </div>
-                                <span>6</span>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/bathroom.svg" alt="bathroom">
-                                </div>
-                                <span>4</span>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/parking.svg" alt="parking">
-                                </div>
-                                <span>1</span>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/area.svg" alt="area">
-                                </div>
-                                <span>3250</span>
-                            </li>
-                        </ul>
-                        <div class="price-and-user">
-                            <div class="price">$295,000</div>
-                            <div class="user">
-                                <img src="assets/images/user/user3.png" alt="image">
-                                <a href="agent-profile.html">Jack Smith</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="slide bg-4" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 540ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="properties-content">
-                        <div class="info">
-                            <div class="media">
-                                <span><i class="ri-vidicon-fill"></i></span>
-                                <span><i class="ri-image-line"></i>5</span>
-                            </div>
-                            <ul class="group-info">
-                                <li>
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-share-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a href="https://www.facebook.com/" target="_blank">
-                                                    <i class="ri-facebook-fill"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://twitter.com/" target="_blank">
-                                                    <i class="ri-twitter-x-line"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://www.instagram.com/" target="_blank">
-                                                    <i class="ri-instagram-fill"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://bd.linkedin.com/" target="_blank">
-                                                    <i class="ri-linkedin-fill"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add To Favorites" data-bs-original-title="Add To Favorites">
-                                        <i class="ri-heart-line"></i>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Compare" data-bs-original-title="Compare">
-                                        <i class="ri-arrow-left-right-line"></i>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="content">
-                            <h3>
-                                <a href="property-details.html">Luxury Apartments</a>
-                            </h3>
-                            <span>194 Mercer Street, NY 10012, USA</span>
-                        </div>
-                        <ul class="info-list">
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/bed.svg" alt="bed">
-                                </div>
-                                <span>6</span>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/bathroom.svg" alt="bathroom">
-                                </div>
-                                <span>4</span>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/parking.svg" alt="parking">
-                                </div>
-                                <span>1</span>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="assets/images/featured-properties/area.svg" alt="area">
-                                </div>
-                                <span>3250</span>
-                            </li>
-                        </ul>
-                        <div class="price-and-user">
-                            <div class="price">$395,000</div>
-                            <div class="user">
-                                <img src="assets/images/user/user4.png" alt="image">
-                                <a href="agent-profile.html">Jane Ronan</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
 
-    <div class="properties-area pt-120 pb-95">
-        <div class="container">
-            <div class="section-title text-center" data-cues="slideInUp" data-disabled="true">
-                <h2 data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">Properties For Sale</h2>
-                <p data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
-            </div>
-            <div class="row justify-content-center" data-cues="slideInUp" data-disabled="true">
-                <div class="col-xl-4 col-md-6" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="properties-item">
-                        <div class="properties-image">
-                            <a href="property-details.html">
-                                <img src="assets/images/properties/properties7.jpg" alt="image">
-                            </a>
-                            <ul class="action">
-                                <li>
-                                    <a href="property-grid.html" class="featured-btn">Featured</a>
-                                </li>
-                                <li>
-                                    <div class="media">
-                                        <span><i class="ri-vidicon-fill"></i></span>
-                                        <span><i class="ri-image-line"></i>5</span>
-                                    </div>
-                                </li>
-                            </ul>
-                            <ul class="link-list">
-                                <li>
-                                    <a href="property-grid.html" class="link-btn">Apartment</a>
-                                </li>
-                                <li>
-                                    <a href="property-grid.html" class="link-btn">For Sale</a>
-                                </li>
-                            </ul>
-                            <ul class="info-list">
-                                <li>
-                                    <div class="icon">
-                                        <img src="assets/images/properties/bed.svg" alt="bed">
-                                    </div>
-                                    <span>6</span>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <img src="assets/images/properties/bathroom.svg" alt="bathroom">
-                                    </div>
-                                    <span>4</span>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <img src="assets/images/properties/parking.svg" alt="parking">
-                                    </div>
-                                    <span>1</span>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <img src="assets/images/properties/area.svg" alt="area">
-                                    </div>
-                                    <span>3250</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="properties-content">
-                            <div class="top">
-                                <div class="title">
-                                    <h3>
-                                        <a href="property-details.html">Heritage Buildings</a>
-                                    </h3>
-                                    <span>194 Mercer Street, NY 10012, USA</span>
-                                </div>
-                                <div class="price">$95,000</div>
-                            </div>
-                            <div class="bottom">
-                                <div class="user">
-                                    <img src="assets/images/user/user1.png" alt="image">
-                                    <a href="agent-profile.html">Thomas Klarck</a>
-                                </div>
-                                <ul class="group-info">
-                                    <li>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-share-line"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a href="https://www.facebook.com/" target="_blank">
-                                                        <i class="ri-facebook-fill"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://twitter.com/" target="_blank">
-                                                        <i class="ri-twitter-x-line"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://www.instagram.com/" target="_blank">
-                                                        <i class="ri-instagram-fill"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://bd.linkedin.com/" target="_blank">
-                                                        <i class="ri-linkedin-fill"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add To Favorites" data-bs-original-title="Add To Favorites">
-                                            <i class="ri-heart-line"></i>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Compare" data-bs-original-title="Compare">
-                                            <i class="ri-arrow-left-right-line"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 180ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="properties-item">
-                        <div class="properties-image">
-                            <a href="property-details.html">
-                                <img src="assets/images/properties/properties8.jpg" alt="image">
-                            </a>
-                            <ul class="action">
-                                <li>
-                                    <div class="media">
-                                        <span><i class="ri-vidicon-fill"></i></span>
-                                        <span><i class="ri-image-line"></i>5</span>
-                                    </div>
-                                </li>
-                            </ul>
-                            <ul class="link-list">
-                                <li>
-                                    <a href="property-grid.html" class="link-btn">Apartment</a>
-                                </li>
-                                <li>
-                                    <a href="property-grid.html" class="link-btn">For Sale</a>
-                                </li>
-                            </ul>
-                            <ul class="info-list">
-                                <li>
-                                    <div class="icon">
-                                        <img src="assets/images/properties/bed.svg" alt="bed">
-                                    </div>
-                                    <span>6</span>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <img src="assets/images/properties/bathroom.svg" alt="bathroom">
-                                    </div>
-                                    <span>4</span>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <img src="assets/images/properties/parking.svg" alt="parking">
-                                    </div>
-                                    <span>1</span>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <img src="assets/images/properties/area.svg" alt="area">
-                                    </div>
-                                    <span>3250</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="properties-content">
-                            <div class="top">
-                                <div class="title">
-                                    <h3>
-                                        <a href="property-details.html">Beachfront Properties</a>
-                                    </h3>
-                                    <span>194 Mercer Street, NY 10012, USA</span>
-                                </div>
-                                <div class="price">$55,000</div>
-                            </div>
-                            <div class="bottom">
-                                <div class="user">
-                                    <img src="assets/images/user/user2.png" alt="image">
-                                    <a href="agent-profile.html">Walter White</a>
-                                </div>
-                                <ul class="group-info">
-                                    <li>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-share-line"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a href="https://www.facebook.com/" target="_blank">
-                                                        <i class="ri-facebook-fill"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://twitter.com/" target="_blank">
-                                                        <i class="ri-twitter-x-line"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://www.instagram.com/" target="_blank">
-                                                        <i class="ri-instagram-fill"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://bd.linkedin.com/" target="_blank">
-                                                        <i class="ri-linkedin-fill"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add To Favorites" data-bs-original-title="Add To Favorites">
-                                            <i class="ri-heart-line"></i>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Compare" data-bs-original-title="Compare">
-                                            <i class="ri-arrow-left-right-line"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 360ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="properties-item">
-                        <div class="properties-image">
-                            <a href="property-details.html">
-                                <img src="assets/images/properties/properties9.jpg" alt="image">
-                            </a>
-                            <ul class="action">
-                                <li>
-                                    <a href="property-grid.html" class="featured-btn">Featured</a>
-                                </li>
-                                <li>
-                                    <div class="media">
-                                        <span><i class="ri-vidicon-fill"></i></span>
-                                        <span><i class="ri-image-line"></i>5</span>
-                                    </div>
-                                </li>
-                            </ul>
-                            <ul class="link-list">
-                                <li>
-                                    <a href="property-grid.html" class="link-btn">Apartment</a>
-                                </li>
-                                <li>
-                                    <a href="property-grid.html" class="link-btn">For Sale</a>
-                                </li>
-                            </ul>
-                            <ul class="info-list">
-                                <li>
-                                    <div class="icon">
-                                        <img src="assets/images/properties/bed.svg" alt="bed">
-                                    </div>
-                                    <span>6</span>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <img src="assets/images/properties/bathroom.svg" alt="bathroom">
-                                    </div>
-                                    <span>4</span>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <img src="assets/images/properties/parking.svg" alt="parking">
-                                    </div>
-                                    <span>1</span>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <img src="assets/images/properties/area.svg" alt="area">
-                                    </div>
-                                    <span>3250</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="properties-content">
-                            <div class="top">
-                                <div class="title">
-                                    <h3>
-                                        <a href="property-details.html">Luxury Apartments</a>
-                                    </h3>
-                                    <span>194 Mercer Street, NY 10012, USA</span>
-                                </div>
-                                <div class="price">$77,000</div>
-                            </div>
-                            <div class="bottom">
-                                <div class="user">
-                                    <img src="assets/images/user/user3.png" alt="image">
-                                    <a href="agent-profile.html">Jane Ronan</a>
-                                </div>
-                                <ul class="group-info">
-                                    <li>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-share-line"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a href="https://www.facebook.com/" target="_blank">
-                                                        <i class="ri-facebook-fill"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://twitter.com/" target="_blank">
-                                                        <i class="ri-twitter-x-line"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://www.instagram.com/" target="_blank">
-                                                        <i class="ri-instagram-fill"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://bd.linkedin.com/" target="_blank">
-                                                        <i class="ri-linkedin-fill"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add To Favorites" data-bs-original-title="Add To Favorites">
-                                            <i class="ri-heart-line"></i>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Compare" data-bs-original-title="Compare">
-                                            <i class="ri-arrow-left-right-line"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="information-area">
         <div class="container">
@@ -5516,16 +4975,11 @@
         </div>
     </div>
 
-    <div class="testimonial-area pb-120">
+    {{-- <div class="testimonial-area pb-120">
         <div class="container-fluid" data-cues="slideInUp" data-disabled="true">
             <div class="swiper testimonial-slider swiper-initialized swiper-horizontal swiper-backface-hidden" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
                 <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(-2563.75px, 0px, 0px); transition-delay: 0ms;" id="swiper-wrapper-ebe710910aa79feab" aria-live="off">
-                    
-                    
-                    
-                    
-                    
-                    
+                      
                 <div class="swiper-slide" style="width: 707.5px; margin-right: 25px;" role="group" aria-label="3 / 6" data-swiper-slide-index="2">
                         <div class="testimonial-card">
                             <div class="info">
@@ -5650,7 +5104,7 @@
                 <div class="testimonial-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 1" aria-current="true"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 3"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 4"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 5"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 6"></span></div>
             <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="blog-area pb-95">
         <div class="container">

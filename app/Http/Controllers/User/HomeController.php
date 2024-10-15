@@ -23,12 +23,18 @@ class HomeController extends Controller
     {
         $types = Type::all()->toArray();
         $statuses = Status::all()->toArray();
-        $properties = Property::latest()
+        $latestProperties = Property::latest()
         ->with(['seller', 'status', 'type'])
         ->take(6)->get();
-        // dd($types);
+
+        // $featuredProperties = Property::where('property_status_id', 1)->with(['seller', 'status', 'type'])->take(5)->get();
+        $propertiesForInvest = Property::where('property_purpose_id', 2)->with(['seller', 'status', 'type'])->take(5)->get();
+
+        // Change status id for what you like to show
+        $propertiesForSale = Property::where('property_purpose_id', 1)->with(['seller', 'status', 'type'])->take(3)->get();
+
         // dd(config('constants.property-purpose.property-purpose'));
-        return view('user.home', compact('properties', 'types', 'statuses'));
+        return view('user.home', compact('latestProperties', 'propertiesForInvest', 'propertiesForSale', 'types', 'statuses'));
     }
     /**
      * Show the form for creating a new resource.
