@@ -27,10 +27,10 @@ class HomeController extends Controller
         ->with(['seller', 'status', 'type'])
         ->take(6)->get();
 
-        // $featuredProperties = Property::where('property_status_id', 1)->with(['seller', 'status', 'type'])->take(5)->get();
+        // Change property_purpose_id for what you like to show
         $propertiesForInvest = Property::where('property_purpose_id', 2)->with(['seller', 'status', 'type'])->take(5)->get();
 
-        // Change status id for what you like to show
+        // Change property_purpose_id for what you like to show
         $propertiesForSale = Property::where('property_purpose_id', 1)->with(['seller', 'status', 'type'])->take(3)->get();
 
         // dd(config('constants.property-purpose.property-purpose'));
@@ -41,7 +41,13 @@ class HomeController extends Controller
      */
     public function create()
     {
-        return view('user.property-create');
+        $types = Type::orderBy('property_purpose_id', 'asc')->get()->toArray();
+        $this->breadcrumbService->addCrumb('Home', '/user/home');
+        $this->breadcrumbService->addCrumb('Create Property', '/user/property-create');
+
+        return view('user.property-create', compact('types'), [
+            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
+        ]);
     }
 
     /**

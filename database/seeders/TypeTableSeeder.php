@@ -14,8 +14,11 @@ class TypeTableSeeder extends Seeder
     public function run(): void
     {
         $data = [];
-        for ($i = 0; $i < 5; $i++) {
-            $data[] = ['property_type_name' => 'Property Type ' . ($i + 1)];
+        for ($i = 0; $i < 20; $i++) {
+            $data[] = [
+                'property_type_name' => 'Danh mục' . ($i + 1),
+                'property_purpose_id' => rand(0, 2)
+            ];
         }
         DB::table('property_types')->insert($data);
     }

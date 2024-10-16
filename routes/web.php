@@ -54,7 +54,6 @@ Route::name('user.')->prefix('user')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::get('/login', 'displayUserLogin')->name('login.show');
         Route::post('/login', 'onUserLogin')->name('login.store');
-
         
         Route::get('/signup', 'displayUserSignup')->name('signup.show');
         Route::post('/signup', 'onUserSignup')->name('signup.store');
@@ -62,7 +61,8 @@ Route::name('user.')->prefix('user')->group(function () {
 
     Route::get      ('/home', [HomeController::class, 'index'])->name('home.index');
     Route::get      ('/home/{id}', [HomeController::class, 'show'])->name('home.show');
-    Route::get      ('/home/create', [HomeController::class, 'create'])->name('home.create');
+
+    Route::get      ('/create', [HomeController::class, 'create'])->name('create');
     
 
     Route::middleware(['users.auth'])->group(function () {

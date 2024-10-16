@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="{{ asset('assets/user/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/user/css/responsive.css') }}">
 
+    <!-- Uploader CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/admin/vendor/dropzone/dropzone.min.css') }}" />
+
     <title>Nhà đất tốt VN</title>
 
     <link rel="icon" type="image/png" href="{{ asset('assets/user/images/favicon.png') }}">
@@ -66,8 +69,12 @@
     <script src="{{ asset('assets/user/js/simpleParallax.min.js') }}"></script>
     <script src="{{ asset('assets/user/js/main.js') }}"></script>
 
+     <!-- Dropzone JS -->
+     <script src="{{ asset('assets/admin/vendor/dropzone/dropzone.min.js') }}"></script>
+
+
     <!--Google Maps -->
-    {{-- <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU4Gzc5BpgYWvH7P0hqskwIuRwmr2qX20&libraries=places&loading=async&callback=initMap"></script> --}}
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU4Gzc5BpgYWvH7P0hqskwIuRwmr2qX20&libraries=places&loading=async&callback=initMap"></script>
 
     <script src="{{ asset('assets/js/jquery.js') }}"></script>
     <script src="{{ asset('assets/js/ajax.js') }}"></script>
