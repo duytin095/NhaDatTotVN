@@ -11,3 +11,6 @@ const SOUTH_WEST = 4;
 const SOUTH_EAST = 5;
 const NORTH_WEST = 6;
 const NORTH_EAST = 7;
+
+const YOUTUBE = 0;
+const TIKTOK = 1;

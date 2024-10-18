@@ -45,11 +45,12 @@ class HomeController extends Controller
         $directions = config('constants.property-basic-info.property-direction');
         $legals = config('constants.property-basic-info.property-legals');
         $statuses = config('constants.property-basic-info.property-statuses');
+        $videoLinks = config('constants.property-basic-info.video-links');
 
         $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
         $this->breadcrumbService->addCrumb('Tạo Tin Đăng', '/user/property-create');
 
-        return view('user.property-create', compact('types', 'directions', 'legals', 'statuses'), [
+        return view('user.property-create', compact('types', 'directions', 'legals', 'statuses', 'videoLinks'), [
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
         ]);
     }

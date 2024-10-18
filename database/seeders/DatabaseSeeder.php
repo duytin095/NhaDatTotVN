@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             AdminTableSeeder::class,
             TypeTableSeeder::class,
             StatusTableSeeder::class,
+            ConstructionSeeder::class,
             // Other seeder...
         ]);
     }

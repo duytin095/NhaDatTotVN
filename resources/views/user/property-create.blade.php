@@ -134,41 +134,55 @@
                         </div>
                     </div>
 
-                    {{-- <div class="col-lg-12 col-md-12">
-                            <div class="form-group">
-                                <label>Giá</label>
-                                <div class="input-group mb-3">
-                                    <div class="form-floating">
-                                      <input type="text" class="form-control" id="floatingInputGroup1" placeholder="">
-                                      <label for="floatingInputGroup1"></label>
-                                    </div>
-                                    <span class="input-group-text"></span>
-                                </div>
-                            </div>
-                        </div> --}}
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
                             <label>Giá<label>
-                            <input value="0" type="text" class="form-control" placeholder="">
+                                    <div class="bubble-tooltip">
+                                        <input value="0" type="number" class="form-control" placeholder="">
+                                        <span class="bubble-content">Thoả thuận</span>
+                                    </div>
                         </div>
-                        
-                      
                     </div>
 
+                    <div class="location-info">
+                        <h3>Bản đồ</h3>
+                        <div class="row justify-content-center">
 
-
+                            <div class="col-lg-12 col-md-12">
+                                <div class="form-group">
+                                    <label>Địa chỉ<label>
+                                            <input name="property_address" id="search-input" type="text"
+                                                class="form-control" placeholder="Tìm địa chỉ">
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="form-group">
+                                    <div id="map-container" style="width: 100%; height: 300px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <h3>Thông tin mô tả</h3>
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
                             <label>Tiêu đề<label>
-                                    <input type="text" class="form-control" placeholder="Tiêu đề tin">
+                                    <div class="text-end text-secondary">
+                                        <span id="title-count" class="">Còn 100 ký tự</span>
+                                    </div>
+                                    <input id="title-input" type="text" class="form-control" maxlength="100"
+                                        placeholder="Tiêu đề tin">
                         </div>
                     </div>
                     <div class="col-lg-12-col-md-12">
                         <div class="form-group extra-top">
                             <label>Thông tin tổng quan</label>
-                            <textarea class="form-control" placeholder="Thông tin tổng quan"></textarea>
+                            <div class="text-end text-secondary">
+                                <span id="description-count">Còn 2000 ký tự</span>
+                            </div>
+                            <textarea class="form-control" id="description-input" maxlength="2000"
+                                placeholder="Nhập ít nhất 100 ký tự và nhiều nhất 2000 ký tự">
+                            </textarea>
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12">
@@ -185,52 +199,72 @@
                         </div>
                     </div>
 
+                    <h3>Thông tin thêm</h3>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label>Diện tích</label>
-                            <input type="number" class="form-control" placeholder="Diện tích (mét vuông)">
+                            <label>Phòng ngủ</label>
+                            <div class="input-group mb-3">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="floatingInputGroup1" placeholder="">
+                                    <label for="floatingInputGroup1"></label>
+                                </div>
+                                <span class="input-group-text">Phòng ngủ</span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label>Giá</label>
-                            <input type="number" class="form-control" placeholder="Giá">
+                            <label>Số tầng</label>
+                            <div class="input-group mb-3">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="floatingInputGroup1" placeholder="">
+                                    <label for="floatingInputGroup1"></label>
+                                </div>
+                                <span class="input-group-text">Số tầng</span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label>Status</label>
-                            <select class="form-select form-control">
-                                <option selected>Status</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <label>Nhà tắm</label>
+                            <div class="input-group mb-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGroup1" placeholder="">
+                                    <label for="floatingInputGroup1"></label>
+                                </div>
+                                <span class="input-group-text">Nhà tắm</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <label>Đường vào</label>
+                            <div class="input-group mb-3">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="floatingInputGroup1" placeholder="">
+                                    <label for="floatingInputGroup1"></label>
+                                </div>
+                                <span class="input-group-text">m</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-12">
+                        <div class="form-group">
+                            <label>Link Video</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-lg w-75" id="inputGroupFile02">
+                            <select name="" id="" class="form-select input-group-text">
+                                @foreach ($videoLinks as $key => $link)
+                                    <option value="{{ $key }}">{{ $link }}</option>
+                                @endforeach
                             </select>
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
-                            <label>Property Type</label>
-                            <select class="form-select form-control">
-                                <option selected>Select Type</option>
-                                <option value="1">Villa</option>
-                                <option value="2">Single Family Home</option>
-                                <option value="3">Multi Family Home</option>
-                                <option value="4">Apartment</option>
-                                <option value="5">Office</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
-                            <label>Bedrooms</label>
-                            <input type="number" class="form-control" placeholder="Number Of Beds">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
-                            <label>Bathrooms</label>
-                            <input type="number" class="form-control" placeholder="Number Of Baths">
+                        <div class="my-3">
+                            <span>Đăng video sản phẩm bất động sản của bạn vào
+                                <span style="color:red">( khách hàng sẽ đánh giá cao hơn )</span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -295,57 +329,7 @@
                             </li>
                         </ul>
                     </div> --}}
-                <div class="location-info">
-                    <h3>Địa chỉ</h3>
-                    <div class="row justify-content-center">
-                        {{-- <div class="col-lg-4 col-md-12">
-                                <div class="form-group">
-                                    <label>Tỉnh/Thành phố</label>
-                                    <div class="form-select form-control">
-                                        <select name="provinces" class="area-select-matcher" style="width: 100%;"></select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-12">
-                                <div class="form-group">
-                                    <label>Quận/Huyện</label>
-                                    <select name="districts"  class="form-select form-control"></select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-12">
-                                <div class="form-group">
-                                    <label>Phường/Xã</label>
-                                    <select name="wards" class="form-select form-control"></select>
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-6 col-md-12">
-                                <div class="form-group">
-                                    <label>Đường</label>
-                                    <input name="street" type="text" class="form-control" placeholder="Nhập tên đường">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="form-group">
-                                    <label>Số nhà</label>
-                                    <input name="street" type="text" class="form-control" placeholder="Nhập tên đường">
-                                </div>
-                            </div> --}}
-                        <div class="col-lg-12 col-md-12">
-                            <div class="form-group">
-                                <label>Địa chỉ chính xác<label>
-                                        <input name="property_address" id="search-input" type="text"
-                                            class="form-control" placeholder="Tìm địa chỉ">
-                                        {{-- <div class="field-placeholder">Search for a location  <span class="text-danger">*</span></div> --}}
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12">
-                            <div class="form-group">
-                                <div id="map-container" style="width: 100%; height: 300px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="bottom">
                     <button class="default-btn">Đăng tin</button>
                 </div>
@@ -354,6 +338,36 @@
         </div>
     </div>
 @endsection
+
 @push('scripts')
     <script src="{{ asset('assets/user/js/manage/property-create.js') }}"></script>
 @endpush
+
+<style>
+    .bubble-tooltip {
+        position: relative;
+    }
+
+    .bubble-content {
+        visibility: hidden;
+        width: 300px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .bubble-tooltip:hover .bubble-content {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .show-tooltip .bubble-content {
+        visibility: visible;
+        opacity: 1;
+    }
+</style>

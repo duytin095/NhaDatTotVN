@@ -165,10 +165,13 @@
                                 <a href="products.html">Products Grid</a>
                             </li> --}}
                             <li>
-                                <a href="{{ route('admin.properties.show') }}">Product List</a>
+                                <a href="{{ route('admin.properties.show') }}">Danh sách tin đăng</a>
                             </li>
                             <li>
-                                <a href="{{ route('admin.types.show') }}">Category List</a>
+                                <a href="{{ route('admin.types.show') }}">Danh sách danh mục</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.constructions.show') }}">Danh sách dự án</a>
                             </li>
                             {{-- <li>
                                 <a href="orders.html">Orders</a>

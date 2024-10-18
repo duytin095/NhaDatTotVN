@@ -4,9 +4,16 @@ let provinceId = 1, districtId = 1, wardId = 1;
 
 $(document).ready(function (){
     getProvinces();
+
     initImageDropzone();
+
     initMap();
+
+    priceTypingTooltipHandling();
+
+    displayRemainingChars();
 });
+
 async function getProvinces() {
     try{
         const provinces = await sendRequest('https://open.oapi.vn/location/provinces?size=63', 'GET');  
@@ -223,3 +230,43 @@ $(".area-select-matcher").select2({
     matcher: matchCustom,
     theme: 'bootstrap'
 });
+
+function priceTypingTooltipHandling() {
+    $('.bubble-tooltip input[type="number"]').each(function() {
+        const inputField = $(this);
+        const tooltip = inputField.siblings('.bubble-content');
+    
+        inputField.on('input', function() {
+          if (inputField.val() === '0') {
+            tooltip.css('visibility', 'visible');
+            tooltip.css('opacity', '1');
+          } else {
+            tooltip.css('visibility', 'hidden');
+            tooltip.css('opacity', '0');
+          }
+        });
+    
+        // Check the initial value of the input field
+        if (inputField.val() === '0') {
+          tooltip.css('visibility', 'visible');
+          tooltip.css('opacity', '1');
+        }
+      });
+}
+function displayRemainingChars() {
+    const titleInput = document.getElementById('title-input');
+    const titleCount = document.getElementById('title-count');
+    const descriptionInput = document.getElementById('description-input');
+    const descriptionCount = document.getElementById('description-count');
+
+
+    titleInput.addEventListener('input', () => {
+        const remainingChars = 100 - titleInput.value.length;
+        titleCount.textContent = `Còn ${remainingChars} ký tự`;
+    });
+
+    descriptionInput.addEventListener('input', () => {
+        const remainingChars = 2000 - descriptionInput.value.length;
+        descriptionCount.textContent = `Còn ${remainingChars} ký tự`;
+    });
+}

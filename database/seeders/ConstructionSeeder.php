@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class TypeTableSeeder extends Seeder
+class ConstructionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,12 +17,11 @@ class TypeTableSeeder extends Seeder
         $data = [];
         for ($i = 0; $i < 20; $i++) {
             $data[] = [
-                'property_type_name' => 'Danh mục' . ($i + 1),
-                'property_purpose_id' => rand(0, 2),
+                'construction_name' => 'Dự án' . ($i + 1),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ];
         }
-        DB::table('property_types')->insert($data);
+        DB::table('constructions')->insert($data);
     }
 }

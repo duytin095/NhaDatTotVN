@@ -31,4 +31,8 @@ return [
         3 => 'Đã qua sử dụng',
         4 => 'Đang phân lô',
     ],
+    'video-links' => [
+        YOUTUBE => 'Youtube',
+        TIKTOK => 'TikTok',
+    ],
 ];
