@@ -33,7 +33,7 @@ class HomeController extends Controller
         // Change property_purpose_id for what you like to show
         $propertiesForSale = Property::where('property_purpose_id', 1)->with(['seller', 'status', 'type'])->take(3)->get();
 
-        // dd(config('constants.property-purpose.property-purpose'));
+        // dd(config('constants.property-basic-info.property-purpose'));
         return view('user.home', compact('latestProperties', 'propertiesForInvest', 'propertiesForSale', 'types', 'statuses'));
     }
     /**
@@ -42,10 +42,14 @@ class HomeController extends Controller
     public function create()
     {
         $types = Type::orderBy('property_purpose_id', 'asc')->get()->toArray();
-        $this->breadcrumbService->addCrumb('Home', '/user/home');
-        $this->breadcrumbService->addCrumb('Create Property', '/user/property-create');
+        $directions = config('constants.property-basic-info.property-direction');
+        $legals = config('constants.property-basic-info.property-legals');
+        $statuses = config('constants.property-basic-info.property-statuses');
 
-        return view('user.property-create', compact('types'), [
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+        $this->breadcrumbService->addCrumb('Tạo Tin Đăng', '/user/property-create');
+
+        return view('user.property-create', compact('types', 'directions', 'legals', 'statuses'), [
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
         ]);
     }

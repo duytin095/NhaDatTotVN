@@ -24,7 +24,7 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        $purposes = config('constants.property-purpose.property-purpose');
+        $purposes = config('constants.property-basic-info.property-purpose');
         return view('admin.manage.property.create', compact('purposes'));
     }
 

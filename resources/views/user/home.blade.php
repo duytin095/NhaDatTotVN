@@ -11,19 +11,20 @@
 
                         <div class="search-info-tabs">
                             <ul class="nav nav-tabs" id="search_tab" role="tablist">
+                                {{-- Better use for loop --}}
                                 <li class="nav-item">
                                     <a class="nav-link active" id="sell-tab" data-bs-toggle="tab" href="#sell" role="tab" aria-controls="sell">
-                                        {{ config('constants.property-purpose.property-purpose')[0]}}
+                                        {{ config('constants.property-basic-info.property-purpose')[0]}}
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="rent-tab" data-bs-toggle="tab" href="#rent" role="tab" aria-controls="rent">
-                                        {{ config('constants.property-purpose.property-purpose')[1]}}
+                                        {{ config('constants.property-basic-info.property-purpose')[1]}}
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="invest-tab" data-bs-toggle="tab" href="#invest" role="tab" aria-controls="invest">
-                                        {{ config('constants.property-purpose.property-purpose')[2]}}
+                                        {{ config('constants.property-basic-info.property-purpose')[2]}}
                                     </a>
                                 </li>
                             </ul>

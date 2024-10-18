@@ -14,7 +14,7 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $purposes = config('constants.property-purpose.property-purpose');
+        $purposes = config('constants.property-basic-info.property-purpose');
         return view('admin.manage.type.index', compact('purposes'));
     }
 
@@ -24,7 +24,7 @@ class TypeController extends Controller
             $page = $request->input('page', 1); // default to page 1 if not provided
             $types = Type::paginate(3, ['*'], 'page', $page);
 
-            $propertyPurposes = config('constants.property-purpose.property-purpose');
+            $propertyPurposes = config('constants.property-basic-info.property-purpose');
         
             $types->transform(function ($type) use ($propertyPurposes) {
                 $type->property_purpose_name = $propertyPurposes[$type->property_purpose_id];

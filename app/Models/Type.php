@@ -20,7 +20,7 @@ class Type extends Model
         return Carbon::parse($value)->format('d-m-Y');
     }
     public function getPurposeNameAttribute(){
-        return config('constants.property-purpose.property-purpose')[$this->property_purpose_id];
+        return config('constants.property-basic-info.property-purpose')[$this->property_purpose_id];
     }
     
 }

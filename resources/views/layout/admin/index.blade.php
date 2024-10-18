@@ -153,6 +153,7 @@
     <script src="{{ asset('assets/js/sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2-custom.js') }}"></script>
     <script src="{{ asset('assets/js/ajax.js') }}"></script>
+
     @stack('scripts')
 </body>
 
