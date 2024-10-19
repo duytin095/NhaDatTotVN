@@ -68,7 +68,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="type-id" name="type-id">
+                    <input type="hidden" id="type-id">
                     <div class="row gutters">
                         <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-12">
                             <!-- Field wrapper start -->

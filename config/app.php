@@ -213,4 +213,5 @@ return [
         'BreadcrumbService' => App\Services\UserBreadcrumbService::class,
     ])->toArray(),
 
+    'debug' => env('APP_DEBUG', false),
 ];

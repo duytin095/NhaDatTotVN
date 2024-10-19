@@ -21,8 +21,8 @@ class TypeController extends Controller
     public function getTypes(Request $request)
     {
         try {
-            $page = $request->input('page', 1); // default to page 1 if not provided
-            $types = Type::paginate(3, ['*'], 'page', $page);
+            $page = $request->input('page', 1); // pefault to page 1 if not provided
+            $types = Type::orderByDesc('created_at')->paginate(3, ['*'], 'page', $page);
 
             $propertyPurposes = config('constants.property-basic-info.property-purpose');
         
@@ -48,7 +48,7 @@ class TypeController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,
-                'message' => $th->getMessage(),
+                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
             ]);
         }
     }
@@ -63,7 +63,7 @@ class TypeController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,
-                'message' => $th->getMessage(),
+                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
             ]);
         }
     }
@@ -92,7 +92,7 @@ class TypeController extends Controller
         $request->validate([
             'property_type_name' => 'required',
         ], [
-            'property_type_name.required' => 'Please enter property type name',
+            'property_type_name.required' => 'Tên danh mục không được để trống',
         ]);
         try {
             DB::beginTransaction();
@@ -103,13 +103,13 @@ class TypeController extends Controller
             DB::commit();
             return response()->json([
                 'status' => 200,
-                'message' => 'Type created successfully',
+                'message' => 'Thêm danh mục thành công',
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
                 'status' => 500,
-                'message' => $th->getMessage(),
+                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
             ]);
         }
     }
@@ -136,21 +136,22 @@ class TypeController extends Controller
             $request->validate([
                 'property_type_name' => 'required',
             ], [
-                'property_type_name.required' => 'Please enter property type name',
+                'property_type_name.required' => 'Tên danh mục không được để trống',
             ]);
 
             $type = Type::findOrFail($id);
             $type->update([
                 'property_type_name' => $request->input('property_type_name'),
+                'property_purpose_id' => $request->input('property_purpose_id'),
             ]);
             return response()->json([
                 'status' => 200,
-                'message' => 'Type updated successfully',
+                'message' => 'Cập nhật danh mục thành công',
             ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,
-                'message' => $th->getMessage(),
+                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
             ]);
         }
     }
@@ -164,12 +165,12 @@ class TypeController extends Controller
             Type::findOrFail($id)->delete();
             return response()->json([
                 'status' => 200,
-                'message' => 'Type deleted successfully',
+                'message' => 'Xoá danh mục thành công',
             ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,
-                'message' => $th->getMessage(),
+                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
             ]);
         }
     }

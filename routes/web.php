@@ -45,7 +45,10 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
         // DU AN
         Route::get      ('/constructions', [ConstructionController::class, 'index'])->name('constructions.show');
-
+        Route::get      ('/constructions/get', [ConstructionController::class, 'get'])->name('constructions.get');
+        Route::post     ('/constructions/store', [ConstructionController::class, 'store'])->name('constructions.store');
+        Route::put      ('/constructions/{id}', [ConstructionController::class, 'update'])->name('constructions.update');
+        Route::delete   ('/constructions/{id}', [ConstructionController::class, 'destroy'])->name('constructions.destroy');
 
         // TRANG THAI
         Route::get      ('/statuses/all-data', [StatusController::class, 'getAllStatuses'])->name('statuses.get-all-statuses');
