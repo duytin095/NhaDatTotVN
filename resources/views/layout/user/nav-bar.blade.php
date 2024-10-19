@@ -197,23 +197,23 @@
                 @guest
                     <div class="option-item">
                         <div class="user-info">
-                            <a href="{{ route('user.login.show') }}">Log In</a>
+                            <a href="{{ route('user.login.show') }}">Đăng nhập</a>
                         </div>
                     </div>
                     <div class="option-item">
                         <div class="user-info">
-                            <a href="{{ route('user.signup.show') }}">Register</a>
+                            <a href="{{ route('user.signup.show') }}">Đăng ký</a>
                         </div>
                     </div>
                 @else
                     <div class="option-item">
                         <div class="user-info">
-                            <a href="{{ route('user.logout') }}">Logout</a>
+                            <a href="{{ route('user.logout') }}">Đăng xuất</a>
                         </div>
                     </div>
                 @endguest
                 <div class="option-item">
-                    <a href="" class="default-btn">New Post</a>
+                    <a href="{{ route('user.create') }}" class="default-btn">Đăng tin mới</a>
                 </div>
             </div>
         </div>

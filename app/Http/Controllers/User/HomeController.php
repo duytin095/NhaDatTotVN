@@ -23,19 +23,36 @@ class HomeController extends Controller
     {
         $types = Type::all()->toArray();
         $statuses = Status::all()->toArray();
-        $properties = Property::latest()
+        $latestProperties = Property::latest()
         ->with(['seller', 'status', 'type'])
         ->take(6)->get();
-        // dd($types);
-        // dd(config('constants.property-purpose.property-purpose'));
-        return view('user.home', compact('properties', 'types', 'statuses'));
+
+        // Change property_purpose_id for what you like to show
+        $propertiesForInvest = Property::where('property_purpose_id', 2)->with(['seller', 'status', 'type'])->take(5)->get();
+
+        // Change property_purpose_id for what you like to show
+        $propertiesForSale = Property::where('property_purpose_id', 1)->with(['seller', 'status', 'type'])->take(3)->get();
+
+        // dd(config('constants.property-basic-info.property-purpose'));
+        return view('user.home', compact('latestProperties', 'propertiesForInvest', 'propertiesForSale', 'types', 'statuses'));
     }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        $types = Type::orderBy('property_purpose_id', 'asc')->get()->toArray();
+        $directions = config('constants.property-basic-info.property-direction');
+        $legals = config('constants.property-basic-info.property-legals');
+        $statuses = config('constants.property-basic-info.property-statuses');
+        $videoLinks = config('constants.property-basic-info.video-links');
+
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+        $this->breadcrumbService->addCrumb('Tạo Tin Đăng', '/user/property-create');
+
+        return view('user.property-create', compact('types', 'directions', 'legals', 'statuses', 'videoLinks'), [
+            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
+        ]);
     }
 
     /**

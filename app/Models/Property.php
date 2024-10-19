@@ -57,6 +57,6 @@ class Property extends Model
     }
     public function getPropertyPurposeNameAttribute()
     {
-        return config('constants.property-purpose.property-purpose')[$this->property_purpose_id];
+        return config('constants.property-basic-info.property-purpose')[$this->property_purpose_id];
     }
 }

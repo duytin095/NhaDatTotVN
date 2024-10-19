@@ -14,7 +14,8 @@ class TypeController extends Controller
      */
     public function index()
     {
-        return view('admin.manage.type.index');
+        $purposes = config('constants.property-basic-info.property-purpose');
+        return view('admin.manage.type.index', compact('purposes'));
     }
 
     public function getTypes(Request $request)
@@ -22,6 +23,14 @@ class TypeController extends Controller
         try {
             $page = $request->input('page', 1); // default to page 1 if not provided
             $types = Type::paginate(3, ['*'], 'page', $page);
+
+            $propertyPurposes = config('constants.property-basic-info.property-purpose');
+        
+            $types->transform(function ($type) use ($propertyPurposes) {
+                $type->property_purpose_name = $propertyPurposes[$type->property_purpose_id];
+                return $type;
+            });
+
             return response()->json([
                 'status' => 200,
                 'types' => $types,
@@ -89,6 +98,7 @@ class TypeController extends Controller
             DB::beginTransaction();
             Type::create([
                 'property_type_name' => $request->input('property_type_name'),
+                'property_purpose_id' => $request->input('property_purpose_id'),
             ]);
             DB::commit();
             return response()->json([

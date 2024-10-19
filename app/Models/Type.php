@@ -13,17 +13,14 @@ class Type extends Model
     protected $table = 'property_types';
     protected $fillable = [
         'property_type_name',
+        'property_purpose_id'
     ];
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-m-Y');
     }
-    public function scopeFilterCreatedAt($query, $value)
-    {
-        return $query->whereBetween('created_at', [
-            Carbon::parse($value['start_date'])->format('Y-m-d H:i:s'),
-            Carbon::parse($value['end_date'])->format('Y-m-d H:i:s'),
-        ]);
+    public function getPurposeNameAttribute(){
+        return config('constants.property-basic-info.property-purpose')[$this->property_purpose_id];
     }
     
 }

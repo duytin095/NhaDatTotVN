@@ -39,7 +39,9 @@ async function createType() {
     try {
         let data = {
             property_type_name: $('[name="property_type_name"]').val(),
+            property_purpose_id: $('#purpose-list').val(),
         }
+        
         const response = await sendRequest(`${window.location.origin}/admin/types/store`, 'POST', data);
 
         if (response.status == 200) {
@@ -86,11 +88,11 @@ function displayTypes(data, paginate) {
                         <div class="media-box">
                             <div class="media-box-body">
                                 <a href="#" class="text-truncate">${value.property_type_name}</a>
-                                <p>ID: ${value.property_type_id}</p>
+                                
                             </div>
                         </div>
                     </td>
-    
+                    <td>${value.property_purpose_name}</td>
                     <td>${value.created_at}</td>
     
                     <td>
@@ -111,7 +113,7 @@ function displayTypes(data, paginate) {
     const paginationHtml = `
         <ul class="pagination pagination-sm">
             <li class="paginate_button page-item previous ${paginate.current_page == 1 ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="getTypes(${paginate.current_page - 1})">Previous</a>
+                <a class="page-link" href="#" onclick="getTypes(${paginate.current_page - 1})">Lùi</a>
             </li>
             ${paginate.links.map((link, index) => `
                 <li class="page-item ${link.active ? 'active' : ''}">
@@ -119,33 +121,33 @@ function displayTypes(data, paginate) {
                 </li>
             `).join('')}
             <li class="page-item ${paginate.current_page == paginate.last_page ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="getTypes(${paginate.current_page + 1})">Next</a>
+                <a class="page-link" href="#" onclick="getTypes(${paginate.current_page + 1})">Tiếp</a>
             </li>
         </ul>
     `;
     $('#type-table-pagination-links').html(paginationHtml);
-    $('#type-table-info').text(`Showing ${paginate.from} to ${paginate.to} of ${paginate.total} entries`);
+    $('#type-table-info').text(`Hiển thị ${paginate.from} từ ${paginate.to} đến ${paginate.total} danh mục`);
 }
 function openDeleteModal(id) {
     let event = {
         icon: 'question',
-        title: 'Delete Type',
-        text: 'You sure want to delete this type?',
+        title: 'Xoá danh mục',
+        text: 'Xác nhận xoá danh mục?',
         action: 'deleteType',
         data: id,
     }
     confirmEvent(event);
 }
 function openUpdateModal(typeId, typeName) {
-    $('#createNewTypeLabel').text('Update property type');
-    $('#create-type-submit-btn').text('Update');
+    $('#createNewTypeLabel').text('Chỉnh sửa danh mục');
+    $('#create-type-submit-btn').text('Cập nhật');
     $('#type-id').val(typeId);
     $('[name="property_type_name"]').val(typeName);
     $('#createNewType').modal('show');
 }
 function openCreateModal() {
-    $('#createNewTypeLabel').text('Create property type');
-    $('#create-type-submit-btn').text('Create');
+    $('#createNewTypeLabel').text('Thêm danh mục');
+    $('#create-type-submit-btn').text('Tạo');
     $('#type-id').val('');
     $('[name="property_type_name"]').val('');
     $('#createNewType').modal('show');

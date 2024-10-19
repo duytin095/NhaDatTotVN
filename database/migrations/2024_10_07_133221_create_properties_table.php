@@ -13,8 +13,19 @@ return new class extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id('property_id');
-            $table->string('property_name');
+
+            // THONG TIN CO BAN
             $table->string('property_type_id');
+            $table->string('property_province')->default(''); // tinh/thanh pho
+            $table->string('property_district')->default(''); // quan/huyen
+            $table->string('property_ward')->default(''); // xa/phuong
+            $table->string('property_street')->default('')->nullable();  // duong
+            $table->string('property_street_number')->default('')->nullable();  // so nha
+            $table->text('property_address');
+            $table->string('civil_construction')->default('')->nullable();
+
+
+            $table->string('property_name');
             $table->string('property_status_id');
             $table->smallInteger('property_purpose_id');
             $table->longText('property_description');
@@ -23,12 +34,9 @@ return new class extends Migration
             $table->string('property_price');
         
             $table->string('property_seller_id');
-            $table->text('property_address');
             $table->string('property_latitude')->nullable();
             $table->string('property_longitude')->nullable();
-            $table->string('property_street')->default('');  // so nha/hem/ap/khu pho
-            $table->string('property_province')->default('');; // tinh/thanh pho
-            $table->string('property_district')->default('');; // quan/huyen
+
 
             $table->string('property_acreage'); // dien tich
             $table->string('property_legal')->default(''); // phap ly
