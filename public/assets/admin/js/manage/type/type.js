@@ -10,7 +10,6 @@ $(document).ready(function () {
     });
 });
 
-
 $('#create-type-submit-btn').on('click', function () {
     var typeId = $('#type-id').val();
     if (typeId) {
