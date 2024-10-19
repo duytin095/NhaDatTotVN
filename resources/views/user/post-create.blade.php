@@ -61,7 +61,13 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
                             <label>Dự án</label>
-                            <input name="street" type="text" class="form-control" placeholder="Tên dự án">
+                            <div class="form-select form-control">
+                                <select name="construction" class="area-select-matcher" style="width: 100%;">
+                                    @foreach ($constructions as $key => $construction)
+                                        <option value="{{ $key }}"> {{ $construction['construction_name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
 

@@ -36,24 +36,6 @@ class HomeController extends Controller
         // dd(config('constants.property-basic-info.property-purpose'));
         return view('user.home', compact('latestProperties', 'propertiesForInvest', 'propertiesForSale', 'types', 'statuses'));
     }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $types = Type::orderBy('property_purpose_id', 'asc')->get()->toArray();
-        $directions = config('constants.property-basic-info.property-direction');
-        $legals = config('constants.property-basic-info.property-legals');
-        $statuses = config('constants.property-basic-info.property-statuses');
-        $videoLinks = config('constants.property-basic-info.video-links');
-
-        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
-        $this->breadcrumbService->addCrumb('Tạo Tin Đăng', '/user/property-create');
-
-        return view('user.property-create', compact('types', 'directions', 'legals', 'statuses', 'videoLinks'), [
-            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
-        ]);
-    }
 
     /**
      * Store a newly created resource in storage.

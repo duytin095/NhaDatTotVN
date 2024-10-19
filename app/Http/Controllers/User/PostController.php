@@ -2,13 +2,21 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Type;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Construction;
+use App\Services\UserBreadcrumbService;
 
 class PostController extends Controller
 {
+    private $breadcrumbService;
+    public function __construct(UserBreadcrumbService $breadcrumbService)
+    {
+        $this->breadcrumbService = $breadcrumbService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -22,7 +30,19 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $types = Type::orderBy('property_purpose_id', 'asc')->get()->toArray();
+        $directions = config('constants.property-basic-info.property-direction');
+        $legals = config('constants.property-basic-info.property-legals');
+        $statuses = config('constants.property-basic-info.property-statuses');
+        $videoLinks = config('constants.property-basic-info.video-links');
+        $constructions = Construction::all()->toArray();
+
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+        $this->breadcrumbService->addCrumb('Tạo Tin Đăng', '/user/property-create');
+
+        return view('user.post-create', compact('types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
+            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
+        ]);
     }
 
     /**
@@ -136,7 +156,23 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $property = Property::with(['seller', 'status', 'type'])->findOrFail($id);
+
+            $featuredProperties = Property::where('property_status_id', 1)->with(['seller', 'status', 'type'])->take(5)->get();
+
+            $this->breadcrumbService->addCrumb('Home', '/user/home');
+            $this->breadcrumbService->addCrumb($property->property_name);
+
+            return view('user.property-detail', compact('property', 'featuredProperties'),[
+                'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => $th->getMessage(),
+            ]);
+        }
     }
 
     /**

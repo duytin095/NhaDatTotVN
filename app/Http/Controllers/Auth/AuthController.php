@@ -203,7 +203,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Login successful',
-            'redirect' => route('user.home.show'),
+            'redirect' => route('user.home.index'),
         ]);
     }
     function onUserLogout(Request $request)
