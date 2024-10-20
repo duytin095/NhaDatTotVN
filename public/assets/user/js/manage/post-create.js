@@ -13,7 +13,80 @@ $(document).ready(function (){
 
     displayRemainingChars();
 });
+async function createProperty() {
+    try {
+        let formData = new FormData();
+        // Thong tin co ban
+        formData.append('property_type_id', $('#type_list').val());
+        formData.append('property_province', $('[name="provinces"]').val());
+        formData.append('property_district', $('[name="districts"]').val());
+        formData.append('property_ward', $('[name="wards"]').val());
 
+        formData.append('property_street', $('[name="street"]').val());
+        formData.append('property_address_number', $('[name="address_number"]').val());
+        formData.append('property_address', $('[name="address"]').val());
+        formData.append('construction', $('["name=construction"]').val());
+        formData.append('property_facade', $('[name="property_facade"]').val());
+        formData.append('property_depth', $('[name="depth"]').val());
+        formData.append('property_acreage', $('[name="acreage"]').val());
+        formData.append('property_direction', $('[name="direction"]').val());
+        formData.append('property_legal', $('[name="legal"]').val());
+        formData.append('property_status', $('[name="status"]').val());
+        formData.append('property_price', $('[name="price"]').val());
+        
+        // Ban do
+        formData.append('property_latitude', $('[name="property_latitude"]').val());
+        formData.append('property_longitude', $('[name="property_longitude"]').val());
+
+        // Thong tin mo ta
+        formData.append('property_name', $('[name="property_name"]').val());
+        formData.append('property_description', $('[name="property_description"]').val());
+
+        // Thong tin them
+        formData.append('property_bedroom', $('[name="bedroom"]').val());
+        formData.append('property_floor', $('[name="floor"]').val());
+        formData.append('property_bathroom', $('[name="bathroom"]').val());
+        formData.append('property_entry', $('[name="entry"]').val());
+        formData.append('property_video', $('[name="video"]').val());
+
+
+
+
+
+        images_data = Object.values(images_data);
+
+        $.each(images_data, function (key, value) {
+            formData.append('image_' + key, value);
+            // console.log(key, value);
+        });
+
+        video_data = Object.values(video_data);
+        $.each(video_data, function (key, value) {
+            formData.append('video_' + key, value);
+        });
+        
+        // imageDropzone.processQueue();
+        // videoDropzone.processQueue();
+        const response = await sendRequest(`${window.location.origin}/admin/properties/store`, 'POST', formData, true);
+
+        if (response.status == 200) {
+            // getProperties();
+            showMessage(response.message);
+            $('#createNewProperty').modal('hide');
+        }
+    } catch (error) {
+        if (error.status == 422) {
+            const errors = error.responseJSON.errors;
+            $('.text-danger.form-error').remove();            // clear the error text so it doesnt display duplicate if validate fail many time
+            $.each(errors, function (key, value) {
+                const errorText = `<div class="text-danger form error">${value[0]}</div>`;
+                $(`[name="${key}"]`).after(errorText);
+            });
+        } else {
+            showMessage(error.message);
+        }
+    }
+}
 async function getProvinces() {
     try{
         const provinces = await sendRequest('https://open.oapi.vn/location/provinces?size=63', 'GET');  

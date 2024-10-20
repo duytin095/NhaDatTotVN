@@ -65,11 +65,13 @@ class PostController extends Controller
         ];
 
         $validateRulesMessages = [
+            // Thong tin co ban
             'property_type_id.required' => 'Chọn loại bất động sản',
             'property_province.required' => 'Chọn tỉnh thành',
             'province_district' => 'Chọn quận huyện',
             'province_ward' => 'Chọn xã phường',
 
+            // Thong tin mo ta
             'property_name.required' => 'Nhập tên bài đăng',
             // 'image_0.required' => 'Please upload image',
         ];
