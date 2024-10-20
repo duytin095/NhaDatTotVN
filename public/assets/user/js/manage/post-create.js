@@ -20,13 +20,16 @@ async function getProvinces() {
         if(provinces.code == "success"){
             $('[name="provinces"]')
                 .empty()
-                .html(provinces.data.map((province) => `<option value="${province.id}">${province.name}</option>`)
-                .join('')); 
+                .html(`<option value="${provinces.data[0].id}" selected>${provinces.data[0].name}</option>
+                    ${provinces.data.slice(1).map((province) => `<option value="${province.id}">${province.name}</option>`)
+                .join('')
+            }`);
+            getDistricts(provinces.data[0].id);
+            
             $('[name="provinces"]').on('change', async function () {
                 provinceId = $(this).val();
                 getDistricts(provinceId);
             })
-            $('[name="districts"]');
         }else{
             showMessage(provinces.message);
         }
@@ -40,8 +43,11 @@ async function getDistricts(provinceId) {
         if(districts.code == "success"){
             $('[name="districts"]')
                 .empty()
-                .html(districts.data.map((district) => `<option value="${district.id}">${district.name}</option>`)
-                .join('')); 
+                .html(
+                    `<option value="${districts.data[0].id}" selected>${districts.data[0].name}</option>
+                    ${districts.data.slice(1).map((district) => `<option value="${district.id}">${district.name}</option>`)
+                .join('')}`); 
+                getWards(districts.data[0].id);
             $('[name="districts"]').on('change', async function () {
                 districtId = $(this).val();
                 getWards(districtId);

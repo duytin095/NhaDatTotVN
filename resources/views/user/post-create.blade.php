@@ -12,6 +12,7 @@
                         <div class="form-group">
                             <label>Danh mục</label>
                             <select class="form-select form-control">
+                                <option value="" disabled selected>Chọn loại bất động sản</option>
                                 @foreach ($types as $key => $type)
                                     <option value="{{ $key }}"> {{ $type['property_type_name'] }}</option>
                                 @endforeach
@@ -346,7 +347,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/user/js/manage/property-create.js') }}"></script>
+    <script src="{{ asset('assets/user/js/manage/post-create.js') }}"></script>
 @endpush
 
 <style>
