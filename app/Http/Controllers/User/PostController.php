@@ -53,36 +53,25 @@ class PostController extends Controller
         $validateRules = [
             // Thong tin co ban
             'property_type_id' => 'required',
-            
+            'property_province' => 'required',
+            'province_district' => 'required',
+            'province_ward' => 'required',
 
-            'property_status_id' => 'required',
-            'property_purpose_id' => 'required',
-            'property_price' => 'required',
-            'property_acreage' => 'required|numeric',
+            // Thong tin mo ta
             'property_name' => 'required',
-            'property_description' => 'required',
-            'property_address' => 'required',
-            'video_0' => 'mimes:mp4,mov,ogg,qt',
+            'property_description' => 'required:min:100',
+            // image?? at least one
             // 'image_0' => 'required|mimes:jpeg,png,jpg,svg',
-            'property_latitude' => 'required',
-            'property_longitude' => 'required',
         ];
 
         $validateRulesMessages = [
-            'property_type_id.required' => 'Please select property type',
-            'property_status_id.required' => 'Please select property status',
-            'property_purpose_id.required' => 'Please select property purpose',
-            'property_price.required' => 'Please enter property price',
-            'property_acreage.required' => 'Please enter property acreage',
-            'property_acreage.numeric' => 'Please enter a valid acreage',
-            'property_name.required' => 'Please enter property name',
-            'property_description.required' => 'Please enter property description',
-            'property_address.required' => 'Please enter property address',
-            'video_0.mimes' => 'Please upload a valid video',
+            'property_type_id.required' => 'Chọn loại bất động sản',
+            'property_province.required' => 'Chọn tỉnh thành',
+            'province_district' => 'Chọn quận huyện',
+            'province_ward' => 'Chọn xã phường',
+
+            'property_name.required' => 'Nhập tên bài đăng',
             // 'image_0.required' => 'Please upload image',
-            'property_latitude.required' => 'Could not get property latitude',
-            'property_longitude.required' => 'Could not get property longitude',
-            
         ];
 
         for ($i = 1; $i < 10; $i++) {

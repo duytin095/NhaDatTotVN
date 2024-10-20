@@ -78,13 +78,13 @@ class ConstructionController extends Controller
             DB::commit();
             return response()->json([
                 'status' => 200,
-                'message' => 'Thêm dự án thành công',
+                'message' => config('constants.response.messages.created'),
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
                 'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
             ]);
         }
     }
@@ -123,12 +123,12 @@ class ConstructionController extends Controller
             ]);
             return response()->json([
                 'status' => 200,
-                'message' => 'Chỉnh sửa dự án thành công',
+                'message' => config('constants.response.messages.error'),
             ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
             ]);
         }
     }
@@ -142,12 +142,12 @@ class ConstructionController extends Controller
             Construction::findOrFail($id)->delete();
             return response()->json([
                 'status' => 200,
-                'message' => 'Xoá dự án thành công',
+                'message' => config('constants.response.messages.deleted'),
             ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
             ]);
         }
     }
