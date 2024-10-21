@@ -54,8 +54,9 @@ class PostController extends Controller
             // Thong tin co ban
             'property_type_id' => 'required',
             'property_province' => 'required',
-            'province_district' => 'required',
-            'province_ward' => 'required',
+            'property_district' => 'required',
+            'property_ward' => 'required',
+            'property_price' => 'required',
 
             // Thong tin mo ta
             'property_name' => 'required',
@@ -68,8 +69,9 @@ class PostController extends Controller
             // Thong tin co ban
             'property_type_id.required' => 'Chọn loại bất động sản',
             'property_province.required' => 'Chọn tỉnh thành',
-            'province_district' => 'Chọn quận huyện',
-            'province_ward' => 'Chọn xã phường',
+            'property_district' => 'Chọn quận huyện',
+            'property_ward' => 'Chọn xã phường',
+            'property_price.required' => 'Giá tiền không được để trống',
 
             // Thong tin mo ta
             'property_name.required' => 'Nhập tên bài đăng',
