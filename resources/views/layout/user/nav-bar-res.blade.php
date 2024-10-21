@@ -288,7 +288,7 @@
                 </div>
             @endguest
             <div class="option-item">
-                <a href="contact-us.html" class="default-btn">Đăng tin mới</a>
+                <a href="{{ route('user.post.create') }}l" class="default-btn">Đăng tin mới</a>
             </div>
             <div class="option-item">
                 <form class="search-form">

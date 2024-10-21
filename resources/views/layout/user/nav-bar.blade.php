@@ -213,7 +213,7 @@
                     </div>
                 @endguest
                 <div class="option-item">
-                    <a href="{{ route('user.create') }}" class="default-btn">Đăng tin mới</a>
+                    <a href="{{ route('user.post.create') }}" class="default-btn">Đăng tin mới</a>
                 </div>
             </div>
         </div>

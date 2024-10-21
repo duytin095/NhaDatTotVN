@@ -2,13 +2,21 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Type;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Construction;
+use App\Services\UserBreadcrumbService;
 
 class PostController extends Controller
 {
+    private $breadcrumbService;
+    public function __construct(UserBreadcrumbService $breadcrumbService)
+    {
+        $this->breadcrumbService = $breadcrumbService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -22,7 +30,19 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $types = Type::orderBy('property_purpose_id', 'asc')->get()->toArray();
+        $directions = config('constants.property-basic-info.property-direction');
+        $legals = config('constants.property-basic-info.property-legals');
+        $statuses = config('constants.property-basic-info.property-statuses');
+        $videoLinks = config('constants.property-basic-info.video-links');
+        $constructions = Construction::all()->toArray();
+
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+        $this->breadcrumbService->addCrumb('Tạo Tin Đăng', '/user/property-create');
+
+        return view('user.post-create', compact('types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
+            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
+        ]);
     }
 
     /**
@@ -33,36 +53,27 @@ class PostController extends Controller
         $validateRules = [
             // Thong tin co ban
             'property_type_id' => 'required',
-            
+            'property_province' => 'required',
+            'province_district' => 'required',
+            'province_ward' => 'required',
 
-            'property_status_id' => 'required',
-            'property_purpose_id' => 'required',
-            'property_price' => 'required',
-            'property_acreage' => 'required|numeric',
+            // Thong tin mo ta
             'property_name' => 'required',
-            'property_description' => 'required',
-            'property_address' => 'required',
-            'video_0' => 'mimes:mp4,mov,ogg,qt',
+            'property_description' => 'required:min:100',
+            // image?? at least one
             // 'image_0' => 'required|mimes:jpeg,png,jpg,svg',
-            'property_latitude' => 'required',
-            'property_longitude' => 'required',
         ];
 
         $validateRulesMessages = [
-            'property_type_id.required' => 'Please select property type',
-            'property_status_id.required' => 'Please select property status',
-            'property_purpose_id.required' => 'Please select property purpose',
-            'property_price.required' => 'Please enter property price',
-            'property_acreage.required' => 'Please enter property acreage',
-            'property_acreage.numeric' => 'Please enter a valid acreage',
-            'property_name.required' => 'Please enter property name',
-            'property_description.required' => 'Please enter property description',
-            'property_address.required' => 'Please enter property address',
-            'video_0.mimes' => 'Please upload a valid video',
+            // Thong tin co ban
+            'property_type_id.required' => 'Chọn loại bất động sản',
+            'property_province.required' => 'Chọn tỉnh thành',
+            'province_district' => 'Chọn quận huyện',
+            'province_ward' => 'Chọn xã phường',
+
+            // Thong tin mo ta
+            'property_name.required' => 'Nhập tên bài đăng',
             // 'image_0.required' => 'Please upload image',
-            'property_latitude.required' => 'Could not get property latitude',
-            'property_longitude.required' => 'Could not get property longitude',
-            
         ];
 
         for ($i = 1; $i < 10; $i++) {
@@ -136,7 +147,23 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $property = Property::with(['seller', 'status', 'type'])->findOrFail($id);
+
+            $featuredProperties = Property::where('property_status_id', 1)->with(['seller', 'status', 'type'])->take(5)->get();
+
+            $this->breadcrumbService->addCrumb('Home', '/user/home');
+            $this->breadcrumbService->addCrumb($property->property_name);
+
+            return view('user.property-detail', compact('property', 'featuredProperties'),[
+                'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => $th->getMessage(),
+            ]);
+        }
     }
 
     /**

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\Home\DashboardController;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\PostController;
 
 Route::name('admin.')->prefix('admin')->group(function () {
     Route::controller(AuthController::class)->group(function () {
@@ -70,13 +71,16 @@ Route::name('user.')->prefix('user')->group(function () {
     });
 
     Route::get      ('/home', [HomeController::class, 'index'])->name('home.index');
-    Route::get      ('/home/{id}', [HomeController::class, 'show'])->name('home.show');
 
-    Route::get      ('/create', [HomeController::class, 'create'])->name('create');
+    
     
 
     Route::middleware(['users.auth'])->group(function () {
-        Route::get('/logout', [AuthController::class, 'onUserLogout'])->name('logout');
+        Route::get      ('/logout', [AuthController::class, 'onUserLogout'])->name('logout');
+
+        // TIN DANG
+        Route::get      ('post/create', [PostController::class, 'create'])->name('post.create');
+        Route::get      ('post/{id}', [PostController::class, 'show'])->name('post.show');
     });
 });
 
