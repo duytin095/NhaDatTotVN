@@ -96,10 +96,25 @@ class TypeController extends Controller
         ]);
         try {
             DB::beginTransaction();
+            $imagePath = null;
+            $image = $request->file('image');
+            if($image){
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('assets/media/images/types'), $imageName);
+                $imagePath = 'assets/media/images/types/' . $imageName;
+            }
+
             Type::create([
                 'property_type_name' => $request->input('property_type_name'),
                 'property_purpose_id' => $request->input('property_purpose_id'),
+                'property_type_image' => json_encode($imagePath),
             ]);
+            // dd([
+            //     'property_type_name' => $request->input('property_type_name'),
+            //     'property_purpose_id' => $request->input('property_purpose_id'),
+            //     'property_type_image' => json_encode($imagePath),
+            // ]);
+            
             DB::commit();
             return response()->json([
                 'status' => 200,
@@ -109,7 +124,7 @@ class TypeController extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
             ]);
         }
     }

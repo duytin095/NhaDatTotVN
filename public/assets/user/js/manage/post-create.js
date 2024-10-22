@@ -274,7 +274,6 @@ function setAddressComponents(addressComponents) {
     const province = addressComponents.find((component) => component.types.includes("administrative_area_level_1"))?.long_name;
 
 
-
     const subDistrict = addressComponents.find((component) => component.types.includes("neighborhood"))?.long_name;
     console.log(street, subDistrict, district, province);
     console.log(addressComponents);

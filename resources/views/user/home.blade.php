@@ -254,118 +254,27 @@
     <div class="category-area pt-120 pb-95">
         <div class="container">
             <div class="row justify-content-center" data-cues="slideInUp" data-disabled="true">
-                <div class="col-lg-3 col-sm-6" data-cue="slideInUp" data-show="true"
-                    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="category-card">
-                        <div class="image">
-                            <img src="{{ asset('assets/user/images/category/category1.png') }}" alt="image">
-                        </div>
-                        <div class="content">
-                            <h3>
-                                <a href="property-grid.html">Residential</a>
-                            </h3>
-                            <span>(26 Properties)</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6" data-cue="slideInUp" data-show="true"
-                    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 180ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="category-card">
-                        <div class="image">
-                            <img src="{{ asset('assets/user/images/category/category2.png') }}" alt="image">
-                        </div>
-                        <div class="content">
-                            <h3>
-                                <a href="property-grid.html">Commercial</a>
-                            </h3>
-                            <span>(33 Properties)</span>
+
+                @foreach ($types as $type)
+                    <div class="col-lg-3 col-sm-6" data-cue="slideInUp" data-show="true"
+                        style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
+                        <div class="category-card">
+                            <div class="image">
+                                @if ($type['type_image'] != null)
+                                    <img src="{{ asset($type['type_image']) }}" alt="type_image">
+                                @endif
+                                <img src="{{ asset('assets/user/images/default-type.jpg') }}" alt="type_image">
+                            </div>
+                            <div class="content">
+                                <h3>
+                                    <a href="property-grid.html">{{ $type['property_type_name'] }}</a>
+                                </h3>
+                                <span>{{ $type['properties_count'] }} tin đăng</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-sm-6" data-cue="slideInUp" data-show="true"
-                    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 360ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="category-card">
-                        <div class="image">
-                            <img src="{{ asset('assets/user/images/category/category3.png') }}" alt="image">
-                        </div>
-                        <div class="content">
-                            <h3>
-                                <a href="property-grid.html">Vacation &amp; Resort</a>
-                            </h3>
-                            <span>(37 Properties)</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6" data-cue="slideInUp" data-show="true"
-                    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 540ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="category-card">
-                        <div class="image">
-                            <img src="assets/images/category/category4.png" alt="image">
-                        </div>
-                        <div class="content">
-                            <h3>
-                                <a href="property-grid.html">The Land</a>
-                            </h3>
-                            <span>(54 Properties)</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6" data-cue="slideInUp" data-show="true"
-                    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="category-card">
-                        <div class="image">
-                            <img src="assets/images/category/category5.png" alt="image">
-                        </div>
-                        <div class="content">
-                            <h3>
-                                <a href="property-grid.html">New Construction</a>
-                            </h3>
-                            <span>(123 Properties)</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6" data-cue="slideInUp" data-show="true"
-                    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 180ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="category-card">
-                        <div class="image">
-                            <img src="assets/images/category/category6.png" alt="image">
-                        </div>
-                        <div class="content">
-                            <h3>
-                                <a href="property-grid.html">Luxury Estate</a>
-                            </h3>
-                            <span>(355 Properties)</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6" data-cue="slideInUp" data-show="true"
-                    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 360ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="category-card">
-                        <div class="image">
-                            <img src="assets/images/category/category7.png" alt="image">
-                        </div>
-                        <div class="content">
-                            <h3>
-                                <a href="property-grid.html">Eco-Friendly</a>
-                            </h3>
-                            <span>(89 Properties)</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6" data-cue="slideInUp" data-show="true"
-                    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 540ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="category-card">
-                        <div class="image">
-                            <img src="assets/images/category/category8.png" alt="image">
-                        </div>
-                        <div class="content">
-                            <h3>
-                                <a href="property-grid.html">Historic Properties</a>
-                            </h3>
-                            <span>(17 Properties)</span>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+                
             </div>
         </div>
     </div>

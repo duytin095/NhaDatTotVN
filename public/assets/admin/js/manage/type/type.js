@@ -1,23 +1,27 @@
+let fileInput, imageElement;
 $(document).ready(function () {
     getTypes();
     $('#createNewType').on('hidden.bs.modal', function () {
         $('.text-danger.form-error').remove();
-        $('[name="property_type_name"]').val('');
-        $('#type-id').val('');
+        clearFormSelectors(['[name="type_id"]', '[name="property_type_name"]'], '[name="property_purpose_id"]');
     });
-    $('#create-new-type-btn').on('click', function(){
-        openCreateModal();
-    });
+
+    imageUpload();
+});
+
+$('#create-new-type-btn').on('click', function(){
+    openCreateModal();
 });
 
 $('#create-type-submit-btn').on('click', function () {
-    var typeId = $('#type-id').val();
+    var typeId = $('[name="type_id"]').val();
     if (typeId) {
         updateType(typeId);
     } else {
         createType();
     }
 });
+
 async function getTypes(page = 1) {
     try {
         const response = await sendRequest(`${window.location.origin}/admin/types/data?page=${page}`, 'GET');
@@ -36,17 +40,24 @@ async function getTypes(page = 1) {
 
 async function createType() {
     try {
-        let data = {
-            property_type_name: $('[name="property_type_name"]').val(),
-            property_purpose_id: $('#purpose-list').val(),
-        }
+        let formData = new FormData();
+        formData.append('property_type_name', $('[name="property_type_name"]').val());
+        formData.append('property_purpose_id', $('#purpose-list').val());
+        formData.append('image', $('.type-image-file-input')[0].files[0]);
         
-        const response = await sendRequest(`${window.location.origin}/admin/types/store`, 'POST', data);
+        
+        const response = await sendRequest(`${window.location.origin}/admin/types/store`, 'POST', formData, true);
 
         if (response.status == 200) {
             getTypes();
             showMessage(response.message);
+            
+            // if(!$('.type-image-file-input')[0]){
+                $('.type-image-file-input')[0].value = '';
+            // }
             $('#createNewType').modal('hide');
+            console.log($('.type-image-file-input')[0]);
+            
         }
     } catch (error) {
         if (error.status == 422) {
@@ -63,8 +74,10 @@ async function createType() {
 }
 async function updateType(id) {
     try {
+
         data = {
             property_type_name: $('[name="property_type_name"]').val(),
+
         }
         const response = await sendRequest(`${window.location.origin}/admin/types/${id}`, 'PUT', data);
         if (response.status == 200) {
@@ -77,17 +90,36 @@ async function updateType(id) {
         showMessage(error.message);
     }
 }
+async function deleteType(id) {
+    try {
+        const response = await sendRequest(`${window.location.origin}/admin/types/${id}`, 'DELETE');
+        if (response.status == 200) {
+            getTypes();
+            showMessage(response.message);
+        }
+    } catch (error) {
+        showMessage(error.message);
+    }
+}
 
 function displayTypes(data, paginate) {
     $('#type-table tbody').empty();
     $.each(data, function (key, value) {
+        let thumbnail;        
+        if (value.property_type_image === "null") {
+            thumbnail = 'assets/user/images/default-type.jpg'; // or any other default value
+        } else {
+            thumbnail = JSON.parse(value.property_type_image);
+        }
+        
         $('#type-table tbody').append(`
                 <tr role="row" class="odd">
                     <td class="sorting_1">
                         <div class="media-box">
+                            <img src="${window.location.origin}/${thumbnail}" width="40" class="media-avatar" alt="Product">
                             <div class="media-box-body">
-                                <a href="#" class="text-truncate">${value.property_type_name}</a>
-                                
+                                <a href="# class="text-truncate">${value.property_type_name}</a>
+                                <p>ID: ${value.property_type_id}</p>
                             </div>
                         </div>
                     </td>
@@ -96,7 +128,9 @@ function displayTypes(data, paginate) {
     
                     <td>
                         <div class="actions">
-                            <a href="javascript:void(0)" onclick="openUpdateModal(${value.property_type_id}, '${value.property_type_name}')" data-toggle="tooltip" data-placement="top" title=""
+                            <a href="javascript:void(0)" 
+                                onclick="openUpdateModal(${value.property_type_id}, '${value.property_type_name}', ${value.property_purpose_id},  '${thumbnail}' )"
+                                data-toggle="tooltip" data-placement="top" title=""
                                 data-original-title="Edit">
                                 <i class="icon-edit1 text-info"></i>
                             </a>
@@ -137,30 +171,69 @@ function openDeleteModal(id) {
     }
     confirmEvent(event);
 }
-function openUpdateModal(typeId, typeName) {
-    $('#createNewTypeLabel').text('Chỉnh sửa danh mục');
-    $('#create-type-submit-btn').text('Cập nhật');
-    $('#type-id').val(typeId);
-    $('[name="property_type_name"]').val(typeName);
+function openUpdateModal(id, name, purpose, image) {
+    correspondingModalText('Chỉnh sửa danh mục', 'Cập nhật');
+    clearFormSelectors(['[name="type_id"]', '[name="property_type_name"]'], '[name="property_purpose_id"]');
+    clearImage('[name="type-image-preview"]');
+
+
+    $('[name="type_id"]').val(id);
+    $('[name="property_type_name"]').val(name);
+    $('#purpose-list option[value="' + purpose + '"]').prop('selected', true);
+    // $('#imagePreview').css('background-image', 'url(' + window.location.origin + '/' + (image) + ')');
+    setImage('[name="type-image-preview"]', `${window.location.origin}/${image}`);
+   
     $('#createNewType').modal('show');
 }
 function openCreateModal() {
-    $('#createNewTypeLabel').text('Thêm danh mục');
-    $('#create-type-submit-btn').text('Tạo');
-    $('#type-id').val('');
-    $('[name="property_type_name"]').val('');
+    correspondingModalText('Tạo danh mục', 'Tạo');
+    $('.type-image-file-input')[0].value = '';
+    console.log($('.type-image-file-input')[0]);
+
+    clearFormSelectors(['[name="type_id"]', '[name="property_type_name"]'], '[name="property_purpose_id"]');
+    setImage('[name="type-image-preview"]');
+
     $('#createNewType').modal('show');
 }
-
-async function deleteType(id) {
-    try {
-        const response = await sendRequest(`${window.location.origin}/admin/types/${id}`, 'DELETE');
-        if (response.status == 200) {
-            getTypes();
-            showMessage(response.message);
-        }
-    } catch (error) {
-        showMessage(error.message);
-    }
+function correspondingModalText(label, buttonText){
+    $('#createNewTypeLabel').text(label);
+    $('#create-type-submit-btn').text(buttonText);
 }
+function clearFormSelectors(selectors) {
+    $.each(selectors, function(index, selector) {
+        $(selector).val('');
+    });
+}
+function clearImage(selector) {
+    $(selector).attr('src', '');
+}
+function setImage(selector, url = null) {
+    if(url) {
+        $(selector).attr('src', url);
+        return;
+    }
+    $(selector).attr('src', 'https://placehold.co/200');
+}
+function imageUpload() {
+    fileInput = $('.type-image-file-input');
+    imageElement = $('[name="type-image-preview"]');
+
+    fileInput.on('change', function() {
+        // Get the selected file
+        const file = this.files[0];
+    
+        // Create a FileReader instance
+        const reader = new FileReader();
+    
+        // Add an event listener to the FileReader
+        reader.onload = function(event) {
+            // Set the image source to the uploaded image
+            imageElement.attr('src', event.target.result);
+        };
+    
+        // Read the file as a data URL
+        reader.readAsDataURL(file);
+    });
+}
+
 

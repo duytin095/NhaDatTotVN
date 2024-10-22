@@ -25,7 +25,7 @@ function displayProperties(data, paginate) {
             <tr role="row" class="odd">
                 <td class="sorting_1">
                     <div class="media-box">
-                    <img src="${window.location.origin}/${thumbnail[0]}" width="40" class="media-avatar" alt="Product">
+                        <img src="${window.location.origin}/${thumbnail[0]}" width="40" class="media-avatar" alt="Product">
                         <div class="media-box-body">
                             <a href="# class="text-truncate">${value.property_name}</a>
                             <p>ID: ${value.property_id}</p>

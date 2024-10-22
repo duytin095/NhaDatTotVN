@@ -21,17 +21,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $types = Type::all()->toArray();
+        $types = Type::withCount('properties')->take(8)->get();
         $statuses = Status::all()->toArray();
         $latestProperties = Property::latest()
         ->with(['seller', 'status', 'type'])
         ->take(6)->get();
 
         // Change property_purpose_id for what you like to show
-        $propertiesForInvest = Property::where('property_purpose_id', 2)->with(['seller', 'status', 'type'])->take(5)->get();
+        $propertiesForInvest = Property::join('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
+        ->where('property_types.property_purpose_id', 2)
+        ->with(['seller', 'status', 'type'])
+        ->take(5)->get();
 
         // Change property_purpose_id for what you like to show
-        $propertiesForSale = Property::where('property_purpose_id', 1)->with(['seller', 'status', 'type'])->take(3)->get();
+        $propertiesForSale = Property::join('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
+        ->where('property_types.property_purpose_id', 1)
+        ->with(['seller', 'status', 'type'])
+        ->take(5)->get();
 
         // dd(config('constants.property-basic-info.property-purpose'));
         return view('user.home', compact('latestProperties', 'propertiesForInvest', 'propertiesForSale', 'types', 'statuses'));
