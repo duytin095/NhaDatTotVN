@@ -41,7 +41,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get      ('/types/data', [TypeController::class, 'getTypes'])->name('types.get-types');
         Route::get      ('/types/all-data', [TypeController::class, 'getAllTypes'])->name('types.get-all-types');
         Route::post     ('/types/store', [TypeController::class, 'store'])->name('types.store');
-        Route::put      ('/types/{id}', [TypeController::class, 'update'])->name('types.update');
+        Route::post      ('/types/{id}', [TypeController::class, 'update'])->name('types.update');
         Route::delete   ('/types/{id}', [TypeController::class, 'destroy'])->name('types.destroy');
 
         // DU AN

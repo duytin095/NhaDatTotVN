@@ -45,7 +45,6 @@ async function createType() {
         formData.append('property_purpose_id', $('#purpose-list').val());
         formData.append('image', $('.type-image-file-input')[0].files[0]);
         
-        
         const response = await sendRequest(`${window.location.origin}/admin/types/store`, 'POST', formData, true);
 
         if (response.status == 200) {
@@ -74,17 +73,27 @@ async function createType() {
 }
 async function updateType(id) {
     try {
+        let formData = new FormData();
+        formData.append('property_type_name', $('[name="property_type_name"]').val());
+        formData.append('property_purpose_id', $('#purpose-list').val());
 
-        data = {
-            property_type_name: $('[name="property_type_name"]').val(),
-
+        
+        // formData.append('image', $('.type-image-file-input')[0].files[0]);
+        const imageFileInput = $('.type-image-file-input')[0];
+        if (imageFileInput.files.length > 0) {
+            formData.append('image', imageFileInput.files[0]);
         }
-        const response = await sendRequest(`${window.location.origin}/admin/types/${id}`, 'PUT', data);
+
+        console.log(formData);
+
+        const response = await sendRequest(`${window.location.origin}/admin/types/${id}`, 'POST', formData, true);
         if (response.status == 200) {
             const current_page = new URLSearchParams(window.location.search).get('page');
             getTypes(current_page);
             $('#createNewType').modal('hide');
             showMessage(response.message);
+            $('.type-image-file-input')[0].value = '';
+
         }
     } catch (error) {
         showMessage(error.message);
@@ -188,7 +197,6 @@ function openUpdateModal(id, name, purpose, image) {
 function openCreateModal() {
     correspondingModalText('Tạo danh mục', 'Tạo');
     $('.type-image-file-input')[0].value = '';
-    console.log($('.type-image-file-input')[0]);
 
     clearFormSelectors(['[name="type_id"]', '[name="property_type_name"]'], '[name="property_purpose_id"]');
     setImage('[name="type-image-preview"]');

@@ -13,8 +13,12 @@
                             <label>Danh mục</label>
                             <select id="type_list" class="form-select form-control">
                                 <option value="" disabled selected>Chọn loại bất động sản</option>
-                                @foreach ($types as $key => $type)
-                                    <option value="{{ $key }}"> {{ $type['property_type_name'] }}</option>
+                                @foreach ($purposes as $key => $purpose)
+                                    <optgroup label="{{ $purpose }}">
+                                        @foreach ($types[$key] as $type)
+                                            <option value="{{ $type->property_type_id }}"> {{ $type->property_type_name }}</option>
+                                        @endforeach
+                                    </optgroup>
                                 @endforeach
                             </select>
                         </div>
@@ -150,7 +154,8 @@
 
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
-                            <label>Giá <span class="text-danger">(ngàn đồng)</span>
+                            <label>
+                                Giá <span class="text-danger">(ngàn đồng)</span>
                             <label>
                             <input name="price" value="0" type="number" class="form-control" min="0" step="1000"
                                 data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Thoả thuận"

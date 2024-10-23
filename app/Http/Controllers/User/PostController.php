@@ -30,7 +30,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        $types = Type::orderBy('property_purpose_id', 'asc')->get()->toArray();
+        $types = Type::orderBy('property_purpose_id', 'asc')->get()->groupBy('property_purpose_id');
+        $purposes = config('constants.property-basic-info.property-purpose');
         $directions = config('constants.property-basic-info.property-direction');
         $legals = config('constants.property-basic-info.property-legals');
         $statuses = config('constants.property-basic-info.property-statuses');
@@ -40,7 +41,7 @@ class PostController extends Controller
         $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
         $this->breadcrumbService->addCrumb('Tạo Tin Đăng', '/user/property-create');
 
-        return view('user.post-create', compact('types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
+        return view('user.post-create', compact('purposes','types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
         ]);
     }
