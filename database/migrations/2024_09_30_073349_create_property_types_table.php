@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('property_type_id');
             $table->string('property_type_name');
             $table->string('property_purpose_id');
+            $table->json('property_type_image')->nullable();
             $table->timestamps();
         });
     }

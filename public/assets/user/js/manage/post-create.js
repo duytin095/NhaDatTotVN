@@ -2,16 +2,27 @@ Dropzone.autoDiscover = false;
 let marker, provinces, districts, wards;
 let provinceId = 1, districtId = 1, wardId = 1;
 
-$(document).ready(function (){
+$(document).ready(function () {
     getProvinces();
 
     initImageDropzone();
 
     initMap();
 
-    priceTypingTooltipHandling();
-
     displayRemainingChars();
+
+    $('[name="price"]').on('input', function () {
+        var price = parseFloat($('[name="price"]').val());
+        $(this).attr('data-bs-title', convertCurrency(price));
+        $(this).tooltip('dispose').tooltip({ title: convertCurrency(price) });
+        $(this).tooltip('show');
+    });
+    $('.form-control[name="price"]').on('keypress', function(e){
+        return e.metaKey || // cmd/ctrl
+          e.which <= 0 || // arrow keys
+          e.which == 8 || // delete key
+          /[0-9]/.test(String.fromCharCode(e.which)); // numbers
+    })
 });
 async function createProperty() {
     try {
@@ -33,7 +44,7 @@ async function createProperty() {
         formData.append('property_legal', $('[name="legal"]').val());
         formData.append('property_status', $('[name="status"]').val());
         formData.append('property_price', $('[name="price"]').val());
-        
+
         // Ban do
         formData.append('property_latitude', $('[name="property_latitude"]').val());
         formData.append('property_longitude', $('[name="property_longitude"]').val());
@@ -64,7 +75,7 @@ async function createProperty() {
         $.each(video_data, function (key, value) {
             formData.append('video_' + key, value);
         });
-        
+
         // imageDropzone.processQueue();
         // videoDropzone.processQueue();
         const response = await sendRequest(`${window.location.origin}/admin/properties/store`, 'POST', formData, true);
@@ -88,59 +99,59 @@ async function createProperty() {
     }
 }
 async function getProvinces() {
-    try{
-        const provinces = await sendRequest('https://open.oapi.vn/location/provinces?size=63', 'GET');  
-        if(provinces.code == "success"){
+    try {
+        const provinces = await sendRequest('https://open.oapi.vn/location/provinces?size=63', 'GET');
+        if (provinces.code == "success") {
             $('[name="provinces"]')
                 .empty()
                 .html(`<option value="${provinces.data[0].id}" selected>${provinces.data[0].name}</option>
                     ${provinces.data.slice(1).map((province) => `<option value="${province.id}">${province.name}</option>`)
-                .join('')
-            }`);
+                        .join('')
+                    }`);
             getDistricts(provinces.data[0].id);
-            
+
             $('[name="provinces"]').on('change', async function () {
                 provinceId = $(this).val();
                 getDistricts(provinceId);
             })
-        }else{
+        } else {
             showMessage(provinces.message);
         }
-    }catch(error){
+    } catch (error) {
         showMessage(error.message);
     }
 }
 async function getDistricts(provinceId) {
-    try{
+    try {
         const districts = await sendRequest(`https://open.oapi.vn/location/districts?provinceId=${provinceId}`, 'GET');
-        if(districts.code == "success"){
+        if (districts.code == "success") {
             $('[name="districts"]')
                 .empty()
                 .html(
                     `<option value="${districts.data[0].id}" selected>${districts.data[0].name}</option>
                     ${districts.data.slice(1).map((district) => `<option value="${district.id}">${district.name}</option>`)
-                .join('')}`); 
-                getWards(districts.data[0].id);
+                        .join('')}`);
+            getWards(districts.data[0].id);
             $('[name="districts"]').on('change', async function () {
                 districtId = $(this).val();
                 getWards(districtId);
             })
-        }else{
+        } else {
             showMessage(districts.message);
         }
-    }catch(error){
+    } catch (error) {
         showMessage(error.message);
     }
 }
 async function getWards(districtId) {
-    const wards = await sendRequest(`https://open.oapi.vn/location/wards?districtId=${districtId}`, 'GET');    
+    const wards = await sendRequest(`https://open.oapi.vn/location/wards?districtId=${districtId}`, 'GET');
     try {
-        if(wards.code == "success"){
+        if (wards.code == "success") {
             $('[name="wards"]')
                 .empty()
                 .html(wards.data.map((ward) => `<option value="${ward.id}">${ward.name}</option>`)
-                .join('')); 
-        }else{
+                    .join(''));
+        } else {
             showMessage(wards.message);
         }
     } catch (error) {
@@ -207,7 +218,7 @@ async function initMap() {
                 const street = addressComponents.slice(0, districtIndex).map((component) => component.long_name).join(", ");
 
                 console.log(addressComponents);
-                
+
                 // Populate input fields
                 $("[name='street']").val(street);
                 $("[name='ward']").val(addressComponents.find((component) => component.types.includes("administrative_area_level_3"))?.long_name);
@@ -217,8 +228,8 @@ async function initMap() {
                 // Get latitude and longitude                
                 const { lat, lng } = place.geometry.location;
                 $("[name='property_latitude']").val(lat);
-                $("[name='property_longitude']").val(lng);                
-                
+                $("[name='property_longitude']").val(lng);
+
             }
         });
 
@@ -230,13 +241,13 @@ async function initMap() {
             geocoder.geocode({ location: { lat, lng } }, (results, status) => {
                 if (status === "OK") {
                     console.log(results);
-                    
+
                     setAddressComponents(results[0].address_components);
 
                     // Get latitude and longitude
                     $('[name="property_latitude"]').val(lat);
                     $('[name="property_longitude"]').val(lng);
-                    
+
                     const address = results[0].formatted_address;
                     document.getElementById("search-input").value = address;
                     if (marker) {
@@ -263,12 +274,11 @@ function setAddressComponents(addressComponents) {
     const province = addressComponents.find((component) => component.types.includes("administrative_area_level_1"))?.long_name;
 
 
-
     const subDistrict = addressComponents.find((component) => component.types.includes("neighborhood"))?.long_name;
     console.log(street, subDistrict, district, province);
     console.log(addressComponents);
-    
-    
+
+
     $('[name="street"]').val(street);
     $('[name="district"]').val(district);
     $('[name="province"]').val(province);
@@ -277,28 +287,28 @@ function setAddressComponents(addressComponents) {
 function matchCustom(params, data) {
     // If there are no search terms, return all of the data
     if ($.trim(params.term) === '') {
-      return data;
+        return data;
     }
 
     // Do not display the item if there is no 'text' property
     if (typeof data.text === 'undefined') {
-      return null;
+        return null;
     }
 
     // Normalize search term and text to handle accented characters
     // Note that this approach may not work perfectly for all languages or characters, but it should handle most cases. If you need to support a specific language or character set, you may need to use a more specialized library or approach.
     var searchTerm = $.trim(params.term).normalize('NFD').toLowerCase();
     var text = data.text.normalize('NFD').toLowerCase();
-        
+
     // `params.term` should be the term that is used for searching
     // `data.text` is the text that is displayed for the data object
     if (text.indexOf(searchTerm) > -1) {
-      var modifiedData = $.extend({}, data, true);
-      modifiedData.text += ' (phù hợp)';
+        var modifiedData = $.extend({}, data, true);
+        modifiedData.text += ' (phù hợp)';
 
-      // You can return modified objects from here
-      // This includes matching the `children` how you want in nested data sets
-      return modifiedData;
+        // You can return modified objects from here
+        // This includes matching the `children` how you want in nested data sets
+        return modifiedData;
     }
 
     // Return `null` if the term should not be displayed
@@ -307,31 +317,53 @@ function matchCustom(params, data) {
 
 $(".area-select-matcher").select2({
     matcher: matchCustom,
-    theme: 'bootstrap'
+    // theme: 'bootstrap'
 });
 
-function priceTypingTooltipHandling() {
-    $('.bubble-tooltip input[type="number"]').each(function() {
-        const inputField = $(this);
-        const tooltip = inputField.siblings('.bubble-content');
-    
-        inputField.on('input', function() {
-          if (inputField.val() === '0') {
-            tooltip.css('visibility', 'visible');
-            tooltip.css('opacity', '1');
-          } else {
-            tooltip.css('visibility', 'hidden');
-            tooltip.css('opacity', '0');
-          }
-        });
-    
-        // Check the initial value of the input field
-        if (inputField.val() === '0') {
-          tooltip.css('visibility', 'visible');
-          tooltip.css('opacity', '1');
+function convertCurrency(value) {
+    if (value === 0) {
+        return "Thoản thuận";
+    }
+
+    if (isNaN(value)) {
+        return "Không để trống giá";
+    }
+    if (value < 1000) {
+        return `${value} nghìn`;
+    }
+
+    if (value < 1000000) {
+        const trieu = Math.floor(value / 1000);
+        const nghin = value % 1000;
+
+        if (nghin === 0) {
+            return `${trieu} triệu`;
         }
-      });
+
+        return `${trieu} triệu ${nghin} nghìn`;
+    }
+
+    const ty = Math.floor(value / 1000000);
+    const remainingValue = value % 1000000;
+
+    if (remainingValue === 0) {
+        return `${ty} tỷ`;
+    }
+
+    const trieu = Math.floor(remainingValue / 1000);
+    const nghin = remainingValue % 1000;
+
+    if (trieu === 0) {
+        return `${ty} tỷ ${nghin} nghìn`;
+    }
+
+    if (nghin === 0) {
+        return `${ty} tỷ ${trieu} triệu`;
+    }
+
+    return `${ty} tỷ ${trieu} triệu ${nghin} nghìn`;
 }
+
 function displayRemainingChars() {
     const titleInput = document.getElementById('title-input');
     const titleCount = document.getElementById('title-count');

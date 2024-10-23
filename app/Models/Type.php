@@ -13,14 +13,23 @@ class Type extends Model
     protected $table = 'property_types';
     protected $fillable = [
         'property_type_name',
-        'property_purpose_id'
+        'property_purpose_id',
+        'property_type_image',
     ];
+    public function properties()
+    {
+        return $this->hasMany(Property::class, 'property_type_id', 'property_type_id');
+    }
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-m-Y');
     }
-    public function getPurposeNameAttribute(){
+    public function getPurposeNameAttribute()
+    {
         return config('constants.property-basic-info.property-purpose')[$this->property_purpose_id];
     }
-    
+    public function getTypeImageAttribute()
+    {
+        return json_decode($this->property_type_image, true);
+    }
 }

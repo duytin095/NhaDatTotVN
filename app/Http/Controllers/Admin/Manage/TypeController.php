@@ -96,20 +96,30 @@ class TypeController extends Controller
         ]);
         try {
             DB::beginTransaction();
+            $imagePath = null;
+            $image = $request->file('image');
+            if($image){
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('assets/media/images/types'), $imageName);
+                $imagePath = 'assets/media/images/types/' . $imageName;
+            }
+
             Type::create([
                 'property_type_name' => $request->input('property_type_name'),
                 'property_purpose_id' => $request->input('property_purpose_id'),
+                'property_type_image' => json_encode($imagePath),
             ]);
+            
             DB::commit();
             return response()->json([
                 'status' => 200,
-                'message' => 'Thêm danh mục thành công',
+                'message' => config('constants.response.messages.created'),
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
                 'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
             ]);
         }
     }
@@ -139,19 +149,28 @@ class TypeController extends Controller
                 'property_type_name.required' => 'Tên danh mục không được để trống',
             ]);
 
+            DB::beginTransaction();
             $type = Type::findOrFail($id);
-            $type->update([
-                'property_type_name' => $request->input('property_type_name'),
-                'property_purpose_id' => $request->input('property_purpose_id'),
-            ]);
+            $type->property_type_name = $request->input('property_type_name');
+            $type->property_purpose_id = $request->input('property_purpose_id');
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('assets/media/images/types'), $imageName);
+                $type->property_type_image = json_encode('assets/media/images/types/' . $imageName);
+            }
+           
+            $type->save();
+            DB::commit();
             return response()->json([
                 'status' => 200,
-                'message' => 'Cập nhật danh mục thành công',
+                'message' => config('constants.response.messages.updated'),
             ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
             ]);
         }
     }
@@ -165,12 +184,12 @@ class TypeController extends Controller
             Type::findOrFail($id)->delete();
             return response()->json([
                 'status' => 200,
-                'message' => 'Xoá danh mục thành công',
+                'message' => config('constants.response.messages.deleted'),
             ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
             ]);
         }
     }

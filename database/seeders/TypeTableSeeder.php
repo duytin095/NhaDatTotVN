@@ -19,6 +19,7 @@ class TypeTableSeeder extends Seeder
             $data[] = [
                 'property_type_name' => 'Danh mục' . ($i + 1),
                 'property_purpose_id' => rand(0, 2),
+                // 'property_type_image' => json_encode('assets/user/images/default-type.jpg'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ];

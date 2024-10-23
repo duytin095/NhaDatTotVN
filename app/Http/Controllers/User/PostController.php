@@ -30,7 +30,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        $types = Type::orderBy('property_purpose_id', 'asc')->get()->toArray();
+        $types = Type::orderBy('property_purpose_id', 'asc')->get()->groupBy('property_purpose_id');
+        $purposes = config('constants.property-basic-info.property-purpose');
         $directions = config('constants.property-basic-info.property-direction');
         $legals = config('constants.property-basic-info.property-legals');
         $statuses = config('constants.property-basic-info.property-statuses');
@@ -40,7 +41,7 @@ class PostController extends Controller
         $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
         $this->breadcrumbService->addCrumb('Tạo Tin Đăng', '/user/property-create');
 
-        return view('user.post-create', compact('types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
+        return view('user.post-create', compact('purposes','types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
         ]);
     }
@@ -54,8 +55,9 @@ class PostController extends Controller
             // Thong tin co ban
             'property_type_id' => 'required',
             'property_province' => 'required',
-            'province_district' => 'required',
-            'province_ward' => 'required',
+            'property_district' => 'required',
+            'property_ward' => 'required',
+            'property_price' => 'required',
 
             // Thong tin mo ta
             'property_name' => 'required',
@@ -68,8 +70,9 @@ class PostController extends Controller
             // Thong tin co ban
             'property_type_id.required' => 'Chọn loại bất động sản',
             'property_province.required' => 'Chọn tỉnh thành',
-            'province_district' => 'Chọn quận huyện',
-            'province_ward' => 'Chọn xã phường',
+            'property_district' => 'Chọn quận huyện',
+            'property_ward' => 'Chọn xã phường',
+            'property_price.required' => 'Giá tiền không được để trống',
 
             // Thong tin mo ta
             'property_name.required' => 'Nhập tên bài đăng',

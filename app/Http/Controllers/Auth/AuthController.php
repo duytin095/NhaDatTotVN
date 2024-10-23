@@ -94,12 +94,12 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => 401,
-                'message' => 'Invalid credentials',
+                'message' => 'Thông tin đăng nhập không chính xác ',
             ], 401);
         }
         return response()->json([
             'status' => 200,
-            'message' => 'Login successful',
+            'message' => 'Đăng nhập thành công',
             'redirect' => route('admin.dashboard.show'),
         ]);
     }
@@ -120,16 +120,16 @@ class AuthController extends Controller
             'password' => 'required',
             'confirm_password' => 'required|same:password'
         ], [
-            'user_name.required' => 'Please enter your name',
-            'user_email.required' => 'Please enter your email',
-            'user_email.email' => 'Please enter a valid email',
-            'user_email.unique' => 'Email already exists',
-            'user_phone.required' => 'Please enter your phone number',
-            'user_phone.min' => 'Please enter a valid phone number',
-            'user_phone.unique' => 'Phone number already exists',
-            'password.required' => 'Please enter your password',
-            'confirm_password.required' => 'Please confirm your password',
-            'confirm_password.same' => 'Password do not match',
+            'user_name.required' => 'Tên không được để trống',
+            'user_email.required' => 'Email không được để trống',
+            'user_email.email' => 'Email không hợp lệ',
+            'user_email.unique' => 'Email đã tồn tại',
+            'user_phone.required' => 'Nhập số điện thoại',
+            'user_phone.min' => 'Số điện thoại không hợp lệ',
+            'user_phone.unique' => 'Số điện thoại đã tồn tại',
+            'password.required' => 'Nhập mật khẩu',
+            'confirm_password.required' => 'Nhập lại mật khẩu',
+            'confirm_password.same' => 'Mật khẩu không đúng',
         ]);
         try {
             DB::beginTransaction();
@@ -144,13 +144,13 @@ class AuthController extends Controller
             DB::commit();
             return response()->json([
                 'status' => 200,
-                'message' => 'Registration successful. Please enter your email and password to log in',
+                'message' => 'Đăng ký thành công. Nhập số điện thoại và mật khẩu để đăng nhập',
                 'redirect' => route('user.login.show'),
                 'show_popup' => true,
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->route('user.signup.show')->with('error', 'Registration failed. Please try again later');
+            return redirect()->route('user.signup.show')->with('error', 'Đăng ký không thành công. Vui lòng thử lại sau');
         }
     }
 
@@ -160,8 +160,8 @@ class AuthController extends Controller
         if (Auth::guard('users')->check()) {
             return redirect()->route('user.home.show');
         }
-        $this->breadcrumbService->addCrumb('Home', '/user/home');
-        $this->breadcrumbService->addCrumb('Signup');
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+        $this->breadcrumbService->addCrumb('Đăng ký');
 
         return view('user.auth.signup', [
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
@@ -172,8 +172,8 @@ class AuthController extends Controller
         if (Auth::guard('users')->check()) {
             return redirect()->route('user.home.show');
         }
-        $this->breadcrumbService->addCrumb('Home', '/user/home');
-        $this->breadcrumbService->addCrumb('Login');
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+        $this->breadcrumbService->addCrumb('Đăng nhập');
 
         return view('user.auth.login', [
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
@@ -185,9 +185,9 @@ class AuthController extends Controller
             'user_phone' => 'required|min:10',
             'password' => 'required',
         ], [
-            'user_phone.required' => 'Please enter your phone number',
-            'user_phone.min' => 'Please enter a valid phone number',
-            'password.required' => 'Please enter your password',
+            'user_phone.required' => 'Nhập số điện thoại',
+            'user_phone.min' => 'Số điện thoại không hợp lệ',
+            'password.required' => 'Nhập mật khẩu',
         ]);
 
         $credentials = [
@@ -197,12 +197,12 @@ class AuthController extends Controller
         if (!Auth::guard('users')->attempt($credentials)) {
             return response()->json([
                 'status' => 401,
-                'message' => 'Invalid credentials',
+                'message' => 'Thông tin đăng nhập không chính xác',
             ], 401);
         }
         return response()->json([
             'status' => 200,
-            'message' => 'Login successful',
+            'message' => 'Đăng nhập thành công',
             'redirect' => route('user.home.index'),
         ]);
     }
@@ -246,8 +246,8 @@ class AuthController extends Controller
                 'admin_name' => 'required',
                 'admin_phone' => 'required',
             ], [
-                'admin_name.required' => 'Please enter your name',
-                'admin_phone.required' => 'Please enter your phone number'
+                'admin_name.required' => 'Tên không được để trống',
+                'admin_phone.required' => 'Số điện thoại không được để trống'
             ]);
             $id = auth('admin')->id();
             $admin = Admin::findOrFail($id);
@@ -271,7 +271,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Admin profile updated successfully',
+                'message' => 'Cập nhật hồ sơ thành công',
                 'redirect' => route('admin.profile.show'),
             ]);
         } catch (\Throwable $th) {
