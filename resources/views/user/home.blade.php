@@ -307,11 +307,11 @@
                                         </a>
                                         <ul class="action">
                                             <li>
-                                                <a href="" class="featured-btn">{{ $property['status']['property_status_name'] }}</a>
+                                                {{-- <a href="" class="featured-btn">{{ $property['status']['property_status_name'] }}</a> --}}
                                             </li>
                                             <li>
                                                 <div class="media">
-                                                    @if ($property['property_video'] !== "null")
+                                                    @if ($property['property_video'] !== null)
                                                         <span>
                                                             <i class="ri-vidicon-fill"></i>
                                                         </span>
@@ -364,11 +364,14 @@
                                         <div class="top">
                                             <div class="title">
                                                 <h3>
-                                                    <a class="property-title" href="{{ route('user.home.show', $property['property_id']) }}">{{ $property['property_name'] }}</a>
+                                                    {{-- <a class="property-title" href="{{ route('user.home.show', $property['property_id']) }}">{{ $property['property_name'] }}</a> --}}
+                                                    <a class="property-title" href="#">{{ $property['property_name'] }}</a>
                                                 </h3>
                                                 <span>{{ $property['property_address'] }}</span>
                                             </div>
-                                            <div class="price">{{ $property['property_price'] }}</div>
+                                            <div class="price">
+                                                {{ $property['property_price'] == 0 ? 'Thoả thuận' : $property['property_price'] }}
+                                            </div>
                                         </div>
                                         <div class="bottom">
                                             <div class="user">
@@ -377,7 +380,7 @@
                                                 @else
                                                     <img src="{{ asset($property['seller']['admin_image']) }}" alt="image">
                                                 @endif
-                                                <a href="agent-profile.html">{{ $property['seller']['admin_name'] }}</a>
+                                                <a href="agent-profile.html">{{ $property['seller']['user_name'] }}</a>
                                             </div>
                                             <ul class="group-info">
                                                 {{-- <li>

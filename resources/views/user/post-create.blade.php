@@ -43,24 +43,24 @@
                             <select name="wards" class="area-select-matcher" style="width: 100%;"></select>
                         </div>
                     </div>
-
-                    <div class="col-lg-4 col-md-12">
-                        <div class="form-group">
-                            <label>Đường</label>
-                            <input name="street" type="text" class="form-control" placeholder="Nhập tên đường">
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
+                    <div class="col-lg-3 col-md-12">
                         <div class="form-group">
                             <label>Số nhà</label>
                             <input name="address_number" type="text" class="form-control" placeholder="Ví dụ: 84">
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12">
+                    <div class="col-lg-3 col-md-12">
+                        <div class="form-group">
+                            <label>Đường</label>
+                            <input name="street" type="text" class="form-control" placeholder="Nhập tên đường">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label>Địa chỉ chính xác</label>
-                            <input name="street" type="text" class="form-control"
-                                placeholder="Ví dụ: 84 An Hội, Phường 12, Gò Vấp, Tp.HCM">
+                            <input name="address" type="text" class="form-control"
+                                placeholder="Ví dụ: 84 An Hội, Phường 12, Gò Vấp, Tp.HCM" disabled>
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12">
@@ -122,7 +122,7 @@
                         <div class="form-group">
                             <label>Hướng nhà</label>
                             <select name="direction" class="form-select form-control">
-                                <option value="" selected disabled>Chọn hướng nhà</option>
+                                <option value="0" selected>Chọn hướng nhà</option>
                                 @foreach ($directions as $key => $direction)
                                     <option value="{{ $key }}"> {{ $direction }}</option>
                                 @endforeach
@@ -133,7 +133,7 @@
                         <div class="form-group">
                             <label>Pháp lý</label>
                             <select name="legal" class="form-select form-control">
-                                <option value="" selected disabled>Giấy tờ pháp lý</option>
+                                <option value="0" selected >Giấy tờ pháp lý</option>
                                 @foreach ($legals as $key => $legal)
                                     <option value="{{ $key }}"> {{ $legal }}</option>
                                 @endforeach
@@ -144,7 +144,7 @@
                         <div class="form-group">
                             <label>Tình trạng</label>
                             <select name="status" class="form-select form-control">
-                                <option value="" selected disabled>Tình trạng</option>
+                                <option value="0" selected >Tình trạng</option>
                                 @foreach ($statuses as $key => $status)
                                     <option value="{{ $key }}"> {{ $status }}</option>
                                 @endforeach
@@ -155,7 +155,7 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
                             <label>
-                                Giá <span class="text-danger">(ngàn đồng)</span>
+                                Giá <span style="color:red">(ngàn đồng)</span>
                             <label>
                             <input name="price" value="0" type="number" class="form-control" min="0" step="1000"
                                 data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Thoả thuận"
@@ -172,8 +172,8 @@
                             <div class="col-lg-12 col-md-12">
                                 <div class="form-group">
                                     <label>Địa chỉ<label>
-                                            <input name="property_address" id="search-input" type="text"
-                                                class="form-control" placeholder="Tìm địa chỉ">
+                                        <input name="property_address" id="search-input" type="text"
+                                            class="form-control" placeholder="Tìm địa chỉ">
                                 </div>
                             </div>
                             <div class="col-lg-12 col-md-12">
@@ -188,11 +188,11 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
                             <label>Tiêu đề<label>
-                                    <div class="text-end text-secondary">
-                                        <span id="title-count" class="">Còn 100 ký tự</span>
-                                    </div>
-                                    <input name="property_name" id="title-input" type="text" class="form-control"
-                                        maxlength="100" placeholder="Tiêu đề tin">
+                            <div class="text-end text-secondary">
+                                <span id="title-count" class="">Còn 100 ký tự</span>
+                            </div>
+                            <input name="property_name" id="title-input" type="text" class="form-control"
+                                maxlength="100" placeholder="Tiêu đề tin">
                         </div>
                     </div>
                     <div class="col-lg-12-col-md-12">
@@ -214,7 +214,7 @@
                                 <div class="dz-message">
                                     <button type="button" class="dz-button">Kéo thả hoặc nhấn chọn để thêm
                                         ảnh</button><br>
-                                    <span class="note needsclick">Thêm ít nhất 1 ảnh. Tối đa 10 ảnh</span>
+                                    <span class="note needsclick" style="color: red">Thêm ít nhất 1 ảnh. Tối đa 10 ảnh</span>
                                 </div>
                             </form>
                         </div>
@@ -279,8 +279,8 @@
                             <label>Link Video</label>
                         </div>
                         <div class="input-group">
-                            <input type="text" class="form-control form-control-lg w-75">
-                            <select name="" id="" class="form-select input-group-text">
+                            <input name="video_link" type="text" class="form-control form-control-lg w-75">
+                            <select name="video_type" id="" class="form-select input-group-text">
                                 @foreach ($videoLinks as $key => $link)
                                     <option value="{{ $key }}">{{ $link }}</option>
                                 @endforeach
@@ -293,70 +293,8 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="facilities">
-                        <h3>Facilities</h3>
-                        <ul class="check-list">
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault1">
-                                    <label class="form-check-label" for="flexCheckDefault1">
-                                        Free Wifi
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault2">
-                                    <label class="form-check-label" for="flexCheckDefault2">
-                                        Pets Friendly
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault3">
-                                    <label class="form-check-label" for="flexCheckDefault3">
-                                        Smoking Allowed
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault4">
-                                    <label class="form-check-label" for="flexCheckDefault4">
-                                        Elevator In Building
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault5">
-                                    <label class="form-check-label" for="flexCheckDefault5">
-                                        Instant Book
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault6">
-                                    <label class="form-check-label" for="flexCheckDefault6">
-                                        Wireless Internet
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault7">
-                                    <label class="form-check-label" for="flexCheckDefault7">
-                                        Free Parking
-                                    </label>
-                                </div>
-                            </li>
-                        </ul>
-                    </div> --}}
-
                 <div class="bottom">
-                    <button class="default-btn">Đăng tin</button>
+                    <button id="submit-btn" class="default-btn">Đăng tin</button>
                 </div>
                 {{-- </form> --}}
             </div>

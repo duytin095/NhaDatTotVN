@@ -211,6 +211,11 @@
                             <a href="{{ route('user.logout') }}">Đăng xuất</a>
                         </div>
                     </div>
+                    <div class="option-item">
+                        <div class="user-info">
+                            <a href="{{ route('user.profile') }}">{{ auth()->guard('users')->user()->user_name }}</a>
+                        </div>
+                    </div>
                 @endguest
                 <div class="option-item">
                     <a href="{{ route('user.post.create') }}" class="default-btn">Đăng tin mới</a>

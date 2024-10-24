@@ -4,19 +4,23 @@ namespace App\Http\Controllers\auth;
 
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Property;
+use App\Traits\Paginatable;
+use function Ramsey\Uuid\v1;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Services\UserBreadcrumbService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Session;
 
-use function Ramsey\Uuid\v1;
+use Illuminate\Support\Facades\Cookie;
+use App\Services\UserBreadcrumbService;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
+    use Paginatable;
+
     private $breadcrumbService;
     public function __construct(UserBreadcrumbService $breadcrumbService)
     {
@@ -110,108 +114,6 @@ class AuthController extends Controller
         return redirect(route('admin.login.show'));
     }
 
-
-    public function onUserSignup(Request $request)
-    {
-        $request->validate([
-            'user_name' => 'required',
-            'user_email' => 'required|email:filter|unique:users',
-            'user_phone' => 'required|min:10|unique:users',
-            'password' => 'required',
-            'confirm_password' => 'required|same:password'
-        ], [
-            'user_name.required' => 'Tên không được để trống',
-            'user_email.required' => 'Email không được để trống',
-            'user_email.email' => 'Email không hợp lệ',
-            'user_email.unique' => 'Email đã tồn tại',
-            'user_phone.required' => 'Nhập số điện thoại',
-            'user_phone.min' => 'Số điện thoại không hợp lệ',
-            'user_phone.unique' => 'Số điện thoại đã tồn tại',
-            'password.required' => 'Nhập mật khẩu',
-            'confirm_password.required' => 'Nhập lại mật khẩu',
-            'confirm_password.same' => 'Mật khẩu không đúng',
-        ]);
-        try {
-            DB::beginTransaction();
-            User::create([
-                'user_name' => $request->input('user_name'),
-                'user_email' => $request->input('user_email'),
-                'user_phone' => $request->input('user_phone'),
-                'password' => bcrypt($request->input('password')),
-                'owner_referral_code' => 'NDT' . (1000 + User::orderByDesc('user_id')->value('user_id')),
-                'referral_code' => $request->input('referral_code') ?? '',
-            ]);
-            DB::commit();
-            return response()->json([
-                'status' => 200,
-                'message' => 'Đăng ký thành công. Nhập số điện thoại và mật khẩu để đăng nhập',
-                'redirect' => route('user.login.show'),
-                'show_popup' => true,
-            ]);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return redirect()->route('user.signup.show')->with('error', 'Đăng ký không thành công. Vui lòng thử lại sau');
-        }
-    }
-
-
-    public function displayUserSignup()
-    {
-        if (Auth::guard('users')->check()) {
-            return redirect()->route('user.home.show');
-        }
-        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
-        $this->breadcrumbService->addCrumb('Đăng ký');
-
-        return view('user.auth.signup', [
-            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
-        ]);
-    }
-    public function displayUserLogin()
-    {
-        if (Auth::guard('users')->check()) {
-            return redirect()->route('user.home.show');
-        }
-        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
-        $this->breadcrumbService->addCrumb('Đăng nhập');
-
-        return view('user.auth.login', [
-            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
-        ]);
-    }
-    public function onUserLogin(Request $request)
-    {
-        $request->validate([
-            'user_phone' => 'required|min:10',
-            'password' => 'required',
-        ], [
-            'user_phone.required' => 'Nhập số điện thoại',
-            'user_phone.min' => 'Số điện thoại không hợp lệ',
-            'password.required' => 'Nhập mật khẩu',
-        ]);
-
-        $credentials = [
-            'user_phone' => $request->input('user_phone'),
-            'password' => $request->input('password'),
-        ];
-        if (!Auth::guard('users')->attempt($credentials)) {
-            return response()->json([
-                'status' => 401,
-                'message' => 'Thông tin đăng nhập không chính xác',
-            ], 401);
-        }
-        return response()->json([
-            'status' => 200,
-            'message' => 'Đăng nhập thành công',
-            'redirect' => route('user.home.index'),
-        ]);
-    }
-    function onUserLogout(Request $request)
-    {
-        Auth::guard('users')->logout();
-        return redirect(route('user.login.show'));
-    }
-    
     function displayAdminProfile(){
         if(Auth::guard('admin')->check()){
             $admin =  Admin::where('admin_id', auth('admin')->id())->first();
@@ -290,4 +192,129 @@ class AuthController extends Controller
             'message' => "Delete old avatar successfully" + $imagePath
         ]);
     }
+
+
+    public function onUserSignup(Request $request)
+    {
+        $request->validate([
+            'user_name' => 'required',
+            'user_email' => 'required|email:filter|unique:users',
+            'user_phone' => 'required|min:10|unique:users',
+            'password' => 'required',
+            'confirm_password' => 'required|same:password'
+        ], [
+            'user_name.required' => 'Tên không được để trống',
+            'user_email.required' => 'Email không được để trống',
+            'user_email.email' => 'Email không hợp lệ',
+            'user_email.unique' => 'Email đã tồn tại',
+            'user_phone.required' => 'Nhập số điện thoại',
+            'user_phone.min' => 'Số điện thoại không hợp lệ',
+            'user_phone.unique' => 'Số điện thoại đã tồn tại',
+            'password.required' => 'Nhập mật khẩu',
+            'confirm_password.required' => 'Nhập lại mật khẩu',
+            'confirm_password.same' => 'Mật khẩu không đúng',
+        ]);
+        try {
+            DB::beginTransaction();
+            User::create([
+                'user_name' => $request->input('user_name'),
+                'user_email' => $request->input('user_email'),
+                'user_phone' => $request->input('user_phone'),
+                'password' => bcrypt($request->input('password')),
+                'owner_referral_code' => 'NDT' . (1000 + User::orderByDesc('user_id')->value('user_id')),
+                'referral_code' => $request->input('referral_code') ?? '',
+            ]);
+            DB::commit();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Đăng ký thành công. Nhập số điện thoại và mật khẩu để đăng nhập',
+                'redirect' => route('user.login.show'),
+                'show_popup' => true,
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('user.signup.show')->with('error', 'Đăng ký không thành công. Vui lòng thử lại sau');
+        }
+    }
+
+
+    public function displayUserSignup()
+    {
+        if (Auth::guard('users')->check()) {
+            return redirect()->route('user.home.index');
+        }
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+        $this->breadcrumbService->addCrumb('Đăng ký');
+
+        return view('user.auth.signup', [
+            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
+        ]);
+    }
+    public function displayUserLogin()
+    {
+        if (Auth::guard('users')->check()) {
+            return redirect()->route('user.home.show');
+        }
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+        $this->breadcrumbService->addCrumb('Đăng nhập');
+
+        return view('user.auth.login', [
+            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
+        ]);
+    }
+    public function onUserLogin(Request $request)
+    {
+        $request->validate([
+            'user_phone' => 'required|min:10',
+            'password' => 'required',
+        ], [
+            'user_phone.required' => 'Nhập số điện thoại',
+            'user_phone.min' => 'Số điện thoại không hợp lệ',
+            'password.required' => 'Nhập mật khẩu',
+        ]);
+
+        $credentials = [
+            'user_phone' => $request->input('user_phone'),
+            'password' => $request->input('password'),
+        ];
+        if (!Auth::guard('users')->attempt($credentials)) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Thông tin đăng nhập không chính xác',
+            ], 401);
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => 'Đăng nhập thành công',
+            'redirect' => route('user.home.index'),
+        ]);
+    }
+    public function onUserLogout(Request $request)
+    {
+        Auth::guard('users')->logout();
+        return redirect(route('user.login.show'));
+    }
+
+    public function userProfile(){
+
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/profile');
+        $this->breadcrumbService->addCrumb('Hồ sơ');
+
+        $properties = Property::where('property_seller_id', Auth::guard('users')->user()->user_id); 
+        // $paginate = [
+        //             'total' => $properties->total(),
+        //             'per_page' => $properties->perPage(),
+        //             'current_page' => $properties->currentPage(),
+        //             'last_page' => $properties->lastPage(),
+        //             'from' => $properties->firstItem(),
+        //             'to' => $properties->lastItem(),
+        //             'links' => $this->getPaginationLinks($properties)
+        // ];
+        // dd($paginate);
+        return view('user.profile', [
+            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
+        ], compact('properties'));
+    }
+    
+    
 }
