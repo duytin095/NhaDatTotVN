@@ -1,6 +1,7 @@
 Dropzone.autoDiscover = false;
 let marker, provinces, districts, wards;
 let provinceId = 1, districtId = 1, wardId = 1;
+var imageDropzone, images_data = [];
 
 $(document).ready(function () {
     getProvinces();
@@ -17,11 +18,20 @@ $(document).ready(function () {
         $(this).tooltip('dispose').tooltip({ title: convertCurrency(price) });
         $(this).tooltip('show');
     });
+
     $('.form-control[name="price"]').on('keypress', function(e){
         return e.metaKey || // cmd/ctrl
           e.which <= 0 || // arrow keys
           e.which == 8 || // delete key
           /[0-9]/.test(String.fromCharCode(e.which)); // numbers
+    });
+
+    $('[name="address_number"], [name="street"], [name="ward"], [name="district"], [name="province"]').on('input', function() {
+        autoFillAddress();
+    });
+
+    $('#submit-btn').on('click', function () {
+        createProperty();
     })
 });
 async function createProperty() {
@@ -36,8 +46,8 @@ async function createProperty() {
         formData.append('property_street', $('[name="street"]').val());
         formData.append('property_address_number', $('[name="address_number"]').val());
         formData.append('property_address', $('[name="address"]').val());
-        formData.append('construction', $('["name=construction"]').val());
-        formData.append('property_facade', $('[name="property_facade"]').val());
+        formData.append('construction', $('[name="construction"]').val());
+        formData.append('property_facade', $('[name="facade"]').val());
         formData.append('property_depth', $('[name="depth"]').val());
         formData.append('property_acreage', $('[name="acreage"]').val());
         formData.append('property_direction', $('[name="direction"]').val());
@@ -58,37 +68,28 @@ async function createProperty() {
         formData.append('property_floor', $('[name="floor"]').val());
         formData.append('property_bathroom', $('[name="bathroom"]').val());
         formData.append('property_entry', $('[name="entry"]').val());
-        formData.append('property_video', $('[name="video"]').val());
+        formData.append('property_video_link', $('[name="video_link"]').val());
+        formData.append('property_video_type', $('[name="video_type"]').val());
 
-
-
+        
+        console.dir(formData);
 
 
         images_data = Object.values(images_data);
-
         $.each(images_data, function (key, value) {
             formData.append('image_' + key, value);
-            // console.log(key, value);
         });
 
-        video_data = Object.values(video_data);
-        $.each(video_data, function (key, value) {
-            formData.append('video_' + key, value);
-        });
-
-        // imageDropzone.processQueue();
-        // videoDropzone.processQueue();
-        const response = await sendRequest(`${window.location.origin}/admin/properties/store`, 'POST', formData, true);
+        const response = await sendRequest(`${window.location.origin}/user/post/store`, 'POST', formData, true);
 
         if (response.status == 200) {
-            // getProperties();
             showMessage(response.message);
             $('#createNewProperty').modal('hide');
         }
     } catch (error) {
         if (error.status == 422) {
             const errors = error.responseJSON.errors;
-            $('.text-danger.form-error').remove();            // clear the error text so it doesnt display duplicate if validate fail many time
+            $('.text-danger').remove();
             $.each(errors, function (key, value) {
                 const errorText = `<div class="text-danger form error">${value[0]}</div>`;
                 $(`[name="${key}"]`).after(errorText);
@@ -213,17 +214,15 @@ async function initMap() {
                 });
 
                 // Get address components
-                const addressComponents = place.address_components;
-                const districtIndex = addressComponents.findIndex((component) => component.types.includes("administrative_area_level_2"));
-                const street = addressComponents.slice(0, districtIndex).map((component) => component.long_name).join(", ");
+                // const addressComponents = place.address_components;
+                // const districtIndex = addressComponents.findIndex((component) => component.types.includes("administrative_area_level_2"));
+                // const street = addressComponents.slice(0, districtIndex).map((component) => component.long_name).join(", ");
 
-                console.log(addressComponents);
-
-                // Populate input fields
-                $("[name='street']").val(street);
-                $("[name='ward']").val(addressComponents.find((component) => component.types.includes("administrative_area_level_3"))?.long_name);
-                $("[name='district']").val(addressComponents.find((component) => component.types.includes("administrative_area_level_2"))?.long_name);
-                $("[name='province']").val(addressComponents.find((component) => component.types.includes("administrative_area_level_1"))?.long_name);
+                // // Populate input fields
+                // $("[name='street']").val(street);
+                // $("[name='ward']").val(addressComponents.find((component) => component.types.includes("administrative_area_level_3"))?.long_name);
+                // $("[name='district']").val(addressComponents.find((component) => component.types.includes("administrative_area_level_2"))?.long_name);
+                // $("[name='province']").val(addressComponents.find((component) => component.types.includes("administrative_area_level_1"))?.long_name);
 
                 // Get latitude and longitude                
                 const { lat, lng } = place.geometry.location;
@@ -240,9 +239,7 @@ async function initMap() {
             const geocoder = new google.maps.Geocoder();
             geocoder.geocode({ location: { lat, lng } }, (results, status) => {
                 if (status === "OK") {
-                    console.log(results);
-
-                    setAddressComponents(results[0].address_components);
+                    // setAddressComponents(results[0].address_components);
 
                     // Get latitude and longitude
                     $('[name="property_latitude"]').val(lat);
@@ -275,9 +272,6 @@ function setAddressComponents(addressComponents) {
 
 
     const subDistrict = addressComponents.find((component) => component.types.includes("neighborhood"))?.long_name;
-    console.log(street, subDistrict, district, province);
-    console.log(addressComponents);
-
 
     $('[name="street"]').val(street);
     $('[name="district"]').val(district);
@@ -380,4 +374,20 @@ function displayRemainingChars() {
         const remainingChars = 2000 - descriptionInput.value.length;
         descriptionCount.textContent = `Còn ${remainingChars} ký tự`;
     });
+}
+
+function autoFillAddress() {
+    let address_number = $('[name="address_number"]').val();
+    let street = $('[name="street"]').val();
+    let ward = $('[name="wards"] option:selected').text();
+    let district = $('[name="districts"] option:selected').text();
+    let province = $('[name="provinces"] option:selected').text();
+
+    $('[name="address"]').val(
+        address_number + ' ' + 
+        street + ', ' + 
+        ward + ', ' + 
+        district + ', ' + 
+        province
+    );
 }

@@ -77,10 +77,12 @@ Route::name('user.')->prefix('user')->group(function () {
 
     Route::middleware(['users.auth'])->group(function () {
         Route::get      ('/logout', [AuthController::class, 'onUserLogout'])->name('logout');
+        Route::get      ('/profile', [AuthController::class, 'userProfile'])->name('profile');
 
         // TIN DANG
-        Route::get      ('post/create', [PostController::class, 'create'])->name('post.create');
-        Route::get      ('post/{id}', [PostController::class, 'show'])->name('post.show');
+        Route::get      ('/post/create', [PostController::class, 'create'])->name('post.create');
+        Route::post     ('/post/store', [PostController::class, 'store'])->name('post.store');
+        Route::get      ('/post/{id}', [PostController::class, 'show'])->name('post.show');
     });
 });
 

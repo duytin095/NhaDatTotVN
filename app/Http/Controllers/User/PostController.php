@@ -53,7 +53,7 @@ class PostController extends Controller
     {
         $validateRules = [
             // Thong tin co ban
-            'property_type_id' => 'required',
+            'property_type_id' => 'required|exists:property_types,property_type_id',
             'property_province' => 'required',
             'property_district' => 'required',
             'property_ward' => 'required',
@@ -63,12 +63,14 @@ class PostController extends Controller
             'property_name' => 'required',
             'property_description' => 'required:min:100',
             // image?? at least one
-            // 'image_0' => 'required|mimes:jpeg,png,jpg,svg',
+            'image_0' => 'required|mimes:jpeg,png,jpg',
         ];
+        
 
         $validateRulesMessages = [
             // Thong tin co ban
             'property_type_id.required' => 'Chọn loại bất động sản',
+            'property_type_id.exists' => 'Chọn loại bất động sản',
             'property_province.required' => 'Chọn tỉnh thành',
             'property_district' => 'Chọn quận huyện',
             'property_ward' => 'Chọn xã phường',
@@ -76,7 +78,8 @@ class PostController extends Controller
 
             // Thong tin mo ta
             'property_name.required' => 'Nhập tên bài đăng',
-            // 'image_0.required' => 'Please upload image',
+            'property_description.required' => 'Nhập mô tả',
+            'image_0.required' => 'Thêm ít nhất 1 ảnh',
         ];
 
         for ($i = 1; $i < 10; $i++) {
@@ -92,7 +95,6 @@ class PostController extends Controller
         $request->validate($validateRules, $validateRulesMessages);
 
         try {
-            
             $imagePaths = [];
             for ($i = 0; $i < 10; $i++) {
                 if (!empty($request->file('image_' . $i))) {
@@ -104,32 +106,45 @@ class PostController extends Controller
                     break;
                 }
             }
-            $videoPath = null;
-            if ($request->hasFile('video_0')) {
-                $videoName = time() . rand(1, 1000) . '.' . $request->file('video_0')->getClientOriginalExtension();
-                $request->file('video_0')->move(public_path('assets/media/videos'), $videoName);
-                $videoPath = 'assets/media/videos/' . $videoName;
-            }
+
 
             DB::beginTransaction();
             $property = Property::create([
+                 // THONG TIN CO BAN
                 'property_type_id' => $request->input('property_type_id'),
-                'property_status_id' => $request->input('property_status_id'),
-                'property_purpose_id' => $request->input('property_purpose_id'),
-                'property_price' => $request->input('property_price'),
+                'property_address' => $request->input('property_address'),
+                'property_address_number' => $request->input('property_address_number'),
+                'property_street' => $request->input('property_street'),
+                'property_ward' => $request->input('property_ward'),
+                'property_district' => $request->input('property_district'),
+                'property_province' => $request->input('property_province'),
+
+                'construction' => $request->input('construction'),
+                'property_facade' => $request->input('property_facade'),
+                'property_depth' => $request->input('property_depth'),
                 'property_acreage' => $request->input('property_acreage'),
+                'property_direction' => $request->input('property_direction'),
+                'property_legal' => $request->input('property_legal'),
+                'property_status' => $request->input('property_status'),
+                'property_price' => $request->input('property_price'),
+
+                // BAN DO
+                'property_latitude' => $request->input('property_latitude'),
+                'property_longitude' => $request->input('property_longitude'),
+
+                // THONG TIN MO TA
                 'property_name' => $request->input('property_name'),
                 'property_description' => $request->input('property_description'),
                 'property_image' => json_encode($imagePaths),
-                'property_video' => json_encode($videoPath),
-                'property_address' => $request->input('property_address'),
-                'property_street' => $request->input('property_street'),
-                'property_district' => $request->input('property_district'),
-                'property_province' => $request->input('property_province'),
-                'property_seller_id' => auth('admin')->id(),
 
-                'property_latitude' => $request->input('property_latitude'),
-                'property_longitude' => $request->input('property_longitude'),
+                // THONG TIN THEM
+                'property_bedroom' => $request->input('property_bedroom'),
+                'property_foor' => $request->input('property_foor'),
+                'property_bathroom' => $request->input('property_bathroom'),
+                'property_entry' => $request->input('property_entry'),
+                'property_video_type' => $request->input('property_video_type'),
+                'property_video_link' => $request->input('property_video_link'),
+                'property_seller_id' => auth('users')->id(),
             ]);
             DB::commit();
             return response()->json([

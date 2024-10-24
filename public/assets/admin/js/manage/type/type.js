@@ -84,8 +84,6 @@ async function updateType(id) {
             formData.append('image', imageFileInput.files[0]);
         }
 
-        console.log(formData);
-
         const response = await sendRequest(`${window.location.origin}/admin/types/${id}`, 'POST', formData, true);
         if (response.status == 200) {
             const current_page = new URLSearchParams(window.location.search).get('page');

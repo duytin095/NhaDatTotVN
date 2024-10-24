@@ -27,7 +27,7 @@ return new class extends Migration
             $table->mediumInteger('property_facade')->nullable();       // mat tien
             $table->mediumInteger('property_depth')->nullable();        // chieu rong/sau
             $table->mediumInteger('property_acreage')->nullable();      // dien tich
-            $table->mediumInteger('property_direction')->nullable();    // huong nha
+            $table->smallInteger('property_direction')->nullable();   // huong nha
             $table->smallInteger('property_legal')->nullable();         // phap ly
             $table->smallInteger('property_status')->nullable();        // tinh trang
             $table->mediumInteger('property_price')->default(0);        // gia tien - gia tri cua mediumInt https://dev.to/kakisoft/laravel-mysql-columntype-is-set-to-int-11-even-though-the-size-of-int-was-specified-59pj
@@ -47,7 +47,8 @@ return new class extends Migration
             $table->smallInteger('property_foor')->default(0)->nullable();          // so tang
             $table->smallInteger('property_bathroom')->default(0)->nullable();      // phong tam
             $table->mediumInteger('property_entry')->default(0)->nullable();        // duong vao
-            $table->text('property_video')->nullable(); 
+            $table->text('property_video_link')->nullable(); 
+            $table->tinyInteger('property_video_type')->nullable()->default(0); 
 
             // AUTO SAVE
             $table->string('property_seller_id');
