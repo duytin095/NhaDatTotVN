@@ -12,9 +12,9 @@
                                 <div class="left-content">
                                     <div class="title">
                                         <h2>{{ $property->property_name }}</h2>
-                                        <a href="property-grid.html" class="featured-btn">
+                                        {{-- <a href="property-grid.html" class="featured-btn">
                                             {{ $property['status']['property_status_name'] }}
-                                        </a>
+                                        </a> --}}
                                     </div>
                                     <span class="address">{{ $property->property_address }}</span>
                                     <ul class="info-list">
@@ -289,7 +289,7 @@
                                                                 </a>
                                                                 <ul class="action">
                                                                     <li>
-                                                                        <a href="property-grid.html" class="featured-btn">{{ $featuredProperty['status']['property_status_name'] }}</a>
+                                                                        {{-- <a href="property-grid.html" class="featured-btn">{{ $featuredProperty['status']['property_status_name'] }}</a> --}}
                                                                     </li>
                                                                     <li>
                                                                         <div class="media">
@@ -305,7 +305,7 @@
                                                                         <a href="property-grid.html" class="link-btn">{{ $featuredProperty['type']['property_type_name']}}</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="property-grid.html" class="link-btn">{{ $featuredProperty['property_purpose_name']}}</a>
+                                                                        <a href="property-grid.html" class="link-btn">{{ $featuredProperty['type']['purpose_name']}}</a>
                                                                     </li>
                                                                 </ul>
                                                                 <ul class="info-list">

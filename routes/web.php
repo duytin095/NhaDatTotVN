@@ -41,7 +41,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get      ('/types/data', [TypeController::class, 'getTypes'])->name('types.get-types');
         Route::get      ('/types/all-data', [TypeController::class, 'getAllTypes'])->name('types.get-all-types');
         Route::post     ('/types/store', [TypeController::class, 'store'])->name('types.store');
-        Route::post      ('/types/{id}', [TypeController::class, 'update'])->name('types.update');
+        Route::post     ('/types/{id}', [TypeController::class, 'update'])->name('types.update');
         Route::delete   ('/types/{id}', [TypeController::class, 'destroy'])->name('types.destroy');
 
         // DU AN
@@ -79,10 +79,14 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::get      ('/logout', [AuthController::class, 'onUserLogout'])->name('logout');
         Route::get      ('/profile', [AuthController::class, 'userProfile'])->name('profile');
 
+
         // TIN DANG
-        Route::get      ('/post/create', [PostController::class, 'create'])->name('post.create');
-        Route::post     ('/post/store', [PostController::class, 'store'])->name('post.store');
-        Route::get      ('/post/{id}', [PostController::class, 'show'])->name('post.show');
+        Route::get      ('/posts', [PostController::class, 'index'])->name('posts.index');
+        Route::get      ('/posts/create', [PostController::class, 'create'])->name('posts.create');
+        Route::post     ('/posts/store', [PostController::class, 'store'])->name('posts.store');
+        Route::get      ('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+        // Route::get      ('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+        
     });
 });
 

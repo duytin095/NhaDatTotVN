@@ -4,13 +4,24 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Property extends Model
 {
     use HasFactory;
+    use Sluggable;
+    
     protected $primaryKey = 'property_id';
     protected $table = 'properties';
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'property_name'
+            ]
+        ];
+    }
     protected $fillable = [
         // THONG TIN CO BAN
         'property_type_id',
@@ -47,8 +58,10 @@ class Property extends Model
         'property_video_link',
         'property_video_type',
 
-
+        
         'property_seller_id',
+        'slug',
+        'property_label',
     ];
 
     public function type()
@@ -76,4 +89,72 @@ class Property extends Model
     {
         return json_decode($this->property_video, true);
     }
+
+    // app/Models/Property.php
+    
+    public function getFormattedPriceAttribute()
+    {
+        $unit = [
+            'thousand' => 'N',
+            'million' => 'Tr',
+            'billion' => 'T'
+        ];
+
+        if ($this->property_price === 0) {
+            return 'Thoản thuận';
+        }
+    
+        if ($this->property_price < 1000) {
+            return $this->property_price . ' ' .$unit["thousand"];
+        }
+    
+        if ($this->property_price < 1000000) {
+            $trieu = floor($this->property_price / 1000);
+            $nghin = $this->property_price % 1000;
+    
+            if ($nghin === 0) {
+                return $trieu . ' '. $unit["million"];
+            }
+    
+            return $trieu . ' '. $unit["million"] .' ' . $nghin . ' '. $unit["thousand"];
+        }
+    
+        $ty = floor($this->property_price / 1000000);
+        $remainingValue = $this->property_price % 1000000;
+    
+        if ($remainingValue === 0) {
+            return $ty . ' '. $unit["billion"];
+        }
+    
+        $trieu = floor($remainingValue / 1000);
+        $nghin = $remainingValue % 1000;
+    
+        if ($trieu === 0) {
+            return $ty . ' '. $unit["billion"] .' ' . $nghin . ' '. $unit["thousand"];
+        }
+    
+        if ($nghin === 0) {
+            return $ty . ' '.$unit["billion"].' ' . $trieu . ' '. $unit["million"];
+        }
+    
+        return $ty . ' '. $unit['billion'] .' ' . $trieu . ' '. $unit["million"] . ' ' . $nghin . ' '. $unit["thousand"];
+    }
+
+    public static function filterOptions()
+    {
+        return [
+            'newest' => 'Mới nhất',
+            'oldest' => 'Cũ nhất',
+        ];
+    }
+    public function scopeNewest($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
+    
+    public function scopeOldest($query)
+    {
+        return $query->orderBy('created_at', 'asc');
+    }
+    
 }

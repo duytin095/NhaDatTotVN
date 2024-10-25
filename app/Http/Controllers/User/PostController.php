@@ -4,10 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Type;
 use App\Models\Property;
+use App\Models\Construction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Construction;
+use Illuminate\Support\Facades\Auth;
 use App\Services\UserBreadcrumbService;
 
 class PostController extends Controller
@@ -22,7 +23,22 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/posts');
+        $this->breadcrumbService->addCrumb('Bài đăng');
+
+        $filter = request()->input('filter', 'latest');
+        $properties = Property::where('property_seller_id', Auth::guard('users')->user()->user_id)
+        ->when($filter, function ($query, $filter) {
+            return $query->{$filter}();
+        })
+        ->paginate(12);
+
+        return view('user.post', [
+            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
+            'properties' => $properties,
+            'filterOptions' => Property::filterOptions(),
+            'selectedFilter' => $filter,
+        ]);
     }
 
     /**
@@ -144,7 +160,10 @@ class PostController extends Controller
                 'property_entry' => $request->input('property_entry'),
                 'property_video_type' => $request->input('property_video_type'),
                 'property_video_link' => $request->input('property_video_link'),
+
+                // AUTO SAVE
                 'property_seller_id' => auth('users')->id(),
+                'property_label' => rand(0, 5),
             ]);
             DB::commit();
             return response()->json([
@@ -163,17 +182,20 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($slug)
     {
         try {
-            $property = Property::with(['seller', 'status', 'type'])->findOrFail($id);
+            $property = Property::where('slug', $slug)->firstOrFail();
 
-            $featuredProperties = Property::where('property_status_id', 1)->with(['seller', 'status', 'type'])->take(5)->get();
+            // $property = Property::with(['seller', 'status', 'type'])->findOrFail($id);
+
+            // dd($property);
+            $featuredProperties = Property::take(5)->get();
 
             $this->breadcrumbService->addCrumb('Home', '/user/home');
             $this->breadcrumbService->addCrumb($property->property_name);
 
-            return view('user.property-detail', compact('property', 'featuredProperties'),[
+            return view('user.post-detail', compact('property', 'featuredProperties'),[
                 'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
             ]);
         } catch (\Throwable $th) {

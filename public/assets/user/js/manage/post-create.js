@@ -31,10 +31,10 @@ $(document).ready(function () {
     });
 
     $('#submit-btn').on('click', function () {
-        createProperty();
+        createPost();
     })
 });
-async function createProperty() {
+async function createPost() {
     try {
         let formData = new FormData();
         // Thong tin co ban
@@ -80,7 +80,7 @@ async function createProperty() {
             formData.append('image_' + key, value);
         });
 
-        const response = await sendRequest(`${window.location.origin}/user/post/store`, 'POST', formData, true);
+        const response = await sendRequest(`${window.location.origin}/user/posts/store`, 'POST', formData, true);
 
         if (response.status == 200) {
             showMessage(response.message);
@@ -151,7 +151,9 @@ async function getWards(districtId) {
             $('[name="wards"]')
                 .empty()
                 .html(wards.data.map((ward) => `<option value="${ward.id}">${ward.name}</option>`)
-                    .join(''));
+                .join(''));
+                    
+            autoFillAddress();
         } else {
             showMessage(wards.message);
         }

@@ -4576,7 +4576,8 @@
                                 </div>
                                 <div class="content">
                                     <h3>
-                                        <a class="property-title" href="{{ route('user.home.show', $property['property_id']) }}">{{ $property['property_name'] }}</a>
+                                        <a class="property-title" href="">{{ $property['property_name'] }}</a>
+                                        {{-- <a class="property-title" href="{{ route('user.home.show', $property['property_id']) }}">{{ $property['property_name'] }}</a> --}}
                                     </h3>
                                     <span>{{ $property['property_address'] }}</span>
                                 </div>

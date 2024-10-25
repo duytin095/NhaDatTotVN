@@ -189,9 +189,22 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="contact-us.html" class="nav-link">Contact Us</a>
-                </li>
+                @if (auth()->check())
+                    <li class="nav-item">
+                        <a href="{{ route('user.profile') }}" class="nav-link">
+                            {{ auth()->guard('users')->user()->user_name }}
+                            <i class="ri-arrow-down-s-line"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item">
+                                <a href="{{ route('user.profile') }}" class="nav-link active">Hồ sơ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('user.posts.index') }}" class="nav-link">Quản lý tin</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
             </ul>
             <div class="others-option d-flex align-items-center">
                 @guest
@@ -211,14 +224,9 @@
                             <a href="{{ route('user.logout') }}">Đăng xuất</a>
                         </div>
                     </div>
-                    <div class="option-item">
-                        <div class="user-info">
-                            <a href="{{ route('user.profile') }}">{{ auth()->guard('users')->user()->user_name }}</a>
-                        </div>
-                    </div>
                 @endguest
                 <div class="option-item">
-                    <a href="{{ route('user.post.create') }}" class="default-btn">Đăng tin mới</a>
+                    <a href="{{ route('user.posts.create') }}" class="default-btn">Đăng tin mới</a>
                 </div>
             </div>
         </div>

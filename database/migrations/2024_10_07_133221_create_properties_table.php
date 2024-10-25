@@ -52,6 +52,8 @@ return new class extends Migration
 
             // AUTO SAVE
             $table->string('property_seller_id');
+            $table->string('slug')->unique();
+            $table->tinyInteger('property_label');
 
             $table->string('active_flg')->default(0);
             $table->string('delete_flg')->default(0);
