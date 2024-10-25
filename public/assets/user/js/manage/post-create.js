@@ -49,6 +49,7 @@ async function createPost() {
         formData.append('construction', $('[name="construction"]').val());
         formData.append('property_facade', $('[name="facade"]').val());
         formData.append('property_depth', $('[name="depth"]').val());
+        formData.append('property_floor', $('[name="floor"]').val());
         formData.append('property_acreage', $('[name="acreage"]').val());
         formData.append('property_direction', $('[name="direction"]').val());
         formData.append('property_legal', $('[name="legal"]').val());

@@ -21,16 +21,26 @@ class PropertyTableSeeder extends Seeder
             'assets/media/images/default-post-img-3.jpg',
             'assets/media/images/default-post-img-4.jpg',
         ];
+        $videoLinks = [
+            1 => 'https://www.youtube.com/watch?v=swXWUfufu2w',
+            2 => 'https://www.tiktok.com/@scout2015/video/6718335390845095173',
+            // Add more video types and links as needed
+        ];
+
         $description = 'Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin quis bibendum auctor, nisilit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu. Gravida nibh vel velit auctor aliquet. Aenean sollicitudin quis bibendum auctor, nisilit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi acnec tellus a odio tincidunt auctor a ornare odio.';
         $data = [];
+
         for ($i = 0; $i < 8; $i++) {
             $numImages = rand(1, count($images));
             $randomImages = array_slice($images, rand(0, count($images) - $numImages), $numImages);
+            $propertyVideoType = rand(1, count($videoLinks)); // Generate a random video type
             $data[] = [
                 'property_type_id' => rand(1, 8),
                 'property_name' => 'Imo, this ' . ($i + 1) . ' was probably Miyeon and Yuqi’s song!! Both of their raps ate and MIYEONS VOCALS!!',
                 'property_description' => $description,
                 'property_image' => json_encode($randomImages),
+                'property_video_type' => $propertyVideoType,
+                'property_video_link' => $videoLinks[$propertyVideoType],
                 'property_address' => '53 An Hoi, Thị trấn An Phú, Huyện An Phú, An Giang',
                 'property_address_number' => '53',
                 'property_street' => 'An Hoi',

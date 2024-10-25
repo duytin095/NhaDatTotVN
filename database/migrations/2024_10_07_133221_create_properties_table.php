@@ -44,7 +44,7 @@ return new class extends Migration
 
             // THONG TIN THEM
             $table->smallInteger('property_bedroom')->default(0)->nullable();       // phong ngu
-            $table->smallInteger('property_foor')->default(0)->nullable();          // so tang
+            $table->smallInteger('property_floor')->default(0)->nullable();          // so tang
             $table->smallInteger('property_bathroom')->default(0)->nullable();      // phong tam
             $table->mediumInteger('property_entry')->default(0)->nullable();        // duong vao
             $table->text('property_video_link')->nullable(); 

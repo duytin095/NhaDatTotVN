@@ -3,15 +3,17 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use App\Models\Video\VideoEmbedStrategyFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Property extends Model
 {
     use HasFactory;
     use Sluggable;
-    
+
     protected $primaryKey = 'property_id';
     protected $table = 'properties';
     public function sluggable(): array
@@ -58,7 +60,7 @@ class Property extends Model
         'property_video_link',
         'property_video_type',
 
-        
+
         'property_seller_id',
         'slug',
         'property_label',
@@ -73,7 +75,8 @@ class Property extends Model
     {
         return $this->belongsTo(Status::class, 'property_status_id', 'property_status_id');
     }
-    public function seller(){
+    public function seller()
+    {
         return $this->belongsTo(User::class, 'property_seller_id', 'user_id');
     }
     public function getCreatedAtAttribute($value)
@@ -85,13 +88,22 @@ class Property extends Model
     {
         return json_decode($this->property_image, true);
     }
-    public function getPropertyVideosAttribute()
+    public function getEmbeddedHtmlAttribute()
     {
-        return json_decode($this->property_video, true);
-    }
+        $url = $this->property_video_link;
+        $platformId = $this->property_video_type;
 
-    // app/Models/Property.php
-    
+        $factory = new VideoEmbedStrategyFactory();
+        $strategy = $factory->getStrategy($platformId);
+
+        $embeddedVideo = $strategy->getEmbeddedVideo($url);
+        if($platformId === YOUTUBE){
+            $embeddedVideo = '<iframe width="100%" height="315" src="' . $embeddedVideo . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+        }
+        return $embeddedVideo;
+        }
+
+
     public function getFormattedPriceAttribute()
     {
         $unit = [
@@ -103,41 +115,41 @@ class Property extends Model
         if ($this->property_price === 0) {
             return 'Thoản thuận';
         }
-    
+
         if ($this->property_price < 1000) {
-            return $this->property_price . ' ' .$unit["thousand"];
+            return $this->property_price . ' ' . $unit["thousand"];
         }
-    
+
         if ($this->property_price < 1000000) {
             $trieu = floor($this->property_price / 1000);
             $nghin = $this->property_price % 1000;
-    
+
             if ($nghin === 0) {
-                return $trieu . ' '. $unit["million"];
+                return $trieu . ' ' . $unit["million"];
             }
-    
-            return $trieu . ' '. $unit["million"] .' ' . $nghin . ' '. $unit["thousand"];
+
+            return $trieu . ' ' . $unit["million"] . ' ' . $nghin . ' ' . $unit["thousand"];
         }
-    
+
         $ty = floor($this->property_price / 1000000);
         $remainingValue = $this->property_price % 1000000;
-    
+
         if ($remainingValue === 0) {
-            return $ty . ' '. $unit["billion"];
+            return $ty . ' ' . $unit["billion"];
         }
-    
+
         $trieu = floor($remainingValue / 1000);
         $nghin = $remainingValue % 1000;
-    
+
         if ($trieu === 0) {
-            return $ty . ' '. $unit["billion"] .' ' . $nghin . ' '. $unit["thousand"];
+            return $ty . ' ' . $unit["billion"] . ' ' . $nghin . ' ' . $unit["thousand"];
         }
-    
+
         if ($nghin === 0) {
-            return $ty . ' '.$unit["billion"].' ' . $trieu . ' '. $unit["million"];
+            return $ty . ' ' . $unit["billion"] . ' ' . $trieu . ' ' . $unit["million"];
         }
-    
-        return $ty . ' '. $unit['billion'] .' ' . $trieu . ' '. $unit["million"] . ' ' . $nghin . ' '. $unit["thousand"];
+
+        return $ty . ' ' . $unit['billion'] . ' ' . $trieu . ' ' . $unit["million"] . ' ' . $nghin . ' ' . $unit["thousand"];
     }
 
     public static function filterOptions()
@@ -151,7 +163,7 @@ class Property extends Model
     {
         return $query->orderBy('created_at', 'desc');
     }
-    
+
     public function scopeOldest($query)
     {
         return $query->orderBy('created_at', 'asc');

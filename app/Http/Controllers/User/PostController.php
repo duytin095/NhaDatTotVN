@@ -138,6 +138,7 @@ class PostController extends Controller
                 'construction' => $request->input('construction'),
                 'property_facade' => $request->input('property_facade'),
                 'property_depth' => $request->input('property_depth'),
+                'property_floor' => $request->input('property_floor'),
                 'property_acreage' => $request->input('property_acreage'),
                 'property_direction' => $request->input('property_direction'),
                 'property_legal' => $request->input('property_legal'),
