@@ -186,10 +186,6 @@ class PostController extends Controller
     {
         try {
             $property = Property::where('slug', $slug)->firstOrFail();
-
-            // $property = Property::with(['seller', 'status', 'type'])->findOrFail($id);
-
-            // dd($property);
             $featuredProperties = Property::take(5)->get();
 
             $this->breadcrumbService->addCrumb('Home', '/user/home');

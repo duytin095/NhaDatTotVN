@@ -97,13 +97,17 @@
                                         </li>
                                         <li>
                                             <a href="property-grid.html"
-                                                class="link-btn">{{ $property['property_purpose_name'] }}</a>
+                                                class="link-btn">{{ $property['type']['purpose_name'] }}</a>
                                         </li>
                                     </ul>
-                                    <div class="price">{{ $property->property_price }}</div>
+                                    <div class="price">{{ $property->formatted_price }} </div>
                                     <div class="user">
-                                        <img src="{{ asset('assets/user/images/user/user3.png') }}" alt="image">
-                                        <a href="agent-profile.html">{{ $property['seller']['admin_name'] }}</a>
+                                        @if ($property['seller']['admin_image'] === null)
+                                            <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
+                                        @else
+                                            <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
+                                        @endif
+                                        <a href="agent-profile.html">{{ $property['seller']['user_name'] }}</a>
                                     </div>
                                 </div>
                             </div>

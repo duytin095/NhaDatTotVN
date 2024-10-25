@@ -67,11 +67,28 @@
                                 </ul>
                                 <ul class="info-list">
                                     <li>
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/user/images/properties/area.svg') }}"
-                                                alt="area">
-                                        </div>
+                                        @if($property['property_acreage'] !== null)
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/user/images/properties/area.svg') }}" alt="area">
+                                            </div>
+                                        @endif
                                         <span>{{ $property['property_acreage'] }}</span>
+                                    </li>
+                                    <li>
+                                        @if($property['property_bathroom'] !== 0)
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/user/images/properties/bathroom.svg') }}" alt="bathroom">
+                                            </div>
+                                            <span>{{ $property['property_bathroom'] }}</span>
+                                        @endif
+                                    </li>
+                                    <li>
+                                        @if($property['property_bedroom'] !== 0)
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/user/images/properties/bed.svg') }}" alt="bed">
+                                            </div>
+                                            <span>{{ $property['property_bedroom'] }}</span>
+                                        @endif
                                     </li>
                                 </ul>
                             </div>
@@ -91,9 +108,9 @@
                                 <div class="bottom">
                                     <div class="user">
                                         @if ($property['seller']['admin_image'] === null)
-                                            <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
+                                            <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="default-image">
                                         @else
-                                            <img src="{{ asset($property['seller']['admin_image']) }}" alt="image">
+                                            <img src="{{ asset($property['seller']['user_avatar']) }}" alt="user_avatar">
                                         @endif
                                         <a href="agent-profile.html">{{ $property['seller']['user_name'] }}</a>
                                     </div>

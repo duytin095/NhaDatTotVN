@@ -387,7 +387,7 @@ function autoFillAddress() {
 
     $('[name="address"]').val(
         address_number + ' ' + 
-        street + ', ' + 
+        street + ' ' + 
         ward + ', ' + 
         district + ', ' + 
         province
