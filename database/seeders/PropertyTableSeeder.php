@@ -22,6 +22,7 @@ class PropertyTableSeeder extends Seeder
             'assets/media/images/default-post-img-4.jpg',
         ];
         $videoLinks = [
+            0 => null,
             1 => 'https://www.youtube.com/watch?v=swXWUfufu2w',
             2 => 'https://www.tiktok.com/@scout2015/video/6718335390845095173',
             // Add more video types and links as needed
@@ -33,7 +34,7 @@ class PropertyTableSeeder extends Seeder
         for ($i = 0; $i < 8; $i++) {
             $numImages = rand(1, count($images));
             $randomImages = array_slice($images, rand(0, count($images) - $numImages), $numImages);
-            $propertyVideoType = rand(1, count($videoLinks)); // Generate a random video type
+            $propertyVideoType = rand(0, count($videoLinks) - 1); // Generate a random video type
             $data[] = [
                 'property_type_id' => rand(1, 8),
                 'property_name' => 'Imo, this ' . ($i + 1) . ' was probably Miyeon and Yuqi’s song!! Both of their raps ate and MIYEONS VOCALS!!',
@@ -47,7 +48,7 @@ class PropertyTableSeeder extends Seeder
                 'property_ward' => 'Thị trấn An Phú',
                 'property_province' => 'An Giang',
                 'property_district' => 'Huyện An Phú',
-                'property_price' => rand(0, 100000),
+                'property_price' => rand(0, 10000000),
 
                 'property_seller_id' => 1,
                 'property_label' => rand(0, 5),

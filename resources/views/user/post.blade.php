@@ -32,7 +32,7 @@
                     <div class="col-xl-4 col-md-6">
                         <div class="properties-item">
                             <div class="properties-image">
-                                <a href="property-details.html">
+                                <a href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">
                                     <img src="{{ asset($property['property_images'][0]) }}" alt="image">
                                 </a>
                                 <ul class="action">
@@ -96,13 +96,12 @@
                                 <div class="top">
                                     <div class="title">
                                         <h3>
-                                            {{-- <a class="property-title" href="{{ route('user.home.show', $property['property_id']) }}">{{ $property['property_name'] }}</a> --}}
                                             <a class="property-title" href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">{{ $property['property_name'] }}</a>
                                         </h3>
                                         <span>{{ $property['property_address'] }}</span>
                                     </div>
                                     <div class="price">
-                                        {{ $property->formatted_price }}                                    
+                                        {{ $property->getFormattedPriceAttribute(true); }}                                    
                                     </div>
                                 </div>
                                 <div class="bottom">
@@ -118,6 +117,7 @@
                             </div>
                         </div>
                     </div>
+                    
                 @endforeach
                 <div class="col-lg-12 col-md-12">
                     <div class="pagination-area">

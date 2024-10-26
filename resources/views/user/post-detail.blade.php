@@ -50,40 +50,6 @@
                                                 <i class="ri-heart-line"></i>
                                             </button>
                                         </li>
-                                        {{-- <li>
-                                            <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="ri-share-line"></i>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a href="https://www.facebook.com/" target="_blank">
-                                                            <i class="ri-facebook-fill"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="https://twitter.com/" target="_blank">
-                                                            <i class="ri-twitter-x-line"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="https://www.instagram.com/" target="_blank">
-                                                            <i class="ri-instagram-fill"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="https://bd.linkedin.com/" target="_blank">
-                                                            <i class="ri-linkedin-fill"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Compare" data-bs-original-title="Compare">
-                                                <i class="ri-arrow-left-right-line"></i>
-                                            </button>
-                                        </li> --}}
                                     </ul>
                                 </div>
                             </div>
@@ -91,11 +57,11 @@
                                 <div class="right-content">
                                     <ul class="link-list">
                                         <li>
-                                            <a href="property-grid.html"
+                                            <a href="#"
                                                 class="link-btn">{{ $property['type']['property_type_name'] }}</a>
                                         </li>
                                         <li>
-                                            <a href="property-grid.html"
+                                            <a href="#"
                                                 class="link-btn">{{ $property['type']['purpose_name'] }}</a>
                                         </li>
                                     </ul>
@@ -106,7 +72,7 @@
                                         @else
                                             <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
                                         @endif
-                                        <a href="agent-profile.html">{{ $property['seller']['user_name'] }}</a>
+                                        <a href="#">{{ $property['seller']['user_name'] }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -154,12 +120,6 @@
                                             <h4>Nhà tắm</h4>
                                             <span>{{ $property->property_bathroom }} Phòng</span>
                                         </li>
-                                        {{-- <li>
-                                            <img src="{{ asset('assets/user/images/property-details/parking2.svg') }}"
-                                                alt="parking2">
-                                            <h4>Parking</h4>
-                                            <span>Free Parking for 4 Cars</span>
-                                        </li> --}}
                                         <li>
                                             <img src="{{ asset('assets/user/images/property-details/area2.svg') }}"
                                                 alt="area2">
@@ -178,7 +138,7 @@
                                 <div class="video">
                                     <h3>Video</h3>
                                     <div class="inner">
-                                        @if ($property['property_video_link'] == null)
+                                        @if ($property['property_video_link'] === 0 || $property['property_video_link'] === null)
                                             <img style="width: 100%;" src="{{ asset('assets/user/images/property-details/no-video.jpg') }}" alt="image">
                                         @else
                                             {!! $property['embedded_html'] !!}
@@ -222,7 +182,7 @@
                                                     <div class="swiper-slide">
                                                         <div class="properties-item">
                                                             <div class="properties-image">
-                                                                <a href="property-details.html">
+                                                                <a href="{{ route('user.posts.show', ['slug' => $featuredProperty->slug]) }}">
                                                                     <img src="{{ asset($featuredProperty['property_images'][0]) }}" alt="image">
                                                                 </a>
                                                                 <ul class="action">
@@ -231,7 +191,7 @@
                                                                     </li>
                                                                     <li>
                                                                         <div class="media">
-                                                                            @if ($featuredProperty->property_video != "null")
+                                                                            @if ($featuredProperty['property_video_link'] !== 0 || $featuredProperty['property_video_link'] !== null)
                                                                                 <span><i class="ri-vidicon-fill"></i></span>
                                                                             @endif
                                                                             <span><i class="ri-image-line"></i>{{ count($featuredProperty['property_images']) }}</span>
@@ -240,10 +200,10 @@
                                                                 </ul>
                                                                 <ul class="link-list">
                                                                     <li>
-                                                                        <a href="property-grid.html" class="link-btn">{{ $featuredProperty['type']['property_type_name']}}</a>
+                                                                        <a href="#" class="link-btn">{{ $featuredProperty['type']['property_type_name']}}</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="property-grid.html" class="link-btn">{{ $featuredProperty['type']['purpose_name']}}</a>
+                                                                        <a href="#" class="link-btn">{{ $featuredProperty['type']['purpose_name']}}</a>
                                                                     </li>
                                                                 </ul>
                                                                 <ul class="info-list">
@@ -277,61 +237,29 @@
                                                                 <div class="top">
                                                                     <div class="title">
                                                                         <h3>
-                                                                            <a class="property-title" href="property-details.html">{{ $featuredProperty['property_name']}}</a>
+                                                                            <a class="property-title" href="{{ route('user.posts.show', ['slug' => $featuredProperty->slug]) }}">{{ $featuredProperty['property_name']}}</a>
                                                                         </h3>
                                                                         <span>{{ $featuredProperty->property_address }}</span>
                                                                     </div>
-                                                                    <div class="price">{{ $featuredProperty->property_price }}</div>
+                                                                    <div class="price">{{ $featuredProperty->getFormattedPriceAttribute(true); }}</div>
                                                                 </div>
                                                                 <div class="bottom">
                                                                     <div class="user">
-                                                                        @if ($property['seller']['admin_image'] === null)
+                                                                        @if ($property['seller']['user_avatar'] === null)
                                                                             <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="default-image">
                                                                         @else
                                                                             <img src="{{ asset($property['seller']['user_avatar']) }}" alt="user_avatar">
                                                                         @endif                                                                        
-                                                                        <a href="agent-profile.html">{{ $featuredProperty['seller']['user_name'] }}</a>
+                                                                        <a href="">{{ $featuredProperty['seller']['user_name'] }}</a>
                                                                     </div>
                                                                     <ul class="group-info">
-                                                                        {{-- <li>
-                                                                            <div class="dropdown">
-                                                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    <i class="ri-share-line"></i>
-                                                                                </button>
-                                                                                <ul class="dropdown-menu">
-                                                                                    <li>
-                                                                                        <a href="https://www.facebook.com/" target="_blank">
-                                                                                            <i class="ri-facebook-fill"></i>
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a href="https://twitter.com/" target="_blank">
-                                                                                            <i class="ri-twitter-x-line"></i>
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a href="https://www.instagram.com/" target="_blank">
-                                                                                            <i class="ri-instagram-fill"></i>
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a href="https://bd.linkedin.com/" target="_blank">
-                                                                                            <i class="ri-linkedin-fill"></i>
-                                                                                        </a>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </li> --}}
+                                                                        
                                                                         <li>
                                                                             <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Add To Favorites">
                                                                                 <i class="ri-heart-line"></i>
                                                                             </button>
                                                                         </li>
-                                                                        {{-- <li>
-                                                                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Compare">
-                                                                                <i class="ri-arrow-left-right-line"></i>
-                                                                            </button>
-                                                                        </li> --}}
+                                                                        
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -343,26 +271,26 @@
                                         </div>
                                     </div>
                                     <div class="contact-details">
-                                        <h3>Contact Details</h3>
+                                        <h3>Thông tin liên hệ</h3>
                                         <ul class="list">
                                             <li>
                                                 <span>Email:</span>
                                                 <a
-                                                    href="mailto:@isset($property['seller']['admin_email']){{ $property['seller']['admin_email'] }}@endisset">
-                                                    @isset($property['seller']['admin_email'])
-                                                        {{ $property['seller']['admin_email'] }}
+                                                    href="mailto:@isset($property['seller']['user_email']){{ $property['seller']['user_email'] }}@endisset">
+                                                    @isset($property['seller']['user_email'])
+                                                        {{ $property['seller']['user_email'] }}
                                                     @endisset
                                                 </a>
                                             </li>
                                             <li>
                                                 <span>Phone:</span>
                                                 <a
-                                                    href="tel:{{ $property['seller']['admin_phone'] }}">{{ $property['seller']['admin_phone'] }}</a>
+                                                    href="tel:{{ $property['seller']['user_phone'] }}">{{ $property['seller']['user_phone'] }}</a>
                                             </li>
                                             <li>
                                                 <span>Zalo:</span>
-                                                <a href="https://zalo.me/{{ $property['seller']['admin_phone'] }}"
-                                                    target="_blank">{{ $property['seller']['admin_phone'] }}</a>
+                                                <a href="https://zalo.me/{{ $property['seller']['user_phone'] }}"
+                                                    target="_blank">{{ $property['seller']['user_phone'] }}</a>
                                             </li>
                                         </ul>
                                     </div>

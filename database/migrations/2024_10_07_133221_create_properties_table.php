@@ -30,7 +30,7 @@ return new class extends Migration
             $table->smallInteger('property_direction')->nullable();   // huong nha
             $table->smallInteger('property_legal')->nullable();         // phap ly
             $table->smallInteger('property_status')->nullable();        // tinh trang
-            $table->mediumInteger('property_price')->default(0);        // gia tien - gia tri cua mediumInt https://dev.to/kakisoft/laravel-mysql-columntype-is-set-to-int-11-even-though-the-size-of-int-was-specified-59pj
+            $table->integer('property_price')->default(0);        // gia tien - gia tri cua mediumInt https://dev.to/kakisoft/laravel-mysql-columntype-is-set-to-int-11-even-though-the-size-of-int-was-specified-59pj
 
             // BAN DO
             $table->string('property_latitude')->nullable();

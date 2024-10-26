@@ -101,15 +101,40 @@ class Property extends Model
             $embeddedVideo = '<iframe width="100%" height="315" src="' . $embeddedVideo . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
         }
         return $embeddedVideo;
-        }
+    }
 
 
-    public function getFormattedPriceAttribute()
-    {
+    public function getShorterFormattedPriceAttribute(){
         $unit = [
             'thousand' => 'N',
             'million' => 'Tr',
             'billion' => 'T'
+        ];
+        if ($this->property_price === 0) {
+            return 'Thoản thuận';
+        }
+        if ($this->property_price < 1000) {
+            return $this->property_price . ' ' . $unit["thousand"];
+        }
+        if ($this->property_price < 1000000) {
+            $trieu = floor($this->property_price / 1000);
+            $nghin = $this->property_price % 1000;
+
+            if ($nghin === 0) {
+                return $trieu . ' ' . $unit["million"];
+            }
+
+            return $trieu . ' ' . $unit["million"];
+        }
+        return 0;
+    }
+
+    public function getFormattedPriceAttribute($shortFormat = false)
+    {
+        $unit = [
+            'thousand' => 'Nghìn',
+            'million' => 'Triệu',
+            'billion' => 'Tỷ'
         ];
 
         if ($this->property_price === 0) {
@@ -124,7 +149,7 @@ class Property extends Model
             $trieu = floor($this->property_price / 1000);
             $nghin = $this->property_price % 1000;
 
-            if ($nghin === 0) {
+            if ($nghin === 0 || $shortFormat) {
                 return $trieu . ' ' . $unit["million"];
             }
 
@@ -134,19 +159,28 @@ class Property extends Model
         $ty = floor($this->property_price / 1000000);
         $remainingValue = $this->property_price % 1000000;
 
-        if ($remainingValue === 0) {
+        if ($remainingValue === 0 || $shortFormat) {
             return $ty . ' ' . $unit["billion"];
         }
 
         $trieu = floor($remainingValue / 1000);
         $nghin = $remainingValue % 1000;
 
-        if ($trieu === 0) {
-            return $ty . ' ' . $unit["billion"] . ' ' . $nghin . ' ' . $unit["thousand"];
-        }
+        // if ($trieu === 0 || $shortFormat) {
+        //     return $ty . ' ' . $unit["billion"] . ' ' . $nghin . ' ' . $unit["thousand"];
+        // }
 
-        if ($nghin === 0) {
+        // if ($nghin === 0 || $shortFormat) {
+        //     return $ty . ' ' . $unit["billion"] . ' ' . $trieu . ' ' . $unit["million"];
+        // }
+        if ($shortFormat) {
+            return $ty . ' ' . $unit["billion"];
+        } elseif ($trieu === 0) {
+            return $ty . ' ' . $unit["billion"] . ' ' . $nghin . ' ' . $unit["thousand"];
+        } elseif ($nghin === 0) {
             return $ty . ' ' . $unit["billion"] . ' ' . $trieu . ' ' . $unit["million"];
+        } else {
+            return $ty . ' ' . $unit['billion'] . ' ' . $trieu . ' ' . $unit["million"] . ' ' . $nghin . ' ' . $unit["thousand"];
         }
 
         return $ty . ' ' . $unit['billion'] . ' ' . $trieu . ' ' . $unit["million"] . ' ' . $nghin . ' ' . $unit["thousand"];

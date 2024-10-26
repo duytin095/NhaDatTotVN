@@ -90,3 +90,5 @@ Route::name('user.')->prefix('user')->group(function () {
     });
 });
 
+Route::redirect('/', '/user/home');
+Route::redirect('/user', '/user/home');
