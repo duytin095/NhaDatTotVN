@@ -1,4 +1,5 @@
-<div class="top-header-area">
+  <!-- Start Top Header Area -->
+  <div class="top-header-area">
     <div class="container-fluid">
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-7 col-md-7">
@@ -28,7 +29,7 @@
                     <li>
                         <div class="mail-info">
                             <i class="ri-mail-line"></i>
-                            <a href="mailto:support@demo.com">support@demo.com</a>
+                            <a href="/cdn-cgi/l/email-protection#2b585e5b5b44595f6b4f4e464405484446"><span class="__cf_email__" data-cfemail="cfbcbabfbfa0bdbb8fabaaa2a0e1aca0a2">[email&#160;protected]</span></a>
                         </div>
                     </li>
                 </ul>
@@ -42,3 +43,4 @@
         </div>
     </div>
 </div>
+<!-- End Top Header Area -->

@@ -28,34 +28,15 @@
 </head>
 
 <body>
-    <!-- Start Preloader Area -->
-    {{-- <div class="preloader-area text-center position-fixed top-0 bottom-0 start-0 end-0" id="preloader">
-            <div class="loader position-absolute start-0 end-0">
-                <img src="assets/images/favicon.png" alt="favicon">
-                <div class="waviy position-relative">
-                    <span class="d-inline-block">A</span>
-                    <span class="d-inline-block">N</span>
-                    <span class="d-inline-block">D</span>
-                    <span class="d-inline-block">O</span>
-                    <span class="d-inline-block">R</span>
-                    <span class="d-inline-block">A</span>
-                </div>
-            </div>
-        </div> --}}
-    <!-- End Preloader Area -->
-
     @include('layout.user.header')
     @include('layout.user.nav-bar')
-
-
     @include('layout.user.nav-bar-res')
 
 
     @yield('auth')
-    @if (Auth::guard('users')->check())
-    @endif
     @yield('content')
     @yield('home')
+
     @include('layout.user.footer')
 
     <!-- Back to Top -->
@@ -63,9 +44,22 @@
         <i class="ri-arrow-up-s-line"></i>
     </button>
 
+    <!-- Start Lines -->
+    <div class="lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <!-- End Lines -->
+
+
 
 
     <script src="{{ asset('assets/user/js/bootstrap.bundle.min.js') }}"></script>
+    
     <script src="{{ asset('assets/user/js/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('assets/user/js/scrollCue.min.js') }}"></script>
     <script src="{{ asset('assets/user/js/fslightbox.min.js') }}"></script>

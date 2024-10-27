@@ -1,237 +1,238 @@
 @extends('layout.user.index')
 @section('home')
 
-<!-- Start Main Banner Area -->
-<div class="main-banner-area">
-    <div class="container-fluid">
-        <div class="row justify-content-center align-items-center">
-            <div class="col-xl-6 col-md-12" data-cues="slideInLeft">
-                <div class="main-banner-content">
-                    <span class="sub">An Cư Lạc Nghiệp</span>
-                    <h1>Nhà Đất Tốt VN</h1>
-                    <div class="search-info-tabs">
-                        <ul class="nav nav-tabs" id="search_tab" role="tablist">
-                            <li class="nav-item"><a class="nav-link active" id="sell-tab" data-bs-toggle="tab" href="#sell" role="tab" aria-controls="sell">Sell</a></li>
-                            <li class="nav-item"><a class="nav-link" id="rent-tab" data-bs-toggle="tab" href="#rent" role="tab" aria-controls="rent">Rent</a></li>
-                            <li class="nav-item"><a class="nav-link" id="invest-tab" data-bs-toggle="tab" href="#invest" role="tab" aria-controls="invest">Invest</a></li>
-                        </ul>
-                        <div class="tab-content" id="search_tab_content">
-                            <div class="tab-pane fade show active" id="sell" role="tabpanel">
-                                <form class="search-form">
-                                    <div class="row justify-content-center align-items-end">
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Looking For</label>
-                                                <select class="form-select form-control">
-                                                    <option selected>Property type</option>
-                                                    <option value="1">Multifamily</option>
-                                                    <option value="2">Detached house</option>
-                                                </select>
+    <!-- Start Main Banner Area -->
+    <div class="main-banner-area">
+        <div class="container-fluid">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-xl-6 col-md-12" data-cues="slideInLeft">
+                    <div class="main-banner-content">
+                        <span class="sub">An Cư Lạc Nghiệp</span>
+                        <h1>Nhà Đất Tốt VN</h1>
+                        <div class="search-info-tabs">
+                            <ul class="nav nav-tabs" id="search_tab" role="tablist">
+                                @foreach ($purposes as $key => $purpose)
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ $loop->first ? 'active' : '' }}" data-bs-toggle="tab" href="#" role="tab" aria-controls="">{{ $purpose }}</a>
+                                @endforeach
+                            </ul>
+                            <div class="tab-content" id="search_tab_content">
+                                <div class="tab-pane fade show active" id="sell" role="tabpanel">
+                                    <form class="search-form">
+                                        <div class="row justify-content-center align-items-end">
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Looking For</label>
+                                                    <select class="form-select form-control">
+                                                        <option selected>Property type</option>
+                                                        <option value="1">Multifamily</option>
+                                                        <option value="2">Detached house</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Location</label>
+                                                    <select class="form-select form-control">
+                                                        <option selected>All cities</option>
+                                                        <option value="1">Liverpool</option>
+                                                        <option value="2">Bristol</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Your Price</label>
+                                                    <input type="text" class="form-control"  placeholder="Max price">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Min Lot size</label>
+                                                    <input type="text" class="form-control"  placeholder="Property lot size">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Status</label>
+                                                    <select class="form-select form-control">
+                                                        <option selected>Property status</option>
+                                                        <option value="1">Active (55)</option>
+                                                        <option value="2">Open House (65)</option>
+                                                        <option value="3">Hot Offer (45)</option>
+                                                        <option value="4">Sold (78)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <button type="submit" class="default-btn">
+                                                        <i class="ri-search-2-line"></i>
+                                                        Tìm kiếm
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Location</label>
-                                                <select class="form-select form-control">
-                                                    <option selected>All cities</option>
-                                                    <option value="1">Liverpool</option>
-                                                    <option value="2">Bristol</option>
-                                                </select>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="rent" role="tabpanel">
+                                    <form class="search-form">
+                                        <div class="row justify-content-center align-items-end">
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Looking For</label>
+                                                    <select class="form-select form-control">
+                                                        <option selected>Property type</option>
+                                                        <option value="1">Multifamily</option>
+                                                        <option value="2">Detached house</option>
+                                                        <option value="3">Industrial</option>
+                                                        <option value="4">Townhouse</option>
+                                                        <option value="5">Apartment</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Location</label>
+                                                    <select class="form-select form-control">
+                                                        <option selected>All cities</option>
+                                                        <option value="1">Liverpool</option>
+                                                        <option value="2">Bristol</option>
+                                                        <option value="3">Nottingham</option>
+                                                        <option value="4">Leicester</option>
+                                                        <option value="5">Coventry</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Your Price</label>
+                                                    <input type="text" class="form-control"  placeholder="Max price">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Min Lot size</label>
+                                                    <input type="text" class="form-control"  placeholder="Property lot size">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Status</label>
+                                                    <select class="form-select form-control">
+                                                        <option selected>Property status</option>
+                                                        <option value="1">Active (55)</option>
+                                                        <option value="2">Open House (65)</option>
+                                                        <option value="3">Hot Offer (45)</option>
+                                                        <option value="4">Sold (78)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <button type="submit" class="default-btn">
+                                                        <i class="ri-search-2-line"></i>
+                                                        Search Property
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Your Price</label>
-                                                <input type="text" class="form-control"  placeholder="Max price">
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="invest" role="tabpanel">
+                                    <form class="search-form">
+                                        <div class="row justify-content-center align-items-end">
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Looking For</label>
+                                                    <select class="form-select form-control">
+                                                        <option selected>Property type</option>
+                                                        <option value="1">Multifamily</option>
+                                                        <option value="2">Detached house</option>
+                                                        <option value="3">Industrial</option>
+                                                        <option value="4">Townhouse</option>
+                                                        <option value="5">Apartment</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Location</label>
+                                                    <select class="form-select form-control">
+                                                        <option selected>All cities</option>
+                                                        <option value="1">Liverpool</option>
+                                                        <option value="2">Bristol</option>
+                                                        <option value="3">Nottingham</option>
+                                                        <option value="4">Leicester</option>
+                                                        <option value="5">Coventry</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Your Price</label>
+                                                    <input type="text" class="form-control"  placeholder="Max price">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Min Lot size</label>
+                                                    <input type="text" class="form-control"  placeholder="Property lot size">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Status</label>
+                                                    <select class="form-select form-control">
+                                                        <option selected>Property status</option>
+                                                        <option value="1">Active (55)</option>
+                                                        <option value="2">Open House (65)</option>
+                                                        <option value="3">Hot Offer (45)</option>
+                                                        <option value="4">Sold (78)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <button type="submit" class="default-btn">
+                                                        <i class="ri-search-2-line"></i>
+                                                        Search Property
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Min Lot size</label>
-                                                <input type="text" class="form-control"  placeholder="Property lot size">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Status</label>
-                                                <select class="form-select form-control">
-                                                    <option selected>Property status</option>
-                                                    <option value="1">Active (55)</option>
-                                                    <option value="2">Open House (65)</option>
-                                                    <option value="3">Hot Offer (45)</option>
-                                                    <option value="4">Sold (78)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <button type="submit" class="default-btn">
-                                                    <i class="ri-search-2-line"></i>
-                                                    Tìm kiếm
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="tab-pane fade" id="rent" role="tabpanel">
-                                <form class="search-form">
-                                    <div class="row justify-content-center align-items-end">
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Looking For</label>
-                                                <select class="form-select form-control">
-                                                    <option selected>Property type</option>
-                                                    <option value="1">Multifamily</option>
-                                                    <option value="2">Detached house</option>
-                                                    <option value="3">Industrial</option>
-                                                    <option value="4">Townhouse</option>
-                                                    <option value="5">Apartment</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Location</label>
-                                                <select class="form-select form-control">
-                                                    <option selected>All cities</option>
-                                                    <option value="1">Liverpool</option>
-                                                    <option value="2">Bristol</option>
-                                                    <option value="3">Nottingham</option>
-                                                    <option value="4">Leicester</option>
-                                                    <option value="5">Coventry</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Your Price</label>
-                                                <input type="text" class="form-control"  placeholder="Max price">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Min Lot size</label>
-                                                <input type="text" class="form-control"  placeholder="Property lot size">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Status</label>
-                                                <select class="form-select form-control">
-                                                    <option selected>Property status</option>
-                                                    <option value="1">Active (55)</option>
-                                                    <option value="2">Open House (65)</option>
-                                                    <option value="3">Hot Offer (45)</option>
-                                                    <option value="4">Sold (78)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <button type="submit" class="default-btn">
-                                                    <i class="ri-search-2-line"></i>
-                                                    Search Property
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="tab-pane fade" id="invest" role="tabpanel">
-                                <form class="search-form">
-                                    <div class="row justify-content-center align-items-end">
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Looking For</label>
-                                                <select class="form-select form-control">
-                                                    <option selected>Property type</option>
-                                                    <option value="1">Multifamily</option>
-                                                    <option value="2">Detached house</option>
-                                                    <option value="3">Industrial</option>
-                                                    <option value="4">Townhouse</option>
-                                                    <option value="5">Apartment</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Location</label>
-                                                <select class="form-select form-control">
-                                                    <option selected>All cities</option>
-                                                    <option value="1">Liverpool</option>
-                                                    <option value="2">Bristol</option>
-                                                    <option value="3">Nottingham</option>
-                                                    <option value="4">Leicester</option>
-                                                    <option value="5">Coventry</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Your Price</label>
-                                                <input type="text" class="form-control"  placeholder="Max price">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Min Lot size</label>
-                                                <input type="text" class="form-control"  placeholder="Property lot size">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Status</label>
-                                                <select class="form-select form-control">
-                                                    <option selected>Property status</option>
-                                                    <option value="1">Active (55)</option>
-                                                    <option value="2">Open House (65)</option>
-                                                    <option value="3">Hot Offer (45)</option>
-                                                    <option value="4">Sold (78)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <button type="submit" class="default-btn">
-                                                    <i class="ri-search-2-line"></i>
-                                                    Search Property
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-6 col-md-12" data-cues="fadeIn">
-                <div class="swiper main-banner-image-slider">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="main-banner-image">
-                                <img src="{{ asset('assets/user/images/main-banner/banner1.jpg') }}" alt="image">
+                <div class="col-xl-6 col-md-12" data-cues="fadeIn">
+                    <div class="swiper main-banner-image-slider">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="main-banner-image">
+                                    <img src="{{ asset('assets/user/images/main-banner/banner1.jpg') }}" alt="image">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="main-banner-image">
+                                    <img src="{{ asset('assets/user/images/main-banner/banner2.jpg') }}" alt="image">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="main-banner-image">
+                                    <img src="{{ asset('assets/user/images/main-banner/banner3.jpg') }}" alt="image">
+                                </div>
                             </div>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="main-banner-image">
-                                <img src="{{ asset('assets/user/images/main-banner/banner2.jpg') }}" alt="image">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="main-banner-image">
-                                <img src="{{ asset('assets/user/images/main-banner/banner3.jpg') }}" alt="image">
-                            </div>
-                        </div>
+                        <div class="main-banner-image-pagination"></div>
                     </div>
-                    <div class="main-banner-image-pagination"></div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- End Main Banner Area -->
+    <!-- End Main Banner Area -->
 
 
     <!-- Start Category Area -->
@@ -293,13 +294,14 @@
         </div>
     </div>
 
-    <div class="sell-area">
+   <!-- Start Sell Area -->
+   <div class="sell-area">
         <div class="container-fluid">
-            <div class="row justify-content-center" data-cues="slideInUp" data-disabled="true">
-                <div class="col-lg-7 col-md-12" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
+            <div class="row justify-content-center" data-cues="slideInUp">
+                <div class="col-lg-7 col-md-12">
                     <div class="sell-image"></div>
                 </div>
-                <div class="col-lg-5 col-md-12" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 180ms; animation-direction: normal; animation-fill-mode: both;">
+                <div class="col-lg-5 col-md-12">
                     <div class="sell-content">
                         <span class="sub">Unlocking Dreams, Opening Doors</span>
                         <h2>Navigating Your Home Odyssey Your Sanctuary</h2>
@@ -308,7 +310,7 @@
                             <h3>Sell Your Property</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare.</p>
                             <a href="property-details.html" class="sell-btn">
-                                <img src="assets/images/sell/arrow.svg" alt="arrow">
+                                <img src="{{ asset('assets/user/images/sell/arrow.svg') }}" alt="arrow">
                             </a>
                         </div>
                     </div>
@@ -316,6 +318,7 @@
             </div>
         </div>
     </div>
+    <!-- End Sell Area -->
 
     <div class="rent-area">
         <div class="container-fluid">
@@ -329,7 +332,7 @@
                             <h3>Rent A Home</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare.</p>
                             <a href="property-details.html" class="rent-btn">
-                                <img src="assets/images/rent/arrow.svg" alt="arrow">
+                                <img src="{{ asset('assets/user/images/sell/arrow.svg') }}" alt="arrow">
                             </a>
                         </div>
                     </div>

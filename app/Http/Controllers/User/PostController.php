@@ -189,7 +189,7 @@ class PostController extends Controller
             $property = Property::where('slug', $slug)->firstOrFail();
             $featuredProperties = Property::take(5)->get();
 
-            $this->breadcrumbService->addCrumb('Home', '/user/home');
+            $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
             $this->breadcrumbService->addCrumb($property->property_name);
 
             return view('user.post-detail', compact('property', 'featuredProperties'),[
