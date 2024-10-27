@@ -51,7 +51,7 @@ class PropertyTableSeeder extends Seeder
                 'property_price' => rand(0, 10000000),
 
                 'property_seller_id' => 1,
-                'property_label' => rand(0, 5),
+                'property_label' => rand(0, 4),
                 'slug' => 'property-' . ($i + 1),
 
                 'created_at' => Carbon::now()->addDays($i),

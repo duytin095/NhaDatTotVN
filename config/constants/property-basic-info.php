@@ -37,4 +37,11 @@ return [
         YOUTUBE => 'Youtube',
         TIKTOK => 'TikTok',
     ],
+    'property-labels' => [
+        0 => 'Không',
+        1 => 'Chính chủ',
+        2 => 'Bán gấp',
+        3 => 'Giá rẻ',
+        4 => 'Nổi bật',
+    ]
 ];

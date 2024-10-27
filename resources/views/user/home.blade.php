@@ -261,27 +261,27 @@
         </div>
     </div>
     <!-- End Category Area -->
-    
 
+    <!-- Start Properties Area -->
     <div class="properties-area pb-95">
         <div class="container">
-            <div class="section-title text-center" data-cues="slideInUp" data-disabled="true">
-                <h2 data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">Latest Properties</h2>
-                <p data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
+            <div class="section-title text-center" data-cues="slideInUp">
+                <h2>Bất động sản dành cho bạn</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
             </div>
             <div class="properties-information-tabs">
-                <ul class="nav nav-tabs" id="properties_tab" role="tablist" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" id="for-sale-tab" data-bs-toggle="tab" href="#for-sale" role="tab" aria-controls="for-sale" aria-selected="true">For Sale</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" id="houses-tab" data-bs-toggle="tab" href="#houses" role="tab" aria-controls="houses" aria-selected="false" tabindex="-1">Houses</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" id="villas-tab" data-bs-toggle="tab" href="#villas" role="tab" aria-controls="villas" aria-selected="false" tabindex="-1">Villas</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" id="rental-tab" data-bs-toggle="tab" href="#rental" role="tab" aria-controls="rental" aria-selected="false" tabindex="-1">Rental</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" id="apartment-tab" data-bs-toggle="tab" href="#apartment" role="tab" aria-controls="apartment" aria-selected="false" tabindex="-1">Apartment</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" id="condos-tab" data-bs-toggle="tab" href="#condos" role="tab" aria-controls="condos" aria-selected="false" tabindex="-1">Condos</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" id="commercial-tab" data-bs-toggle="tab" href="#commercial" role="tab" aria-controls="commercial" aria-selected="false" tabindex="-1">Commercial</a></li>
+                <ul class="nav nav-tabs" id="properties_tab" role="tablist" data-cue="slideInUp">
+                    <li class="nav-item"><a class="nav-link active" id="for-sale-tab" data-bs-toggle="tab" href="#for-sale" role="tab" aria-controls="for-sale">For Sale</a></li>
+                    <li class="nav-item"><a class="nav-link" id="houses-tab" data-bs-toggle="tab" href="#houses" role="tab" aria-controls="houses">Houses</a></li>
+                    <li class="nav-item"><a class="nav-link" id="villas-tab" data-bs-toggle="tab" href="#villas" role="tab" aria-controls="villas">Villas</a></li>
+                    <li class="nav-item"><a class="nav-link" id="rental-tab" data-bs-toggle="tab" href="#rental" role="tab" aria-controls="rental">Rental</a></li>
+                    <li class="nav-item"><a class="nav-link" id="apartment-tab" data-bs-toggle="tab" href="#apartment" role="tab" aria-controls="apartment">Apartment</a></li>
+                    <li class="nav-item"><a class="nav-link" id="condos-tab" data-bs-toggle="tab" href="#condos" role="tab" aria-controls="condos">Condos</a></li>
+                    <li class="nav-item"><a class="nav-link" id="commercial-tab" data-bs-toggle="tab" href="#commercial" role="tab" aria-controls="commercial">Commercial</a></li>
                 </ul>
                 <div class="tab-content" id="properties_tab_content">
-                    <div class="tab-pane fade show active" id="for-sale" role="tabpanel" aria-labelledby="for-sale-tab">
-                        <div class="row justify-content-center" data-cues="slideInUp" data-disabled="true">
+                    <div class="tab-pane fade show active" id="for-sale" role="tabpanel">
+                        <div class="row justify-content-center" data-cues="slideInUp">
                             @forelse ($latestProperties as $property)
                                 <x-property-listing :property="$property" />
                             @empty
@@ -293,6 +293,9 @@
             </div>
         </div>
     </div>
+    <!-- End Properties Area -->
+
+
 
    <!-- Start Sell Area -->
    <div class="sell-area">
@@ -428,10 +431,12 @@
                             </div>
                             <ul class="info-list">
                                 <li>
-                                    <div class="icon">
-                                        <img src=" {{ asset('assets/user/images/properties/area.svg') }}" alt="area">
-                                    </div>
-                                    <span>{{ $property['property_acreage'] }}</span>
+                                    @if ($property['property_acreage'] !== null)
+                                        <div class="icon">
+                                            <img src=" {{ asset('assets/user/images/properties/area.svg') }}" alt="area">
+                                        </div>
+                                        <span>{{ $property['property_acreage'] }}</span>
+                                    @endif
                                 </li>
                             </ul>
                             <div class="price-and-user">

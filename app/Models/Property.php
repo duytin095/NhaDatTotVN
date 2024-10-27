@@ -79,6 +79,9 @@ class Property extends Model
     {
         return $this->belongsTo(User::class, 'property_seller_id', 'user_id');
     }
+    public function getLabelAttribute(){
+        return config('constants.property-basic-info.property-labels')[$this->property_label];
+    }
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-m-Y');

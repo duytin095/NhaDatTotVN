@@ -24,6 +24,7 @@ class HomeController extends Controller
         $types = Type::withCount('properties')->take(8)->get();
         $statuses = Status::all()->toArray();
         $purposes = config('constants.property-basic-info.property-purpose');
+        $labels = config('constants.property-basic-info.property-labels');
 
         $latestProperties = Property::latest()
         ->with(['seller', 'status', 'type'])
@@ -48,7 +49,15 @@ class HomeController extends Controller
         // ->take(5)->get();
 
         // dd(config('constants.property-basic-info.property-purpose'));
-        return view('user.home', compact('latestProperties', 'propertiesForInvest', 'propertiesForSale', 'types', 'statuses', 'purposes'));
+        return view('user.home', 
+            compact(
+                'latestProperties', 
+                'propertiesForInvest', 
+                'propertiesForSale', 
+                'types', 
+                'statuses', 
+                'purposes')
+            );
     }
 
     /**

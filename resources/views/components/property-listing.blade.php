@@ -2,20 +2,21 @@
     'property' => null,
     //'other' => null,
 ])
-<div class="col-xl-4 col-md-6" data-cue="slideInUp" data-show="true"
-    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
+<div class="col-xl-4 col-md-6">
     <div class="properties-item">
         <div class="properties-image">
             <a href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">
                 <img src="{{ asset($property['property_images'][0]) }}" alt="image">
             </a>
             <ul class="action">
-                <li>
-                    {{-- <a href="" class="featured-btn">{{ $property['status']['property_status_name'] }}</a> --}}
-                </li>
+                @if ($property['property_label'] !== 0)
+                    <li>
+                        <a href="#" class="featured-btn">{{ $property['label'] }}</a>
+                    </li>
+                @endif
                 <li>
                     <div class="media">
-                        @if ($property['property_video_type'] === 0)
+                        @if ($property['property_video_type'] !== 0)
                             <span>
                                 <i class="ri-vidicon-fill"></i>
                             </span>
@@ -68,8 +69,7 @@
             <div class="top">
                 <div class="title">
                     <h3>
-                        {{-- <a class="property-title" href="{{ route('user.home.show', $property['property_id']) }}">{{ $property['property_name'] }}</a> --}}
-                        <a class="property-title" href="#">{{ $property['property_name'] }}</a>
+                        <a class="property-title" href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">{{ $property['property_name'] }}</a>
                     </h3>
                     <span>{{ $property['property_address'] }}</span>
                 </div>
@@ -98,3 +98,6 @@
         </div>
     </div>
 </div>
+
+
+

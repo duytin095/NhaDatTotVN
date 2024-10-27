@@ -28,97 +28,12 @@
                 </div>
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
-                @foreach ($properties as $property)
-                    <div class="col-xl-4 col-md-6">
-                        <div class="properties-item">
-                            <div class="properties-image">
-                                <a href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">
-                                    <img src="{{ asset($property['property_images'][0]) }}" alt="image">
-                                </a>
-                                <ul class="action">
-                                    <li>
-                                        {{-- <a href="" class="featured-btn">{{ $property['status']['property_status_name'] }}</a> --}}
-                                    </li>
-                                    <li>
-                                        <div class="media">
-                                            @if ($property['property_video'] !== null)
-                                                <span>
-                                                    <i class="ri-vidicon-fill"></i>
-                                                </span>
-                                            @endif
-                                            @if (isset($property['property_images']))
-                                                <span>
-                                                    <i class="ri-image-line"></i>
-                                                    {{ count($property['property_images']) }}
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </li>
-                                </ul>
-                                <ul class="link-list">
-                                    <li>
-                                        <a href="property-grid.html"
-                                            class="link-btn">{{ $property['type']['property_type_name'] }}</a>
-                                    </li>
-                                    <li>
-                                        <a href="property-grid.html"
-                                            class="link-btn">{{ $property['type']['purpose_name'] }}</a>
-                                    </li>
-                                </ul>
-                                <ul class="info-list">
-                                    <li>
-                                        @if($property['property_acreage'] !== null)
-                                            <div class="icon">
-                                                <img src="{{ asset('assets/user/images/properties/area.svg') }}" alt="area">
-                                            </div>
-                                        @endif
-                                        <span>{{ $property['property_acreage'] }}</span>
-                                    </li>
-                                    <li>
-                                        @if($property['property_bathroom'] !== 0)
-                                            <div class="icon">
-                                                <img src="{{ asset('assets/user/images/properties/bathroom.svg') }}" alt="bathroom">
-                                            </div>
-                                            <span>{{ $property['property_bathroom'] }}</span>
-                                        @endif
-                                    </li>
-                                    <li>
-                                        @if($property['property_bedroom'] !== 0)
-                                            <div class="icon">
-                                                <img src="{{ asset('assets/user/images/properties/bed.svg') }}" alt="bed">
-                                            </div>
-                                            <span>{{ $property['property_bedroom'] }}</span>
-                                        @endif
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="properties-content">
-                                <div class="top">
-                                    <div class="title">
-                                        <h3>
-                                            <a class="property-title" href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">{{ $property['property_name'] }}</a>
-                                        </h3>
-                                        <span>{{ $property['property_address'] }}</span>
-                                    </div>
-                                    <div class="price">
-                                        {{ $property->getFormattedPriceAttribute(true); }}                                    
-                                    </div>
-                                </div>
-                                <div class="bottom">
-                                    <div class="user">
-                                        @if ($property['seller']['admin_image'] === null)
-                                            <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="default-image">
-                                        @else
-                                            <img src="{{ asset($property['seller']['user_avatar']) }}" alt="user_avatar">
-                                        @endif
-                                        <a href="agent-profile.html">{{ $property['seller']['user_name'] }}</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                @endforeach
+
+                @forelse ($properties as $property)
+                    <x-property-listing :property="$property" />
+                @empty
+                    <p> Chưa có tin đăng nào</p>
+                @endforelse
                 <div class="col-lg-12 col-md-12">
                     <div class="pagination-area">
                         <div class="nav-links">
