@@ -46,7 +46,8 @@ class AgentController extends Controller
 
         try {
             $agent = User::where('slug', $slug)->firstOrFail();
-            $properties = Property::where('property_seller_id', $agent->user_id);
+            $properties = $agent->properties()->paginate(10);   
+
             $this->breadcrumbService->addCrumb($agent->user_name);
 
             return view('user.agent.detail', compact('agent', 'properties'), [

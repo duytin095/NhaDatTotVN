@@ -353,46 +353,37 @@
                 <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="fun-facts-card">
                         <div class="d-flex align-items-center">
-                            <h3 class="counter">12</h3>
-                            <h3 class="text">K</h3>
+                            <h3 class="counter">{{ $userCount }}</h3>
+                            <h3 class="text">+</h3>
                         </div>
-                        <p>Our Happy Customers</p>
+                        <p>Người dùng</p>
                     </div>
                 </div>
                 <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 180ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="fun-facts-card">
                         <div class="d-flex align-items-center">
-                            <h3 class="counter">98</h3>
-                            <h3 class="text">%</h3>
-                        </div>
-                        <p>Clients Satisfaction Rate</p>
-                    </div>
-                </div>
-                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 360ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="fun-facts-card">
-                        <div class="d-flex align-items-center">
-                            <h3 class="counter">6</h3>
+                            <h3 class="counter">{{ $sellCount }}</h3>
                             <h3 class="text">+</h3>
                         </div>
-                        <p>Our Office Locations</p>
+                        <p>Nhà đất bán</p>
                     </div>
                 </div>
-                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 540ms; animation-direction: normal; animation-fill-mode: both;">
+                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 180ms; animation-timing-function: ease; animation-delay: 360ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="fun-facts-card">
                         <div class="d-flex align-items-center">
-                            <h3 class="counter">20</h3>
-                            <h3 class="text">K</h3>
-                        </div>
-                        <p>Total Property Sale</p>
-                    </div>
-                </div>
-                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 720ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="fun-facts-card">
-                        <div class="d-flex align-items-center">
-                            <h3 class="counter">85</h3>
+                            <h3 class="counter">{{ $rentCount }}</h3>
                             <h3 class="text">+</h3>
                         </div>
-                        <p>Real Estate Agents</p>
+                        <p>Nhà đất cho thêu</p>
+                    </div>
+                </div>
+                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 180ms; animation-timing-function: ease; animation-delay: 540ms; animation-direction: normal; animation-fill-mode: both;">
+                    <div class="fun-facts-card">
+                        <div class="d-flex align-items-center">
+                            <h3 class="counter">{{ $investCount }}</h3>
+                            <h3 class="text">+</h3>
+                        </div>
+                        <p>Dự án</p>
                     </div>
                 </div>
             </div>
@@ -447,7 +438,7 @@
                                     @else
                                         <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
                                     @endif
-                                    <a href="agent-profile.html">{{ $property['seller']['user_name'] }}</a>
+                                    <a href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
                                 </div>
                             </div>
                         </div>
@@ -542,7 +533,7 @@
     <div class="blog-area pb-95">
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
-                <h2>Latest Articles</h2>
+                <h2>Tin đăng mới</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">

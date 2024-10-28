@@ -6,10 +6,7 @@
             <div class="properties-grid-box">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-lg-12 col-md-12">
-                        <p>
-                            Hiển thị {{ $agents->firstItem() }}-{{ $agents->lastItem() }} của
-                            {{ $agents->total() }} nhà môi giới
-                        </p>
+                        <x-pagination-info :paginator="$agents" :label="'nhà môi giới'"/>
                     </div>
                 </div>
             </div>

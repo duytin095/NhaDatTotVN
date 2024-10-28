@@ -84,7 +84,7 @@
                     @else
                         <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
                     @endif
-                    <a href="agent-profile.html">{{ $property['seller']['user_name'] }}</a>
+                    <a href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
                 </div>
                 <ul class="group-info">
                     <li>

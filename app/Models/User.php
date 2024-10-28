@@ -39,6 +39,12 @@ class User extends Authenticatable
         'owner_referral_code',
         'referral_code',
     ];
+
+    public function properties()
+    {
+        return $this->hasMany(Property::class, 'property_seller_id', 'user_id');
+    }
+    
     public function getUserImageAttribute()
     {
         return json_decode($this->user_avatar, true);

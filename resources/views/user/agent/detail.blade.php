@@ -73,7 +73,7 @@
             </div>
             <div class="pb-95"></div>
             <div class="row justify-content-center" data-cues="slideInUp">
-                <div class="col-lg-8 col-md-12">
+                <div class="col-lg-12 col-md-12">
                     <div class="agent-profile-information-tabs">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item"><a class="nav-link active" id="overview-tab" data-bs-toggle="tab"
@@ -117,13 +117,20 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="property" role="tabpanel">
+                                <div class="properties-grid-box">
+                                    <div class="row justify-content-center align-items-center">
+                                        <div class="col-lg-12 col-md-12">
+                                            <x-pagination-info :paginator="$properties" :label="'tin đăng'"/>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row justify-content-center">
                                     @forelse ($properties as $property)
-                                        <x-property-listing :property="$property" />
+                                        <x-property-listing :property="$property"/>
                                     @empty
                                         <h4>Chưa có tin đăng nào</h4>
                                     @endforelse
-
+                                <x-pagination :paginator="$properties" />
                                 </div>
                             </div>
                         </div>

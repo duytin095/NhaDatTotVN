@@ -6,10 +6,7 @@
             <div class="properties-grid-box">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-lg-7 col-md-6">
-                        <p>
-                            Hiển thị {{ $properties->firstItem() }}-{{ $properties->lastItem() }} của
-                            {{ $properties->total() }} bài đăng
-                        </p>
+                        <x-pagination-info :paginator="$properties" :label="'bài đăng'"/>
                     </div>
                     <div class="col-lg-5 col-md-6">
                         <form action="" method="get">

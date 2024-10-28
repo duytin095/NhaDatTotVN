@@ -15,7 +15,7 @@
         </div>
         <div class="agents-content">
             <h3>
-                <a href="{{ route('user.agents.show')}}">{{ $agent['user_name'] }}</a>
+                <a href="{{ route('user.agents.show', $agent['slug'])}}">{{ $agent['user_name'] }}</a>
             </h3>
             <span>{{ $agent['user_phone'] }}</span>
             <span>{{ $agent['user_email'] }}</span>
