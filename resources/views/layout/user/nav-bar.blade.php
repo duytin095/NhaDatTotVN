@@ -33,6 +33,18 @@
                         <li class="nav-item">
                             <a href="about-us.html" class="nav-link">About Us</a>
                         </li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="javascript:void(0)" class="dropdown-toggle nav-link">
+                        Pages
+                        <i class="ri-arrow-down-s-line"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item">
+                            <a href="about-us.html" class="nav-link">About Us</a>
+                        </li>
                         <li class="nav-item">
                             <a href="agents.html" class="nav-link">Agents</a>
                         </li>

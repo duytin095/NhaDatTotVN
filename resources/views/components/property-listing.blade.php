@@ -79,10 +79,10 @@
             </div>
             <div class="bottom">
                 <div class="user">
-                    @if ($property['seller']['admin_image'] === null)
+                    @if ($property['seller']['user_avatar'] === null)
                         <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
                     @else
-                        <img src="{{ asset($property['seller']['admin_image']) }}" alt="image">
+                        <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
                     @endif
                     <a href="agent-profile.html">{{ $property['seller']['user_name'] }}</a>
                 </div>

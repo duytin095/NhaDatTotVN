@@ -28,9 +28,7 @@ class PostController extends Controller
 
         $filter = request()->input('filter', 'latest');
         $properties = Property::where('property_seller_id', Auth::guard('users')->user()->user_id)
-        ->when($filter, function ($query, $filter) {
-            return $query->{$filter}();
-        })
+
         ->paginate(12);
 
         return view('user.post', [

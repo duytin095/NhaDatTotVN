@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\UserBreadcrumbService;
 
 class HomeController extends Controller
@@ -25,15 +26,16 @@ class HomeController extends Controller
         $statuses = Status::all()->toArray();
         $purposes = config('constants.property-basic-info.property-purpose');
         $labels = config('constants.property-basic-info.property-labels');
+        $agents = User::take(4)->get();
 
         $latestProperties = Property::latest()
-        ->with(['seller', 'status', 'type'])
-        ->take(6)->get();
+            ->with(['seller', 'status', 'type'])
+            ->take(6)->get();
 
         // Change property_purpose_id for what you like to show
         $propertiesForInvest = Property::latest()
-        ->with(['seller', 'status', 'type'])
-        ->take(6)->get();
+            ->with(['seller', 'status', 'type'])
+            ->take(6)->get();
         // Property::join('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
         // ->where('property_types.property_purpose_id', 1)
         // ->with(['seller', 'status', 'type'])
@@ -41,23 +43,26 @@ class HomeController extends Controller
 
         // Change property_purpose_id for what you like to show
         $propertiesForSale = Property::latest()
-        ->with(['seller', 'status', 'type'])
-        ->take(6)->get();
+            ->with(['seller', 'status', 'type'])
+            ->take(6)->get();
         // Property::join('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
         // ->where('property_types.property_purpose_id', 1)
         // ->with(['seller', 'status', 'type'])
         // ->take(5)->get();
 
         // dd(config('constants.property-basic-info.property-purpose'));
-        return view('user.home', 
+        return view(
+            'user.home',
             compact(
-                'latestProperties', 
-                'propertiesForInvest', 
-                'propertiesForSale', 
-                'types', 
-                'statuses', 
-                'purposes')
-            );
+                'latestProperties',
+                'propertiesForInvest',
+                'propertiesForSale',
+                'types',
+                'statuses',
+                'purposes',
+                'agents',
+            )
+        );
     }
 
     /**
@@ -81,7 +86,7 @@ class HomeController extends Controller
             $this->breadcrumbService->addCrumb('Home', '/user/home');
             $this->breadcrumbService->addCrumb($property->property_name);
 
-            return view('user.property-detail', compact('property', 'featuredProperties'),[
+            return view('user.property-detail', compact('property', 'featuredProperties'), [
                 'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
             ]);
         } catch (\Throwable $th) {

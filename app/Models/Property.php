@@ -60,7 +60,7 @@ class Property extends Model
         'property_video_link',
         'property_video_type',
 
-
+        // AUTO GEN
         'property_seller_id',
         'slug',
         'property_label',
@@ -169,13 +169,6 @@ class Property extends Model
         $trieu = floor($remainingValue / 1000);
         $nghin = $remainingValue % 1000;
 
-        // if ($trieu === 0 || $shortFormat) {
-        //     return $ty . ' ' . $unit["billion"] . ' ' . $nghin . ' ' . $unit["thousand"];
-        // }
-
-        // if ($nghin === 0 || $shortFormat) {
-        //     return $ty . ' ' . $unit["billion"] . ' ' . $trieu . ' ' . $unit["million"];
-        // }
         if ($shortFormat) {
             return $ty . ' ' . $unit["billion"];
         } elseif ($trieu === 0) {

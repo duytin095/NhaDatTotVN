@@ -515,148 +515,20 @@
     <div class="agents-area pt-120 pb-95">
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
-                <h2>Real Estate Agents</h2>
+                <h2>Danh sách nhà môi giới</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
-                <div class="col-xl-3 col-md-6">
-                    <div class="agents-card">
-                        <div class="agents-image">
-                            <a href="agent-profile.html">
-                                <img src="assets/images/agents/agents1.jpg" alt="image">
-                            </a>
-                        </div>
-                        <div class="agents-content">
-                            <h3>
-                                <a href="agent-profile.html">Christopher Baker</a>
-                            </h3>
-                            <span>Residential Property Manager</span>
-                            <div class="social-info">
-                                <a href="https://www.facebook.com/" target="_blank">
-                                    <i class="ri-facebook-fill"></i>
-                                </a>
-                                <a href="https://twitter.com/" target="_blank">
-                                    <i class="ri-twitter-x-line"></i>
-                                </a>
-                                <a href="https://www.instagram.com/" target="_blank">
-                                    <i class="ri-instagram-fill"></i>
-                                </a>
-                                <a href="https://bd.linkedin.com/" target="_blank">
-                                    <i class="ri-linkedin-fill"></i>
-                                </a>
-                                <a href="https://www.youtube.com/" target="_blank">
-                                    <i class="ri-youtube-line"></i>
-                                </a>
-                                <a href="https://www.pinterest.com/" target="_blank">
-                                    <i class="ri-pinterest-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="agents-card">
-                        <div class="agents-image">
-                            <a href="agent-profile.html">
-                                <img src="assets/images/agents/agents2.jpg" alt="image">
-                            </a>
-                        </div>
-                        <div class="agents-content">
-                            <h3>
-                                <a href="agent-profile.html">Ryan Anderson</a>
-                            </h3>
-                            <span>Residential Appraiser</span>
-                            <div class="social-info">
-                                <a href="https://www.facebook.com/" target="_blank">
-                                    <i class="ri-facebook-fill"></i>
-                                </a>
-                                <a href="https://twitter.com/" target="_blank">
-                                    <i class="ri-twitter-x-line"></i>
-                                </a>
-                                <a href="https://www.instagram.com/" target="_blank">
-                                    <i class="ri-instagram-fill"></i>
-                                </a>
-                                <a href="https://bd.linkedin.com/" target="_blank">
-                                    <i class="ri-linkedin-fill"></i>
-                                </a>
-                                <a href="https://www.youtube.com/" target="_blank">
-                                    <i class="ri-youtube-line"></i>
-                                </a>
-                                <a href="https://www.pinterest.com/" target="_blank">
-                                    <i class="ri-pinterest-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="agents-card">
-                        <div class="agents-image">
-                            <a href="agent-profile.html">
-                                <img src="assets/images/agents/agents3.jpg" alt="image">
-                            </a>
-                        </div>
-                        <div class="agents-content">
-                            <h3>
-                                <a href="agent-profile.html">Ashley Martin</a>
-                            </h3>
-                            <span>Commercial Consultant</span>
-                            <div class="social-info">
-                                <a href="https://www.facebook.com/" target="_blank">
-                                    <i class="ri-facebook-fill"></i>
-                                </a>
-                                <a href="https://twitter.com/" target="_blank">
-                                    <i class="ri-twitter-x-line"></i>
-                                </a>
-                                <a href="https://www.instagram.com/" target="_blank">
-                                    <i class="ri-instagram-fill"></i>
-                                </a>
-                                <a href="https://bd.linkedin.com/" target="_blank">
-                                    <i class="ri-linkedin-fill"></i>
-                                </a>
-                                <a href="https://www.youtube.com/" target="_blank">
-                                    <i class="ri-youtube-line"></i>
-                                </a>
-                                <a href="https://www.pinterest.com/" target="_blank">
-                                    <i class="ri-pinterest-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="agents-card">
-                        <div class="agents-image">
-                            <a href="agent-profile.html">
-                                <img src="assets/images/agents/agents4.jpg" alt="image">
-                            </a>
-                        </div>
-                        <div class="agents-content">
-                            <h3>
-                                <a href="agent-profile.html">Brandon Mitchell</a>
-                            </h3>
-                            <span>Construction Superintendent</span>
-                            <div class="social-info">
-                                <a href="https://www.facebook.com/" target="_blank">
-                                    <i class="ri-facebook-fill"></i>
-                                </a>
-                                <a href="https://twitter.com/" target="_blank">
-                                    <i class="ri-twitter-x-line"></i>
-                                </a>
-                                <a href="https://www.instagram.com/" target="_blank">
-                                    <i class="ri-instagram-fill"></i>
-                                </a>
-                                <a href="https://bd.linkedin.com/" target="_blank">
-                                    <i class="ri-linkedin-fill"></i>
-                                </a>
-                                <a href="https://www.youtube.com/" target="_blank">
-                                    <i class="ri-youtube-line"></i>
-                                </a>
-                                <a href="https://www.pinterest.com/" target="_blank">
-                                    <i class="ri-pinterest-line"></i>
-                                </a>
-                            </div>
-                        </div>
+                @foreach ($agents as $agent)
+                    <x-agent-listing :agent="$agent" />
+
+
+                @endforeach
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-12">
+                    <div class="more-btn text-center">
+                        <a href="{{ route('user.agents.index') }}" class="default-btn">Xem thêm</a>
                     </div>
                 </div>
             </div>

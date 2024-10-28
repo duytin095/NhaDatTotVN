@@ -50,7 +50,7 @@ class PropertyTableSeeder extends Seeder
                 'property_district' => 'Huyện An Phú',
                 'property_price' => rand(0, 10000000),
 
-                'property_seller_id' => 1,
+                'property_seller_id' => rand(1, 10),
                 'property_label' => rand(0, 4),
                 'slug' => 'property-' . ($i + 1),
 
