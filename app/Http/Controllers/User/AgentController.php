@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Property;
 use App\Models\User;
 use App\Services\UserBreadcrumbService;
 
@@ -22,12 +23,18 @@ class AgentController extends Controller
         $this->breadcrumbService->addCrumb('Trang chủ', '/user/posts');
         $this->breadcrumbService->addCrumb('Nhà môi giới');
 
-        $agents = User::paginate(10);
-        
-        return view('user.agent.index', [
-            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
-            'agents' => $agents,
-        ]);
+        try {
+            $agents = User::paginate(10);
+            return view('user.agent.index', [
+                'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
+                'agents' => $agents,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
+            ]);
+        }
     }
 
     /**
@@ -35,19 +42,20 @@ class AgentController extends Controller
      */
     public function show($slug)
     {
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+
         try {
-            $property = User::where('slug', $slug)->firstOrFail();
+            $agent = User::where('slug', $slug)->firstOrFail();
+            $properties = Property::where('property_seller_id', $agent->user_id);
+            $this->breadcrumbService->addCrumb($agent->user_name);
 
-            $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
-            $this->breadcrumbService->addCrumb($property->property_name);
-
-            return view('user.post-detail', compact('property', 'featuredProperties'),[
+            return view('user.agent.detail', compact('agent', 'properties'), [
                 'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
             ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,
-                'message' => $th->getMessage(),
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
             ]);
         }
     }

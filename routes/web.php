@@ -76,6 +76,7 @@ Route::name('user.')->prefix('user')->group(function () {
     Route::get      ('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 
     Route::get      ('/agents', [AgentController::class, 'index'])->name('agents.index');
+    Route::get      ('/agents/{slug}', [AgentController::class, 'show'])->name('agents.show');
          
 
     
