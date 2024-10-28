@@ -296,24 +296,12 @@ class AuthController extends Controller
     }
 
     public function userProfile(){
-
         $this->breadcrumbService->addCrumb('Trang chủ', '/user/profile');
         $this->breadcrumbService->addCrumb('Hồ sơ');
 
-        $properties = Property::where('property_seller_id', Auth::guard('users')->user()->user_id); 
-        // $paginate = [
-        //             'total' => $properties->total(),
-        //             'per_page' => $properties->perPage(),
-        //             'current_page' => $properties->currentPage(),
-        //             'last_page' => $properties->lastPage(),
-        //             'from' => $properties->firstItem(),
-        //             'to' => $properties->lastItem(),
-        //             'links' => $this->getPaginationLinks($properties)
-        // ];
-        // dd($paginate);
         return view('user.profile', [
-            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
-        ], compact('properties'));
+            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
+        ]);
     }
     
     

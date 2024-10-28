@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             TypeTableSeeder::class,
             StatusTableSeeder::class,
             ConstructionTableSeeder::class,
-            UserTableSeeder::class
+            UserTableSeeder::class,
+            PropertyTableSeeder::class,
             // Other seeder...
         ]);
     }

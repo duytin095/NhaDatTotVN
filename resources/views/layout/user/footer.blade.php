@@ -1,11 +1,12 @@
-<footer class="footer-area bg-with-wrap-color pt-120">
+<!-- Start Footer Area -->
+<footer class="footer-area pt-120">
     <div class="container">
         <div class="row justify-content-center" data-cues="slideInUp">
             <div class="col-xl-3 col-md-12">
                 <div class="single-footer-widget pe-3">
                     <div class="widget-logo">
                         <a href="index.html">
-                            <img src="{{ asset('assets/user/images/logo.png') }}" alt="logo2">
+                            <img src="assets/images/logo2.png" alt="logo2">
                         </a>
                     </div>
                     <p>Lorem ipsum dolor sit amet, elit dollar consectetur adipiscing elit. Diam lectus purus ultricies neque.</p>
@@ -79,7 +80,7 @@
                                 </li>
                                 <li>
                                     <span>Email:</span>
-                                    <a href="/cdn-cgi/l/email-protection#41323431312e33350125242c2e6f222e2c"><span class="__cf_email__" data-cfemail="f784828787988583b793929a98d994989a">[email&#160;protected]</span></a>
+                                    <a href="/cdn-cgi/l/email-protection#16656366667964625672737b793875797b"><span class="__cf_email__" data-cfemail="d0a3a5a0a0bfa2a490b4b5bdbffeb3bfbd">[email&#160;protected]</span></a>
                                 </li>
                                 <li>
                                     <span>Phone:</span>
@@ -102,3 +103,4 @@
         </div>
     </div>
 </footer>
+<!-- End Footer Area -->

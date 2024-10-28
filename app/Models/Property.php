@@ -3,14 +3,27 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
+use App\Models\Video\VideoEmbedStrategyFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Property extends Model
 {
     use HasFactory;
+    use Sluggable;
+
     protected $primaryKey = 'property_id';
     protected $table = 'properties';
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'property_name'
+            ]
+        ];
+    }
     protected $fillable = [
         // THONG TIN CO BAN
         'property_type_id',
@@ -49,6 +62,8 @@ class Property extends Model
 
 
         'property_seller_id',
+        'slug',
+        'property_label',
     ];
 
     public function type()
@@ -60,8 +75,12 @@ class Property extends Model
     {
         return $this->belongsTo(Status::class, 'property_status_id', 'property_status_id');
     }
-    public function seller(){
+    public function seller()
+    {
         return $this->belongsTo(User::class, 'property_seller_id', 'user_id');
+    }
+    public function getLabelAttribute(){
+        return config('constants.property-basic-info.property-labels')[$this->property_label];
     }
     public function getCreatedAtAttribute($value)
     {
@@ -72,8 +91,119 @@ class Property extends Model
     {
         return json_decode($this->property_image, true);
     }
-    public function getPropertyVideosAttribute()
+    public function getEmbeddedHtmlAttribute()
     {
-        return json_decode($this->property_video, true);
+        $url = $this->property_video_link;
+        $platformId = $this->property_video_type;
+
+        $factory = new VideoEmbedStrategyFactory();
+        $strategy = $factory->getStrategy($platformId);
+
+        $embeddedVideo = $strategy->getEmbeddedVideo($url);
+        if($platformId === YOUTUBE){
+            $embeddedVideo = '<iframe width="100%" height="315" src="' . $embeddedVideo . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+        }
+        return $embeddedVideo;
     }
+
+
+    public function getShorterFormattedPriceAttribute(){
+        $unit = [
+            'thousand' => 'N',
+            'million' => 'Tr',
+            'billion' => 'T'
+        ];
+        if ($this->property_price === 0) {
+            return 'Thoản thuận';
+        }
+        if ($this->property_price < 1000) {
+            return $this->property_price . ' ' . $unit["thousand"];
+        }
+        if ($this->property_price < 1000000) {
+            $trieu = floor($this->property_price / 1000);
+            $nghin = $this->property_price % 1000;
+
+            if ($nghin === 0) {
+                return $trieu . ' ' . $unit["million"];
+            }
+
+            return $trieu . ' ' . $unit["million"];
+        }
+        return 0;
+    }
+
+    public function getFormattedPriceAttribute($shortFormat = false)
+    {
+        $unit = [
+            'thousand' => 'Nghìn',
+            'million' => 'Triệu',
+            'billion' => 'Tỷ'
+        ];
+
+        if ($this->property_price === 0) {
+            return 'Thoản thuận';
+        }
+
+        if ($this->property_price < 1000) {
+            return $this->property_price . ' ' . $unit["thousand"];
+        }
+
+        if ($this->property_price < 1000000) {
+            $trieu = floor($this->property_price / 1000);
+            $nghin = $this->property_price % 1000;
+
+            if ($nghin === 0 || $shortFormat) {
+                return $trieu . ' ' . $unit["million"];
+            }
+
+            return $trieu . ' ' . $unit["million"] . ' ' . $nghin . ' ' . $unit["thousand"];
+        }
+
+        $ty = floor($this->property_price / 1000000);
+        $remainingValue = $this->property_price % 1000000;
+
+        if ($remainingValue === 0 || $shortFormat) {
+            return $ty . ' ' . $unit["billion"];
+        }
+
+        $trieu = floor($remainingValue / 1000);
+        $nghin = $remainingValue % 1000;
+
+        // if ($trieu === 0 || $shortFormat) {
+        //     return $ty . ' ' . $unit["billion"] . ' ' . $nghin . ' ' . $unit["thousand"];
+        // }
+
+        // if ($nghin === 0 || $shortFormat) {
+        //     return $ty . ' ' . $unit["billion"] . ' ' . $trieu . ' ' . $unit["million"];
+        // }
+        if ($shortFormat) {
+            return $ty . ' ' . $unit["billion"];
+        } elseif ($trieu === 0) {
+            return $ty . ' ' . $unit["billion"] . ' ' . $nghin . ' ' . $unit["thousand"];
+        } elseif ($nghin === 0) {
+            return $ty . ' ' . $unit["billion"] . ' ' . $trieu . ' ' . $unit["million"];
+        } else {
+            return $ty . ' ' . $unit['billion'] . ' ' . $trieu . ' ' . $unit["million"] . ' ' . $nghin . ' ' . $unit["thousand"];
+        }
+
+        return $ty . ' ' . $unit['billion'] . ' ' . $trieu . ' ' . $unit["million"] . ' ' . $nghin . ' ' . $unit["thousand"];
+    }
+
+    public static function filterOptions()
+    {
+        return [
+            'newest' => 'Mới nhất',
+            'oldest' => 'Cũ nhất',
+        ];
+    }
+    public function scopeNewest($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
+
+    public function scopeOldest($query)
+    {
+        return $query->orderBy('created_at', 'asc');
+    }
+    
 }

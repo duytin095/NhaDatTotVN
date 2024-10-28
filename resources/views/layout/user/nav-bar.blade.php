@@ -22,31 +22,7 @@
                 <li class="nav-item">
                     <a href="{{ route('user.home.index') }}" class="dropdown-toggle nav-link active">
                         Home
-                        <i class="ri-arrow-down-s-line"></i>
                     </a>
-                    {{-- <ul class="dropdown-menu">
-                        <li class="nav-item">
-                            <a href="index.html" class="nav-link active">Main Demo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="index-2.html" class="nav-link">Real Estate Demo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="index-3.html" class="nav-link">
-                                Commercial Real Estate
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="index-4.html" class="nav-link">
-                                Residential Real Estate
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="index-5.html" class="nav-link">
-                                Development Real Estate
-                            </a>
-                        </li>
-                    </ul> --}}
                 </li>
                 <li class="nav-item">
                     <a href="javascript:void(0)" class="dropdown-toggle nav-link">
@@ -189,9 +165,22 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="contact-us.html" class="nav-link">Contact Us</a>
-                </li>
+                @if (auth()->check())
+                    <li class="nav-item">
+                        <a href="{{ route('user.profile') }}" class="nav-link">
+                            {{ auth()->guard('users')->user()->user_name }}
+                            <i class="ri-arrow-down-s-line"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item">
+                                <a href="{{ route('user.profile') }}" class="nav-link active">Hồ sơ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('user.posts.index') }}" class="nav-link">Quản lý tin</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
             </ul>
             <div class="others-option d-flex align-items-center">
                 @guest
@@ -211,14 +200,9 @@
                             <a href="{{ route('user.logout') }}">Đăng xuất</a>
                         </div>
                     </div>
-                    <div class="option-item">
-                        <div class="user-info">
-                            <a href="{{ route('user.profile') }}">{{ auth()->guard('users')->user()->user_name }}</a>
-                        </div>
-                    </div>
                 @endguest
                 <div class="option-item">
-                    <a href="{{ route('user.post.create') }}" class="default-btn">Đăng tin mới</a>
+                    <a href="{{ route('user.posts.create') }}" class="default-btn">Đăng tin mới</a>
                 </div>
             </div>
         </div>

@@ -31,10 +31,10 @@ $(document).ready(function () {
     });
 
     $('#submit-btn').on('click', function () {
-        createProperty();
+        createPost();
     })
 });
-async function createProperty() {
+async function createPost() {
     try {
         let formData = new FormData();
         // Thong tin co ban
@@ -49,6 +49,7 @@ async function createProperty() {
         formData.append('construction', $('[name="construction"]').val());
         formData.append('property_facade', $('[name="facade"]').val());
         formData.append('property_depth', $('[name="depth"]').val());
+        formData.append('property_floor', $('[name="floor"]').val());
         formData.append('property_acreage', $('[name="acreage"]').val());
         formData.append('property_direction', $('[name="direction"]').val());
         formData.append('property_legal', $('[name="legal"]').val());
@@ -80,7 +81,7 @@ async function createProperty() {
             formData.append('image_' + key, value);
         });
 
-        const response = await sendRequest(`${window.location.origin}/user/post/store`, 'POST', formData, true);
+        const response = await sendRequest(`${window.location.origin}/user/posts/store`, 'POST', formData, true);
 
         if (response.status == 200) {
             showMessage(response.message);
@@ -151,7 +152,9 @@ async function getWards(districtId) {
             $('[name="wards"]')
                 .empty()
                 .html(wards.data.map((ward) => `<option value="${ward.id}">${ward.name}</option>`)
-                    .join(''));
+                .join(''));
+                    
+            autoFillAddress();
         } else {
             showMessage(wards.message);
         }
@@ -385,7 +388,7 @@ function autoFillAddress() {
 
     $('[name="address"]').val(
         address_number + ' ' + 
-        street + ', ' + 
+        street + ' ' + 
         ward + ', ' + 
         district + ', ' + 
         province

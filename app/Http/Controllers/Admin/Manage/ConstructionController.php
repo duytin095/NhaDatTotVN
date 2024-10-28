@@ -46,7 +46,7 @@ class ConstructionController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
             ]);
         }
     }

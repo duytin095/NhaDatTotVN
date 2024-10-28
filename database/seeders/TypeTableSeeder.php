@@ -15,13 +15,63 @@ class TypeTableSeeder extends Seeder
     public function run(): void
     {
         $data = [];
-        for ($i = 0; $i < 20; $i++) {
+
+        $sell = [
+            'Bán căn hộ chung cư',
+            'Bán nhà',
+            'Bán nhà biệt thự, liền kề',
+            'Bán nhà mặt phố',
+            'Bán đất nền dự án',
+            'Bán đất',
+            'Bán kho, nhà xưởng',
+            'Bán loại bất động sản khác',
+            'Bán khách sạn',
+        ];
+        $rent = [
+            'Cho thuê căn hộ chung cư',
+            'Cho thuê nhà riêng',
+            'Cho thuê nhà mặt phố',
+            'Cho thuê văn phòng',
+            'Cho thuê phòng trọ, nhà trọ',
+            'Cho thuê cửa hàng, kiot',
+            'Cho thuê kho, nhà xưởng, đất',
+            'Cho thuê loại bất động sản khác',
+        ];
+        $invest = [
+            'Căn hộ chung cư',
+            'Cao ốc văn phòng',
+            'Trung tâm thương mại',
+            'Khu đô thị mới',
+            'Khu phức hợp',
+            'Nhà ở xã hội',
+            'Khu nghỉ dưỡng, sinh thái',
+            'Khu công nghiệp',
+            'Biệt thự liền kê',
+            'Dự án khác',
+        ];
+
+        foreach ($sell as $key => $value) {
             $data[] = [
-                'property_type_name' => 'Danh mục' . ($i + 1),
-                'property_purpose_id' => rand(0, 2),
-                // 'property_type_image' => json_encode('assets/user/images/default-type.jpg'),
+                'property_type_name' => $value,
+                'property_purpose_id' => 0,
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
+                'updated_at' => Carbon::now(),
+            ];
+        }
+        foreach ($rent as $key => $value) {
+            $data[] = [
+                'property_type_name' => $value,
+                'property_purpose_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ];
+        }
+        foreach( $invest as $key => $value) {
+            $data[] = [
+                'property_type_name' => $value,
+                'property_purpose_id' => 2,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ];
         }
         DB::table('property_types')->insert($data);

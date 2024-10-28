@@ -254,7 +254,7 @@ class PropertyController extends Controller
             ]);
             return response()->json([
                 'status' => 200,
-                'message' => 'Property updated successfully',
+                'message' => config('constants.response.messages.updated'),
             ]);
         } catch (\Throwable $th) {
             return response()->json([
@@ -273,7 +273,7 @@ class PropertyController extends Controller
             Property::findOrFail($id)->delete();
             return response()->json([
                 'status' => 200,
-                'message' => 'Property deleted successfully',
+                'message' => config('constants.response.messages.deleted')
             ]);
         } catch (\Throwable $th) {
             return response()->json([

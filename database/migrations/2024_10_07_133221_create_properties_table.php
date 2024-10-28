@@ -30,7 +30,7 @@ return new class extends Migration
             $table->smallInteger('property_direction')->nullable();   // huong nha
             $table->smallInteger('property_legal')->nullable();         // phap ly
             $table->smallInteger('property_status')->nullable();        // tinh trang
-            $table->mediumInteger('property_price')->default(0);        // gia tien - gia tri cua mediumInt https://dev.to/kakisoft/laravel-mysql-columntype-is-set-to-int-11-even-though-the-size-of-int-was-specified-59pj
+            $table->integer('property_price')->default(0);        // gia tien - gia tri cua mediumInt https://dev.to/kakisoft/laravel-mysql-columntype-is-set-to-int-11-even-though-the-size-of-int-was-specified-59pj
 
             // BAN DO
             $table->string('property_latitude')->nullable();
@@ -44,7 +44,7 @@ return new class extends Migration
 
             // THONG TIN THEM
             $table->smallInteger('property_bedroom')->default(0)->nullable();       // phong ngu
-            $table->smallInteger('property_foor')->default(0)->nullable();          // so tang
+            $table->smallInteger('property_floor')->default(0)->nullable();          // so tang
             $table->smallInteger('property_bathroom')->default(0)->nullable();      // phong tam
             $table->mediumInteger('property_entry')->default(0)->nullable();        // duong vao
             $table->text('property_video_link')->nullable(); 
@@ -52,6 +52,8 @@ return new class extends Migration
 
             // AUTO SAVE
             $table->string('property_seller_id');
+            $table->string('slug')->unique();
+            $table->tinyInteger('property_label');
 
             $table->string('active_flg')->default(0);
             $table->string('delete_flg')->default(0);

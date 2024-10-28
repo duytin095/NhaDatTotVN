@@ -23,24 +23,41 @@ class HomeController extends Controller
     {
         $types = Type::withCount('properties')->take(8)->get();
         $statuses = Status::all()->toArray();
+        $purposes = config('constants.property-basic-info.property-purpose');
+        $labels = config('constants.property-basic-info.property-labels');
+
         $latestProperties = Property::latest()
         ->with(['seller', 'status', 'type'])
         ->take(6)->get();
 
         // Change property_purpose_id for what you like to show
-        $propertiesForInvest = Property::join('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
-        ->where('property_types.property_purpose_id', 2)
+        $propertiesForInvest = Property::latest()
         ->with(['seller', 'status', 'type'])
-        ->take(5)->get();
+        ->take(6)->get();
+        // Property::join('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
+        // ->where('property_types.property_purpose_id', 1)
+        // ->with(['seller', 'status', 'type'])
+        // ->take(5)->get();
 
         // Change property_purpose_id for what you like to show
-        $propertiesForSale = Property::join('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
-        ->where('property_types.property_purpose_id', 1)
+        $propertiesForSale = Property::latest()
         ->with(['seller', 'status', 'type'])
-        ->take(5)->get();
+        ->take(6)->get();
+        // Property::join('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
+        // ->where('property_types.property_purpose_id', 1)
+        // ->with(['seller', 'status', 'type'])
+        // ->take(5)->get();
 
         // dd(config('constants.property-basic-info.property-purpose'));
-        return view('user.home', compact('latestProperties', 'propertiesForInvest', 'propertiesForSale', 'types', 'statuses'));
+        return view('user.home', 
+            compact(
+                'latestProperties', 
+                'propertiesForInvest', 
+                'propertiesForSale', 
+                'types', 
+                'statuses', 
+                'purposes')
+            );
     }
 
     /**

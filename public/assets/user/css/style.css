@@ -13820,6 +13820,7 @@ Category Area CSS
 =================================================*/
 .category-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
   background-color: #F8F8F8;
   padding: 20px;
@@ -13835,6 +13836,7 @@ Category Area CSS
   background-color: rgba(255, 255, 255, 0.81);
   text-align: center;
   border-radius: 50px;
+  margin-bottom: 10px;
 }
 .category-card .image img {
   position: absolute;
@@ -13846,6 +13848,7 @@ Category Area CSS
 }
 .category-card .content {
   margin-left: 15px;
+  width: 100%;
 }
 .category-card .content h3, .category-card .content .h3 {
   margin-bottom: 0;
@@ -15136,7 +15139,7 @@ Sell Area CSS
 }
 
 .sell-image {
-  background-image: url(../images/sell/sell.jpg);
+  background-image: url(/assets/user/images/sell/sell.jpg);
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -15249,7 +15252,7 @@ Rent Area CSS
 }
 
 .rent-image {
-  background-image: url(../images/rent/rent.jpg);
+  background-image: url(/assets/user/images/sell/rent.jpg);
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -17030,8 +17033,8 @@ Page Banner Area CSS
 =================================================*/
 .page-banner-area {
   background-color: #E2DAD7;
-  padding-top: 275px;
-  padding-bottom: 145px;
+  padding-top: 75px;
+  padding-bottom: 45px;
 }
 
 .page-banner-content {
