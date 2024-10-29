@@ -14,7 +14,7 @@ class HomeController extends Controller
     {
         $types = Type::withCount('properties')->take(8)->get();
         $statuses = Status::all()->toArray();
-        $purposes = config('constants.property-basic-info.property-purpose');
+        $purposes = config('constants.property-basic-info.property-purposes');
         $labels = config('constants.property-basic-info.property-labels');
         $agents = User::take(4)->get();
 
@@ -31,12 +31,10 @@ class HomeController extends Controller
 
 
         $latestProperties = Property::latest()
-            ->with(['seller', 'status', 'type'])
             ->take(6)->get();
 
         // Change property_purpose_id for what you like to show
         $propertiesForInvest = Property::latest()
-            ->with(['seller', 'status', 'type'])
             ->take(6)->get();
         // Property::join('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
         // ->where('property_types.property_purpose_id', 1)
@@ -45,7 +43,6 @@ class HomeController extends Controller
 
         // Change property_purpose_id for what you like to show
         $propertiesForSale = Property::latest()
-            ->with(['seller', 'status', 'type'])
             ->take(6)->get();
         // Property::join('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
         // ->where('property_types.property_purpose_id', 1)

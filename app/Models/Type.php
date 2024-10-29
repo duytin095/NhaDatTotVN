@@ -18,15 +18,15 @@ class Type extends Model
     ];
     public function properties()
     {
-        return $this->hasMany(Property::class, 'property_type_id', 'property_type_id');
-    }
+        $properties = $this->hasMany(Property::class, 'property_type_id', 'property_type_id');
+        return $properties;    }
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-m-Y');
     }
     public function getPurposeNameAttribute()
     {
-        return config('constants.property-basic-info.property-purpose')[$this->property_purpose_id];
+        return config('constants.property-basic-info.property-purposes')[$this->property_purpose_id];
     }
     public function getTypeImageAttribute()
     {

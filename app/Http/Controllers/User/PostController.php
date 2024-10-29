@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\User;
-
 use App\Models\Type;
 use App\Models\Property;
 use App\Models\Construction;
@@ -9,11 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 use App\Services\UserBreadcrumbService;
 
 class PostController extends Controller
 {
     private $breadcrumbService;
+   
     public function __construct(UserBreadcrumbService $breadcrumbService)
     {
         $this->breadcrumbService = $breadcrumbService;
@@ -30,7 +31,6 @@ class PostController extends Controller
         $properties = Property::where('property_seller_id', Auth::guard('users')->user()->user_id)
 
         ->paginate(12);
-
         return view('user.post', [
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
             'properties' => $properties,
@@ -44,20 +44,26 @@ class PostController extends Controller
      */
     public function create()
     {
-        $types = Type::orderBy('property_purpose_id', 'asc')->get()->groupBy('property_purpose_id');
-        $purposes = config('constants.property-basic-info.property-purpose');
-        $directions = config('constants.property-basic-info.property-direction');
-        $legals = config('constants.property-basic-info.property-legals');
-        $statuses = config('constants.property-basic-info.property-statuses');
-        $videoLinks = config('constants.property-basic-info.video-links');
-        $constructions = Construction::all()->toArray();
-
         $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
-        $this->breadcrumbService->addCrumb('Tạo Tin Đăng', '/user/property-create');
+        $this->breadcrumbService->addCrumb('Tạo Tin Đăng');
 
-        return view('user.post-create', compact('purposes','types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
-            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
-        ]);
+        try{
+            $types = Type::orderBy('property_purpose_id', 'asc')->get()->groupBy('property_purpose_id');
+            $purposes = config('constants.property-basic-info.property-purposes');
+            $directions = config('constants.property-basic-info.property-directions');
+            $legals = config('constants.property-basic-info.property-legals');
+            $statuses = config('constants.property-basic-info.property-statuses');
+            $videoLinks = config('constants.property-basic-info.video-links');
+            $constructions = Construction::all()->toArray();
+            return view('user.post-create', compact('purposes','types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
+                'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
+            ]);
+        }catch(\Throwable $th){
+            return response()->json([
+                'status' => 500,
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
+            ]);
+        } 
     }
 
     /**
@@ -109,17 +115,66 @@ class PostController extends Controller
         $request->validate($validateRules, $validateRulesMessages);
 
         try {
-            $imagePaths = [];
+            $watermarkedImages = [];
+            // for ($i = 0; $i < 10; $i++) {
+            //     if ($request->hasFile('image_' . $i)) {
+            //         $image = $request->file('image_' . $i);
+            //         if ($image->isValid()) {
+            //             $imagePath = $image->getPathName();
+            //             $imageInstance = Image::make($imagePath);
+            //             $watermark = Image::make(public_path('assets/user/images/watermark.png'));
+            //             $imageInstance->insert($watermark, 'center', 10, 10);
+            
+            //             if (!file_exists(public_path('temp'))) {
+            //                 mkdir(public_path('temp'), 0777, true);
+            //             }
+            //             // Store the watermarked image in a temporary location
+            //             $imageName = time() . '_' . basename($image);
+            //             $imageInstance->save(public_path('temp/' . $imageName));
+            //             // Add the watermarked image to the array
+            //             $watermarkedImages[] = 'temp/' . $imageName;
+            //         } else {
+            //             // Handle the case where the image upload fails
+            //             // You can add some error handling code here
+            //         }
+            //     } else {
+            //         break;
+            //     }
+            // }
+            $watermarkedImages = [];
             for ($i = 0; $i < 10; $i++) {
-                if (!empty($request->file('image_' . $i))) {
+                if ($request->hasFile('image_' . $i)) {
                     $image = $request->file('image_' . $i);
-                    $imageName = time() . rand(1, 1000) . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('assets/media/images'), $imageName);
-                    array_push($imagePaths, 'assets/media/images/' . $imageName);
+                    if ($image->isValid()) {
+                        $imagePath = $image->getPathName();
+                        $imageInstance = Image::make($imagePath);
+                        $watermark = Image::make(public_path('assets/user/images/watermark.png'));
+            
+                        // Calculate the scale factor
+                        $scaleFactor = min($imageInstance->width() / $watermark->width(), $imageInstance->height() / $watermark->height()) * 0.2; // adjust the 0.2 value to control the watermark size
+            
+                        // Resize the watermark
+                        $watermark->resize($watermark->width() * $scaleFactor, $watermark->height() * $scaleFactor);
+            
+                        $imageInstance->insert($watermark, 'center', 10, 10);
+            
+                        if (!file_exists(public_path('temp'))) {
+                            mkdir(public_path('temp'), 0777, true);
+                        }
+                        // Store the watermarked image in a temporary location
+                        $imageName = time() . '_' . basename($image);
+                        $imageInstance->save(public_path('temp/' . $imageName));
+                        // Add the watermarked image to the array
+                        $watermarkedImages[] = 'temp/' . $imageName;
+                    } else {
+                        // Handle the case where the image upload fails
+                        // You can add some error handling code here
+                    }
                 } else {
                     break;
                 }
             }
+
 
 
             DB::beginTransaction();
@@ -150,11 +205,11 @@ class PostController extends Controller
                 // THONG TIN MO TA
                 'property_name' => $request->input('property_name'),
                 'property_description' => $request->input('property_description'),
-                'property_image' => json_encode($imagePaths),
+                'property_image' => json_encode($watermarkedImages),
 
                 // THONG TIN THEM
                 'property_bedroom' => $request->input('property_bedroom'),
-                'property_foor' => $request->input('property_foor'),
+                'property_floor' => $request->input('property_floor'),
                 'property_bathroom' => $request->input('property_bathroom'),
                 'property_entry' => $request->input('property_entry'),
                 'property_video_type' => $request->input('property_video_type'),
@@ -162,7 +217,7 @@ class PostController extends Controller
 
                 // AUTO SAVE
                 'property_seller_id' => auth('users')->id(),
-                'property_label' => rand(0, 5),
+                'property_label' => rand(0, 4),
             ]);
             DB::commit();
             return response()->json([
@@ -173,7 +228,7 @@ class PostController extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => 500,
-                'message' => $th->getMessage(),
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
             ]);
         }
     }

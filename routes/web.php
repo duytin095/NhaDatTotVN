@@ -73,13 +73,9 @@ Route::name('user.')->prefix('user')->group(function () {
 
     Route::get      ('/home', [HomeController::class, 'index'])->name('home.index');
 
-    Route::get      ('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
-
     Route::get      ('/agents', [AgentController::class, 'index'])->name('agents.index');
     Route::get      ('/agents/{slug}', [AgentController::class, 'show'])->name('agents.show');
          
-
-    
 
     Route::middleware(['users.auth'])->group(function () {
         Route::get      ('/logout', [AuthController::class, 'onUserLogout'])->name('logout');
@@ -90,6 +86,9 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::get      ('/posts/create', [PostController::class, 'create'])->name('posts.create');
         Route::post     ('/posts/store', [PostController::class, 'store'])->name('posts.store');
     });
+    
+    Route::get      ('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+
 });
 
 Route::redirect('/', '/user/home');

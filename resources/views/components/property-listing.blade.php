@@ -16,7 +16,7 @@
                 @endif
                 <li>
                     <div class="media">
-                        @if ($property['property_video_type'] !== 0)
+                        @if ($property['property_video_link'] !== null)
                             <span>
                                 <i class="ri-vidicon-fill"></i>
                             </span>

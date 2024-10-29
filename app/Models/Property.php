@@ -71,15 +71,12 @@ class Property extends Model
         return $this->belongsTo(Type::class, 'property_type_id', 'property_type_id');
     }
 
-    public function status()
-    {
-        return $this->belongsTo(Status::class, 'property_status_id', 'property_status_id');
-    }
     public function seller()
     {
         return $this->belongsTo(User::class, 'property_seller_id', 'user_id');
     }
-    public function getLabelAttribute(){
+    public function getLabelAttribute()
+    {
         return config('constants.property-basic-info.property-labels')[$this->property_label];
     }
     public function getCreatedAtAttribute($value)
@@ -100,14 +97,15 @@ class Property extends Model
         $strategy = $factory->getStrategy($platformId);
 
         $embeddedVideo = $strategy->getEmbeddedVideo($url);
-        if($platformId === YOUTUBE){
+        if ($platformId === YOUTUBE) {
             $embeddedVideo = '<iframe width="100%" height="315" src="' . $embeddedVideo . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
         }
         return $embeddedVideo;
     }
 
 
-    public function getShorterFormattedPriceAttribute(){
+    public function getShorterFormattedPriceAttribute()
+    {
         $unit = [
             'thousand' => 'N',
             'million' => 'Tr',
@@ -198,5 +196,4 @@ class Property extends Model
     {
         return $query->orderBy('created_at', 'asc');
     }
-    
 }
