@@ -16,7 +16,7 @@
                 @endif
                 <li>
                     <div class="media">
-                        @if ($property['property_video_type'] !== 0)
+                        @if ($property['property_video_link'] !== null)
                             <span>
                                 <i class="ri-vidicon-fill"></i>
                             </span>
@@ -79,12 +79,12 @@
             </div>
             <div class="bottom">
                 <div class="user">
-                    @if ($property['seller']['admin_image'] === null)
+                    @if ($property['seller']['user_avatar'] === null)
                         <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
                     @else
-                        <img src="{{ asset($property['seller']['admin_image']) }}" alt="image">
+                        <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
                     @endif
-                    <a href="agent-profile.html">{{ $property['seller']['user_name'] }}</a>
+                    <a href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
                 </div>
                 <ul class="group-info">
                     <li>

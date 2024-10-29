@@ -16,10 +16,13 @@ return new class extends Migration
             $table->string('user_name')->default('');
             $table->longText('user_avatar')->nullable();
             $table->string('user_phone')->unique()->nullable();
-            $table->string('user_email')->nullable()->unique();
+            $table->string('user_email')->unique();
             $table->string('password');
-            $table->string('owner_referral_code')->unique()->nullable();
+            $table->string('owner_referral_code')->unique();
             $table->string('referral_code')->nullable();
+            
+            $table->string('slug')->unique();
+
             $table->string('active_flg')->default(0);
             $table->string('delete_flg')->default(0);
             $table->rememberToken();

@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'property-purpose' => [
+    'property-purposes' => [
         FOR_SELL => 'Bán',
         FOR_RENT => 'Cho thuê',
         FOR_INVEST => 'Dự án',
     ],
-    'property-direction' => [
+    'property-directions' => [
         EAST => 'Đông',
         WEST => 'Tây',
         SOUTH => 'Nam',

@@ -353,46 +353,37 @@
                 <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="fun-facts-card">
                         <div class="d-flex align-items-center">
-                            <h3 class="counter">12</h3>
-                            <h3 class="text">K</h3>
+                            <h3 class="counter">{{ $userCount }}</h3>
+                            <h3 class="text">+</h3>
                         </div>
-                        <p>Our Happy Customers</p>
+                        <p>Người dùng</p>
                     </div>
                 </div>
                 <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 180ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="fun-facts-card">
                         <div class="d-flex align-items-center">
-                            <h3 class="counter">98</h3>
-                            <h3 class="text">%</h3>
-                        </div>
-                        <p>Clients Satisfaction Rate</p>
-                    </div>
-                </div>
-                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 360ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="fun-facts-card">
-                        <div class="d-flex align-items-center">
-                            <h3 class="counter">6</h3>
+                            <h3 class="counter">{{ $sellCount }}</h3>
                             <h3 class="text">+</h3>
                         </div>
-                        <p>Our Office Locations</p>
+                        <p>Nhà đất bán</p>
                     </div>
                 </div>
-                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 540ms; animation-direction: normal; animation-fill-mode: both;">
+                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 180ms; animation-timing-function: ease; animation-delay: 360ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="fun-facts-card">
                         <div class="d-flex align-items-center">
-                            <h3 class="counter">20</h3>
-                            <h3 class="text">K</h3>
-                        </div>
-                        <p>Total Property Sale</p>
-                    </div>
-                </div>
-                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 720ms; animation-direction: normal; animation-fill-mode: both;">
-                    <div class="fun-facts-card">
-                        <div class="d-flex align-items-center">
-                            <h3 class="counter">85</h3>
+                            <h3 class="counter">{{ $rentCount }}</h3>
                             <h3 class="text">+</h3>
                         </div>
-                        <p>Real Estate Agents</p>
+                        <p>Nhà đất cho thêu</p>
+                    </div>
+                </div>
+                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 180ms; animation-timing-function: ease; animation-delay: 540ms; animation-direction: normal; animation-fill-mode: both;">
+                    <div class="fun-facts-card">
+                        <div class="d-flex align-items-center">
+                            <h3 class="counter">{{ $investCount }}</h3>
+                            <h3 class="text">+</h3>
+                        </div>
+                        <p>Dự án</p>
                     </div>
                 </div>
             </div>
@@ -447,7 +438,7 @@
                                     @else
                                         <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
                                     @endif
-                                    <a href="agent-profile.html">{{ $property['seller']['user_name'] }}</a>
+                                    <a href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
                                 </div>
                             </div>
                         </div>
@@ -515,148 +506,20 @@
     <div class="agents-area pt-120 pb-95">
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
-                <h2>Real Estate Agents</h2>
+                <h2>Danh sách nhà môi giới</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
-                <div class="col-xl-3 col-md-6">
-                    <div class="agents-card">
-                        <div class="agents-image">
-                            <a href="agent-profile.html">
-                                <img src="assets/images/agents/agents1.jpg" alt="image">
-                            </a>
-                        </div>
-                        <div class="agents-content">
-                            <h3>
-                                <a href="agent-profile.html">Christopher Baker</a>
-                            </h3>
-                            <span>Residential Property Manager</span>
-                            <div class="social-info">
-                                <a href="https://www.facebook.com/" target="_blank">
-                                    <i class="ri-facebook-fill"></i>
-                                </a>
-                                <a href="https://twitter.com/" target="_blank">
-                                    <i class="ri-twitter-x-line"></i>
-                                </a>
-                                <a href="https://www.instagram.com/" target="_blank">
-                                    <i class="ri-instagram-fill"></i>
-                                </a>
-                                <a href="https://bd.linkedin.com/" target="_blank">
-                                    <i class="ri-linkedin-fill"></i>
-                                </a>
-                                <a href="https://www.youtube.com/" target="_blank">
-                                    <i class="ri-youtube-line"></i>
-                                </a>
-                                <a href="https://www.pinterest.com/" target="_blank">
-                                    <i class="ri-pinterest-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="agents-card">
-                        <div class="agents-image">
-                            <a href="agent-profile.html">
-                                <img src="assets/images/agents/agents2.jpg" alt="image">
-                            </a>
-                        </div>
-                        <div class="agents-content">
-                            <h3>
-                                <a href="agent-profile.html">Ryan Anderson</a>
-                            </h3>
-                            <span>Residential Appraiser</span>
-                            <div class="social-info">
-                                <a href="https://www.facebook.com/" target="_blank">
-                                    <i class="ri-facebook-fill"></i>
-                                </a>
-                                <a href="https://twitter.com/" target="_blank">
-                                    <i class="ri-twitter-x-line"></i>
-                                </a>
-                                <a href="https://www.instagram.com/" target="_blank">
-                                    <i class="ri-instagram-fill"></i>
-                                </a>
-                                <a href="https://bd.linkedin.com/" target="_blank">
-                                    <i class="ri-linkedin-fill"></i>
-                                </a>
-                                <a href="https://www.youtube.com/" target="_blank">
-                                    <i class="ri-youtube-line"></i>
-                                </a>
-                                <a href="https://www.pinterest.com/" target="_blank">
-                                    <i class="ri-pinterest-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="agents-card">
-                        <div class="agents-image">
-                            <a href="agent-profile.html">
-                                <img src="assets/images/agents/agents3.jpg" alt="image">
-                            </a>
-                        </div>
-                        <div class="agents-content">
-                            <h3>
-                                <a href="agent-profile.html">Ashley Martin</a>
-                            </h3>
-                            <span>Commercial Consultant</span>
-                            <div class="social-info">
-                                <a href="https://www.facebook.com/" target="_blank">
-                                    <i class="ri-facebook-fill"></i>
-                                </a>
-                                <a href="https://twitter.com/" target="_blank">
-                                    <i class="ri-twitter-x-line"></i>
-                                </a>
-                                <a href="https://www.instagram.com/" target="_blank">
-                                    <i class="ri-instagram-fill"></i>
-                                </a>
-                                <a href="https://bd.linkedin.com/" target="_blank">
-                                    <i class="ri-linkedin-fill"></i>
-                                </a>
-                                <a href="https://www.youtube.com/" target="_blank">
-                                    <i class="ri-youtube-line"></i>
-                                </a>
-                                <a href="https://www.pinterest.com/" target="_blank">
-                                    <i class="ri-pinterest-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="agents-card">
-                        <div class="agents-image">
-                            <a href="agent-profile.html">
-                                <img src="assets/images/agents/agents4.jpg" alt="image">
-                            </a>
-                        </div>
-                        <div class="agents-content">
-                            <h3>
-                                <a href="agent-profile.html">Brandon Mitchell</a>
-                            </h3>
-                            <span>Construction Superintendent</span>
-                            <div class="social-info">
-                                <a href="https://www.facebook.com/" target="_blank">
-                                    <i class="ri-facebook-fill"></i>
-                                </a>
-                                <a href="https://twitter.com/" target="_blank">
-                                    <i class="ri-twitter-x-line"></i>
-                                </a>
-                                <a href="https://www.instagram.com/" target="_blank">
-                                    <i class="ri-instagram-fill"></i>
-                                </a>
-                                <a href="https://bd.linkedin.com/" target="_blank">
-                                    <i class="ri-linkedin-fill"></i>
-                                </a>
-                                <a href="https://www.youtube.com/" target="_blank">
-                                    <i class="ri-youtube-line"></i>
-                                </a>
-                                <a href="https://www.pinterest.com/" target="_blank">
-                                    <i class="ri-pinterest-line"></i>
-                                </a>
-                            </div>
-                        </div>
+                @foreach ($agents as $agent)
+                    <x-agent-listing :agent="$agent" />
+
+
+                @endforeach
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-12">
+                    <div class="more-btn text-center">
+                        <a href="{{ route('user.agents.index') }}" class="default-btn">Xem thêm</a>
                     </div>
                 </div>
             </div>
@@ -670,7 +533,7 @@
     <div class="blog-area pb-95">
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
-                <h2>Latest Articles</h2>
+                <h2>Tin đăng mới</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">

@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PropertyTableSeeder extends Seeder
@@ -34,12 +36,54 @@ class PropertyTableSeeder extends Seeder
         for ($i = 0; $i < 8; $i++) {
             $numImages = rand(1, count($images));
             $randomImages = array_slice($images, rand(0, count($images) - $numImages), $numImages);
+
+            // $watermarkedImages = [];
+            // foreach ($randomImages as $image) {
+            //     $imagePath = public_path($image);
+            //     $imageInstance = Image::make($imagePath);
+            //     $watermark = Image::make(public_path('assets/user/images/watermark.png'));
+            //     $imageInstance->insert($watermark, 'center', 10, 10);
+
+
+            //     if (!file_exists(public_path('temp'))) {
+            //         mkdir(public_path('temp'), 0777, true);
+            //     }
+            //     // Store the watermarked image in a temporary location
+            //     $imageInstance->save(public_path('temp/' . time() . '_' . basename($image)));
+            //     // Add the watermarked image to the array
+            //     $watermarkedImages[] = 'temp/' . time() . '_' . basename($image);
+            // }
+            $watermarkedImages = [];
+            foreach ($randomImages as $image) {
+                $imagePath = public_path($image);
+                $imageInstance = Image::make($imagePath);
+                $watermark = Image::make(public_path('assets/user/images/watermark.png'));
+
+                // Calculate the scale factor
+                $scaleFactor = min($imageInstance->width() / $watermark->width(), $imageInstance->height() / $watermark->height()) * 0.2; // adjust the 0.2 value to control the watermark size
+
+                // Resize the watermark
+                $watermark->resize($watermark->width() * $scaleFactor, $watermark->height() * $scaleFactor);
+
+                $imageInstance->insert($watermark, 'center', 10, 10);
+
+                if (!file_exists(public_path('temp'))) {
+                    mkdir(public_path('temp'), 0777, true);
+                }
+                // Store the watermarked image in a temporary location
+                $imageName = time() . '_' . basename($image);
+                $imageInstance->save(public_path('temp/' . $imageName));
+                // Add the watermarked image to the array
+                $watermarkedImages[] = 'temp/' . $imageName;
+            }
+
             $propertyVideoType = rand(0, count($videoLinks) - 1); // Generate a random video type
             $data[] = [
                 'property_type_id' => rand(1, 8),
                 'property_name' => 'Imo, this ' . ($i + 1) . ' was probably Miyeon and Yuqi’s song!! Both of their raps ate and MIYEONS VOCALS!!',
                 'property_description' => $description,
-                'property_image' => json_encode($randomImages),
+                // 'property_image' => json_encode($randomImages),
+                'property_image' => json_encode($watermarkedImages),
                 'property_video_type' => $propertyVideoType,
                 'property_video_link' => $videoLinks[$propertyVideoType],
                 'property_address' => '53 An Hoi, Thị trấn An Phú, Huyện An Phú, An Giang',
@@ -50,7 +94,7 @@ class PropertyTableSeeder extends Seeder
                 'property_district' => 'Huyện An Phú',
                 'property_price' => rand(0, 10000000),
 
-                'property_seller_id' => 1,
+                'property_seller_id' => rand(1, 10),
                 'property_label' => rand(0, 4),
                 'slug' => 'property-' . ($i + 1),
 

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,11 +12,19 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Sluggable;
 
     protected $table = 'users';
     protected $primaryKey = 'user_id';
     protected $guarded = [];
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'user_name'
+            ]
+        ];
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -24,10 +34,21 @@ class User extends Authenticatable
         'user_name',
         'user_email',
         'user_phone',
+        'user_avatar',
         'password',
         'owner_referral_code',
         'referral_code',
     ];
+
+    public function properties()
+    {
+        return $this->hasMany(Property::class, 'property_seller_id', 'user_id');
+    }
+    
+    public function getUserImageAttribute()
+    {
+        return json_decode($this->user_avatar, true);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

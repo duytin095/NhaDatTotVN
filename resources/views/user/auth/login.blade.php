@@ -7,21 +7,21 @@
                 <div class="row justify-content-center">
                     <div class="profile-authentication-box">
                         <div class="content">
-                            <h3>Sign In</h3>
-                            <p>Don't have an account yet? <a href=" {{ route('user.signup.show') }}">Sign up here</a></p>
+                            <h3>Đăng nhập</h3>
+                            <p>Chưa có tài khoản? <a href=" {{ route('user.signup.show') }}">Đăng ký</a></p>
                         </div>
                         <form class="authentication-form" method="POST">
                             <div class="form-group">
-                                <label>Phone Number</label>
+                                <label>Số điện thoại</label>
                                 <input type="number" name="user_phone" class="form-control"
-                                    placeholder="Enter phone number">
+                                    placeholder="Nhập số điện thoại">
                                 <div class="icon">
                                     <i class="ri-phone-line"></i>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Your Password</label>
-                                <input type="password" name="password" class="form-control" placeholder="Your password">
+                                <label>Mật khẩu</label>
+                                <input type="password" name="password" class="form-control" placeholder="">
                                 <div class="icon">
                                     <i class="ri-lock-line"></i>
                                 </div>
