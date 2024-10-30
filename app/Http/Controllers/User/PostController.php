@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\User;
+
 use App\Models\Type;
 use App\Models\Property;
 use App\Models\Construction;
@@ -10,11 +11,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use App\Services\UserBreadcrumbService;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PostController extends Controller
 {
     private $breadcrumbService;
-   
+
     public function __construct(UserBreadcrumbService $breadcrumbService)
     {
         $this->breadcrumbService = $breadcrumbService;
@@ -29,10 +32,10 @@ class PostController extends Controller
 
         $filter = request()->input('filter', 'latest');
         $properties = Property::where('property_seller_id', Auth::guard('users')->user()->user_id)
-        ->when(request()->input('filter'), function ($query, $filter) {
-            return $query->{$filter}();
-        })
-        ->paginate(12);
+            ->when(request()->input('filter'), function ($query, $filter) {
+                return $query->{$filter}();
+            })
+            ->paginate(12);
 
         return view('user.post', [
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
@@ -50,7 +53,7 @@ class PostController extends Controller
         $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
         $this->breadcrumbService->addCrumb('Tạo Tin Đăng');
 
-        try{
+        try {
             $types = Type::orderBy('property_purpose_id', 'asc')->get()->groupBy('property_purpose_id');
             $purposes = config('constants.property-basic-info.property-purposes');
             $directions = config('constants.property-basic-info.property-directions');
@@ -58,15 +61,15 @@ class PostController extends Controller
             $statuses = config('constants.property-basic-info.property-statuses');
             $videoLinks = config('constants.property-basic-info.video-links');
             $constructions = Construction::all()->toArray();
-            return view('user.post-create', compact('purposes','types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
+            return view('user.post-create', compact('purposes', 'types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
                 'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
             ]);
-        }catch(\Throwable $th){
+        } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,
                 'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
             ]);
-        } 
+        }
     }
 
     /**
@@ -88,7 +91,7 @@ class PostController extends Controller
             // image?? at least one
             'image_0' => 'required|mimes:jpeg,png,jpg',
         ];
-        
+
 
         $validateRulesMessages = [
             // Thong tin co ban
@@ -127,7 +130,7 @@ class PostController extends Controller
             //             $imageInstance = Image::make($imagePath);
             //             $watermark = Image::make(public_path('assets/user/images/watermark.png'));
             //             $imageInstance->insert($watermark, 'center', 10, 10);
-            
+
             //             if (!file_exists(public_path('temp'))) {
             //                 mkdir(public_path('temp'), 0777, true);
             //             }
@@ -152,15 +155,15 @@ class PostController extends Controller
                         $imagePath = $image->getPathName();
                         $imageInstance = Image::make($imagePath);
                         $watermark = Image::make(public_path('assets/user/images/watermark.png'));
-            
+
                         // Calculate the scale factor
                         $scaleFactor = min($imageInstance->width() / $watermark->width(), $imageInstance->height() / $watermark->height()) * 0.2; // adjust the 0.2 value to control the watermark size
-            
+
                         // Resize the watermark
                         $watermark->resize($watermark->width() * $scaleFactor, $watermark->height() * $scaleFactor);
-            
+
                         $imageInstance->insert($watermark, 'center', 10, 10);
-            
+
                         if (!file_exists(public_path('temp'))) {
                             mkdir(public_path('temp'), 0777, true);
                         }
@@ -182,7 +185,7 @@ class PostController extends Controller
 
             DB::beginTransaction();
             $property = Property::create([
-                 // THONG TIN CO BAN
+                // THONG TIN CO BAN
                 'property_type_id' => $request->input('property_type_id'),
                 'property_address' => $request->input('property_address'),
                 'property_address_number' => $request->input('property_address_number'),
@@ -248,7 +251,7 @@ class PostController extends Controller
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
             $this->breadcrumbService->addCrumb($property->property_name);
 
-            return view('user.post-detail', compact('property', 'featuredProperties'),[
+            return view('user.post-detail', compact('property', 'featuredProperties'), [
                 'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
             ]);
         } catch (\Throwable $th) {
@@ -259,28 +262,57 @@ class PostController extends Controller
         }
     }
 
-    public function showByType($slug){
+    public function showByType($slug, $query = '')
+    {
         try {
-            $filter = request()->input('filter', 'latest');
+            $searchQuery = request()->input('query');
+            $validatedData = Validator::make(['query' => $searchQuery], ['query' => 'nullable|string|max:255'])->validate();
+            $searchQuery = $validatedData['query'];
+
+            $columnsToSearch = ['property_name', 'property_description'];
+
+            $filter = request()->input('filter', 'newest');
             $type = Type::where('slug', $slug)->firstOrFail();
             $types = Type::where('property_purpose_id', $type->property_purpose_id)->withCount('properties')->get();
             $properties = $type->properties()
                 ->when(request()->input('filter'), function ($query, $filter) {
                     return $query->{$filter}();
-                })->paginate(10);
+                })
+                // make it more dynamic and allow searching in multiple columns, 
+                ->when($searchQuery, function ($q, $searchQuery) use ($columnsToSearch) {
+                    return $q->where(function ($query) use ($searchQuery, $columnsToSearch) {
+                        foreach ($columnsToSearch as $column) {
+                            $query->orWhere($column, 'LIKE', '%' . $searchQuery . '%');
+                        }
+                    });
+                })
+                // ->when($searchQuery, function ($q, $searchQuery) {
+                //     return $q->where('property_name', 'LIKE', '%' . $searchQuery . '%')
+                //     ->orWhere('property_description', 'LIKE', '%' . $searchQuery . '%');
+                // })
+                ->paginate(10);
+                
 
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
             $this->breadcrumbService->addCrumb($type->getPurposeNameAttribute());
             $this->breadcrumbService->addCrumb($type->property_type_name);
-            
-            return view('user.post-by-type', compact('properties'), 
+
+            return view(
+                'user.post-by-type',
+                compact('properties'),
                 [
                     'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
                     'filterOptions' => Property::filterOptions(),
                     'selectedFilter' => $filter,
+                    'type' => $type,
                     'types' => $types
                 ]
             );
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Type not found',
+            ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,

@@ -28,7 +28,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
+                    <div id="property-listing" class="row justify-content-center">
                         @forelse ($properties as $property)
                             <x-property-listing :property="$property" :columnSizes="['xl' => 6, 'md' => 6]" />
                         @empty
@@ -40,9 +40,9 @@
                 <div class="col-xl-4 col-md-12">
                     <div class="properties-widget-area">
                         <div class="widget widget_search">
-                            <form class="search-form">
-                                <input type="text" class="search-field" placeholder="Tìm kiếm">
-                                <button type="submit"><i class="ri-search-line"></i></button>
+                            <form class="search-form" action="{{ route('user.posts.show-by-type', ['slug' => $type['slug']]) }}" method="GET">
+                                <input id="search_input" type="text" class="search-field" name="query" value="{{ request()->input('query') }}" placeholder="Tìm kiếm">
+                                <button id="search_btn" type="submit"><i class="ri-search-line"></i></button>
                             </form>
                         </div>
                         <div class="widget widget_categories">
@@ -83,8 +83,10 @@
                                 <div class="progress"></div>
                             </div>
                             <div class="range-input">
-                                <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
-                                <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+                                <input type="range" class="range-min" min="0" max="10000" value="2500"
+                                    step="100">
+                                <input type="range" class="range-max" min="0" max="10000" value="7500"
+                                    step="100">
                             </div>
                             <div class="price-input">
                                 <div class="field">
@@ -101,8 +103,10 @@
                                 <div class="home-progress"></div>
                             </div>
                             <div class="home-range-input">
-                                <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
-                                <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+                                <input type="range" class="range-min" min="0" max="10000" value="2500"
+                                    step="100">
+                                <input type="range" class="range-max" min="0" max="10000" value="7500"
+                                    step="100">
                             </div>
                             <div class="home-price-input">
                                 <div class="field">
@@ -117,7 +121,7 @@
                             <h3 class="widget-title">Advanced Search</h3>
                             <form class="advanced-search-form">
                                 <div class="form-group">
-                                    <input type="text" class="form-control"  placeholder="Keyword">
+                                    <input type="text" class="form-control" placeholder="Keyword">
                                 </div>
                                 <div class="form-group">
                                     <select class="form-select form-control">
@@ -174,4 +178,6 @@
         </div>
     </div>
 @endsection
-
+@push('scripts')
+    <script src="{{ asset('assets/user/js/manage/post-by-type.js') }}"></script>
+@endpush

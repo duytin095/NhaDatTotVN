@@ -87,10 +87,10 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::post     ('/posts/store', [PostController::class, 'store'])->name('posts.store');
     });
 
-    // !!!! this line should be plade after /posts/create !!!! 
-    Route::get      ('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
-    Route::get      ('/posts-by-type/{slug}', [PostController::class, 'showByType'])->name('posts.show-by-type');
 
+    // !!!! this line should be plade after /posts/create !!!! 
+    Route::get      ('/posts-by-type/{slug}', [PostController::class, 'showByType'])->name('posts.show-by-type');
+    Route::get      ('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 });
 
 Route::redirect('/', '/user/home');
