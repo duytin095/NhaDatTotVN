@@ -29,8 +29,11 @@ class PostController extends Controller
 
         $filter = request()->input('filter', 'latest');
         $properties = Property::where('property_seller_id', Auth::guard('users')->user()->user_id)
-
+        ->when(request()->input('filter'), function ($query, $filter) {
+            return $query->{$filter}();
+        })
         ->paginate(12);
+
         return view('user.post', [
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
             'properties' => $properties,
@@ -246,8 +249,38 @@ class PostController extends Controller
             $this->breadcrumbService->addCrumb($property->property_name);
 
             return view('user.post-detail', compact('property', 'featuredProperties'),[
-                'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
+                'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
             ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
+            ]);
+        }
+    }
+
+    public function showByType($slug){
+        try {
+            $filter = request()->input('filter', 'latest');
+            $type = Type::where('slug', $slug)->firstOrFail();
+            $types = Type::where('property_purpose_id', $type->property_purpose_id)->withCount('properties')->get();
+            $properties = $type->properties()
+                ->when(request()->input('filter'), function ($query, $filter) {
+                    return $query->{$filter}();
+                })->paginate(10);
+
+            $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+            $this->breadcrumbService->addCrumb($type->getPurposeNameAttribute());
+            $this->breadcrumbService->addCrumb($type->property_type_name);
+            
+            return view('user.post-by-type', compact('properties'), 
+                [
+                    'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
+                    'filterOptions' => Property::filterOptions(),
+                    'selectedFilter' => $filter,
+                    'types' => $types
+                ]
+            );
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,

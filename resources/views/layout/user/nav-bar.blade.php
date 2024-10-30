@@ -24,18 +24,29 @@
                         Trang chủ
                     </a>
                 </li>
+
+                @php
+                    $purposes = App\Models\Type::distinct('property_purpose_id')->pluck('property_purpose_id');
+                @endphp
+
+                @foreach($purposes as $purposeId)
                 <li class="nav-item">
                     <a href="javascript:void(0)" class="dropdown-toggle nav-link">
-                        Pages
+                        {{ App\Models\Type::where('property_purpose_id', $purposeId)->first()->getPurposeNameAttribute() }}
                         <i class="ri-arrow-down-s-line"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="nav-item">
-                            <a href="about-us.html" class="nav-link">About Us</a>
-                        </li>
+                        @foreach(App\Models\Type::where('property_purpose_id', $purposeId)->get() as $type)
+                            <li class="nav-item">
+                                {{-- <a href="#" class="nav-link">{{ $type->property_type_name }}</a> --}}
+                                <a href="{{ route('user.posts.show-by-type', $type->slug) }}" class="nav-link">
+                                    {{ $type->property_type_name }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
                 </li>
-                
+                @endforeach
 
                 @if (auth()->check())
                     <li class="nav-item">

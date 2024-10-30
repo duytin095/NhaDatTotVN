@@ -39,9 +39,12 @@ async function createPost() {
         let formData = new FormData();
         // Thong tin co ban
         formData.append('property_type_id', $('#type_list').val());
-        formData.append('property_province', $('[name="provinces"]').val());
-        formData.append('property_district', $('[name="districts"]').val());
-        formData.append('property_ward', $('[name="wards"]').val());
+        // formData.append('property_province', $('[name="provinces"]').val());
+        // formData.append('property_district', $('[name="districts"]').val());
+        // formData.append('property_ward', $('[name="wards"]').val());
+        formData.append('property_province', $('[name="provinces"] option:selected').val());
+        formData.append('property_district', $('[name="districts"] option:selected').val());
+        formData.append('property_ward', $('[name="wards"] option:selected').val());
 
         formData.append('property_street', $('[name="street"]').val());
         formData.append('property_address_number', $('[name="address_number"]').val());

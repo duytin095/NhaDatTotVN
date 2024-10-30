@@ -138,9 +138,9 @@
                                 <div class="video">
                                     <h3>Video</h3>
                                     <div class="inner">
-                                        @if ($property['property_video_link'] === 0 || $property['property_video_link'] === null)
+                                        @if ($property['property_video_type'] === 0 || $property['property_video_link'] === null)
                                             <img style="width: 100%;" src="{{ asset('assets/user/images/property-details/no-video.jpg') }}" alt="image">
-                                        @else
+                                        @elseif($property['property_video_type'] !== 0 && $property['property_video_link'] !== null)
                                             {!! $property['embedded_html'] !!}
                                             {{-- <iframe width=100% height="315" 
                                             src="{{ $property['embedded_html'] }}"

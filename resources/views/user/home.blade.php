@@ -13,7 +13,7 @@
                             <ul class="nav nav-tabs" id="search_tab" role="tablist">
                                 @foreach ($purposes as $key => $purpose)
                                     <li class="nav-item">
-                                        <a class="nav-link {{ $loop->first ? 'active' : '' }}" data-bs-toggle="tab" href="#" role="tab" aria-controls="">{{ $purpose }}</a>
+                                        <a class="nav-link {{ $loop->first ? 'active' : '' }}" data-bs-toggle="tab" href="#" role="tab" aria-controls="">{{ $purpose['name'] }}</a>
                                 @endforeach
                             </ul>
                             <div class="tab-content" id="search_tab_content">
@@ -283,7 +283,7 @@
                     <div class="tab-pane fade show active" id="for-sale" role="tabpanel">
                         <div class="row justify-content-center" data-cues="slideInUp">
                             @forelse ($latestProperties as $property)
-                                <x-property-listing :property="$property" />
+                                <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]" />
                             @empty
                                 <p> Chưa có tin đăng nào</p>
                             @endforelse
@@ -458,7 +458,7 @@
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
                 @forelse ($propertiesForSale as $property)
-                    <x-property-listing :property="$property" />
+                    <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]"/>
                 @empty
                     <p> Chưa có tin đăng nào</p>
                 @endforelse
