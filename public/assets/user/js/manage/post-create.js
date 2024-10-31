@@ -19,14 +19,14 @@ $(document).ready(function () {
         $(this).tooltip('show');
     });
 
-    $('.form-control[name="price"]').on('keypress', function(e){
+    $('.form-control[name="price"]').on('keypress', function (e) {
         return e.metaKey || // cmd/ctrl
-          e.which <= 0 || // arrow keys
-          e.which == 8 || // delete key
-          /[0-9]/.test(String.fromCharCode(e.which)); // numbers
+            e.which <= 0 || // arrow keys
+            e.which == 8 || // delete key
+            /[0-9]/.test(String.fromCharCode(e.which)); // numbers
     });
 
-    $('[name="address_number"], [name="street"], [name="ward"], [name="district"], [name="province"]').on('input', function() {
+    $('[name="address_number"], [name="street"], [name="ward"], [name="district"], [name="province"]').on('input', function () {
         autoFillAddress();
     });
 
@@ -39,9 +39,6 @@ async function createPost() {
         let formData = new FormData();
         // Thong tin co ban
         formData.append('property_type_id', $('#type_list').val());
-        // formData.append('property_province', $('[name="provinces"]').val());
-        // formData.append('property_district', $('[name="districts"]').val());
-        // formData.append('property_ward', $('[name="wards"]').val());
         formData.append('property_province', $('[name="provinces"] option:selected').val());
         formData.append('property_district', $('[name="districts"] option:selected').val());
         formData.append('property_ward', $('[name="wards"] option:selected').val());
@@ -75,10 +72,6 @@ async function createPost() {
         formData.append('property_video_link', $('[name="video_link"]').val());
         formData.append('property_video_type', $('[name="video_type"]').val());
 
-        
-        console.dir(formData);
-
-
         images_data = Object.values(images_data);
         $.each(images_data, function (key, value) {
             formData.append('image_' + key, value);
@@ -87,8 +80,7 @@ async function createPost() {
         const response = await sendRequest(`${window.location.origin}/user/posts/store`, 'POST', formData, true);
 
         if (response.status == 200) {
-            showMessage(response.message);
-            $('#createNewProperty').modal('hide');
+            window.location.href = response.redirect;
         }
     } catch (error) {
         if (error.status == 422) {
@@ -113,11 +105,12 @@ async function getProvinces() {
                     ${provinces.data.slice(1).map((province) => `<option value="${province.id}">${province.name}</option>`)
                         .join('')
                     }`);
-            getDistricts(provinces.data[0].id);
+                    
+            await getDistricts(provinces.data[0].id);
 
             $('[name="provinces"]').on('change', async function () {
                 provinceId = $(this).val();
-                getDistricts(provinceId);
+                await getDistricts(provinceId);
             })
         } else {
             showMessage(provinces.message);
@@ -128,7 +121,8 @@ async function getProvinces() {
 }
 async function getDistricts(provinceId) {
     try {
-        const districts = await sendRequest(`https://open.oapi.vn/location/districts?provinceId=${provinceId}`, 'GET');
+        // const districts = await sendRequest(`https://open.oapi.vn/location/districts?provinceId=${provinceId}`, 'GET');
+        const districts = await sendRequest(`https://open.oapi.vn/location/districts/${provinceId}`, 'GET');
         if (districts.code == "success") {
             $('[name="districts"]')
                 .empty()
@@ -136,6 +130,7 @@ async function getDistricts(provinceId) {
                     `<option value="${districts.data[0].id}" selected>${districts.data[0].name}</option>
                     ${districts.data.slice(1).map((district) => `<option value="${district.id}">${district.name}</option>`)
                         .join('')}`);
+                        
             getWards(districts.data[0].id);
             $('[name="districts"]').on('change', async function () {
                 districtId = $(this).val();
@@ -149,14 +144,15 @@ async function getDistricts(provinceId) {
     }
 }
 async function getWards(districtId) {
-    const wards = await sendRequest(`https://open.oapi.vn/location/wards?districtId=${districtId}`, 'GET');
+    // const wards = await sendRequest(`https://open.oapi.vn/location/wards?districtId=${districtId}`, 'GET');
+    const wards = await sendRequest(`https://open.oapi.vn/location/wards/${districtId}`, 'GET');
     try {
         if (wards.code == "success") {
             $('[name="wards"]')
                 .empty()
                 .html(wards.data.map((ward) => `<option value="${ward.id}">${ward.name}</option>`)
-                .join(''));
-                    
+                    .join(''));
+
             autoFillAddress();
         } else {
             showMessage(wards.message);
@@ -390,10 +386,10 @@ function autoFillAddress() {
     let province = $('[name="provinces"] option:selected').text();
 
     $('[name="address"]').val(
-        address_number + ' ' + 
-        street + ' ' + 
-        ward + ', ' + 
-        district + ', ' + 
+        address_number + ' ' +
+        street + ' ' +
+        ward + ', ' +
+        district + ', ' +
         province
     );
 }

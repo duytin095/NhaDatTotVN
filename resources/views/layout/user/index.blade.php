@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    @livewireStyles
+
 
     <!-- Link of CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/user/css/animate.min.css') }}">
@@ -25,6 +27,7 @@
     <title>Nhà đất tốt VN</title>
 
     <link rel="icon" type="image/png" href="{{ asset('assets/user/images/favicon.png') }}">
+    @livewireStyles
 </head>
 
 <body>
@@ -81,6 +84,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     @stack('scripts')
+    @livewireScripts
 </body>
 
 </html>

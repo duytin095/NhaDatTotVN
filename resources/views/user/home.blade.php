@@ -530,7 +530,7 @@
 
 
     <!-- Start Blog Area -->
-    <div class="blog-area pb-95">
+    {{-- <div class="blog-area pb-95">
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
                 <h2>Tin đăng mới</h2>
@@ -623,7 +623,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- End Blog Area -->
 
 @endsection

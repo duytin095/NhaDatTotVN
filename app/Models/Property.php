@@ -183,8 +183,8 @@ class Property extends Model
     public static function filterOptions()
     {
         return [
-            'oldest' => 'Cũ nhất',
             'newest' => 'Mới nhất',
+            'oldest' => 'Cũ nhất',
         ];
     }
     public function scopeNewest($query)

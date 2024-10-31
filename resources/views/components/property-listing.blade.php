@@ -46,7 +46,7 @@
                 <li>
                     @if (!is_null($property->property_bedroom) && $property->property_bedroom !== 0)
                         <div class="icon">
-                            <img src="{{ asset('assets/user/images/property-details/bed.svg') }}" alt="bed">
+                            <img src="{{ asset('assets/user/images/properties/bed.svg') }}" alt="bed">
                         </div>
                         <span>{{ $property->property_bedroom }} Phòng ngủ</span>
                     @endif
@@ -54,7 +54,7 @@
                 <li>
                     @if (!is_null($property->property_bedroom) && $property->property_bedroom !== 0)
                         <div class="icon">
-                            <img src="{{ asset('assets/user/images/property-details/bathroom.svg') }}" alt="bathroom">
+                            <img src="{{ asset('assets/user/images/properties/bathroom.svg') }}" alt="bathroom">
                         </div>
                         <span>{{ $property->property_bathroom }} Phòng tắm</span>
                     @endif
@@ -62,7 +62,7 @@
                 <li>
                     @if ($property->property_acreage !== null)
                         <div class="icon">
-                            <img src="{{ asset('assets/user/images/property-details/area.svg') }}" alt="area">
+                            <img src="{{ asset('assets/user/images/properties/area.svg') }}" alt="area">
                         </div>
                         <span>{{ $property->property_acreage }} Mét vuông</span>
                     @endif
