@@ -24,12 +24,12 @@ return new class extends Migration
             $table->string('property_address_number')->nullable();      // so nha
             $table->text('property_address')->nullable();               // dia chi chinh xac
             $table->string('construction')->nullable();                 // du an
-            $table->mediumInteger('property_facade')->nullable();       // mat tien
-            $table->mediumInteger('property_depth')->nullable();        // chieu rong/sau
-            $table->mediumInteger('property_acreage')->nullable();      // dien tich
-            $table->smallInteger('property_direction')->nullable();   // huong nha
-            $table->smallInteger('property_legal')->nullable();         // phap ly
-            $table->smallInteger('property_status')->nullable();        // tinh trang
+            $table->mediumInteger('property_facade')->default(0)->nullable();       // mat tien
+            $table->mediumInteger('property_depth')->default(0)->nullable();        // chieu rong/sau
+            $table->mediumInteger('property_acreage')->default(0)->nullable();      // dien tich
+            $table->smallInteger('property_direction')->default(0)->nullable();   // huong nha
+            $table->smallInteger('property_legal')->default(0)->nullable();         // phap ly
+            $table->smallInteger('property_status')->default(0)->nullable();        // tinh trang
             $table->integer('property_price')->default(0);        // gia tien - gia tri cua mediumInt https://dev.to/kakisoft/laravel-mysql-columntype-is-set-to-int-11-even-though-the-size-of-int-was-specified-59pj
 
             // BAN DO

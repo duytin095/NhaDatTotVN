@@ -54,7 +54,7 @@
                                 <select id="purpose-list" name="property_purpose" class="select-single js-states"
                                     title="Select Property Purpose" data-live-search="true">
                                     @foreach ($purposes as $key => $purpose)
-                                        <option value="{{ $key }}" {{ $loop->first ? 'selected' : '' }}>{{ $purpose }}</option>
+                                        <option value="{{ $key }}" {{ $loop->first ? 'selected' : '' }}>{{ $purpose['name'] }}</option>
                                     @endforeach
                                 </select>
                                 <div class="field-placeholder">Purpose Select</div>

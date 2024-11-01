@@ -81,7 +81,7 @@
                             <div class="field-wrapper">
                                 <select class="form-select" id="purpose-list">
                                     @foreach ($purposes as $key => $purpose)
-                                        <option value="{{ $key }}">{{ $purpose }}</option>
+                                        <option value="{{ $key }}">{{ $purpose['name'] }}</option>
                                     @endforeach
                                 </select>
                                 <div class="field-placeholder">Loại bất động sản</div>

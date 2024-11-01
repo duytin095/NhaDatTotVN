@@ -21,7 +21,8 @@
                                         <li>
                                             @if ($property->property_bedroom !== 0)
                                                 <div class="icon">
-                                                    <img src="{{ asset('assets/user/images/property-details/bed.svg') }}" alt="bed">
+                                                    <img src="{{ asset('assets/user/images/property-details/bed.svg') }}"
+                                                        alt="bed">
                                                 </div>
                                                 <span>{{ $property->property_bedroom }} Phòng ngủ</span>
                                             @endif
@@ -29,7 +30,8 @@
                                         <li>
                                             @if ($property->property_bathroom !== 0)
                                                 <div class="icon">
-                                                    <img src="{{ asset('assets/user/images/property-details/bathroom.svg') }}" alt="bathroom">
+                                                    <img src="{{ asset('assets/user/images/property-details/bathroom.svg') }}"
+                                                        alt="bathroom">
                                                 </div>
                                                 <span>{{ $property->property_bathroom }} Phòng tắm</span>
                                             @endif
@@ -37,7 +39,8 @@
                                         <li>
                                             @if ($property->property_acreage !== null)
                                                 <div class="icon">
-                                                    <img src="{{ asset('assets/user/images/property-details/area.svg') }}" alt="area">
+                                                    <img src="{{ asset('assets/user/images/property-details/area.svg') }}"
+                                                        alt="area">
                                                 </div>
                                                 <span>{{ $property->property_acreage }} Mét vuông</span>
                                             @endif
@@ -61,8 +64,7 @@
                                                 class="link-btn">{{ $property['type']['property_type_name'] }}</a>
                                         </li>
                                         <li>
-                                            <a href="#"
-                                                class="link-btn">{{ $property['type']['purpose_name'] }}</a>
+                                            <a href="#" class="link-btn">{{ $property['type']['purpose_name'] }}</a>
                                         </li>
                                     </ul>
                                     <div class="price">{{ $property->formatted_price }} </div>
@@ -107,6 +109,7 @@
                                 </div>
                                 <div class="overview">
                                     <h3>Thông tin tổng quan</h3>
+
                                     <ul class="overview-list">
                                         <li>
                                             <img src="{{ asset('assets/user/images/property-details/bed2.svg') }}"
@@ -135,32 +138,161 @@
                                     </ul>
                                 </div>
 
+
+                                <div class="features">
+                                    <h3>Đặc điểm bất động sản</h3>
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-6 col-md-6">
+                                            <ul class="list">
+                                                <li class="row justify-content-between">
+                                                    <div class="col-6">
+                                                        <i class="ri-check-double-fill d-inline"></i>
+                                                        <span class="d-inline">Diện tích</span>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        @if ($property->property_acreage != 0)
+                                                            {{ $property->property_acreage }}
+                                                        @else
+                                                            --
+                                                        @endif
+                                                    </div>
+                                                </li>
+                                                <li class="row justify-content-between">
+                                                    <div class="col-6">
+                                                        <i class="ri-check-double-fill d-inline"></i>
+                                                        <span class="d-inline">Phòng ngủ</span>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        @if ($property->property_bedroom != 0)
+                                                            {{ $property->property_bedroom }}
+                                                        @else
+                                                            --
+                                                        @endif
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-6">
+                                                        <i class="ri-check-double-fill d-inline"></i>
+                                                        <span class="d-inline">Phòng tắm</span>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        @if ($property->property_bathroom != 0)
+                                                            {{ $property->property_bathroom }}
+                                                        @else
+                                                            --
+                                                        @endif
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-6">
+                                                        <i class="ri-check-double-fill d-inline"></i>
+                                                        <span class="d-inline">Lối vào</span>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        @if ($property->property_entry != 0)
+                                                            {{ $property->property_entry }}
+                                                        @else
+                                                            --
+                                                        @endif
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-6">
+                                                        <i class="ri-check-double-fill d-inline"></i>
+                                                        <span class="d-inline">Số tầng</span>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        @if ($property->property_floor != 0)
+                                                            {{ $property->property_floor }}
+                                                        @else
+                                                            --
+                                                        @endif
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <ul class="list">
+                                                <li class="row justify-content-between">
+                                                    <div class="col-6">
+                                                        <i class="ri-check-double-fill d-inline"></i>
+                                                        <span class="d-inline">Giá</span>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        @if ($property->property_price != 0)
+                                                            {{ $property->property_price }}
+                                                        @else
+                                                            --
+                                                        @endif
+                                                    </div>
+                                                </li>
+                                                <li class="row justify-content-between">
+                                                    <div class="col-6">
+                                                        <i class="ri-check-double-fill d-inline"></i>
+                                                        <span class="d-inline">Mặt tiền</span>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        @if ($property->property_facade != 0)
+                                                            {{ $property->property_facade }}
+                                                        @else
+                                                            --
+                                                        @endif
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-6">
+                                                        <i class="ri-check-double-fill d-inline"></i>
+                                                        <span class="d-inline">Chiều rộng</span>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        @if ($property->property_depth != 0)
+                                                            {{ $property->property_depth }}
+                                                        @else
+                                                            --
+                                                        @endif
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-6">
+                                                        <i class="ri-check-double-fill d-inline"></i>
+                                                        <span class="d-inline">Hướng nhà</span>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        @if ($property->property_direction != 0)
+                                                            {{ $property->property_direction }}
+                                                        @else
+                                                            --
+                                                        @endif
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-6">
+                                                        <i class="ri-check-double-fill d-inline"></i>
+                                                        <span class="d-inline">Pháp lý</span>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        @if ($property->property_legal != 0)
+                                                            {{ $property->property_legal }}
+                                                        @else
+                                                            --
+                                                        @endif
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
                                 <div class="video">
                                     <h3>Video</h3>
                                     <div class="inner">
-                                        @if ($property['property_video_link'] === 0 || $property['property_video_link'] === null)
-                                            <img style="width: 100%;" src="{{ asset('assets/user/images/property-details/no-video.jpg') }}" alt="image">
-                                        @else
+                                        @if ($property['property_video_type'] === 0 || $property['property_video_link'] === null)
+                                            <img style="width: 100%;"
+                                                src="{{ asset('assets/user/images/property-details/no-video.jpg') }}"
+                                                alt="image">
+                                        @elseif($property['property_video_type'] !== 0 && $property['property_video_link'] !== null)
                                             {!! $property['embedded_html'] !!}
-                                            {{-- <iframe width=100% height="315" 
-                                            src="{{ $property['embedded_html'] }}"
-                                            title="YouTube video player" frameborder="0" 
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-                                            </iframe> --}}
-                                            
-                                            {{-- <blockquote class="tiktok-embed" 
-                                            cite="https://www.tiktok.com/@scout2015/video/6718335390845095173" 
-                                            data-video-id="6718335390845095173" style="max-width: 605px;min-width: 325px;" > 
-                                                <section> 
-                                                    <a target="_blank" title="@scout2015" href="https://www.tiktok.com/@scout2015?refer=embed">@scout2015</a> Scramble up ur name &#38; I’ll try to guess it😍❤️ 
-                                                    <a title="foryoupage" target="_blank" href="https://www.tiktok.com/tag/foryoupage?refer=embed">#foryoupage</a> 
-                                                    <a title="petsoftiktok" target="_blank" href="https://www.tiktok.com/tag/petsoftiktok?refer=embed">#petsoftiktok</a> 
-                                                    <a title="aesthetic" target="_blank" href="https://www.tiktok.com/tag/aesthetic?refer=embed">#aesthetic</a> 
-                                                    <a target="_blank" title="♬ original sound - tiff" href="https://www.tiktok.com/music/original-sound-6689804660171082501?refer=embed">♬ original sound - tiff</a> 
-                                                </section> 
-                                            </blockquote> 
-                                            <script async src="https://www.tiktok.com/embed.js"></script> --}}
                                         @endif
                                     </div>
                                 </div>
@@ -172,6 +304,9 @@
                                     <div style="width: 100%; height: 300px" id="map-container"></div>
                                 </div>
                             </div>
+
+
+
                             <div class="col-xl-4 col-md-12">
                                 <div class="property-details-sidebar">
                                     <div class="featured-properties">
@@ -182,8 +317,10 @@
                                                     <div class="swiper-slide">
                                                         <div class="properties-item">
                                                             <div class="properties-image">
-                                                                <a href="{{ route('user.posts.show', ['slug' => $featuredProperty->slug]) }}">
-                                                                    <img src="{{ asset($featuredProperty['property_images'][0]) }}" alt="image">
+                                                                <a
+                                                                    href="{{ route('user.posts.show', ['slug' => $featuredProperty->slug]) }}">
+                                                                    <img src="{{ asset($featuredProperty['property_images'][0]) }}"
+                                                                        alt="image">
                                                                 </a>
                                                                 <ul class="action">
                                                                     <li>
@@ -192,41 +329,49 @@
                                                                     <li>
                                                                         <div class="media">
                                                                             @if ($featuredProperty['property_video_link'] !== 0 || $featuredProperty['property_video_link'] !== null)
-                                                                                <span><i class="ri-vidicon-fill"></i></span>
+                                                                                <span><i
+                                                                                        class="ri-vidicon-fill"></i></span>
                                                                             @endif
-                                                                            <span><i class="ri-image-line"></i>{{ count($featuredProperty['property_images']) }}</span>
+                                                                            <span><i
+                                                                                    class="ri-image-line"></i>{{ count($featuredProperty['property_images']) }}</span>
                                                                         </div>
                                                                     </li>
                                                                 </ul>
                                                                 <ul class="link-list">
                                                                     <li>
-                                                                        <a href="#" class="link-btn">{{ $featuredProperty['type']['property_type_name']}}</a>
+                                                                        <a href="#"
+                                                                            class="link-btn">{{ $featuredProperty['type']['property_type_name'] }}</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#" class="link-btn">{{ $featuredProperty['type']['purpose_name']}}</a>
+                                                                        <a href="#"
+                                                                            class="link-btn">{{ $featuredProperty['type']['purpose_name'] }}</a>
                                                                     </li>
                                                                 </ul>
                                                                 <ul class="info-list">
                                                                     <li>
                                                                         @if ($featuredProperty->property_acreage !== null)
                                                                             <div class="icon">
-                                                                                <img src="{{ asset('assets/user/images/properties/area.svg') }}" alt="area">
+                                                                                <img src="{{ asset('assets/user/images/properties/area.svg') }}"
+                                                                                    alt="area">
                                                                             </div>
-                                                                            <span> {{ $featuredProperty->property_acreage }}</span>
+                                                                            <span>
+                                                                                {{ $featuredProperty->property_acreage }}</span>
                                                                         @endif
                                                                     </li>
                                                                     <li>
-                                                                        @if($featuredProperty->property_bedroom !== 0)
+                                                                        @if ($featuredProperty->property_bedroom !== 0)
                                                                             <div class="icon">
-                                                                                <img src="{{ asset('assets/user/images/properties/bed.svg') }}" alt="bed">
+                                                                                <img src="{{ asset('assets/user/images/properties/bed.svg') }}"
+                                                                                    alt="bed">
                                                                             </div>
                                                                             <span>{{ $featuredProperty->property_bedroom }}</span>
                                                                         @endif
                                                                     </li>
                                                                     <li>
-                                                                        @if($featuredProperty->property_bathroom !== 0)
+                                                                        @if ($featuredProperty->property_bathroom !== 0)
                                                                             <div class="icon">
-                                                                                <img src="{{ asset('assets/user/images/properties/bathroom.svg') }}" alt="bathroom">
+                                                                                <img src="{{ asset('assets/user/images/properties/bathroom.svg') }}"
+                                                                                    alt="bathroom">
                                                                             </div>
                                                                             <span>{{ $featuredProperty->property_bathroom }}</span>
                                                                         @endif
@@ -237,29 +382,38 @@
                                                                 <div class="top">
                                                                     <div class="title">
                                                                         <h3>
-                                                                            <a class="property-title" href="{{ route('user.posts.show', ['slug' => $featuredProperty->slug]) }}">{{ $featuredProperty['property_name']}}</a>
+                                                                            <a class="property-title"
+                                                                                href="{{ route('user.posts.show', ['slug' => $featuredProperty->slug]) }}">{{ $featuredProperty['property_name'] }}</a>
                                                                         </h3>
                                                                         <span>{{ $featuredProperty->property_address }}</span>
                                                                     </div>
-                                                                    <div class="price">{{ $featuredProperty->getFormattedPriceAttribute(true); }}</div>
+                                                                    <div class="price">
+                                                                        {{ $featuredProperty->getFormattedPriceAttribute(true) }}
+                                                                    </div>
                                                                 </div>
                                                                 <div class="bottom">
                                                                     <div class="user">
                                                                         @if ($property['seller']['user_avatar'] === null)
-                                                                            <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="default-image">
+                                                                            <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}"
+                                                                                alt="default-image">
                                                                         @else
-                                                                            <img src="{{ asset($property['seller']['user_avatar']) }}" alt="user_avatar">
-                                                                        @endif                                                                        
-                                                                        <a href="">{{ $featuredProperty['seller']['user_name'] }}</a>
+                                                                            <img src="{{ asset($property['seller']['user_avatar']) }}"
+                                                                                alt="user_avatar">
+                                                                        @endif
+                                                                        <a
+                                                                            href="">{{ $featuredProperty['seller']['user_name'] }}</a>
                                                                     </div>
                                                                     <ul class="group-info">
-                                                                        
+
                                                                         <li>
-                                                                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Add To Favorites">
+                                                                            <button type="button"
+                                                                                data-bs-toggle="tooltip"
+                                                                                data-bs-placement="top"
+                                                                                title="Add To Favorites">
                                                                                 <i class="ri-heart-line"></i>
                                                                             </button>
                                                                         </li>
-                                                                        
+
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -304,30 +458,35 @@
     </div>
 @endsection
 @push('scripts')
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU4Gzc5BpgYWvH7P0hqskwIuRwmr2qX20&libraries=places&loading=async&callback=initMap">
-    </script>
     <script>
         let marker;
+        let defaultLat = 10.848744;
+        let defaultLng = 106.6579991;
         let lat = parseFloat({{ $property->property_latitude }});
         let lng = parseFloat({{ $property->property_longitude }});
+
         // Initialize and add the map
         async function initMap() {
             const map = new google.maps.Map(document.getElementById("map-container"), {
                 zoom: 15,
-                center: {
-                    lat: lat,
-                    lng: lng
-                },
-            });
-            marker = new google.maps.Marker({
-                position: {
+                center: isNaN(lat) || isNaN(lng) ? {
+                    lat: defaultLat,
+                    lng: defaultLng
+                } : {
                     lat,
                     lng
-                },
-                map,
-                title: "address",
+                }
             });
+            if (!isNaN(lat) && !isNaN(lng)) {
+                marker = new google.maps.Marker({
+                    position: {
+                        lat,
+                        lng
+                    },
+                    map,
+                    title: "address",
+                });
+            }
         }
     </script>
 @endpush

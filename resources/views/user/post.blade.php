@@ -12,6 +12,7 @@
                         <form action="" method="get">
                             <div class="d-flex align-items-center justify-content-end">
                                 @csrf
+                                {{-- <select class="form-select" name="filter" onchange="updateUrl(this.value)"> --}}
                                 <select class="form-select" name="filter" onchange="this.form.submit()">
                                     @foreach ($filterOptions as $value => $label)
                                         <option value="{{ $value }}"
@@ -27,7 +28,7 @@
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
                 @forelse ($properties as $property)
-                    <x-property-listing :property="$property" />
+                    <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]"/>
                 @empty
                     <p> Chưa có tin đăng nào</p>
                 @endforelse

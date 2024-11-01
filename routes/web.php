@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\Admin\Manage\ConstructionController;
-use App\Http\Controllers\Admin\Manage\PropertyController;
-use App\Http\Controllers\Admin\Manage\StatusController;
-use App\Http\Controllers\Admin\Manage\TypeController;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\ShowPropertiesByType;
 use App\Http\Controllers\auth\AuthController;
-use App\Http\Controllers\Home\DashboardController;
-use App\Http\Controllers\User\AgentController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\PostController;
+use App\Http\Controllers\User\AgentController;
+use App\Http\Controllers\Home\DashboardController;
+use App\Http\Controllers\Admin\Manage\TypeController;
+use App\Http\Controllers\Admin\Manage\StatusController;
+use App\Http\Controllers\Admin\Manage\PropertyController;
+use App\Http\Controllers\Admin\Manage\ConstructionController;
 
 Route::name('admin.')->prefix('admin')->group(function () {
     Route::controller(AuthController::class)->group(function () {
@@ -86,9 +87,12 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::get      ('/posts/create', [PostController::class, 'create'])->name('posts.create');
         Route::post     ('/posts/store', [PostController::class, 'store'])->name('posts.store');
     });
-    
-    Route::get      ('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 
+
+    // !!!! this line should be plade after /posts/create !!!! 
+    // Route::get('/posts-by-type/{slug}', ShowPropertiesByType::class);
+    Route::get      ('/posts-by-type/{slug}', [PostController::class, 'showByType'])->name('posts.show-by-type');
+    Route::get      ('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 });
 
 Route::redirect('/', '/user/home');

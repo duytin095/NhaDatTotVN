@@ -8,11 +8,11 @@
             <a href="#" class="logo">
                 <img src="{{asset('assets/admin/img/logo.svg')}}" alt="Uni Pro Admin">
             </a>
-            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#tab-home" role="tab" aria-controls="tab-home" aria-selected="true">
+            <a class="nav-link " id="home-tab" data-bs-toggle="tab" href="#tab-home" role="tab" aria-controls="tab-home" aria-selected="true">
                 <i class="icon-home2"></i>
                 <span class="nav-link-text">Dashboards</span>
             </a>
-            <a class="nav-link" id="product-tab" data-bs-toggle="tab" href="#tab-product" role="tab" aria-controls="tab-product" aria-selected="false">
+            <a class="nav-link active" id="product-tab" data-bs-toggle="tab" href="#tab-product" role="tab" aria-controls="tab-product" aria-selected="false">
                 <i class="icon-layers2"></i>
                 <span class="nav-link-text">Product</span>
             </a>
@@ -47,7 +47,7 @@
         <div class="tab-content">
 
             <!-- Chat tab -->
-            <div class="tab-pane fade show active" id="tab-home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade " id="tab-home" role="tabpanel" aria-labelledby="home-tab">
 
                 <!-- Tab content header start -->
                 <div class="tab-pane-header">
@@ -149,7 +149,7 @@
             </div>
 
             <!-- Pages tab -->
-            <div class="tab-pane fade" id="tab-product" role="tabpanel" aria-labelledby="product-tab">
+            <div class="tab-pane fade show active" id="tab-product" role="tabpanel" aria-labelledby="product-tab">
 
                 <!-- Tab content header start -->
                 <div class="tab-pane-header">
@@ -164,9 +164,9 @@
                             {{-- <li>
                                 <a href="products.html">Products Grid</a>
                             </li> --}}
-                            <li>
+                            {{-- <li>
                                 <a href="{{ route('admin.properties.show') }}">Danh sách tin đăng</a>
-                            </li>
+                            </li> --}}
                             <li>
                                 <a href="{{ route('admin.types.show') }}">Danh sách danh mục</a>
                             </li>

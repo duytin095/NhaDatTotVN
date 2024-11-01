@@ -14,20 +14,20 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $purposes = config('constants.property-basic-info.property-purpose');
+        $purposes = config('constants.property-basic-info.property-purposes');
         return view('admin.manage.type.index', compact('purposes'));
     }
 
     public function getTypes(Request $request)
     {
         try {
-            $page = $request->input('page', 1); // pefault to page 1 if not provided
+            $page = $request->input('page', 1); // default to page 1 if not provided
             $types = Type::orderByDesc('created_at')->paginate(3, ['*'], 'page', $page);
 
-            $propertyPurposes = config('constants.property-basic-info.property-purpose');
+            $propertyPurposes = config('constants.property-basic-info.property-purposes');
         
             $types->transform(function ($type) use ($propertyPurposes) {
-                $type->property_purpose_name = $propertyPurposes[$type->property_purpose_id];
+                $type->property_purpose_name = $propertyPurposes[$type->property_purpose_id]['name'];
                 return $type;
             });
 

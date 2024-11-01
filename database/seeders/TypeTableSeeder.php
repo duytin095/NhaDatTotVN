@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -54,6 +55,7 @@ class TypeTableSeeder extends Seeder
             $data[] = [
                 'property_type_name' => $value,
                 'property_purpose_id' => 0,
+                'slug' => Str::slug($value) . '0',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ];
@@ -62,6 +64,7 @@ class TypeTableSeeder extends Seeder
             $data[] = [
                 'property_type_name' => $value,
                 'property_purpose_id' => 1,
+                'slug' => Str::slug($value) . '1',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ];
@@ -70,6 +73,7 @@ class TypeTableSeeder extends Seeder
             $data[] = [
                 'property_type_name' => $value,
                 'property_purpose_id' => 2,
+                'slug' => Str::slug($value). '2',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ];

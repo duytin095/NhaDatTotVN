@@ -33,26 +33,9 @@ class PropertyTableSeeder extends Seeder
         $description = 'Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin quis bibendum auctor, nisilit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu. Gravida nibh vel velit auctor aliquet. Aenean sollicitudin quis bibendum auctor, nisilit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi acnec tellus a odio tincidunt auctor a ornare odio.';
         $data = [];
 
-        for ($i = 0; $i < 8; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $numImages = rand(1, count($images));
             $randomImages = array_slice($images, rand(0, count($images) - $numImages), $numImages);
-
-            // $watermarkedImages = [];
-            // foreach ($randomImages as $image) {
-            //     $imagePath = public_path($image);
-            //     $imageInstance = Image::make($imagePath);
-            //     $watermark = Image::make(public_path('assets/user/images/watermark.png'));
-            //     $imageInstance->insert($watermark, 'center', 10, 10);
-
-
-            //     if (!file_exists(public_path('temp'))) {
-            //         mkdir(public_path('temp'), 0777, true);
-            //     }
-            //     // Store the watermarked image in a temporary location
-            //     $imageInstance->save(public_path('temp/' . time() . '_' . basename($image)));
-            //     // Add the watermarked image to the array
-            //     $watermarkedImages[] = 'temp/' . time() . '_' . basename($image);
-            // }
             $watermarkedImages = [];
             foreach ($randomImages as $image) {
                 $imagePath = public_path($image);
@@ -79,19 +62,20 @@ class PropertyTableSeeder extends Seeder
 
             $propertyVideoType = rand(0, count($videoLinks) - 1); // Generate a random video type
             $data[] = [
-                'property_type_id' => rand(1, 8),
+                'property_type_id' => rand(1, 20),
                 'property_name' => 'Imo, this ' . ($i + 1) . ' was probably Miyeon and Yuqi’s song!! Both of their raps ate and MIYEONS VOCALS!!',
                 'property_description' => $description,
                 // 'property_image' => json_encode($randomImages),
                 'property_image' => json_encode($watermarkedImages),
                 'property_video_type' => $propertyVideoType,
                 'property_video_link' => $videoLinks[$propertyVideoType],
+                // default address
                 'property_address' => '53 An Hoi, Thị trấn An Phú, Huyện An Phú, An Giang',
                 'property_address_number' => '53',
                 'property_street' => 'An Hoi',
-                'property_ward' => 'Thị trấn An Phú',
-                'property_province' => 'An Giang',
-                'property_district' => 'Huyện An Phú',
+                'property_ward' => rand(1,2),
+                'property_province' => rand(1,2),
+                'property_district' => rand(1,2),
                 'property_price' => rand(0, 10000000),
 
                 'property_seller_id' => rand(1, 10),
