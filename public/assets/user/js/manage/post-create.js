@@ -30,8 +30,14 @@ $(document).ready(function () {
         autoFillAddress();
     });
 
+    let submitTimeout = null;
+
     $('#submit-btn').on('click', function () {
-        createPost();
+        // createPost();
+        if (submitTimeout) {
+            clearTimeout(submitTimeout);
+          }
+          submitTimeout = setTimeout(createPost, 500);
     })
 });
 async function createPost() {

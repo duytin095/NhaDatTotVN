@@ -30,13 +30,13 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::post     ('/profile/delete-image/{imagePath}', [AuthController::class, 'deleteImage'])->name('profile.delete-image');
 
         // TIN DANG
-        Route::get      ('/properties', [PropertyController::class, 'index'])->name('properties.show');
-        Route::get      ('/properties/create', [PropertyController::class, 'create'])->name('properties.create');
-        Route::post     ('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
-        Route::get      ('/properties/data', [PropertyController::class, 'getProperties'])->name('properties.get-properties');
-        Route::get      ('/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties.edit');
-        Route::put      ('/properties/update/{id}', [PropertyController::class, 'update'])->name('properties.update');
-        Route::delete   ('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.destroy');
+        // Route::get      ('/properties', [PropertyController::class, 'index'])->name('properties.show');
+        // Route::get      ('/properties/create', [PropertyController::class, 'create'])->name('properties.create');
+        // Route::post     ('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
+        // Route::get      ('/properties/data', [PropertyController::class, 'getProperties'])->name('properties.get-properties');
+        // Route::get      ('/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties.edit');
+        // Route::put      ('/properties/update/{id}', [PropertyController::class, 'update'])->name('properties.update');
+        // Route::delete   ('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.destroy');
 
         // DANH MUC
         Route::get      ('/types', [TypeController::class, 'index'])->name('types.show');
@@ -88,9 +88,9 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::post     ('/posts/store', [PostController::class, 'store'])->name('posts.store');
     });
 
+    Route::get      ('/posts/search', [PostController::class, 'search'])->name('posts.search');
 
     // !!!! this line should be plade after /posts/create !!!! 
-    // Route::get('/posts-by-type/{slug}', ShowPropertiesByType::class);
     Route::get      ('/posts-by-type/{slug}', [PostController::class, 'showByType'])->name('posts.show-by-type');
     Route::get      ('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 });

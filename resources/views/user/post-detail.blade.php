@@ -60,11 +60,11 @@
                                 <div class="right-content">
                                     <ul class="link-list">
                                         <li>
-                                            <a href="#"
+                                            <a href="{{ route('user.posts.show-by-type', $property['type']['slug']) }}"
                                                 class="link-btn">{{ $property['type']['property_type_name'] }}</a>
                                         </li>
                                         <li>
-                                            <a href="#" class="link-btn">{{ $property['type']['purpose_name'] }}</a>
+                                            <a href="{{ route('user.posts.show-by-type', $property['type']['purpose_slug']) }}" class="link-btn">{{ $property['type']['purpose_name'] }}</a>
                                         </li>
                                     </ul>
                                     <div class="price">{{ $property->formatted_price }} </div>
@@ -220,7 +220,7 @@
                                                     </div>
                                                     <div class="col-6 text-end">
                                                         @if ($property->property_price != 0)
-                                                            {{ $property->property_price }}
+                                                            {{ $property->getFormattedPriceAttribute(true) }}
                                                         @else
                                                             --
                                                         @endif

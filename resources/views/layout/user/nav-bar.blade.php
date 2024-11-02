@@ -4,12 +4,12 @@
         <a class="navbar-brand" href="{{ route('user.home.index') }}">
             <img src="{{ asset('assets/user/images/logo.png') }}" alt="logo">
         </a>
-        <form class="search-form">
+        {{-- <form class="search-form">
             <input type="text" class="search-field" placeholder="Tìm kiếm">
             <button type="submit">
                 <i class="ri-search-line"></i>
             </button>
-        </form>
+        </form> --}}
         <button class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas">
             <span class="burger-menu">
                 <span class="top-bar"></span>
@@ -30,16 +30,18 @@
                 @endphp
 
                 @foreach ($purposes as $purposeId)
+                    @php
+                        $purposeSlug = App\Models\Type::where('property_purpose_id', $purposeId)->first()->getPurposeSlugAttribute();
+                    @endphp
                     <li class="nav-item">
-                        <a href="javascript:void(0)" class="dropdown-toggle nav-link">
+                        <a href="{{ route('user.posts.show-by-type', ['slug' => $purposeSlug]) }}" class="dropdown-toggle nav-link">
                             {{ App\Models\Type::where('property_purpose_id', $purposeId)->first()->getPurposeNameAttribute() }}
                             <i class="ri-arrow-down-s-line"></i>
                         </a>
                         <ul class="dropdown-menu">
                             @foreach (App\Models\Type::where('property_purpose_id', $purposeId)->get() as $type)
                                 <li class="nav-item">
-                                    {{-- <a href="#" class="nav-link">{{ $type->property_type_name }}</a> --}}
-                                    <a href="{{ route('user.posts.show-by-type', $type->slug) }}" class="nav-link">
+                                    <a href="{{ route('user.posts.show-by-type', [ 'slug' => $type->slug]) }}" class="nav-link">
                                         {{ $type->property_type_name }}
                                     </a>
                                 </li>
@@ -90,15 +92,4 @@
             </div>
         </div>
     </div>
-
 </nav>
-@push('script')
-    <script>
-        alert('6');
-        $('.dropdown-menu li a').on('click', function() {
-            alert(1);
-            $('.dropdown-toggle.nav-link.active').removeClass('active');
-            $(this).closest('.dropdown-toggle.nav-link').addClass('active');
-        });
-    </script>
-@endpush

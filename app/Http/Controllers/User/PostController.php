@@ -264,73 +264,150 @@ class PostController extends Controller
         }
     }
 
-    // public function showByType($slug, $query = '')
-    // {
-    //     try {
-    //         $searchQuery = request()->input('query');
-    //         $validatedData = Validator::make(['query' => $searchQuery], ['query' => 'nullable|string|max:255'])->validate();
-    //         $searchQuery = $validatedData['query'];
-
-    //         $columnsToSearch = ['property_name', 'property_description'];
-
-    //         $filter = request()->input('filter', 'newest');
-    //         $type = Type::where('slug', $slug)->firstOrFail();
-    //         $types = Type::where('property_purpose_id', $type->property_purpose_id)->withCount('properties')->get();
-    //         $properties = $type->properties()
-    //             ->when(request()->input('filter'), function ($query, $filter) {
-    //                 return $query->{$filter}();
-    //             })
-
-    //             // make it more dynamic and allow searching in multiple columns, 
-    //             ->when($searchQuery, function ($q, $searchQuery) use ($columnsToSearch) {
-    //                 return $q->where(function ($query) use ($searchQuery, $columnsToSearch) {
-    //                     foreach ($columnsToSearch as $column) {
-    //                         $query->orWhere($column, 'LIKE', '%' . $searchQuery . '%');
-    //                     }
-    //                 });
-    //             })
-    //             ->paginate(10);
-
-
-    //         $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
-    //         $this->breadcrumbService->addCrumb($type->getPurposeNameAttribute());
-    //         $this->breadcrumbService->addCrumb($type->property_type_name);
-
-    //         return view(
-    //             'user.post-by-type',
-    //             compact('properties'),
-    //             [
-    //                 'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
-    //                 'filterOptions' => Property::filterOptions(),
-    //                 'selectedFilter' => $filter,
-    //                 'type' => $type,
-    //                 'types' => $types
-    //             ]
-    //         );
-    //     } catch (ModelNotFoundException $e) {
-    //         return response()->json([
-    //             'status' => 404,
-    //             'message' => 'Type not found',
-    //         ]);
-    //     } catch (\Throwable $th) {
-    //         return response()->json([
-    //             'status' => 500,
-    //             'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
-    //         ]);
-    //     }
-    // }
-    public function showByType($slug)
+    public function showByType($slug = '', $query = '')
     {
-        $type = Type::where('slug', $slug)->firstOrFail();
-        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
-        $this->breadcrumbService->addCrumb($type->getPurposeNameAttribute());
-        $this->breadcrumbService->addCrumb($type->property_type_name);
+        try {
+            $types = null;
+            $type = null;
+            $properties = null;
+            $filter = request()->input('filter', 'newest');
+            $columnsToSearch = ['property_name', 'property_description'];
 
-        return view('user.post-by-type', [
-            'slug' => $slug,
-            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
-        ]);
+            $searchQuery = request()->input('query');
+            $validatedData = Validator::make(['query' => $searchQuery], ['query' => 'nullable|string|max:255'])->validate();
+            $searchQuery = $validatedData['query'];
+
+            $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+
+            $purposes = config('constants.property-basic-info.property-purposes');
+            $key = array_search($slug, array_column($purposes, 'slug'));
+
+            if ($key !== false) {
+                $types = Type::where('property_purpose_id', $key)->withCount('properties')->get();
+                $properties = Property::whereHas('type', function ($query) use ($key) {
+                    $query->where('property_purpose_id', $key);
+                })->when($searchQuery, function ($q, $searchQuery) use ($columnsToSearch) { // make it more dynamic and allow searching in multiple columns, 
+                    return $q->where(function ($query) use ($searchQuery, $columnsToSearch) {
+                        foreach ($columnsToSearch as $column) {
+                            $query->orWhere($column, 'LIKE', '%' . $searchQuery . '%');
+                        }
+                    });
+                })
+                ->paginate(10);
+
+                $this->breadcrumbService->addCrumb($purposes[$key]['name']);
+            } else {
+                $type = Type::where('slug', $slug)->first();
+
+                $types = Type::where('property_purpose_id', $type->property_purpose_id)->withCount('properties')->get();
+
+                $properties = $type->properties()
+                    ->when(request()->input('filter'), function ($query, $filter) {
+                        return $query->{$filter}();
+                    })->when($searchQuery, function ($q, $searchQuery) use ($columnsToSearch) { // make it more dynamic and allow searching in multiple columns, 
+                        return $q->where(function ($query) use ($searchQuery, $columnsToSearch) {
+                            foreach ($columnsToSearch as $column) {
+                                $query->orWhere($column, 'LIKE', '%' . $searchQuery . '%');
+                            }
+                        });
+                    })->paginate(10);
+
+                $this->breadcrumbService->addCrumb($type->getPurposeNameAttribute());
+                $this->breadcrumbService->addCrumb($type->property_type_name);
+            }
+
+            return view(
+                'user.post-by-type',
+                compact('properties'),
+                [
+                    'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
+                    'filterOptions' => Property::filterOptions(),
+                    'selectedFilter' => $filter,
+                    'type' => $type,
+                    'types' => $types,
+                    'key' => $key,
+                    'purposes' => $purposes,
+                ]
+            );
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Type not found',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
+            ]);
+        }
     }
+
+    public function search(Request $request)
+    {
+        $purposeId = $request->input('property_purpose_id');
+        $typeId = $request->input('property_type_id');
+
+        // Validate input data
+        $validator = Validator::make($request->all(), [
+            'property_purpose_id' => 'required|integer',
+            'property_type_id' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Retrieve properties based on purpose ID and type ID
+        // $properties = Property::where('property_type_id', $typeId)
+        //     ->whereHas('type', function ($query) use ($purposeId) {
+        //         $query->where('property_purpose_id', $purposeId);
+        //     })
+        //     ->get();
+
+        if ($typeId) {
+            $type = Type::where('property_type_id', $typeId)->first();
+            return $this->showByType($type->slug);
+        } else {
+            $purposeSlug = config('constants.property-basic-info.property-purposes')[$purposeId]['slug'];
+            return $this->showByType($purposeSlug);
+        }
+
+        // Return search results
+        // return view('user.post-by-type', compact('properties'),[
+        //     'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
+        // ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.

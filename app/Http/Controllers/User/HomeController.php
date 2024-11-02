@@ -17,6 +17,8 @@ class HomeController extends Controller
         $purposes = config('constants.property-basic-info.property-purposes');
         $labels = config('constants.property-basic-info.property-labels');
         $agents = User::take(4)->get();
+        $typesByPurpose = Type::with('properties')->get()->groupBy('property_purpose_id');
+
 
         $userCount = User::count();
         $sellCount = Property::leftJoin('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
@@ -56,6 +58,7 @@ class HomeController extends Controller
                 'propertiesForInvest',
                 'propertiesForSale',
                 'types',
+                'typesByPurpose',
                 'statuses',
                 'purposes',
                 'agents',

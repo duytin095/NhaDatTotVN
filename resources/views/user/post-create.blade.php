@@ -12,7 +12,7 @@
                         <div class="form-group">
                             <label>Danh mục</label>
                             <select id="type_list" class="form-select form-control">
-                                <option value="" disabled selected>Chọn loại bất động sản</option>
+                                <option value="" disabled selected>Chọn loại bất động sản <span>(BẮT BUỘC)</span></option>
                                 @foreach ($purposes as $key => $purpose)
                                     <optgroup label="{{ $purpose['name'] }}">
                                         @foreach ($types[$key] as $type)
@@ -202,8 +202,7 @@
                                 <span id="description-count">Còn 2000 ký tự</span>
                             </div>
                             <textarea name="property_description" class="form-control" id="description-input" maxlength="2000"
-                                placeholder="Nhập ít nhất 100 ký tự và nhiều nhất 2000 ký tự">
-                            </textarea>
+                                placeholder="Nhập ít nhất 100 ký tự và nhiều nhất 2000 ký tự" autocomplete="off"></textarea>
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12">

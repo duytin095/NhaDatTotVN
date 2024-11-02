@@ -1,6 +1,5 @@
 @extends('layout.user.index')
 @section('home')
-
     <!-- Start Main Banner Area -->
     <div class="main-banner-area">
         <div class="container-fluid">
@@ -13,196 +12,46 @@
                             <ul class="nav nav-tabs" id="search_tab" role="tablist">
                                 @foreach ($purposes as $key => $purpose)
                                     <li class="nav-item">
-                                        <a class="nav-link {{ $loop->first ? 'active' : '' }}" data-bs-toggle="tab" href="#" role="tab" aria-controls="">{{ $purpose['name'] }}</a>
+                                        <span class="nav-link {{ $loop->first ? 'active' : '' }}" data-bs-toggle="tab"
+                                            href="#{{ $key }}" role="tab"
+                                            aria-controls="{{ $key }}">{{ $purpose['name'] }}</span>
+                                    </li>
                                 @endforeach
                             </ul>
+
                             <div class="tab-content" id="search_tab_content">
-                                <div class="tab-pane fade show active" id="sell" role="tabpanel">
-                                    <form class="search-form">
-                                        <div class="row justify-content-center align-items-end">
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Looking For</label>
-                                                    <select class="form-select form-control">
-                                                        <option selected>Property type</option>
-                                                        <option value="1">Multifamily</option>
-                                                        <option value="2">Detached house</option>
-                                                    </select>
+                                @foreach ($purposes as $key => $purpose)
+                                    <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
+                                        id="{{ $key }}" role="tabpanel">
+                                        <form class="search-form" action="{{ route('user.posts.search') }}" method="GET">
+                                            <div class="row justify-content-center align-items-end">
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Danh mục</label>
+                                                        <select class="form-select form-control"
+                                                            id="type_list_{{ $key }}" name="property_type_id">
+                                                            <option value="0" disabled selected>Chọn danh mục</option>
+                                                            @foreach ($typesByPurpose[$key] as $type)
+                                                                <option value="{{ $type->property_type_id }}">
+                                                                    {{ $type->property_type_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="property_purpose_id" value="{{ $key }}">
+                                                        <button type="submit" class="default-btn">
+                                                            <i class="ri-search-2-line"></i>
+                                                            Tìm kiếm
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Location</label>
-                                                    <select class="form-select form-control">
-                                                        <option selected>All cities</option>
-                                                        <option value="1">Liverpool</option>
-                                                        <option value="2">Bristol</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Your Price</label>
-                                                    <input type="text" class="form-control"  placeholder="Max price">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Min Lot size</label>
-                                                    <input type="text" class="form-control"  placeholder="Property lot size">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Status</label>
-                                                    <select class="form-select form-control">
-                                                        <option selected>Property status</option>
-                                                        <option value="1">Active (55)</option>
-                                                        <option value="2">Open House (65)</option>
-                                                        <option value="3">Hot Offer (45)</option>
-                                                        <option value="4">Sold (78)</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <button type="submit" class="default-btn">
-                                                        <i class="ri-search-2-line"></i>
-                                                        Tìm kiếm
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="tab-pane fade" id="rent" role="tabpanel">
-                                    <form class="search-form">
-                                        <div class="row justify-content-center align-items-end">
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Looking For</label>
-                                                    <select class="form-select form-control">
-                                                        <option selected>Property type</option>
-                                                        <option value="1">Multifamily</option>
-                                                        <option value="2">Detached house</option>
-                                                        <option value="3">Industrial</option>
-                                                        <option value="4">Townhouse</option>
-                                                        <option value="5">Apartment</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Location</label>
-                                                    <select class="form-select form-control">
-                                                        <option selected>All cities</option>
-                                                        <option value="1">Liverpool</option>
-                                                        <option value="2">Bristol</option>
-                                                        <option value="3">Nottingham</option>
-                                                        <option value="4">Leicester</option>
-                                                        <option value="5">Coventry</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Your Price</label>
-                                                    <input type="text" class="form-control"  placeholder="Max price">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Min Lot size</label>
-                                                    <input type="text" class="form-control"  placeholder="Property lot size">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Status</label>
-                                                    <select class="form-select form-control">
-                                                        <option selected>Property status</option>
-                                                        <option value="1">Active (55)</option>
-                                                        <option value="2">Open House (65)</option>
-                                                        <option value="3">Hot Offer (45)</option>
-                                                        <option value="4">Sold (78)</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <button type="submit" class="default-btn">
-                                                        <i class="ri-search-2-line"></i>
-                                                        Search Property
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="tab-pane fade" id="invest" role="tabpanel">
-                                    <form class="search-form">
-                                        <div class="row justify-content-center align-items-end">
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Looking For</label>
-                                                    <select class="form-select form-control">
-                                                        <option selected>Property type</option>
-                                                        <option value="1">Multifamily</option>
-                                                        <option value="2">Detached house</option>
-                                                        <option value="3">Industrial</option>
-                                                        <option value="4">Townhouse</option>
-                                                        <option value="5">Apartment</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Location</label>
-                                                    <select class="form-select form-control">
-                                                        <option selected>All cities</option>
-                                                        <option value="1">Liverpool</option>
-                                                        <option value="2">Bristol</option>
-                                                        <option value="3">Nottingham</option>
-                                                        <option value="4">Leicester</option>
-                                                        <option value="5">Coventry</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Your Price</label>
-                                                    <input type="text" class="form-control"  placeholder="Max price">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Min Lot size</label>
-                                                    <input type="text" class="form-control"  placeholder="Property lot size">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Status</label>
-                                                    <select class="form-select form-control">
-                                                        <option selected>Property status</option>
-                                                        <option value="1">Active (55)</option>
-                                                        <option value="2">Open House (65)</option>
-                                                        <option value="3">Hot Offer (45)</option>
-                                                        <option value="4">Sold (78)</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
-                                                    <button type="submit" class="default-btn">
-                                                        <i class="ri-search-2-line"></i>
-                                                        Search Property
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                                        </form>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -250,7 +99,8 @@
                             </div>
                             <div class="content">
                                 <h3>
-                                    <a href="property-grid.html">{{ $type['property_type_name'] }}</a>
+                                    {{-- <a
+                                        href="{{ route('user.posts.show-by-type', $type['slug']) }}">{{ $type['property_type_name'] }}</a> --}}
                                 </h3>
                                 <span>{{ $type['properties_count'] }} tin đăng</span>
                             </div>
@@ -267,18 +117,26 @@
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
                 <h2>Bất động sản dành cho bạn</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra
+                    iaculis consectetur.</p>
             </div>
             <div class="properties-information-tabs">
-                <ul class="nav nav-tabs" id="properties_tab" role="tablist" data-cue="slideInUp">
-                    <li class="nav-item"><a class="nav-link active" id="for-sale-tab" data-bs-toggle="tab" href="#for-sale" role="tab" aria-controls="for-sale">For Sale</a></li>
-                    <li class="nav-item"><a class="nav-link" id="houses-tab" data-bs-toggle="tab" href="#houses" role="tab" aria-controls="houses">Houses</a></li>
-                    <li class="nav-item"><a class="nav-link" id="villas-tab" data-bs-toggle="tab" href="#villas" role="tab" aria-controls="villas">Villas</a></li>
-                    <li class="nav-item"><a class="nav-link" id="rental-tab" data-bs-toggle="tab" href="#rental" role="tab" aria-controls="rental">Rental</a></li>
-                    <li class="nav-item"><a class="nav-link" id="apartment-tab" data-bs-toggle="tab" href="#apartment" role="tab" aria-controls="apartment">Apartment</a></li>
-                    <li class="nav-item"><a class="nav-link" id="condos-tab" data-bs-toggle="tab" href="#condos" role="tab" aria-controls="condos">Condos</a></li>
-                    <li class="nav-item"><a class="nav-link" id="commercial-tab" data-bs-toggle="tab" href="#commercial" role="tab" aria-controls="commercial">Commercial</a></li>
-                </ul>
+                {{-- <ul class="nav nav-tabs" id="properties_tab" role="tablist" data-cue="slideInUp">
+                    <li class="nav-item"><a class="nav-link active" id="for-sale-tab" data-bs-toggle="tab" href="#for-sale"
+                            role="tab" aria-controls="for-sale">For Sale</a></li>
+                    <li class="nav-item"><a class="nav-link" id="houses-tab" data-bs-toggle="tab" href="#houses"
+                            role="tab" aria-controls="houses">Houses</a></li>
+                    <li class="nav-item"><a class="nav-link" id="villas-tab" data-bs-toggle="tab" href="#villas"
+                            role="tab" aria-controls="villas">Villas</a></li>
+                    <li class="nav-item"><a class="nav-link" id="rental-tab" data-bs-toggle="tab" href="#rental"
+                            role="tab" aria-controls="rental">Rental</a></li>
+                    <li class="nav-item"><a class="nav-link" id="apartment-tab" data-bs-toggle="tab" href="#apartment"
+                            role="tab" aria-controls="apartment">Apartment</a></li>
+                    <li class="nav-item"><a class="nav-link" id="condos-tab" data-bs-toggle="tab" href="#condos"
+                            role="tab" aria-controls="condos">Condos</a></li>
+                    <li class="nav-item"><a class="nav-link" id="commercial-tab" data-bs-toggle="tab"
+                            href="#commercial" role="tab" aria-controls="commercial">Commercial</a></li>
+                </ul> --}}
                 <div class="tab-content" id="properties_tab_content">
                     <div class="tab-pane fade show active" id="for-sale" role="tabpanel">
                         <div class="row justify-content-center" data-cues="slideInUp">
@@ -297,8 +155,8 @@
 
 
 
-   <!-- Start Sell Area -->
-   <div class="sell-area">
+    <!-- Start Sell Area -->
+    <div class="sell-area">
         <div class="container-fluid">
             <div class="row justify-content-center" data-cues="slideInUp">
                 <div class="col-lg-7 col-md-12">
@@ -308,7 +166,9 @@
                     <div class="sell-content">
                         <span class="sub">Unlocking Dreams, Opening Doors</span>
                         <h2>Navigating Your Home Odyssey Your Sanctuary</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur augue venenatis enim adipiscing risus sit scelerisque. Id metus viverra tellus.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in.
+                            Pharetra iaculis consectetur augue venenatis enim adipiscing risus sit scelerisque. Id metus
+                            viverra tellus.</p>
                         <div class="inner">
                             <h3>Sell Your Property</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare.</p>
@@ -326,11 +186,14 @@
     <div class="rent-area">
         <div class="container-fluid">
             <div class="row justify-content-center" data-cues="slideInUp" data-disabled="true">
-                <div class="col-lg-5 col-md-12" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
+                <div class="col-lg-5 col-md-12" data-cue="slideInUp" data-show="true"
+                    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="rent-content">
                         <span class="sub">Beyond Brick and Mortar</span>
                         <h2>Where Vision Meets Realty Crafting Your Perfect Home</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur augue venenatis enim adipiscing risus sit scelerisque. Id metus viverra tellus.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in.
+                            Pharetra iaculis consectetur augue venenatis enim adipiscing risus sit scelerisque. Id metus
+                            viverra tellus.</p>
                         <div class="inner">
                             <h3>Rent A Home</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare.</p>
@@ -340,7 +203,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-7 col-md-12" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 180ms; animation-direction: normal; animation-fill-mode: both;">
+                <div class="col-lg-7 col-md-12" data-cue="slideInUp" data-show="true"
+                    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 180ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="rent-image"></div>
                 </div>
             </div>
@@ -349,8 +213,10 @@
 
     <div class="fun-facts-area pt-120 pb-95">
         <div class="container">
-            <div class="row justify-content-center fun-facts-with-five-columns" data-cues="slideInUp" data-disabled="true">
-                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
+            <div class="row justify-content-center fun-facts-with-five-columns" data-cues="slideInUp"
+                data-disabled="true">
+                <div class="col" data-cue="slideInUp" data-show="true"
+                    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="fun-facts-card">
                         <div class="d-flex align-items-center">
                             <h3 class="counter">{{ $userCount }}</h3>
@@ -359,7 +225,8 @@
                         <p>Người dùng</p>
                     </div>
                 </div>
-                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 180ms; animation-direction: normal; animation-fill-mode: both;">
+                <div class="col" data-cue="slideInUp" data-show="true"
+                    style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 180ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="fun-facts-card">
                         <div class="d-flex align-items-center">
                             <h3 class="counter">{{ $sellCount }}</h3>
@@ -368,7 +235,8 @@
                         <p>Nhà đất bán</p>
                     </div>
                 </div>
-                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 180ms; animation-timing-function: ease; animation-delay: 360ms; animation-direction: normal; animation-fill-mode: both;">
+                <div class="col" data-cue="slideInUp" data-show="true"
+                    style="animation-name: slideInUp; animation-duration: 180ms; animation-timing-function: ease; animation-delay: 360ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="fun-facts-card">
                         <div class="d-flex align-items-center">
                             <h3 class="counter">{{ $rentCount }}</h3>
@@ -377,7 +245,8 @@
                         <p>Nhà đất cho thêu</p>
                     </div>
                 </div>
-                <div class="col" data-cue="slideInUp" data-show="true" style="animation-name: slideInUp; animation-duration: 180ms; animation-timing-function: ease; animation-delay: 540ms; animation-direction: normal; animation-fill-mode: both;">
+                <div class="col" data-cue="slideInUp" data-show="true"
+                    style="animation-name: slideInUp; animation-duration: 180ms; animation-timing-function: ease; animation-delay: 540ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="fun-facts-card">
                         <div class="d-flex align-items-center">
                             <h3 class="counter">{{ $investCount }}</h3>
@@ -390,25 +259,28 @@
         </div>
     </div>
 
-    
+
     <!-- Start Featured Properties Area -->
     <div class="featured-properties-area ptb-120">
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
                 <h2>Dự án nổi bật</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra
+                    iaculis consectetur.</p>
             </div>
         </div>
         <div class="container-fluid">
             <div class="featured-properties-slide" data-cues="slideInUp">
                 @foreach ($propertiesForInvest as $key => $property)
-                    <div class="slide {{ $key === 0 ? 'active' : '' }}" style="background-image: url(' {{ asset($property['property_images'][0]) }}')">
+                    <div class="slide {{ $key === 0 ? 'active' : '' }}"
+                        style="background-image: url(' {{ asset($property['property_images'][0]) }}')">
                         <div class="properties-content">
                             <div class="info">
                                 <x-property-media :property="$property" />
                                 <ul class="group-info">
                                     <li>
-                                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Add To Favorites">
+                                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            title="Add To Favorites">
                                             <i class="ri-heart-line"></i>
                                         </button>
                                     </li>
@@ -416,7 +288,8 @@
                             </div>
                             <div class="content">
                                 <h3>
-                                    <a class="property-title" href="{{ route('user.posts.show', $slug = $property['slug']) }}">{{ $property['property_name'] }}</a>
+                                    <a class="property-title"
+                                        href="{{ route('user.posts.show', $slug = $property['slug']) }}">{{ $property['property_name'] }}</a>
                                 </h3>
                                 <span>{{ $property['property_address'] }}</span>
                             </div>
@@ -424,7 +297,8 @@
                                 <li>
                                     @if ($property['property_acreage'] !== null)
                                         <div class="icon">
-                                            <img src=" {{ asset('assets/user/images/properties/area.svg') }}" alt="area">
+                                            <img src=" {{ asset('assets/user/images/properties/area.svg') }}"
+                                                alt="area">
                                         </div>
                                         <span>{{ $property['property_acreage'] }}</span>
                                     @endif
@@ -438,7 +312,8 @@
                                     @else
                                         <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
                                     @endif
-                                    <a href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
+                                    <a
+                                        href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
                                 </div>
                             </div>
                         </div>
@@ -448,17 +323,18 @@
         </div>
     </div>
     <!-- End Featured Properties Area -->
-    
+
     <!-- Start Properties Area -->
     <div class="properties-area pt-120 pb-95">
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
                 <h2>Dự án cho thuê</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra
+                    iaculis consectetur.</p>
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
                 @forelse ($propertiesForSale as $property)
-                    <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]"/>
+                    <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]" />
                 @empty
                     <p> Chưa có tin đăng nào</p>
                 @endforelse
@@ -492,7 +368,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="property-grid.html" class="default-btn">Tìm bất động sản cao cấp</a>
+                                <a href="#" class="default-btn">Tìm bất động sản cao cấp</a>
                             </li>
                         </ul>
                     </div>
@@ -507,13 +383,12 @@
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
                 <h2>Danh sách nhà môi giới</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra
+                    iaculis consectetur.</p>
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
                 @foreach ($agents as $agent)
                     <x-agent-listing :agent="$agent" />
-
-
                 @endforeach
             </div>
             <div class="row justify-content-center">
@@ -625,5 +500,4 @@
         </div>
     </div> --}}
     <!-- End Blog Area -->
-
 @endsection
