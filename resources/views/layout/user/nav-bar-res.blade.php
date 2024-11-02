@@ -11,21 +11,9 @@
       <div class="offcanvas-body">
           <div class="accordion" id="navbarAccordion">
               <div class="accordion-item">
-                  <button class="accordion-button collapsed active" type="button" data-bs-toggle="collapse"
-                      data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                  <a class="accordion-button active" href="{{ route('user.home.index') }}">
                       Trang chủ
-                  </button>
-                  <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#navbarAccordion">
-                      <div class="accordion-body">
-                          <div class="accordion" id="navbarAccordion">
-                              <div class="accordion-item">
-                                  <a class="accordion-link active" href="{{ route('user.home.index') }}">
-                                      Trang chủ
-                                  </a>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+                  </a>
               </div>
 
               @php
@@ -45,17 +33,17 @@
                           <div class="accordion-body">
                               @foreach (App\Models\Type::where('property_purpose_id', $purposeId)->get() as $type)
                                   <div class="accordion-item">
-                                      {{-- <a href="{{ route('user.posts.show-by-type', $type->slug) }}"
+                                      <a href="{{ route('user.posts.show-by-type', $type->slug) }}"
                                           class="accordion-link">
                                           {{ $type->property_type_name }}
-                                      </a> --}}
+                                      </a>
                                   </div>
                               @endforeach
                           </div>
                       </div>
                   </div>
               @endforeach
-              
+
               @if (auth()->check())
                   <div class="accordion-item">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
