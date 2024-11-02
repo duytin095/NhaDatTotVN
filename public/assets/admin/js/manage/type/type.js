@@ -113,7 +113,7 @@ function displayTypes(data, paginate) {
     $('#type-table tbody').empty();
     $.each(data, function (key, value) {
         let thumbnail;        
-        if (value.property_type_image === "null") {
+        if (value.property_type_image === null) {
             thumbnail = 'assets/user/images/default-type.jpg'; // or any other default value
         } else {
             thumbnail = JSON.parse(value.property_type_image);

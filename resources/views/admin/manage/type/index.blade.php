@@ -15,9 +15,9 @@
                 <div class="table-responsive">
                     <div id="copy-print-csv_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 
-                        <div id="copy-print-csv_filter" class="dataTables_filter"><label>Tìm kiếm:<input type="search"
+                        {{-- <div id="copy-print-csv_filter" class="dataTables_filter"><label>Tìm kiếm:<input type="search"
                                     class="form-control form-control-sm selectpicker" placeholder=""
-                                    aria-controls="copy-print-csv"></label></div>
+                                    aria-controls="copy-print-csv"></label></div> --}}
                         <table id="type-table" class="table v-middle dataTable no-footer" role="grid"
                             aria-describedby="copy-print-csv_info">
                             <thead>

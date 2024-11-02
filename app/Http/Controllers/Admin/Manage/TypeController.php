@@ -22,7 +22,7 @@ class TypeController extends Controller
     {
         try {
             $page = $request->input('page', 1); // default to page 1 if not provided
-            $types = Type::orderByDesc('created_at')->paginate(3, ['*'], 'page', $page);
+            $types = Type::orderByDesc('created_at')->paginate(10, ['*'], 'page', $page);
 
             $propertyPurposes = config('constants.property-basic-info.property-purposes');
         

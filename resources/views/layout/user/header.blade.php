@@ -29,7 +29,11 @@
                     <li>
                         <div class="mail-info">
                             <i class="ri-mail-line"></i>
-                            <a href="/cdn-cgi/l/email-protection#2b585e5b5b44595f6b4f4e464405484446"><span class="__cf_email__" data-cfemail="cfbcbabfbfa0bdbb8fabaaa2a0e1aca0a2">[email&#160;protected]</span></a>
+                            <a>
+                                <span>
+                                    nhadattotvn@gmail.com
+                                </span>
+                            </a>
                         </div>
                     </li>
                 </ul>
@@ -37,7 +41,7 @@
             <div class="col-lg-5 col-md-5 text-end">
                 <div class="top-header-call-info">
                     <i class="ri-phone-line"></i>
-                    <a href="tel:00201068710594">+(002) 0106-8710-594</a>
+                    <a href="tel:0123456789">0123456789</a>
                 </div>
             </div>
         </div>
