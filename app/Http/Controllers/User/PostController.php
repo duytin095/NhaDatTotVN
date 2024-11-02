@@ -264,7 +264,7 @@ class PostController extends Controller
         }
     }
 
-    public function showByType($slug = '', $query = '')
+    public function showByType($slug = '', $query = '', $maxPrice = null, $minPrice = null)
     {
         try {
             $types = null;
@@ -292,8 +292,13 @@ class PostController extends Controller
                             $query->orWhere($column, 'LIKE', '%' . $searchQuery . '%');
                         }
                     });
+                })->when($minPrice, function ($q, $minPrice) {
+                    return $q->where('property_price', '>=', $minPrice);
                 })
-                ->paginate(10);
+                ->when($maxPrice, function ($q, $maxPrice) {
+                    return $q->where('property_price', '<=', $maxPrice);
+                })
+                    ->paginate(10);
 
                 $this->breadcrumbService->addCrumb($purposes[$key]['name']);
             } else {
@@ -310,7 +315,13 @@ class PostController extends Controller
                                 $query->orWhere($column, 'LIKE', '%' . $searchQuery . '%');
                             }
                         });
-                    })->paginate(10);
+                    })->when($minPrice, function ($q, $minPrice) {
+                        return $q->where('property_price', '>=', $minPrice);
+                    })
+                    ->when($maxPrice, function ($q, $maxPrice) {
+                        return $q->where('property_price', '<=', $maxPrice);
+                    })
+                    ->paginate(10);
 
                 $this->breadcrumbService->addCrumb($type->getPurposeNameAttribute());
                 $this->breadcrumbService->addCrumb($type->property_type_name);
@@ -346,38 +357,29 @@ class PostController extends Controller
     {
         $purposeId = $request->input('property_purpose_id');
         $typeId = $request->input('property_type_id');
+        $minPrice = $request->input('property_min_price');
+        $maxPrice = $request->input('property_max_price');
 
         // Validate input data
         $validator = Validator::make($request->all(), [
             'property_purpose_id' => 'required|integer',
-            'property_type_id' => 'required|integer',
+            'property_type_id' => 'nullable|integer',
+            'property_min_price' => 'nullable|numeric',
+            'property_max_price' => 'nullable|numeric',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Retrieve properties based on purpose ID and type ID
-        // $properties = Property::where('property_type_id', $typeId)
-        //     ->whereHas('type', function ($query) use ($purposeId) {
-        //         $query->where('property_purpose_id', $purposeId);
-        //     })
-        //     ->get();
-
         if ($typeId) {
             $type = Type::where('property_type_id', $typeId)->first();
-            return $this->showByType($type->slug);
+            return $this->showByType($type->slug, $minPrice, $maxPrice);
         } else {
             $purposeSlug = config('constants.property-basic-info.property-purposes')[$purposeId]['slug'];
-            return $this->showByType($purposeSlug);
+            return $this->showByType($purposeSlug, $minPrice, $maxPrice);
         }
-
-        // Return search results
-        // return view('user.post-by-type', compact('properties'),[
-        //     'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
-        // ]);
     }
-
 
 
 

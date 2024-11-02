@@ -41,7 +41,28 @@
 
                                                 <div class="col-lg-4 col-md-6">
                                                     <div class="form-group">
-                                                        <input type="hidden" name="property_purpose_id" value="{{ $key }}">
+                                                        <label>Giá tối thiểu</label>
+                                                        <input name="property_min_price" type="number" class="form-control"
+                                                            min="0" step="1000" data-bs-toggle="tooltip"
+                                                            data-bs-placement="bottom" data-bs-title="Nhập giá"
+                                                            placeholder="Giá tối thiểu">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Giá tối đa</label>
+                                                        <input name="property_max_price" type="number" min="0"
+                                                            step="1000" class="form-control" data-bs-toggle="tooltip"
+                                                            data-bs-placement="bottom" data-bs-title="Nhập giá"
+                                                            placeholder="Giá tối đa">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="property_purpose_id"
+                                                            value="{{ $key }}">
                                                         <button type="submit" class="default-btn">
                                                             <i class="ri-search-2-line"></i>
                                                             Tìm kiếm
@@ -99,8 +120,8 @@
                             </div>
                             <div class="content">
                                 <h3>
-                                    {{-- <a
-                                        href="{{ route('user.posts.show-by-type', $type['slug']) }}">{{ $type['property_type_name'] }}</a> --}}
+                                    <a
+                                        href="{{ route('user.posts.show-by-type', $type['slug']) }}">{{ $type['property_type_name'] }}</a>
                                 </h3>
                                 <span>{{ $type['properties_count'] }} tin đăng</span>
                             </div>
@@ -501,3 +522,70 @@
     </div> --}}
     <!-- End Blog Area -->
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('[name="property_max_price"], [name="property_min_price"]').on('input', function() {
+                var price = parseFloat($(this).val());
+                console.log($(this).val());
+
+                $(this).attr('data-bs-title', convertCurrency(price));
+                $(this).tooltip('dispose').tooltip({
+                    title: convertCurrency(price)
+                });
+                $(this).tooltip('show');
+            });
+            $('[name="property_max_price"], [name="property_min_price"]').on('keypress', function(e) {
+                return e.metaKey || // cmd/ctrl
+                    e.which <= 0 || // arrow keys
+                    e.which == 8 || // delete key
+                    /[0-9]/.test(String.fromCharCode(e.which)); // numbers
+            });
+        });
+
+        function convertCurrency(value) {
+            if (value === 0) {
+                return "Thoản thuận";
+            }
+
+            if (isNaN(value)) {
+                return "Không để trống giá";
+            }
+            if (value < 1000) {
+                return `${value} nghìn`;
+            }
+
+            if (value < 1000000) {
+                const trieu = Math.floor(value / 1000);
+                const nghin = value % 1000;
+
+                if (nghin === 0) {
+                    return `${trieu} triệu`;
+                }
+
+                return `${trieu} triệu ${nghin} nghìn`;
+            }
+
+            const ty = Math.floor(value / 1000000);
+            const remainingValue = value % 1000000;
+
+            if (remainingValue === 0) {
+                return `${ty} tỷ`;
+            }
+
+            const trieu = Math.floor(remainingValue / 1000);
+            const nghin = remainingValue % 1000;
+
+            if (trieu === 0) {
+                return `${ty} tỷ ${nghin} nghìn`;
+            }
+
+            if (nghin === 0) {
+                return `${ty} tỷ ${trieu} triệu`;
+            }
+
+            return `${ty} tỷ ${trieu} triệu ${nghin} nghìn`;
+        }
+    </script>
+@endpush
