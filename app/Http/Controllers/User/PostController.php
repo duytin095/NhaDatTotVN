@@ -242,20 +242,24 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Chi tiet tin dang
      */
     public function show($slug)
     {
         try {
             $property = Property::where('slug', $slug)->firstOrFail();
+            $property->incrementViews();
             $featuredProperties = Property::take(5)->get();
 
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
-            $this->breadcrumbService->addCrumb($property->property_name);
+            $this->breadcrumbService->addCrumb($property['type']->getPurposeNameAttribute(), '/user/posts-by-type/' . $property['type']->getPurposeSlugAttribute());
+            $this->breadcrumbService->addCrumb($property['type']->property_type_name, '/user/posts-by-type/' . $property['type']->slug);
 
-            return view('user.post-detail', compact('property', 'featuredProperties'), [
-                'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
-            ]);
+            return view('user.post-detail')
+                ->with('property', $property)
+                ->with('featuredProperties', $featuredProperties)
+                ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
+
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,
@@ -264,7 +268,7 @@ class PostController extends Controller
         }
     }
 
-    public function showByType($slug = '', $maxPrice = null, $minPrice = null, $minAcreage = null, $maxAcreage = null, $query = '',)
+    public function showByType($slug = '', $maxPrice = null, $minPrice = null, $minAcreage = null, $maxAcreage = null, $direction = null, $query = '')
     {
         try {
             $types = null;
@@ -272,6 +276,7 @@ class PostController extends Controller
             $properties = null;
             $filter = request()->input('filter', 'newest');
             $columnsToSearch = ['property_name', 'property_description'];
+            $directions = config('constants.property-basic-info.property-directions');
 
             $searchQuery = request()->input('query');
             $validatedData = Validator::make(['query' => $searchQuery], ['query' => 'nullable|string|max:255'])->validate();
@@ -301,13 +306,14 @@ class PostController extends Controller
                     return $q->where('property_acreage', '>=', $minAcreage);
                 })->when($maxAcreage, function ($q, $maxAcreage) {
                     return $q->where('property_acreage', '<=', $maxAcreage);
+                })->when($direction, function ($q, $direction) {
+                    return $q->where('property_direction', $direction);
                 })
-                ->paginate(10);
+                    ->paginate(10);
 
-                $this->breadcrumbService->addCrumb($purposes[$key]['name']);
+                $this->breadcrumbService->addCrumb($purposes[$key]['name'], $purposes[$key]['slug']);
             } else {
                 $type = Type::where('slug', $slug)->first();
-
                 $types = Type::where('property_purpose_id', $type->property_purpose_id)->withCount('properties')->get();
 
                 $properties = $type->properties()
@@ -327,11 +333,13 @@ class PostController extends Controller
                         return $q->where('property_acreage', '>=', $minAcreage);
                     })->when($maxAcreage, function ($q, $maxAcreage) {
                         return $q->where('property_acreage', '<=', $maxAcreage);
+                    })->when($direction, function ($q, $direction) {
+                        return $q->where('property_direction', $direction);
                     })
                     ->paginate(10);
 
-                $this->breadcrumbService->addCrumb($type->getPurposeNameAttribute());
-                $this->breadcrumbService->addCrumb($type->property_type_name);
+                $this->breadcrumbService->addCrumb($type->getPurposeNameAttribute(), $type->getPurposeSlugAttribute());
+                $this->breadcrumbService->addCrumb($type->property_type_name, $type->slug);
             }
 
             return view(
@@ -339,12 +347,14 @@ class PostController extends Controller
                 compact('properties'),
                 [
                     'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
+                    'searchQuery' => $searchQuery,
                     'filterOptions' => Property::filterOptions(),
                     'selectedFilter' => $filter,
                     'type' => $type,
                     'types' => $types,
                     'key' => $key,
                     'purposes' => $purposes,
+                    'directions' => $directions,
                 ]
             );
         } catch (ModelNotFoundException $e) {

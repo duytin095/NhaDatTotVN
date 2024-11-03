@@ -31,6 +31,10 @@
                                 {{ count($property['property_images']) }}
                             </span>
                         @endif
+                        <span>
+                            <i class="ri-eye-line"></i>
+                            {{ $property['property_views'] }}
+                        </span>
                     </div>
                 </li>
             </ul>
