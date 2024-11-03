@@ -36,44 +36,47 @@
             </ul>
             <ul class="link-list">
                 <li>
-                    <a href="{{ route('user.posts.show-by-type', $property['type']['slug']) }}" class="link-btn">{{ $property['type']['property_type_name'] }}</a>
+                    <a href="{{ route('user.posts.show-by-type', $property['type']['slug']) }}"
+                        class="link-btn">{{ $property['type']['property_type_name'] }}</a>
                 </li>
                 <li>
-                    <a href="{{ route('user.posts.show-by-type', $property['type']['purpose_slug']) }}" class="link-btn">{{ $property['type']['purpose_name'] }}</a>
+                    <a href="{{ route('user.posts.show-by-type', $property['type']['purpose_slug']) }}"
+                        class="link-btn">{{ $property['type']['purpose_name'] }}</a>
                 </li>
             </ul>
             <ul class="info-list">
-                <li>
-                    @if (!is_null($property->property_bedroom) && $property->property_bedroom !== 0)
+                @if (!is_null($property->property_bedroom) && $property->property_bedroom !== 0)
+                    <li>
                         <div class="icon">
                             <img src="{{ asset('assets/user/images/properties/bed.svg') }}" alt="bed">
                         </div>
                         <span>{{ $property->property_bedroom }} Phòng ngủ</span>
-                    @endif
-                </li>
-                <li>
-                    @if (!is_null($property->property_bedroom) && $property->property_bedroom !== 0)
+                    </li>
+                @endif
+                @if (!is_null($property->property_bedroom) && $property->property_bedroom !== 0)
+                    <li>
                         <div class="icon">
                             <img src="{{ asset('assets/user/images/properties/bathroom.svg') }}" alt="bathroom">
                         </div>
                         <span>{{ $property->property_bathroom }} Phòng tắm</span>
-                    @endif
-                </li>
-                <li>
-                    @if ($property->property_acreage !== null)
+                    </li>
+                @endif
+                @if ($property->property_acreage !== null)
+                    <li>
                         <div class="icon">
                             <img src="{{ asset('assets/user/images/properties/area.svg') }}" alt="area">
                         </div>
-                        <span>{{ $property->property_acreage }} Mét vuông</span>
-                    @endif
-                </li>
+                        <span>{{ $property->property_acreage }} m<sup>2</sup></span>
+                    </li>
+                @endif
             </ul>
         </div>
         <div class="properties-content">
             <div class="top">
                 <div class="title">
                     <h3>
-                        <a class="property-title" href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">{{ $property['property_name'] }}</a>
+                        <a class="property-title"
+                            href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">{{ $property['property_name'] }}</a>
                     </h3>
                     <span>{{ $property['property_address'] }}</span>
                 </div>
@@ -88,7 +91,8 @@
                     @else
                         <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
                     @endif
-                    <a href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
+                    <a
+                        href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
                 </div>
                 <ul class="group-info">
                     <li>
@@ -102,6 +106,3 @@
         </div>
     </div>
 </div>
-
-
-

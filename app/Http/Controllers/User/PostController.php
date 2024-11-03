@@ -264,7 +264,7 @@ class PostController extends Controller
         }
     }
 
-    public function showByType($slug = '', $query = '', $maxPrice = null, $minPrice = null)
+    public function showByType($slug = '', $maxPrice = null, $minPrice = null, $minAcreage = null, $maxAcreage = null, $query = '',)
     {
         try {
             $types = null;
@@ -282,6 +282,7 @@ class PostController extends Controller
             $purposes = config('constants.property-basic-info.property-purposes');
             $key = array_search($slug, array_column($purposes, 'slug'));
 
+
             if ($key !== false) {
                 $types = Type::where('property_purpose_id', $key)->withCount('properties')->get();
                 $properties = Property::whereHas('type', function ($query) use ($key) {
@@ -294,11 +295,14 @@ class PostController extends Controller
                     });
                 })->when($minPrice, function ($q, $minPrice) {
                     return $q->where('property_price', '>=', $minPrice);
-                })
-                ->when($maxPrice, function ($q, $maxPrice) {
+                })->when($maxPrice, function ($q, $maxPrice) {
                     return $q->where('property_price', '<=', $maxPrice);
+                })->when($minAcreage, function ($q, $minAcreage) {
+                    return $q->where('property_acreage', '>=', $minAcreage);
+                })->when($maxAcreage, function ($q, $maxAcreage) {
+                    return $q->where('property_acreage', '<=', $maxAcreage);
                 })
-                    ->paginate(10);
+                ->paginate(10);
 
                 $this->breadcrumbService->addCrumb($purposes[$key]['name']);
             } else {
@@ -317,9 +321,12 @@ class PostController extends Controller
                         });
                     })->when($minPrice, function ($q, $minPrice) {
                         return $q->where('property_price', '>=', $minPrice);
-                    })
-                    ->when($maxPrice, function ($q, $maxPrice) {
+                    })->when($maxPrice, function ($q, $maxPrice) {
                         return $q->where('property_price', '<=', $maxPrice);
+                    })->when($minAcreage, function ($q, $minAcreage) {
+                        return $q->where('property_acreage', '>=', $minAcreage);
+                    })->when($maxAcreage, function ($q, $maxAcreage) {
+                        return $q->where('property_acreage', '<=', $maxAcreage);
                     })
                     ->paginate(10);
 
@@ -343,7 +350,7 @@ class PostController extends Controller
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'status' => 404,
-                'message' => 'Type not found',
+                'message' => 'Type not found. Error: ' . $e->getMessage(),
             ]);
         } catch (\Throwable $th) {
             return response()->json([
@@ -359,6 +366,8 @@ class PostController extends Controller
         $typeId = $request->input('property_type_id');
         $minPrice = $request->input('property_min_price');
         $maxPrice = $request->input('property_max_price');
+        $minAcreage = $request->input('property_min_acreage');
+        $maxAcreage = $request->input('property_max_acreage');
 
         // Validate input data
         $validator = Validator::make($request->all(), [
@@ -366,21 +375,21 @@ class PostController extends Controller
             'property_type_id' => 'nullable|integer',
             'property_min_price' => 'nullable|numeric',
             'property_max_price' => 'nullable|numeric',
+            'property_min_acreage' => 'nullable|numeric',
+            'property_max_acreage' => 'nullable|numeric',
         ]);
-
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
         if ($typeId) {
             $type = Type::where('property_type_id', $typeId)->first();
-            return $this->showByType($type->slug, $minPrice, $maxPrice);
+            return $this->showByType($type->slug, $minPrice, $maxPrice, $minAcreage, $maxAcreage);
         } else {
             $purposeSlug = config('constants.property-basic-info.property-purposes')[$purposeId]['slug'];
-            return $this->showByType($purposeSlug, $minPrice, $maxPrice);
+            return $this->showByType($purposeSlug, $minPrice, $maxPrice, $minAcreage, $maxAcreage);
         }
     }
-
 
 
 
