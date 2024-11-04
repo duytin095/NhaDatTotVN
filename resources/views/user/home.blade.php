@@ -61,6 +61,26 @@
 
                                                 <div class="col-lg-4 col-md-6">
                                                     <div class="form-group">
+                                                        <label>Diện tích tối thiểu</label>
+                                                        <input name="property_min_acreage" type="number" min="0"
+                                                            class="form-control" data-bs-toggle="tooltip"
+                                                            data-bs-placement="bottom" data-bs-title="m2"
+                                                            placeholder="Từ">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Diện tích tối đa</label>
+                                                        <input name="property_max_acreage" type="number" min="0"
+                                                            class="form-control" data-bs-toggle="tooltip"
+                                                            data-bs-placement="bottom" data-bs-title="m2"
+                                                            placeholder="Đến">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="form-group">
                                                         <input type="hidden" name="property_purpose_id"
                                                             value="{{ $key }}">
                                                         <button type="submit" class="default-btn">
@@ -69,6 +89,7 @@
                                                         </button>
                                                     </div>
                                                 </div>
+                                                
                                             </div>
                                         </form>
                                     </div>

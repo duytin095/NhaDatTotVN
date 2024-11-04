@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use App\Models\Video\VideoEmbedStrategyFactory;
+use App\Traits\ViewCounter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Property extends Model
 {
     use HasFactory;
     use Sluggable;
+    use ViewCounter;
 
     protected $primaryKey = 'property_id';
     protected $table = 'properties';

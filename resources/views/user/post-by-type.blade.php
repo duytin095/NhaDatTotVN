@@ -5,6 +5,9 @@
         <div class="container">
             <div class="row justify-content-center" data-cues="slideInUp">
                 <div class="col-xl-8 col-md-12">
+                    @if (isset($searchQuery))
+                        <h4>Kết quả tìm kiếm cho: {{ $searchQuery }}</h4>
+                    @endif
                     <div id="property-listing" class="row justify-content-center">
                         @forelse ($properties as $property)
                             <x-property-listing :property="$property" :columnSizes="['xl' => 6, 'md' => 6]" />
@@ -18,13 +21,19 @@
                     <div class="properties-widget-area">
                         <div class="widget widget_search">
                             @if (isset($type))
-                                <form class="search-form" action="{{ route('user.posts.show-by-type', ['slug' => $type['slug']]) }}" method="GET">
-                                    <input type="text" class="search-field" name="query" value="{{ request()->input('query') }}" placeholder="Tìm kiếm">
+                                <form class="search-form"
+                                    action="{{ route('user.posts.show-by-type', ['slug' => $type['slug']]) }}"
+                                    method="GET">
+                                    <input type="text" class="search-field" name="query"
+                                        value="{{ request()->input('query') }}" placeholder="Tìm kiếm">
                                     <button type="submit"><i class="ri-search-line"></i></button>
                                 </form>
                             @else
-                                <form class="search-form" action="{{ route('user.posts.show-by-type', ['slug' => $purposes[$key]['slug']]) }}" method="GET">
-                                    <input type="text" class="search-field" name="query" value="{{ request()->input('query') }}" placeholder="Tìm kiếm">
+                                <form class="search-form"
+                                    action="{{ route('user.posts.show-by-type', ['slug' => $purposes[$key]['slug']]) }}"
+                                    method="GET">
+                                    <input type="text" class="search-field" name="query"
+                                        value="{{ request()->input('query') }}" placeholder="Tìm kiếm">
                                     <button type="submit"><i class="ri-search-line"></i></button>
                                 </form>
                             @endif
@@ -33,10 +42,23 @@
                             <div class="widget widget_categories">
                                 <h3 class="widget-title">Danh mục</h3>
                                 <ul class="list">
-                                    @foreach ($types as $type)
+                                    @foreach ($types as $_type)
                                         <li>
-                                            <a href="{{ route('user.posts.show-by-type', $type->slug) }}">{{ $type->property_type_name }}</a>
-                                            <span>{{ $type['properties_count'] }}</span>
+                                            <a
+                                                href="{{ route('user.posts.show-by-type', $_type['slug']) }}">{{ $_type['property_type_name'] }}</a>
+                                            <span>{{ $_type['properties_count'] }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (isset($type))
+                            <div class="widget widget_categories">
+                                <h3 class="widget-title">Hướng</h3>
+                                <ul class="list">
+                                    @foreach ($directions as $key => $direction)
+                                        <li>
+                                            <a href="{{ route('user.posts.show-by-type', [$type->slug, 'direction' => $key]) }}">{{ $direction }}</a>
                                         </li>
                                     @endforeach
                                 </ul>
