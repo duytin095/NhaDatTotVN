@@ -65,7 +65,7 @@
                         <span>{{ $property->property_bathroom }} Phòng tắm</span>
                     </li>
                 @endif
-                @if ($property->property_acreage !== null)
+                @if ($property->property_acreage !== null && $property->property_acreage !== 0)
                     <li>
                         <div class="icon">
                             <img src="{{ asset('assets/user/images/properties/area.svg') }}" alt="area">

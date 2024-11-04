@@ -3,11 +3,21 @@
     @include('components.user-breadcrumb', ['breadcrumbs' => $breadcrumbs])
     <div class="properties-area ptb-120">
         <div class="container">
+            <div class="properties-grid-box">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-lg-12 col-md-12">
+                        <x-pagination-info :paginator="$properties" :label="'bài đăng'"/>
+                    </div>
+                </div>
+            </div>
             <div class="row justify-content-center" data-cues="slideInUp">
                 <div class="col-xl-8 col-md-12">
                     @if (isset($searchQuery))
-                        <h4>Kết quả tìm kiếm cho: {{ $searchQuery }}</h4>
+                        <h5>Kết quả tìm kiếm cho:
+                            {{ $searchQuery ?? '' }}
+                        </h5>
                     @endif
+
                     <div id="property-listing" class="row justify-content-center">
                         @forelse ($properties as $property)
                             <x-property-listing :property="$property" :columnSizes="['xl' => 6, 'md' => 6]" />
@@ -52,18 +62,7 @@
                                 </ul>
                             </div>
                         @endif
-                        @if (isset($type))
-                            <div class="widget widget_categories">
-                                <h3 class="widget-title">Hướng</h3>
-                                <ul class="list">
-                                    @foreach ($directions as $key => $direction)
-                                        <li>
-                                            <a href="{{ route('user.posts.show-by-type', [$type->slug, 'direction' => $key]) }}">{{ $direction }}</a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
+
                         {{-- <div class="widget widget_property_status">
                             <h3 class="widget-title">Property Status</h3>
                             <ul class="list">
@@ -84,8 +83,8 @@
                                     </div>
                                 </li>
                             </ul>
-                        </div>
-                        <div class="widget widget_price_range">
+                        </div> --}}
+                        {{-- <div class="widget widget_price_range">
                             <h3 class="widget-title">Price Range</h3>
                             <div class="range-slider">
                                 <div class="progress"></div>
@@ -104,8 +103,8 @@
                                     <input type="text" class="input-max" value="7500">
                                 </div>
                             </div>
-                        </div>
-                        <div class="widget widget_home_area_range">
+                        </div> --}}
+                        {{-- <div class="widget widget_home_area_range">
                             <h3 class="widget-title">Home Area</h3>
                             <div class="home-range-slider">
                                 <div class="home-progress"></div>
@@ -124,62 +123,43 @@
                                     <input type="text" class="input-max" value="7500">
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="widget widget_advanced_search">
-                            <h3 class="widget-title">Advanced Search</h3>
-                            <form class="advanced-search-form">
+                            <h3 class="widget-title">Tìm kiếm nâng cao</h3>
+                            <form class="advanced-search-form" action="{{ route('user.posts.search') }}" method="GET">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Keyword">
+                                    <input name="property_min_acreage" type="number" min="0" class="form-control"
+                                        placeholder="Diện tích tối thiểu">
                                 </div>
                                 <div class="form-group">
-                                    <select class="form-select form-control">
-                                        <option selected>Bedroom</option>
-                                        <option value="1">3</option>
-                                        <option value="2">4</option>
-                                        <option value="3">5</option>
-                                        <option value="4">6</option>
-                                        <option value="5">10</option>
-                                    </select>
+                                    <input name="property_max_acreage" type="number" min="0" class="form-control"
+                                        placeholder="Diện tích tối đa">
                                 </div>
                                 <div class="form-group">
-                                    <select class="form-select form-control">
-                                        <option selected>Bathroom</option>
-                                        <option value="1">2</option>
-                                        <option value="2">3</option>
-                                        <option value="3">4</option>
-                                        <option value="4">5</option>
-                                        <option value="5">7</option>
-                                    </select>
+                                    <input name="property_min_price" type="number" min="0" class="form-control"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" data-bs-title="Nhập giá"
+                                        placeholder="Giá tối thiểu">
                                 </div>
                                 <div class="form-group">
-                                    <select class="form-select form-control">
-                                        <option selected>Garages</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">5</option>
-                                    </select>
+                                    <input name="property_max_price" type="number" min="0" class="form-control"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" data-bs-title="Nhập giá"
+                                        placeholder="Giá tối đa">
                                 </div>
                                 <div class="form-group">
-                                    <select class="form-select form-control">
-                                        <option selected>All City</option>
-                                        <option value="1">Québec City</option>
-                                        <option value="2">Vancouver</option>
-                                        <option value="3">Calgary</option>
-                                        <option value="4">Ottawa</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
+                                    <input type="hidden" name="property_purpose_id" value="{{ $type['property_purpose_id'] ?? '' }}">
+                                    <input type="hidden" name="property_type_id" value="{{ $type['property_type_id'] ?? '' }}">
                                     <button type="submit" class="default-btn">
-                                        Search Property
+                                        Tìm kiếm
                                     </button>
                                 </div>
                                 <button type="submit" class="reset-search-btn">
                                     <i class="ri-refresh-line"></i>
-                                    Reset Search
+                                    Làm mới
                                 </button>
                             </form>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -189,4 +169,68 @@
 
 @push('scripts')
     <script src="{{ asset('assets/user/js/manage/post-by-type.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('[name="property_max_price"], [name="property_min_price"]').on('input', function() {
+                var price = parseFloat($(this).val());
+                console.log($(this).val());
+
+                $(this).attr('data-bs-title', convertCurrency(price));
+                $(this).tooltip('dispose').tooltip({
+                    title: convertCurrency(price)
+                });
+                $(this).tooltip('show');
+            });
+            $('[name="property_max_price"], [name="property_min_price"]').on('keypress', function(e) {
+                return e.metaKey || // cmd/ctrl
+                    e.which <= 0 || // arrow keys
+                    e.which == 8 || // delete key
+                    /[0-9]/.test(String.fromCharCode(e.which)); // numbers
+            });
+        });
+
+        function convertCurrency(value) {
+            if (value === 0) {
+                return "Thoản thuận";
+            }
+
+            if (isNaN(value)) {
+                return "Không để trống giá";
+            }
+            if (value < 1000) {
+                return `${value} nghìn`;
+            }
+
+            if (value < 1000000) {
+                const trieu = Math.floor(value / 1000);
+                const nghin = value % 1000;
+
+                if (nghin === 0) {
+                    return `${trieu} triệu`;
+                }
+
+                return `${trieu} triệu ${nghin} nghìn`;
+            }
+
+            const ty = Math.floor(value / 1000000);
+            const remainingValue = value % 1000000;
+
+            if (remainingValue === 0) {
+                return `${ty} tỷ`;
+            }
+
+            const trieu = Math.floor(remainingValue / 1000);
+            const nghin = remainingValue % 1000;
+
+            if (trieu === 0) {
+                return `${ty} tỷ ${nghin} nghìn`;
+            }
+
+            if (nghin === 0) {
+                return `${ty} tỷ ${trieu} triệu`;
+            }
+
+            return `${ty} tỷ ${trieu} triệu ${nghin} nghìn`;
+        }
+    </script>
 @endpush

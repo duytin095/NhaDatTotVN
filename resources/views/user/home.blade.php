@@ -43,7 +43,7 @@
                                                     <div class="form-group">
                                                         <label>Giá tối thiểu</label>
                                                         <input name="property_min_price" type="number" class="form-control"
-                                                            min="0" step="1000" data-bs-toggle="tooltip"
+                                                            min="0" data-bs-toggle="tooltip"
                                                             data-bs-placement="bottom" data-bs-title="Nhập giá"
                                                             placeholder="Giá tối thiểu">
                                                     </div>
@@ -53,7 +53,7 @@
                                                     <div class="form-group">
                                                         <label>Giá tối đa</label>
                                                         <input name="property_max_price" type="number" min="0"
-                                                            step="1000" class="form-control" data-bs-toggle="tooltip"
+                                                            class="form-control" data-bs-toggle="tooltip"
                                                             data-bs-placement="bottom" data-bs-title="Nhập giá"
                                                             placeholder="Giá tối đa">
                                                     </div>

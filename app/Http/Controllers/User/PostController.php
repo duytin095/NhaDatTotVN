@@ -268,12 +268,13 @@ class PostController extends Controller
         }
     }
 
-    public function showByType($slug = '', $maxPrice = null, $minPrice = null, $minAcreage = null, $maxAcreage = null, $direction = null, $query = '')
+    public function showByType($slug = '', $minPrice = null, $maxPrice = null, $minAcreage = null, $maxAcreage = null, $query = '')
     {
         try {
             $types = null;
             $type = null;
             $properties = null;
+            $direction = request()->query('direction');
             $filter = request()->input('filter', 'newest');
             $columnsToSearch = ['property_name', 'property_description'];
             $directions = config('constants.property-basic-info.property-directions');
@@ -306,11 +307,8 @@ class PostController extends Controller
                     return $q->where('property_acreage', '>=', $minAcreage);
                 })->when($maxAcreage, function ($q, $maxAcreage) {
                     return $q->where('property_acreage', '<=', $maxAcreage);
-                })->when($direction, function ($q, $direction) {
-                    return $q->where('property_direction', $direction);
                 })
                     ->paginate(10);
-
                 $this->breadcrumbService->addCrumb($purposes[$key]['name'], $purposes[$key]['slug']);
             } else {
                 $type = Type::where('slug', $slug)->first();
@@ -333,8 +331,6 @@ class PostController extends Controller
                         return $q->where('property_acreage', '>=', $minAcreage);
                     })->when($maxAcreage, function ($q, $maxAcreage) {
                         return $q->where('property_acreage', '<=', $maxAcreage);
-                    })->when($direction, function ($q, $direction) {
-                        return $q->where('property_direction', $direction);
                     })
                     ->paginate(10);
 
@@ -355,6 +351,8 @@ class PostController extends Controller
                     'key' => $key,
                     'purposes' => $purposes,
                     'directions' => $directions,
+                    'minAcreage' => $minAcreage,
+                    'maxAcreage' => $maxAcreage,
                 ]
             );
         } catch (ModelNotFoundException $e) {
@@ -372,13 +370,14 @@ class PostController extends Controller
 
     public function search(Request $request)
     {
+
         $purposeId = $request->input('property_purpose_id');
         $typeId = $request->input('property_type_id');
         $minPrice = $request->input('property_min_price');
         $maxPrice = $request->input('property_max_price');
         $minAcreage = $request->input('property_min_acreage');
         $maxAcreage = $request->input('property_max_acreage');
-
+        
         // Validate input data
         $validator = Validator::make($request->all(), [
             'property_purpose_id' => 'required|integer',
@@ -388,6 +387,7 @@ class PostController extends Controller
             'property_min_acreage' => 'nullable|numeric',
             'property_max_acreage' => 'nullable|numeric',
         ]);
+        // dd(request()->all());
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
