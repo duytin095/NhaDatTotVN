@@ -54,7 +54,7 @@
                           <div class="accordion-body">
                               <div class="accordion" id="navbarAccordion">
                                   <div class="accordion-item">
-                                      <a href="{{ route('user.profile') }}" class="accordion-link">
+                                      <a href="{{ route('user.profile.index') }}" class="accordion-link">
                                           Hồ sơ
                                       </a>
                                   </div>
@@ -63,6 +63,11 @@
                                           Quản lý tin đăng
                                       </a>
                                   </div>
+                                  <div class="accordion-item">
+                                    <a href="{{ route('user.profile.favorites') }}" class="accordion-link">
+                                        Yêu thích
+                                    </a>
+                                </div>
                               </div>
                           </div>
                       </div>

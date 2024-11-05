@@ -295,14 +295,7 @@ class AuthController extends Controller
         return redirect(route('user.login.show'));
     }
 
-    public function userProfile(){
-        $this->breadcrumbService->addCrumb('Trang chủ', '/user/profile');
-        $this->breadcrumbService->addCrumb('Hồ sơ');
-
-        return view('user.profile', [
-            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
-        ]);
-    }
+    
     
     
 }

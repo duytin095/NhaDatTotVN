@@ -52,16 +52,19 @@
 
                 @if (auth()->check())
                     <li class="nav-item">
-                        <a href="{{ route('user.profile') }}" class="nav-link">
+                        <a href="{{ route('user.profile.index') }}" class="nav-link">
                             {{ auth()->guard('users')->user()->user_name }}
                             <i class="ri-arrow-down-s-line"></i>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="nav-item">
-                                <a href="{{ route('user.profile') }}" class="nav-link active">Hồ sơ</a>
+                                <a href="{{ route('user.profile.index') }}" class="nav-link active">Hồ sơ</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('user.posts.index') }}" class="nav-link">Quản lý tin</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('user.profile.favorites') }}" class="nav-link">Yêu thích</a>
                             </li>
                         </ul>
                     </li>

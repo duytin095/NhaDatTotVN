@@ -51,7 +51,7 @@ return new class extends Migration
             $table->tinyInteger('property_video_type')->nullable()->default(0); 
 
             // AUTO SAVE
-            $table->string('property_views')->default(0);
+           
             $table->string('property_seller_id');
             $table->string('slug')->unique();
             $table->tinyInteger('property_label');

@@ -6,7 +6,9 @@ use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\AgentController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Home\DashboardController;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\Admin\Manage\TypeController;
 use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\PropertyController;
@@ -80,7 +82,8 @@ Route::name('user.')->prefix('user')->group(function () {
 
     Route::middleware(['users.auth'])->group(function () {
         Route::get      ('/logout', [AuthController::class, 'onUserLogout'])->name('logout');
-        Route::get      ('/profile', [AuthController::class, 'userProfile'])->name('profile');
+        Route::get      ('/profile', [ProfileController::class, 'index'])->name('profile.index');
+        Route::get      ('/profile/favorites', [ProfileController::class, 'favorites'])->name('profile.favorites');
 
         // TIN DANG
         Route::get      ('/posts', [PostController::class, 'index'])->name('posts.index');
