@@ -10,10 +10,17 @@
             <x-property-media :property="$property" />
             <ul class="group-info">
                 <li>
-                    <button id="addToFavorites" onclick="addToFavorites({{ $property->property_id }})"
+                    {{-- <button id="addToFavorites" onclick="addToFavorites({{ $property->property_id }})"
                         type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                         title={{ $isFavorite ? 'Xoá' : 'Thêm' }}>
                         <i class="ri-heart-{{ $isFavorite ? 'fill' : 'line' }} {{ $isFavorite ? 'text-danger' : '' }}"></i>
+                    </button> --}}
+                    <button id="addToFavorites" onclick="addToFavorites({{ $property->property_id }})"
+                        type="button" data-bs-toggle="tooltip" data-bs-placement="top"
+                        aria-label="" data-bs-original-title={{ $isFavorite ? 'Xoá' : 'Thêm' }}>
+                        <i class="heart-icon ri-heart-3-{{ $isFavorite ? 'fill' : 'line' }} {{ $isFavorite ? 'text-danger' : '' }}"
+                            data-property-id="{{ $property->property_id }}">
+                        </i>
                     </button>
                 </li>
             </ul>
