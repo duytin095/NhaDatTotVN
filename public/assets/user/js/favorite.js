@@ -8,26 +8,31 @@ async function addToFavorites(_propertyId) {
             toast(response.success);
 
             const heartIcons = document.querySelectorAll(`.heart-icon[data-property-id="${_propertyId}"]`);
-            heartIcons.forEach((heartIcon) => {
-                const addToFavoritesButton = heartIcon.parentNode;
-                if (response.type == 'add') {
-                    heartIcon.classList.remove('ri-heart-3-line');
-                    heartIcon.classList.add('ri-heart-3-fill');
-                    heartIcon.classList.add('text-danger');
-                    addToFavoritesButton.setAttribute('data-bs-original-title', 'Xoá');
-                } else {
-                    heartIcon.classList.remove('ri-heart-3-fill');
-                    heartIcon.classList.remove('text-danger');
-                    heartIcon.classList.add('ri-heart-3-line');
-                    addToFavoritesButton.setAttribute('data-bs-original-title', 'Thêm');
-                }
-            });
+            changeHeartIcon(heartIcons, response);
         }
     } catch (error) {
         console.log(error);
         toast('Something went wrong. Please try again.');
     }
 }
+
+function changeHeartIcon(_heartIcons, _response) {
+    _heartIcons.forEach((heartIcon) => {
+        const addToFavoritesButton = heartIcon.parentNode;
+        if (_response.type == 'add') {
+            heartIcon.classList.remove('ri-heart-3-line');
+            heartIcon.classList.add('ri-heart-3-fill');
+            heartIcon.classList.add('text-danger');
+            addToFavoritesButton.setAttribute('data-bs-original-title', 'Xoá');
+        } else {
+            heartIcon.classList.remove('ri-heart-3-fill');
+            heartIcon.classList.remove('text-danger');
+            heartIcon.classList.add('ri-heart-3-line');
+            addToFavoritesButton.setAttribute('data-bs-original-title', 'Thêm');
+        }    
+    });
+}
+
 function toast(message) {
     Toastify({
         text: message,

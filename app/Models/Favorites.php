@@ -13,4 +13,9 @@ class Favorites extends Model
         'property_id',
         'user_id',
     ];
+
+    public function scopeLatest($query)
+    {
+        return $query->orderBy('pivot_created_at', 'desc');
+    }
 }

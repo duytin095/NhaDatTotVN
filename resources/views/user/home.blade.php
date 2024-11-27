@@ -64,8 +64,7 @@
                                                         <label>Diện tích tối thiểu</label>
                                                         <input name="property_min_acreage" type="number" min="0"
                                                             class="form-control" data-bs-toggle="tooltip"
-                                                            data-bs-placement="bottom" data-bs-title="m2"
-                                                            placeholder="Từ">
+                                                            data-bs-placement="bottom" data-bs-title="m2" placeholder="Từ">
                                                     </div>
                                                 </div>
 
@@ -74,8 +73,7 @@
                                                         <label>Diện tích tối đa</label>
                                                         <input name="property_max_acreage" type="number" min="0"
                                                             class="form-control" data-bs-toggle="tooltip"
-                                                            data-bs-placement="bottom" data-bs-title="m2"
-                                                            placeholder="Đến">
+                                                            data-bs-placement="bottom" data-bs-title="m2" placeholder="Đến">
                                                     </div>
                                                 </div>
 
@@ -89,7 +87,7 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </form>
                                     </div>
@@ -183,7 +181,7 @@
                     <div class="tab-pane fade show active" id="for-sale" role="tabpanel">
                         <div class="row justify-content-center" data-cues="slideInUp">
                             @forelse ($latestProperties as $property)
-                                <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
+                                <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())" />
                             @empty
                                 <p> Chưa có tin đăng nào</p>
                             @endforelse
@@ -314,7 +312,7 @@
         <div class="container-fluid">
             <div class="featured-properties-slide" data-cues="slideInUp">
                 @foreach ($propertiesForInvest as $key => $property)
-                    <x-property-listing-slide :property="$property" :key="$key" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
+                    <x-property-listing-slide :property="$property" :key="$key" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())" />
                 @endforeach
             </div>
         </div>
@@ -331,7 +329,7 @@
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
                 @forelse ($propertiesForSale as $property)
-                    <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
+                    <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())" />
                 @empty
                     <p> Chưa có tin đăng nào</p>
                 @endforelse
@@ -402,79 +400,21 @@
 
 
     <!-- Start Blog Area -->
-    {{-- <div class="blog-area pb-95">
+    <div class="blog-area pb-95">
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
-                <h2>Tin đăng mới</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra iaculis consectetur.</p>
+                <h2>Tin đăng tiêu điểm</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra
+                    iaculis consectetur.</p>
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
                 <div class="col-xl-4 col-md-6">
                     <div class="blog-card">
                         <div class="blog-image">
                             <a href="blog-details.html">
-                                <img src="assets/images/blog/blog1.jpg" alt="image">
-                            </a>
-                            <a href="blog-grid.html" class="tag-btn">Real Estate</a>
-                            <a href="author.html" class="author-btn">
-                                <img src="assets/images/user/user1.png" alt="image">
-                            </a>
-                        </div>
-                        <div class="blog-content">
-                            <ul class="meta">
-                                <li>
-                                    <i class="ri-calendar-2-line"></i>
-                                    December 21, 2024
-                                </li>
-                                <li>
-                                    <i class="ri-message-2-line"></i>
-                                    05
-                                </li>
-                            </ul>
-                            <h3>
-                                <a href="blog-details.html">Unveiling the Digital Landscape of Real Estate</a>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="blog-card">
-                        <div class="blog-image">
-                            <a href="blog-details.html">
-                                <img src="assets/images/blog/blog2.jpg" alt="image">
-                            </a>
-                            <a href="blog-grid.html" class="tag-btn">Building</a>
-                            <a href="author.html" class="author-btn">
-                                <img src="assets/images/user/user2.png" alt="image">
-                            </a>
-                        </div>
-                        <div class="blog-content">
-                            <ul class="meta">
-                                <li>
-                                    <i class="ri-calendar-2-line"></i>
-                                    December 22, 2024
-                                </li>
-                                <li>
-                                    <i class="ri-message-2-line"></i>
-                                    10
-                                </li>
-                            </ul>
-                            <h3>
-                                <a href="blog-details.html">Spaces that Speak, Homes that Hear Your Real Estate Connection</a>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="blog-card">
-                        <div class="blog-image">
-                            <a href="blog-details.html">
-                                <img src="assets/images/blog/blog3.jpg" alt="image">
+                                <img src="{{ asset('assets/user/images/properties/properties1.jpg') }}" alt="image">
                             </a>
                             <a href="blog-grid.html" class="tag-btn">Architecture</a>
-                            <a href="author.html" class="author-btn">
-                                <img src="assets/images/user/user3.png" alt="image">
-                            </a>
                         </div>
                         <div class="blog-content">
                             <ul class="meta">
@@ -488,14 +428,14 @@
                                 </li>
                             </ul>
                             <h3>
-                                <a href="blog-details.html">Stories and Insights from the Real Estate Frontline</a>
+                                <a class="property-title" href="blog-details.html">Stories and Insights from the Real Estate Frontline</a>
                             </h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
     <!-- End Blog Area -->
 @endsection
 

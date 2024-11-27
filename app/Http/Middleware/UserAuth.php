@@ -18,10 +18,15 @@ class UserAuth
     {
         if (Auth::guard('users')->check()) {
             return $next($request);
-        }
-        if ($request->ajax() || $request->wantsJson()) {
-            return response('Unauthorized.', 401);
-        } else {
+        }else{
+            $method = $request->method();
+            if ($method == 'POST') {
+                return response()->json([
+                    'status' => 401,
+                    'message' => 'Unauthorized',
+                    'link' => route('user.login.show')
+                ], 401);
+            }
             return redirect(route('user.login.show'));
         }
     }

@@ -48,9 +48,17 @@
                                     </ul>
                                     <ul class="group-info">
                                         <li>
-                                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            {{-- <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                                                 aria-label="Thêm vào yêu thích" data-bs-original-title="Thêm vào yêu thích">
                                                 <i class="ri-heart-line"></i>
+                                            </button> --}}
+
+                                            <button id="addToFavorites" onclick="addToFavorites({{ $property->property_id }})"
+                                                type="button" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                aria-label="" data-bs-original-title={{ $property->favoritedBy->contains(Auth::guard('users')->user()) ? 'Xoá' : 'Thêm' }}>
+                                                <i class="heart-icon ri-heart-3-{{ $property->favoritedBy->contains(Auth::guard('users')->user()) ? 'fill' : 'line' }} {{  $property->favoritedBy->contains(Auth::guard('users')->user()) ? 'text-danger' : '' }}"
+                                                    data-property-id="{{ $property->property_id }}">
+                                                </i>
                                             </button>
                                         </li>
                                     </ul>
@@ -316,7 +324,7 @@
                                             <div class="swiper-wrapper">
                                                 @foreach ($featuredProperties as $featuredProperty)
                                                     <div class="swiper-slide">
-                                                        <x-property-listing :property="$featuredProperty" :columnSizes="['xl' => 12, 'md' => 12]" />
+                                                        <x-property-listing :property="$featuredProperty" :columnSizes="['xl' => 12, 'md' => 12]" :isFavorite="$featuredProperty->favoritedBy->contains(Auth::guard('users')->user())"/>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -357,6 +365,7 @@
     </div>
 @endsection
 @push('scripts')
+    <script src="{{ asset('assets/user/js/favorite.js') }}"></script>
     <script>
         let marker;
         let defaultLat = 10.848744;

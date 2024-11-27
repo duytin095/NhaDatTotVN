@@ -42,6 +42,7 @@
     @yield('content')
     @yield('home')
 
+
     @include('layout.user.footer')
 
     <!-- Back to Top -->
@@ -80,7 +81,6 @@
     <script src="{{ asset('assets/js/ajax.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2-custom.js') }}"></script>
-
 
     <!-- Select2 -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

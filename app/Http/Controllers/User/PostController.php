@@ -250,7 +250,13 @@ class PostController extends Controller
     public function show($slug)
     {
         try {
-            $property = Property::where('slug', $slug)->firstOrFail();
+            $property = Property::where('slug', $slug)
+            ->with(['favoritedBy' => function ($query) {
+                if (Auth::guard('users')->check()) {
+                    $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
+                }
+            }])
+            ->firstOrFail();
             $property->incrementViews();
             $featuredProperties = Property::take(5)->get();
 
