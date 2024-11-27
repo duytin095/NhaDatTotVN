@@ -86,10 +86,16 @@ class Property extends Model
         return Carbon::parse($value)->format('d-m-Y');
     }
 
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorite_list', 'property_id', 'user_id');
+    }
+
     public function getPropertyImagesAttribute()
     {
         return json_decode($this->property_image, true);
     }
+
     public function getEmbeddedHtmlAttribute()
     {
         $url = $this->property_video_link;
@@ -187,6 +193,7 @@ class Property extends Model
         return [
             'newest' => 'Mới nhất',
             'oldest' => 'Cũ nhất',
+            
         ];
     }
     public function scopeNewest($query)

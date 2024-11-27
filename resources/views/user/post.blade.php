@@ -28,7 +28,7 @@
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
                 @forelse ($properties as $property)
-                    <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]"/>
+                    <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
                 @empty
                     <p> Chưa có tin đăng nào</p>
                 @endforelse
@@ -36,5 +36,4 @@
             </div>
         </div>
     </div>
-    <!-- End Properties Area -->
 @endsection

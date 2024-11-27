@@ -294,15 +294,4 @@ class AuthController extends Controller
         Auth::guard('users')->logout();
         return redirect(route('user.login.show'));
     }
-
-    public function userProfile(){
-        $this->breadcrumbService->addCrumb('Trang chủ', '/user/profile');
-        $this->breadcrumbService->addCrumb('Hồ sơ');
-
-        return view('user.profile', [
-            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
-        ]);
-    }
-    
-    
 }

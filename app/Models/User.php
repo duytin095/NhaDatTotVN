@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -48,6 +49,10 @@ class User extends Authenticatable
     public function getUserImageAttribute()
     {
         return json_decode($this->user_avatar, true);
+    }
+
+    public function favorites(): BelongsToMany{
+        return $this->belongsToMany(Property::class, 'favorite_list', 'user_id', 'property_id');
     }
 
     /**

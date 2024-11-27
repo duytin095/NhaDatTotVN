@@ -43,7 +43,7 @@
                                                     <div class="form-group">
                                                         <label>Giá tối thiểu</label>
                                                         <input name="property_min_price" type="number" class="form-control"
-                                                            min="0" step="1000" data-bs-toggle="tooltip"
+                                                            min="0" data-bs-toggle="tooltip"
                                                             data-bs-placement="bottom" data-bs-title="Nhập giá"
                                                             placeholder="Giá tối thiểu">
                                                     </div>
@@ -53,7 +53,7 @@
                                                     <div class="form-group">
                                                         <label>Giá tối đa</label>
                                                         <input name="property_max_price" type="number" min="0"
-                                                            step="1000" class="form-control" data-bs-toggle="tooltip"
+                                                            class="form-control" data-bs-toggle="tooltip"
                                                             data-bs-placement="bottom" data-bs-title="Nhập giá"
                                                             placeholder="Giá tối đa">
                                                     </div>
@@ -183,7 +183,7 @@
                     <div class="tab-pane fade show active" id="for-sale" role="tabpanel">
                         <div class="row justify-content-center" data-cues="slideInUp">
                             @forelse ($latestProperties as $property)
-                                <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]" />
+                                <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
                             @empty
                                 <p> Chưa có tin đăng nào</p>
                             @endforelse
@@ -314,52 +314,7 @@
         <div class="container-fluid">
             <div class="featured-properties-slide" data-cues="slideInUp">
                 @foreach ($propertiesForInvest as $key => $property)
-                    <div class="slide {{ $key === 0 ? 'active' : '' }}"
-                        style="background-image: url(' {{ asset($property['property_images'][0]) }}')">
-                        <div class="properties-content">
-                            <div class="info">
-                                <x-property-media :property="$property" />
-                                <ul class="group-info">
-                                    <li>
-                                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            title="Add To Favorites">
-                                            <i class="ri-heart-line"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="content">
-                                <h3>
-                                    <a class="property-title"
-                                        href="{{ route('user.posts.show', $slug = $property['slug']) }}">{{ $property['property_name'] }}</a>
-                                </h3>
-                                <span>{{ $property['property_address'] }}</span>
-                            </div>
-                            <ul class="info-list">
-                                <li>
-                                    @if ($property['property_acreage'] !== null)
-                                        <div class="icon">
-                                            <img src=" {{ asset('assets/user/images/properties/area.svg') }}"
-                                                alt="area">
-                                        </div>
-                                        <span>{{ $property['property_acreage'] }}</span>
-                                    @endif
-                                </li>
-                            </ul>
-                            <div class="price-and-user">
-                                <div class="price">{{ $property->getFormattedPriceAttribute(true) }}</div>
-                                <div class="user">
-                                    @if ($property['seller']['user_avatar'] === null)
-                                        <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
-                                    @else
-                                        <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
-                                    @endif
-                                    <a
-                                        href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-property-listing-slide :property="$property" :key="$key" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
                 @endforeach
             </div>
         </div>
@@ -376,7 +331,7 @@
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
                 @forelse ($propertiesForSale as $property)
-                    <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]" />
+                    <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
                 @empty
                     <p> Chưa có tin đăng nào</p>
                 @endforelse
