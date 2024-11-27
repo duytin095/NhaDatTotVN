@@ -8,6 +8,7 @@ use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\AgentController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Home\DashboardController;
+use App\Http\Controllers\User\FavoritesController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\Admin\Manage\TypeController;
 use App\Http\Controllers\Admin\Manage\StatusController;
@@ -83,7 +84,8 @@ Route::name('user.')->prefix('user')->group(function () {
     Route::middleware(['users.auth'])->group(function () {
         Route::get      ('/logout', [AuthController::class, 'onUserLogout'])->name('logout');
         Route::get      ('/profile', [ProfileController::class, 'index'])->name('profile.index');
-        Route::get      ('/profile/favorites', [ProfileController::class, 'favorites'])->name('profile.favorites');
+        Route::get      ('/profile/favorites', [FavoritesController::class, 'index'])->name('profile.favorites');
+        Route::post     ('/profile/favorites/toggle', [FavoritesController::class, 'toggleFavorite'])->name('profile.favorites.toggle');
 
         // TIN DANG
         Route::get      ('/posts', [PostController::class, 'index'])->name('posts.index');
@@ -93,7 +95,7 @@ Route::name('user.')->prefix('user')->group(function () {
 
     Route::get      ('/posts/search', [PostController::class, 'search'])->name('posts.search');
 
-    // !!!! this line should be plade after /posts/create !!!! 
+    // !!!! this line should be plade after /posts/create to prevent error!!!! 
     Route::get      ('/posts-by-type/{slug}', [PostController::class, 'showByType'])->name('posts.show-by-type');
     Route::get      ('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 });

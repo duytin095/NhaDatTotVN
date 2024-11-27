@@ -1,11 +1,12 @@
 @props([
     'property' => null,
-    //'other' => null,
     'columnSizes' => [
         'xl' => 4,
         'md' => 6,
     ],
+    'isFavorite' => false
 ])
+
 <div class="col-xl-{{ $columnSizes['xl'] }} col-md-{{ $columnSizes['md'] }}">
     <div class="properties-item">
         <div class="properties-image">
@@ -100,9 +101,10 @@
                 </div>
                 <ul class="group-info">
                     <li>
-                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                            aria-label="Add To Favorites" data-bs-original-title="Add To Favorites">
-                            <i class="ri-heart-line"></i>
+                        <button id="addToFavorites" onclick="addToFavorites({{ $property->property_id }})"
+                            type="button" data-bs-toggle="tooltip" data-bs-placement="top"
+                            aria-label="" data-bs-original-title={{ $isFavorite ? 'Xoá' : 'Thêm' }}>
+                            <i id="heart"  class="ri-heart-3-{{ $isFavorite ? 'fill' : 'line' }} {{ $isFavorite ? 'text-danger' : '' }}"></i>
                         </button>
                     </li>
                 </ul>
@@ -110,3 +112,6 @@
         </div>
     </div>
 </div>
+@push('scripts')
+    <script src="{{ asset('assets/user/js/favorite.js') }}"></script>
+@endpush

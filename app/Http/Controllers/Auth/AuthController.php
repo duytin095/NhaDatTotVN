@@ -294,8 +294,4 @@ class AuthController extends Controller
         Auth::guard('users')->logout();
         return redirect(route('user.login.show'));
     }
-
-    
-    
-    
 }

@@ -36,8 +36,11 @@ class PostController extends Controller
             ->when(request()->input('filter'), function ($query, $filter) {
                 return $query->{$filter}();
             })
+            ->with(['favoritedBy' => function ($query) {
+                $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
+            }])
             ->paginate(12);
-
+           
         return view('user.post', [
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
             'properties' => $properties,
