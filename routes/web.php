@@ -10,6 +10,7 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Home\DashboardController;
 use App\Http\Controllers\User\FavoritesController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+use App\Http\Controllers\Admin\Manage\NewsController;
 use App\Http\Controllers\Admin\Manage\TypeController;
 use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\PropertyController;
@@ -58,6 +59,11 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
         // TRANG THAI
         Route::get      ('/statuses/all-data', [StatusController::class, 'getAllStatuses'])->name('statuses.get-all-statuses');
+
+        // TIN TUC
+        Route::get      ('/news', [NewsController::class, 'index'])->name('news.show');
+        Route::get      ('/news/create', [NewsController::class, 'create'])->name('news.create');
+        Route::post     ('/news/store', [NewsController::class, 'store'])->name('news.store');
 
         Route::controller(DashboardController::class)->name('dashboard.')->prefix('dashboard')->group(function () {
             Route::get('/', 'index')->name('show');

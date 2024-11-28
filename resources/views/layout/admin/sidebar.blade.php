@@ -144,7 +144,9 @@
                             <li>
                                 <a href="{{ route('admin.constructions.show') }}">Danh sách dự án</a>
                             </li>
-                           
+                           <li>
+                               <a href="{{ route('admin.news.show') }}">Danh sách tin tức</a>
+                           </li>
                         </ul>
                     </div>
                 </div>

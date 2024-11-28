@@ -50,6 +50,14 @@
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/datatables/dataTables.bs4-custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/datatables/buttons.bs.css') }}">
 
+    <!-- Quill editor-->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+
+    <!-- Summernote CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/admin/vendor/summernote/summernote-bs4.css') }}">
+
+
+
 </head>
 
 <body>
@@ -146,6 +154,12 @@
 
     <!-- Add the Leaflet library (used to import the OpenStreetMap)-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <!-- Quill-->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+    <!-- Summernote JS -->
+    <script src="{{ asset('assets/admin/vendor/summernote/summernote-bs4.js') }}"></script>
 
     <!--Google Maps -->
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU4Gzc5BpgYWvH7P0hqskwIuRwmr2qX20&libraries=places&loading=async&callback=initMap"></script>
