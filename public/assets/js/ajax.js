@@ -20,7 +20,11 @@ function sendRequest(_url, method, data, is_form_data = false) {
                     resolve(response);
                 },
                 error: function (error) {
-                    if (error.status == 412) {
+                    if (error.status == 401) {
+                        if (error.responseJSON.link) {
+                            window.location.href = error.responseJSON.link;
+                            return;
+                        }
                         location.reload();
                     }
                     if (error.status != 422) {

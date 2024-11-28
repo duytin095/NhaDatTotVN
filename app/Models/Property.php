@@ -88,7 +88,7 @@ class Property extends Model
 
     public function favoritedBy()
     {
-        return $this->belongsToMany(User::class, 'favorite_list', 'property_id', 'user_id');
+        return $this->belongsToMany(User::class, 'favorite_list', 'property_id', 'user_id')->withTimestamps();
     }
 
     public function getPropertyImagesAttribute()

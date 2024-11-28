@@ -23,8 +23,8 @@ class FavoritesController extends Controller
         $this->breadcrumbService->addCrumb('Yêu thích');
 
         $user = Auth::guard('users')->user();
-        $favorites = $user->favorites()
-        ->paginate(12);
+        $favorites = $user->favorites()->orderBy('pivot_created_at', 'desc')->paginate(12);
+        // dd($user->favorites()->latest()->get()->toArray());
 
         return view('user.favorites', [
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
@@ -36,72 +36,31 @@ class FavoritesController extends Controller
         $property_id = $request->property_id;
         $user_id = auth()->user()['user_id'];
         
-        $favorite = Favorites::firstOrCreate([
-            'property_id' => $property_id,
-            'user_id' => $user_id,
-        ]);
-    
-        if ($favorite->wasRecentlyCreated) {
-            return response()->json([
-                'status' => 200,
-                'success' => 'Đã thêm vào yêu thích',
-                'type' => 'add'
-            ], 200);
-        } else {
-            $favorite->delete();
-            return response()->json([
-                'status' => 200,
-                'success' => 'Đã huỷ yêu thích',
-                'type' => 'delete'
-            ], 200);
-        }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
+        try {
+            $favorite = Favorites::firstOrCreate([
+                'property_id' => $property_id,
+                'user_id' => $user_id,
+            ]);
         
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            if ($favorite->wasRecentlyCreated) {
+                return response()->json([
+                    'status' => 200,
+                    'success' => 'Đã thêm vào yêu thích',
+                    'type' => 'add'
+                ], 200);
+            } else {
+                $favorite->delete();
+                return response()->json([
+                    'status' => 200,
+                    'success' => 'Đã huỷ yêu thích',
+                    'type' => 'delete'
+                ], 200);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
+            ]);
+        }
     }
 }

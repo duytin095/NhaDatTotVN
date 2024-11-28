@@ -35,11 +35,11 @@ class HomeController extends Controller
 
 
             $latestProperties = Property::latest()
-            ->with(['favoritedBy' => function ($query) {
-                if (Auth::guard('users')->check()) {
-                    $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
-                }
-            }])
+                ->with(['favoritedBy' => function ($query) {
+                    if (Auth::guard('users')->check()) {
+                        $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
+                    }
+                }])
                 ->take(6)->get();
 
             // Change property_purpose_id for what you like to show
