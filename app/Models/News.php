@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Traits\ViewCounter;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\App;
 
 class News extends Model
 {
@@ -44,6 +45,6 @@ class News extends Model
     }
     public function getTypeAttribute($value)
     {
-        return config('constants.property-basic-info.property-purposes')[$value]['name'];
+        return DB::table('news_types')->where('id', $value)->select('name')->first()->name;
     }
 }

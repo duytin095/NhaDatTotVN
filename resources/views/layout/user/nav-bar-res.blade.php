@@ -43,6 +43,27 @@
                       </div>
                   </div>
               @endforeach
+              <div class="accordion-item">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse{{ $purposeId }}" aria-expanded="false"
+                    aria-controls="collapse{{ $purposeId }}">
+                    {{ App\Models\Type::where('property_purpose_id', $purposeId)->first()->getPurposeNameAttribute() }}
+                </button>
+
+                <div id="collapse{{ $purposeId }}" class="accordion-collapse collapse"
+                    data-bs-parent="#navbarAccordion">
+                    <div class="accordion-body">
+                        @foreach (App\Models\Type::where('property_purpose_id', $purposeId)->get() as $type)
+                            <div class="accordion-item">
+                                <a href="{{ route('user.posts.show-by-type', $type->slug) }}"
+                                    class="accordion-link">
+                                    {{ $type->property_type_name }}
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
 
               @if (auth()->check())
                   <div class="accordion-item">

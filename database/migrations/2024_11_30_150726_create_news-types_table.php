@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('news_type', function (Blueprint $table) {
+        Schema::create('news_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->tinyInteger('active_flg')->default(0);
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('news_type');
+        Schema::dropIfExists('news_types');
     }
 };
