@@ -2,48 +2,66 @@
 
 namespace App\Http\Controllers\Admin\Manage;
 
-use App\Models\Type;
+use App\Models\News;
+use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class NewsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('admin.manage.news.index');
+        $news = $this->getNews();
+        $purposes = config('constants.property-basic-info.property-purposes');
+        return view('admin.manage.news.index', compact('news', 'purposes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $purposes = config('constants.property-basic-info.property-purposes');
         return view('admin.manage.news.create', compact('purposes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        dd($request->all());
+        try {
+            throw new \Exception('Test exception');
+            DB::beginTransaction();
+            $request->validate([
+                'title' => 'required',
+                'type' => 'required',
+            ], [
+                'title.required' => 'Nhập tiêu đề tin tức',
+                'type.required' => 'Chọn loại tin tức',
+            ]);
+
+            $this->addNews($request);
+ 
+            DB::commit();
+            return response()->json([
+                'status' => 200,
+                'messgae' => 'create news successfully',
+                'redirect' => '/admin/news',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $errors = $e->validator->errors()->getMessages();
+            return response()->json([
+                'status' => 422,
+                'message' => "Vui lòng nhập đầy đủ thông tin",
+                'errors' => $errors,
+            ])->setStatusCode(422);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return ApiResponse::errorResponse($th);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
@@ -63,5 +81,17 @@ class NewsController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    protected function addNews($request){
+        News::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'type' => $request->type,
+            'user_id' => auth('admin')->id(),
+        ]);
+    }
+    protected function getNews(){
+        return News::all();
     }
 }

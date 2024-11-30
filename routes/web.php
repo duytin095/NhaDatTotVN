@@ -11,6 +11,7 @@ use App\Http\Controllers\Home\DashboardController;
 use App\Http\Controllers\User\FavoritesController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\Admin\Manage\NewsController;
+use App\Http\Controllers\Admin\Manage\NewsTypeController;
 use App\Http\Controllers\Admin\Manage\TypeController;
 use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\PropertyController;
@@ -65,6 +66,10 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get      ('/news/create', [NewsController::class, 'create'])->name('news.create');
         Route::post     ('/news/store', [NewsController::class, 'store'])->name('news.store');
 
+        // LOAI TIN TUC
+        Route::get      ('/news-types', [NewsTypeController::class, 'index'])->name('news-types.index');
+        Route::post     ('/news-types/store', [NewsTypeController::class, 'store'])->name('news-types.store');
+
         Route::controller(DashboardController::class)->name('dashboard.')->prefix('dashboard')->group(function () {
             Route::get('/', 'index')->name('show');
         });
@@ -101,10 +106,16 @@ Route::name('user.')->prefix('user')->group(function () {
 
     Route::get      ('/posts/search', [PostController::class, 'search'])->name('posts.search');
 
-    // !!!! this line should be plade after /posts/create to prevent error!!!! 
+    // !!!! these lines should be placed after /posts/create to prevent error!!!! 
     Route::get      ('/posts-by-type/{slug}', [PostController::class, 'showByType'])->name('posts.show-by-type');
     Route::get      ('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+
+    // TIN TUC 
+    Route::post     ('/news/{slug}', [NewsController::class, 'store'])->name('news.store');
+
 });
 
 Route::redirect('/', '/user/home');
 Route::redirect('/user', '/user/home');
+
+Route::redirect('/admin', '/admin/login');

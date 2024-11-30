@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('content');
-            $table->json('image');
 
             $table->integer('view')->default(0);
             $table->unsignedBigInteger('user_id');

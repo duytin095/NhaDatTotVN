@@ -3,7 +3,7 @@ $(document).ready(function () {
 });
 
 function initDataTable() {
-    $('#news-table').DataTable({
+    $('#news-type-table').DataTable({
         "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50, "All"]],
         "language": {
             "lengthMenu": "Hiển thị _MENU_ tin/trang",
@@ -12,6 +12,8 @@ function initDataTable() {
     });
 }
 
-async function openCreatePage() {
-    window.location.href = '/admin/news/create';
+function openCreateModal() {
+    $('#createNewNewsTypeLabel').text('Thêm loại tin tức');
+    $('[name="news_type_name"]').val('');
+    $('#createNewNewsType').modal('show');
 }

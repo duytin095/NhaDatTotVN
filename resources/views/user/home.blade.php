@@ -408,31 +408,9 @@
                     iaculis consectetur.</p>
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
-                <div class="col-xl-4 col-md-6">
-                    <div class="blog-card">
-                        <div class="blog-image">
-                            <a href="blog-details.html">
-                                <img src="{{ asset('assets/user/images/properties/properties1.jpg') }}" alt="image">
-                            </a>
-                            <a href="blog-grid.html" class="tag-btn">Architecture</a>
-                        </div>
-                        <div class="blog-content">
-                            <ul class="meta">
-                                <li>
-                                    <i class="ri-calendar-2-line"></i>
-                                    December 25, 2024
-                                </li>
-                                <li>
-                                    <i class="ri-message-2-line"></i>
-                                    12
-                                </li>
-                            </ul>
-                            <h3>
-                                <a class="property-title" href="blog-details.html">Stories and Insights from the Real Estate Frontline</a>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
+                @foreach ($news as $new)
+                    <x-news :news="$new"/>
+                @endforeach
             </div>
         </div>
     </div>

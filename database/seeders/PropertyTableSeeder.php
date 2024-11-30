@@ -40,7 +40,7 @@ class PropertyTableSeeder extends Seeder
             foreach ($randomImages as $image) {
                 $imagePath = public_path($image);
                 $imageInstance = Image::make($imagePath);
-                $watermark = Image::make(public_path('assets/user/images/watermark.png'));
+                $watermark = Image::make(public_path('assets/user/images/nhadattotvn_logo_light.png'));
 
                 // Calculate the scale factor
                 $scaleFactor = min($imageInstance->width() / $watermark->width(), $imageInstance->height() / $watermark->height()) * 0.2; // adjust the 0.2 value to control the watermark size

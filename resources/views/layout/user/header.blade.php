@@ -9,20 +9,11 @@
                             <a href="https://www.facebook.com/" target="_blank">
                                 <i class="ri-facebook-fill"></i>
                             </a>
-                            <a href="https://twitter.com/" target="_blank">
-                                <i class="ri-twitter-x-line"></i>
-                            </a>
                             <a href="https://www.instagram.com/" target="_blank">
                                 <i class="ri-instagram-fill"></i>
                             </a>
-                            <a href="https://bd.linkedin.com/" target="_blank">
-                                <i class="ri-linkedin-fill"></i>
-                            </a>
                             <a href="https://www.youtube.com/" target="_blank">
                                 <i class="ri-youtube-line"></i>
-                            </a>
-                            <a href="https://www.pinterest.com/" target="_blank">
-                                <i class="ri-pinterest-line"></i>
                             </a>
                         </div>
                     </li>

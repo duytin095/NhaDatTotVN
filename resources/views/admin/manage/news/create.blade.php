@@ -9,16 +9,16 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="field-wrapper">
                             <div class="input-group">
-                                <input maxlength="" id="news-title-input" type="text" class="form-control"
+                                <input maxlength="" name="title" type="text" class="form-control"
                                     placeholder="Nhập tiêu đề tin" aria-describedby="remaining-characters">
                                 <span class="input-group-text" id="remaining-characters"></span>
                             </div>
-                            <div class="field-placeholder">Tiêu đề tin</div>
+                            <div class="field-placeholder">Tiêu đề tin <span class="text-danger">*</span></div>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                         <div class="field-wrapper">
-                            <select id="type-list" class="select-single js-states" title="Select Property Type"
+                            <select name="type" class="select-single js-states" title="Select Property Type"
                                 data-live-search="true">
                                 <option value="" disabled selected>Chọn loại tin tức
                                 </option>
@@ -31,7 +31,9 @@
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="field-wrapper mb-2">
-                            <div class="summernote"></div>
+                            <div name="content">
+                                {!! lorem(5) !!}
+                            </div>
                             <div class="field-placeholder">Nội dung tin tức<span class="text-danger">*</span></div>
                         </div>
                         <div>
