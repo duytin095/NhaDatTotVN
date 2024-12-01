@@ -7,20 +7,35 @@ use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Services\UserBreadcrumbService;
 
 class NewsController extends Controller
 {
+    private $breadcrumbService;
+
+    public function __construct(UserBreadcrumbService $breadcrumbService)
+    {
+        $this->breadcrumbService = $breadcrumbService;
+    }
     public function index()
     {
-        $news = $this->getNews();
-        $purposes = config('constants.property-basic-info.property-purposes');
-        return view('admin.manage.news.index', compact('news', 'purposes'));
+        try {
+            $news = $this->getNews();
+            $purposes = config('constants.property-basic-info.property-purposes');
+            return view('admin.manage.news.index', compact('news', 'purposes'));
+        } catch (\Throwable $th) {
+            abort(500);
+        }
     }
 
     public function create()
     {
-        $purposes = config('constants.property-basic-info.property-purposes');
-        return view('admin.manage.news.create', compact('purposes'));
+        try {
+            $purposes = config('constants.property-basic-info.property-purposes');
+            return view('admin.manage.news.create', compact('purposes'));
+        } catch (\Throwable $th) {
+            abort(500);
+        }
     }
 
     public function store(Request $request)
@@ -57,9 +72,25 @@ class NewsController extends Controller
         }
     }
 
-    public function show(string $id)
+    public function show($slug)
     {
-        //
+        try {
+            $news = News::where('slug', $slug)
+            ->firstOrFail();
+
+            $news->incrementNewsViews();
+
+            $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+            // $this->breadcrumbService->addCrumb($news->getPurposeNameAttribute(), '/user/posts-by-type/' . $news->getPurposeSlugAttribute());
+            $this->breadcrumbService->addCrumb($news['title'], $news['slug']);
+
+            return view('user.news.detail')
+                ->with('news', $news)
+                ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
+
+        } catch (\Throwable $th) {
+            abort(500);
+        }
     }
 
     public function edit(string $id)
@@ -92,6 +123,6 @@ class NewsController extends Controller
         ]);
     }
     protected function getNews(){
-        return News::all();
+        return News::where('active_flg', ACTIVE)->orderBy('created_at', 'desc')->get();
     }
 }

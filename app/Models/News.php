@@ -19,6 +19,11 @@ class News extends Model
     protected $table = 'news';
     protected $primaryKey = 'id';
 
+    public function incrementNewsViews()
+    {
+        $this->incrementView('view');
+    }
+
     public function sluggable(): array
     {
         return [

@@ -22,7 +22,7 @@
                 </li> --}}
             </ul>
             <h3>
-                <a class="property-title" href="blog-details.html">{{ $news['title'] }}</a>
+                <a class="property-title" href="{{ route('user.news.show', $news['slug']) }}">{{ $news['title'] }}</a>
             </h3>
         </div>
     </div>

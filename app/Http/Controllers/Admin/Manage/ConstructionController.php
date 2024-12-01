@@ -17,43 +17,15 @@ class ConstructionController extends Controller
      */
     public function index()
     {
-        // $constructions = Construction::where('active_flg', 0)->orderByDesc('created_at')->get();
         return view('admin.manage.construction.index');
     }
-    /**
-     * Get a listing of the resource.
-     */
-    // public function get(Request $request)
-    // {
-    //     try {
-    //         $page = $request->input('page', 1); // default to page 1 if not provided
 
-    //         /* try to make it fall to catch() */
-    //         // throw new \Exception("HEHEHEH");
-
-    //         $constructions = Construction::orderByDesc('created_at')->paginate(10, ['*'], 'page', $page);
-    //         return response()->json([
-    //             'status' => 200,
-    //             'constructions' => $constructions,
-    //             'paginate' => [
-    //                 'total' => $constructions->total(),
-    //                 'per_page' => $constructions->perPage(),
-    //                 'current_page' => $constructions->currentPage(),
-    //                 'last_page' => $constructions->lastPage(),
-    //                 'from' => $constructions->firstItem(),
-    //                 'to' => $constructions->lastItem(),
-    //                 'links' => $this->getPaginationLinks($constructions)
-    //             ],
-    //         ]);
-    //     } catch (\Throwable $th) {
-    //         return ApiResponse::errorResponse($th);
-    //     }
-    // }
-
-    public function get(Request $request)
+    public function get()
     {
         try {
-            $constructions = Construction::where('active_flg', 0)->orderByDesc('created_at')->get();
+            $constructions = Construction::where('active_flg', ACTIVE)
+                ->orderBy('created_at', 'desc')
+                ->get()->toArray();
             return response()->json([
                 'status' => 200,
                 'data' => $constructions,
@@ -96,22 +68,6 @@ class ConstructionController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
@@ -130,6 +86,17 @@ class ConstructionController extends Controller
             return ApiResponse::updateSuccessResponse();
         } catch (\Throwable $th) {
            return ApiResponse::errorResponse($th);
+        }
+    }
+
+    public function active(string $id){
+        try {
+            Construction::findOrFail($id)->update([
+                'active_flg' => INACTIVE
+            ]);
+            return ApiResponse::updateSuccessResponse();
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
         }
     }
 

@@ -16,3 +16,6 @@ const NORTH_EAST = 8;
 // 0 => no video
 const YOUTUBE = 1;
 const TIKTOK = 2;
+
+const ACTIVE = 0;
+const INACTIVE = 1;

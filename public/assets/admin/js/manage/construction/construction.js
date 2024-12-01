@@ -1,11 +1,11 @@
 $(document).ready(function () {
-    $('#createNewConstruction').on('hidden.bs.modal', function () {
-        $('.text-danger.form-error').remove();
-        $('[name="construction_name"]').val('');
-        $('#construction_id').val('');
-    });
-
     initDataTable();
+});
+
+$('#createNewConstruction').on('hidden.bs.modal', function () {
+    $('.text-danger.form-error').remove();
+    $('[name="construction_name"]').val('');
+    $('#construction_id').val('');
 });
 
 $('#create-construction-submit-btn').on('click', function () {
@@ -23,10 +23,14 @@ async function createConstruction() {
             construction_name: $('[name="construction_name"]').val(),
         }
 
-        const response = await sendRequest(`${window.location.origin}/admin/constructions/store`, 'POST', data);
+        const response = await sendRequest(
+            `${window.location.origin}/admin/constructions/store`,
+            'POST',
+            data
+        );
 
         if (response.status == 200) {
-            getConstructions();
+            $('#construction-table').DataTable().ajax.reload();
             showMessage(response.message);
             $('#createNewConstruction').modal('hide');
         }
@@ -48,7 +52,12 @@ async function updateConstruction(id) {
         data = {
             construction_name: $('[name="construction_name"]').val(),
         }
-        const response = await sendRequest(`${window.location.origin}/admin/constructions/${id}`, 'PUT', data);
+        const response = await sendRequest(
+            `${window.location.origin}/admin/constructions/${id}`,
+            'PUT',
+            data
+        );
+        
         if (response.status == 200) {
             $('#construction-table').DataTable().ajax.reload();
             $('#createNewConstruction').modal('hide');
@@ -96,54 +105,6 @@ function openDeleteModal(id) {
     confirmEvent(event);
 }
 
-function displayConstructions(data, paginate) {
-    $('#construction-table tbody').empty();
-    $.each(data, function (key, value) {
-        $('#construction-table tbody').append(`
-                <tr role="row" class="odd">
-                    <td class="sorting_1">
-                        <div class="media-box">
-                            <div class="media-box-body">
-                                <a href="#" class="text-truncate">${value.construction_name}</a>
-                                
-                            </div>
-                        </div>
-                    </td>
-                    <td>${value.created_at}</td>
-                    <td>
-                        <div class="actions">
-                            <a href="javascript:void(0)" onclick="openUpdateModal(${value.construction_id}, '${value.construction_name}')" data-toggle="tooltip" data-placement="top" title=""
-                                data-original-title="Edit">
-                                <i class="icon-edit1 text-info"></i>
-                            </a>
-                            <a href="javascript:void(0)" onclick="openDeleteModal(${value.construction_id})" data-toggle="tooltip" data-placement="top" title=""
-                                data-original-title="Delete">
-                                <i class="icon-x-circle text-danger"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            `);
-    });
-    const paginationHtml = `
-        <ul class="pagination pagination-sm">
-            <li class="paginate_button page-item previous ${paginate.current_page == 1 ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="getConstructions(${paginate.current_page - 1})">Lùi</a>
-            </li>
-            ${paginate.links.map((link, index) => `
-                <li class="page-item ${link.active ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="getConstructions(${link.label})">${link.label}</a>
-                </li>
-            `).join('')}
-            <li class="page-item ${paginate.current_page == paginate.last_page ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="getConstructions(${paginate.current_page + 1})">Tiếp</a>
-            </li>
-        </ul>
-    `;
-    $('#construction-table-pagination-links').html(paginationHtml);
-    $('#construction-table-info').text(`Hiển thị ${paginate.from} từ ${paginate.to} đến ${paginate.total} dự án`);
-}
-
 function initDataTable() {
     $('#construction-table').DataTable({
         "ajax": {
@@ -153,14 +114,19 @@ function initDataTable() {
             }
         },
         "columns": [
-            { "data": "construction_name" },
-            { "data": "created_at" },
+            { "data": "construction_name", "width": "70%" },
+            { "data": "created_at", "width": "10%" },
             {
                 "data": null,
-                "render": function (data, type, row) {
-return "<button onclick='openUpdateModal(" + row.construction_id + ", \"" + row.construction_name + "\")' class='btn btn-primary'>Edit</button> <button onclick='openDeleteModal(" + row.construction_id + ")' class='btn btn-danger'>Delete</button> <button class='btn btn-success'>Show</button>";                }
+                "render": function (row) {
+                    return "<button onclick='openUpdateModal(" + row.construction_id + ", \"" + row.construction_name + "\")' class='btn btn-primary'>Sửa</button>  <button class='btn btn-secondary'>Ẩn</button>";
+                },
+                "width": "20%",
+                "orderable": false
             }
         ],
+        "ordering": true,
+        "order": [[1, "desc"]],
         "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50, "All"]],
         "language": {
             "lengthMenu": "Hiển thị _MENU_ tin/trang",
