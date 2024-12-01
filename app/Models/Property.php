@@ -18,6 +18,12 @@ class Property extends Model
 
     protected $primaryKey = 'property_id';
     protected $table = 'properties';
+
+    public function incrementPropertyView()
+    {
+        $this->incrementView('property_views');
+    }
+
     public function sluggable(): array
     {
         return [

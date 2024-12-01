@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -12,12 +11,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- <meta name="csrf_token" value="{{ csrf_token() }}" /> --}}
 
-    <!-- Title -->
     <title>Nha Dat Tot VN</title>
 
-    <!-- *************
-   ************ Common Css Files *************
-  ************ -->
     <!-- Bootstrap css -->
     <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap.min.css') }}" />
 
@@ -26,6 +21,8 @@
 
     <!-- Main css -->
     <link rel="stylesheet" href="{{ asset('assets/admin/css/main.css') }}" />
+
+    
 
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/bs-select/bs-select.css') }}" />
 
@@ -49,6 +46,11 @@
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/datatables/dataTables.bs4.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/datatables/dataTables.bs4-custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/datatables/buttons.bs.css') }}">
+
+    <!-- Summernote CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/admin/vendor/summernote/summernote-bs4.css') }}">
+
+
 
 </head>
 
@@ -114,25 +116,6 @@
     <script src="{{ asset('assets/admin/vendor/rating/raty.js') }}"></script>
     <script src="{{ asset('assets/admin/vendor/rating/raty-custom.js') }}"></script>
 
-    <!-- Apex Charts -->
-    {{-- p <script src="{{ asset('assets/admin/vendor/apex/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendor/apex/custom/home/salesGraph.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendor/apex/custom/home/ordersGraph.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendor/apex/custom/home/earningsGraph.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendor/apex/custom/home/visitorsGraph.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendor/apex/custom/home/customersGraph.js') }}"></script>
-    <scrit src="{{ asset('assets/admin/vendor/apex/custom/home/sparkline.js') }}"></script> --}}
-
-    <!-- Circleful Charts -->
-    <script src="{{ asset('assets/admin/vendor/circliful/circliful.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendor/circliful/circliful.custom.js') }}"></script>
-
-    <!-- Data Tables -->
-    <script src="{{ asset('assets/admin/vendor/datatables/dataTables.min.js') }}"></script>
-    <script src=" {{ asset('assets/admin/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- Custom Data tables -->
-    {{-- <script src="{{ asset('assets/admin/vendor/datatables/custom/custom-datatables.js') }}"></script> --}}
 
     <!-- Bootstrap Select JS -->
     <script src="{{ asset('assets/admin/vendor/bs-select/bs-select.min.js') }}"></script>
@@ -141,17 +124,41 @@
     <!-- Dropzone JS -->
     <script src="{{ asset('assets/admin/vendor/dropzone/dropzone.min.js') }}"></script>
 
-    <!-- Main Js Required -->
-    <script src="{{ asset('assets/admin/js/main.js') }}"></script>
+    
 
     <!-- Add the Leaflet library (used to import the OpenStreetMap)-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <!-- Data Tables -->
+    <script src="{{ asset('assets/admin/vendor/datatables/dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/vendor/datatables/dataTables.bootstrap.min.js') }}"></script>
+
+    <!-- Custom Data tables -->
+    <script src="{{ asset('assets/admin/vendor/datatables/custom/custom-datatables.js') }}"></script>
+    <script src="{{ asset('assets/admin/vendor/datatables/custom/fixedHeader.js') }}"></script>
+
+    
+
+    <!-- Download / CSV / Copy / Print -->
+    <script src="{{ asset('assets/admin/vendor/datatables/buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/vendor/datatables/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/vendor/datatables/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/vendor/datatables/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('assets/admin/vendor/datatables/html5.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/vendor/datatables/buttons.print.min.js') }}"></script>
+
 
     <!--Google Maps -->
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU4Gzc5BpgYWvH7P0hqskwIuRwmr2qX20&libraries=places&loading=async&callback=initMap"></script>
     <script src="{{ asset('assets/js/sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2-custom.js') }}"></script>
     <script src="{{ asset('assets/js/ajax.js') }}"></script>
+
+    <!-- Summernote JS -->
+    <script src="{{ asset('assets/admin/vendor/summernote/summernote-bs4.js') }}"></script>
+
+    <!-- Main Js Required -->
+    <script src="{{ asset('assets/admin/js/main.js') }}"></script>
 
     @stack('scripts')
 </body>

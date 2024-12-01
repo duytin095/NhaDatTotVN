@@ -6,13 +6,14 @@
         <!-- Tabs nav start -->
         <div class="nav" role="tablist" aria-orientation="vertical">
             <a href="#" class="logo">
-                <img src="{{asset('assets/admin/img/logo.svg')}}" alt="Uni Pro Admin">
+                <img src="{{ asset('assets/admin/img/logo.svg') }}" alt="Uni Pro Admin">
             </a>
             {{-- <a class="nav-link " id="home-tab" data-bs-toggle="tab" href="#tab-home" role="tab" aria-controls="tab-home" aria-selected="true">
                 <i class="icon-home2"></i>
                 <span class="nav-link-text">Dashboards</span>
             </a> --}}
-            <a class="nav-link active" id="product-tab" data-bs-toggle="tab" href="#tab-product" role="tab" aria-controls="tab-product" aria-selected="false">
+            <a class="nav-link active" id="product-tab" data-bs-toggle="tab" href="#tab-product" role="tab"
+                aria-controls="tab-product" aria-selected="false">
                 <i class="icon-layers2"></i>
                 <span class="nav-link-text">Product</span>
             </a>
@@ -144,7 +145,12 @@
                             <li>
                                 <a href="{{ route('admin.constructions.show') }}">Danh sách dự án</a>
                             </li>
-                           
+                            <li>
+                                <a href="{{ route('admin.news.show') }}">Danh sách tin tức</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.news-types.index') }}">Danh sách loại tin tức</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

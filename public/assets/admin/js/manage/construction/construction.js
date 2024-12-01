@@ -1,13 +1,11 @@
 $(document).ready(function () {
-    getConstructions();
-    $('#createNewConstruction').on('hidden.bs.modal', function () {
-        $('.text-danger.form-error').remove();
-        $('[name="construction_name"]').val('');
-        $('#construction_id').val('');
-    });
-    $('#create-new-construction-btn').on('click', function(){
-        openCreateModal();
-    });
+    initDataTable();
+});
+
+$('#createNewConstruction').on('hidden.bs.modal', function () {
+    $('.text-danger.form-error').remove();
+    $('[name="construction_name"]').val('');
+    $('#construction_id').val('');
 });
 
 $('#create-construction-submit-btn').on('click', function () {
@@ -19,33 +17,20 @@ $('#create-construction-submit-btn').on('click', function () {
     }
 });
 
-async function getConstructions(page = 1) {
-    try {
-        const response = await sendRequest(`${window.location.origin}/admin/constructions/get?page=${page}`, 'GET');
-        if (response.status == 200) {
-            const constructions = response.constructions.data;
-            const paginate = response.paginate;
-            displayConstructions(constructions, paginate);
-
-            window.history.pushState(null, null, `${window.location.pathname}?page=${page}`); // update the URL in the browser's address bar to reflect the current page number
-            // window.location.hash = `page=${page}`; // the other way to update the URL fragment (the part after the # symbol) to reflect the current page number
-        }
-    } catch (error) {
-        console.log(error);
-        
-        showMessage(error.message);
-    }
-}
 async function createConstruction() {
     try {
         let data = {
             construction_name: $('[name="construction_name"]').val(),
         }
-        
-        const response = await sendRequest(`${window.location.origin}/admin/constructions/store`, 'POST', data);
+
+        const response = await sendRequest(
+            `${window.location.origin}/admin/constructions/store`,
+            'POST',
+            data
+        );
 
         if (response.status == 200) {
-            getConstructions();
+            $('#construction-table').DataTable().ajax.reload();
             showMessage(response.message);
             $('#createNewConstruction').modal('hide');
         }
@@ -62,15 +47,19 @@ async function createConstruction() {
         }
     }
 }
-async function updateConstruction(id){
+async function updateConstruction(id) {
     try {
         data = {
             construction_name: $('[name="construction_name"]').val(),
         }
-        const response = await sendRequest(`${window.location.origin}/admin/constructions/${id}`, 'PUT', data);
+        const response = await sendRequest(
+            `${window.location.origin}/admin/constructions/${id}`,
+            'PUT',
+            data
+        );
+        
         if (response.status == 200) {
-            const current_page = new URLSearchParams(window.location.search).get('page');
-            getConstructions(current_page);
+            $('#construction-table').DataTable().ajax.reload();
             $('#createNewConstruction').modal('hide');
             showMessage(response.message);
         }
@@ -82,7 +71,7 @@ async function deleteConstruction(id) {
     try {
         const response = await sendRequest(`${window.location.origin}/admin/constructions/${id}`, 'DELETE');
         if (response.status == 200) {
-            getConstructions();
+            $('#construction-table').DataTable().ajax.reload();
             showMessage(response.message);
         }
     } catch (error) {
@@ -116,50 +105,32 @@ function openDeleteModal(id) {
     confirmEvent(event);
 }
 
-function displayConstructions(data, paginate) {
-    $('#construction-table tbody').empty();
-    $.each(data, function (key, value) {
-        $('#construction-table tbody').append(`
-                <tr role="row" class="odd">
-                    <td class="sorting_1">
-                        <div class="media-box">
-                            <div class="media-box-body">
-                                <a href="#" class="text-truncate">${value.construction_name}</a>
-                                
-                            </div>
-                        </div>
-                    </td>
-                    <td>${value.created_at}</td>
-                    <td>
-                        <div class="actions">
-                            <a href="javascript:void(0)" onclick="openUpdateModal(${value.construction_id}, '${value.construction_name}')" data-toggle="tooltip" data-placement="top" title=""
-                                data-original-title="Edit">
-                                <i class="icon-edit1 text-info"></i>
-                            </a>
-                            <a href="javascript:void(0)" onclick="openDeleteModal(${value.construction_id})" data-toggle="tooltip" data-placement="top" title=""
-                                data-original-title="Delete">
-                                <i class="icon-x-circle text-danger"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            `);
+function initDataTable() {
+    $('#construction-table').DataTable({
+        "ajax": {
+            "url": "/admin/constructions/get",
+            "dataSrc": function (json) {
+                return json.data;
+            }
+        },
+        "columns": [
+            { "data": "construction_name", "width": "70%" },
+            { "data": "created_at", "width": "10%" },
+            {
+                "data": null,
+                "render": function (row) {
+                    return "<button onclick='openUpdateModal(" + row.construction_id + ", \"" + row.construction_name + "\")' class='btn btn-primary'>Sửa</button>  <button class='btn btn-secondary'>Ẩn</button>";
+                },
+                "width": "20%",
+                "orderable": false
+            }
+        ],
+        "ordering": true,
+        "order": [[1, "desc"]],
+        "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50, "All"]],
+        "language": {
+            "lengthMenu": "Hiển thị _MENU_ tin/trang",
+            "info": "Hiển thị trang _PAGE_ của _PAGES_",
+        }
     });
-    const paginationHtml = `
-        <ul class="pagination pagination-sm">
-            <li class="paginate_button page-item previous ${paginate.current_page == 1 ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="getConstructions(${paginate.current_page - 1})">Lùi</a>
-            </li>
-            ${paginate.links.map((link, index) => `
-                <li class="page-item ${link.active ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="getConstructions(${link.label})">${link.label}</a>
-                </li>
-            `).join('')}
-            <li class="page-item ${paginate.current_page == paginate.last_page ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="getConstructions(${paginate.current_page + 1})">Tiếp</a>
-            </li>
-        </ul>
-    `;
-    $('#construction-table-pagination-links').html(paginationHtml);
-    $('#construction-table-info').text(`Hiển thị ${paginate.from} từ ${paginate.to} đến ${paginate.total} dự án`);
 }

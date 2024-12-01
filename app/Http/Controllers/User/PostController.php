@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helpers\ApiResponse;
 use App\Models\Type;
 use App\Models\Property;
 use App\Models\Construction;
@@ -13,7 +14,6 @@ use Intervention\Image\Facades\Image;
 use App\Services\UserBreadcrumbService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Livewire\ShowPropertiesByType;
 
 class PostController extends Controller
 {
@@ -257,7 +257,7 @@ class PostController extends Controller
                 }
             }])
             ->firstOrFail();
-            $property->incrementViews();
+            $property->incrementPropertyView();
             $featuredProperties = Property::take(5)->get();
 
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
@@ -270,10 +270,7 @@ class PostController extends Controller
                 ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
 
         } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
-            ]);
+            return ApiResponse::errorResponse($th);
         }
     }
 

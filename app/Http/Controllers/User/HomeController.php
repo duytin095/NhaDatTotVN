@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Status;
 use App\Models\Property;
 use App\Http\Controllers\Controller;
+use App\Models\News;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -68,6 +69,9 @@ class HomeController extends Controller
             // ->with(['seller', 'status', 'type'])
             // ->take(5)->get();
 
+            $news = News::latest()->take(3)->get();
+            // dd($news);
+
             return view(
                 'user.home',
                 compact(
@@ -83,6 +87,7 @@ class HomeController extends Controller
                     'sellCount',
                     'rentCount',
                     'investCount',
+                    'news'
                 )
             );
         } catch (\Throwable $th) {

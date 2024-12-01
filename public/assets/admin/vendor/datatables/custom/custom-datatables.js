@@ -1,16 +1,3 @@
-// Basic DataTable
-$(function(){
-	$('#basicExample').DataTable({
-		"lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50, "All"]],
-		"language": {
-			"lengthMenu": "Display _MENU_ Records Per Page",
-			"info": "Showing Page _PAGE_ of _PAGES_",
-		}
-	});
-});
-
-
-
 // Print/Copy/CSV
 $(function(){
 	$('#copy-print-csv').DataTable( {
