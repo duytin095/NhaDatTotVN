@@ -21,4 +21,19 @@ class ApiResponse
             'redirect' => $redirect
         ]);
     }
+
+    public static function deleteSuccessResponse()
+    {
+        return response()->json([
+            'status' => 200,
+            'message' => config('constants.response.messages.deleted'),
+        ]);
+    }
+    public static function updateSuccessResponse()
+    {
+        return response()->json([
+            'status' => 200,
+            'message' => config('constants.response.messages.updated'),
+        ]);
+    }
 }

@@ -1,13 +1,11 @@
 $(document).ready(function () {
-    getConstructions();
     $('#createNewConstruction').on('hidden.bs.modal', function () {
         $('.text-danger.form-error').remove();
         $('[name="construction_name"]').val('');
         $('#construction_id').val('');
     });
-    $('#create-new-construction-btn').on('click', function(){
-        openCreateModal();
-    });
+
+    initDataTable();
 });
 
 $('#create-construction-submit-btn').on('click', function () {
@@ -19,29 +17,12 @@ $('#create-construction-submit-btn').on('click', function () {
     }
 });
 
-async function getConstructions(page = 1) {
-    try {
-        const response = await sendRequest(`${window.location.origin}/admin/constructions/get?page=${page}`, 'GET');
-        if (response.status == 200) {
-            const constructions = response.constructions.data;
-            const paginate = response.paginate;
-            displayConstructions(constructions, paginate);
-
-            window.history.pushState(null, null, `${window.location.pathname}?page=${page}`); // update the URL in the browser's address bar to reflect the current page number
-            // window.location.hash = `page=${page}`; // the other way to update the URL fragment (the part after the # symbol) to reflect the current page number
-        }
-    } catch (error) {
-        console.log(error);
-        
-        showMessage(error.message);
-    }
-}
 async function createConstruction() {
     try {
         let data = {
             construction_name: $('[name="construction_name"]').val(),
         }
-        
+
         const response = await sendRequest(`${window.location.origin}/admin/constructions/store`, 'POST', data);
 
         if (response.status == 200) {
@@ -62,15 +43,14 @@ async function createConstruction() {
         }
     }
 }
-async function updateConstruction(id){
+async function updateConstruction(id) {
     try {
         data = {
             construction_name: $('[name="construction_name"]').val(),
         }
         const response = await sendRequest(`${window.location.origin}/admin/constructions/${id}`, 'PUT', data);
         if (response.status == 200) {
-            const current_page = new URLSearchParams(window.location.search).get('page');
-            getConstructions(current_page);
+            $('#construction-table').DataTable().ajax.reload();
             $('#createNewConstruction').modal('hide');
             showMessage(response.message);
         }
@@ -82,7 +62,7 @@ async function deleteConstruction(id) {
     try {
         const response = await sendRequest(`${window.location.origin}/admin/constructions/${id}`, 'DELETE');
         if (response.status == 200) {
-            getConstructions();
+            $('#construction-table').DataTable().ajax.reload();
             showMessage(response.message);
         }
     } catch (error) {
@@ -162,4 +142,29 @@ function displayConstructions(data, paginate) {
     `;
     $('#construction-table-pagination-links').html(paginationHtml);
     $('#construction-table-info').text(`Hiển thị ${paginate.from} từ ${paginate.to} đến ${paginate.total} dự án`);
+}
+
+function initDataTable() {
+    $('#construction-table').DataTable({
+        "ajax": {
+            "url": "/admin/constructions/get",
+            "dataSrc": function (json) {
+                return json.data;
+            }
+        },
+        "columns": [
+            { "data": "construction_name" },
+            { "data": "created_at" },
+            {
+                "data": null,
+                "render": function (data, type, row) {
+return "<button onclick='openUpdateModal(" + row.construction_id + ", \"" + row.construction_name + "\")' class='btn btn-primary'>Edit</button> <button onclick='openDeleteModal(" + row.construction_id + ")' class='btn btn-danger'>Delete</button> <button class='btn btn-success'>Show</button>";                }
+            }
+        ],
+        "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50, "All"]],
+        "language": {
+            "lengthMenu": "Hiển thị _MENU_ tin/trang",
+            "info": "Hiển thị trang _PAGE_ của _PAGES_",
+        }
+    });
 }

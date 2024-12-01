@@ -3,53 +3,53 @@
     <div>
         <div class="card">
             <div class="card-body">
-                <button id="create-new-construction-btn" type="button" class="btn btn-primary">
+                <button id="create-new-construction-btn" onclick="openCreateModal()" type="button" class="btn btn-primary">
                     Thêm dự án
                 </button>
             </div>
         </div>
 
+        <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Danh sách loại tin tức</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="construction-table" class="table custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tên dự án</th>
+                                        <th>Ngày thêm</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{-- @foreach ($constructions as $construction)
+                                        <tr>
+                                            <td>{{ $construction['construction_name'] }}</td>
+                                            <td>{{ $construction['created_at'] }}</td>
+                                            <td>
+                                                <button onclick="openUpdateModal({{ $construction['construction_id'] }}, '{{ $construction['construction_name'] }}')" class="btn btn-primary">Sửa</button>
+                                                <button onclick="openDeleteModal({{ $construction['construction_id'] }})" class="btn btn-danger">Xoá</button>
+                                                <button onclick="openShowModal({{ $construction['construction_id'] }})" class="btn btn-success">Hiển thị</button>
+                                                <a href="{{ route('admin.news.edit', $new->id) }}" class="btn btn-primary">Sửa</a>
+                                            <a href="{{ route('admin.news.delete', $new->id) }}" class="btn btn-danger">Xoá</a>
 
-        <div class="card">
-            <div class="card-body">
-
-                <div class="table-responsive">
-                    <div id="copy-print-csv_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-
-                        {{-- <div id="copy-print-csv_filter" class="dataTables_filter"><label>Tìm kiếm:<input type="search"
-                                    class="form-control form-control-sm selectpicker" placeholder=""
-                                    aria-controls="copy-print-csv"></label></div> --}}
-                        <table id="construction-table" class="table v-middle dataTable no-footer" role="grid"
-                            aria-describedby="copy-print-csv_info">
-                            <thead>
-                                <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" aria-controls="copy-print-csv" rowspan="1"
-                                        colspan="1" aria-sort="ascending"
-                                        aria-label="Type: activate to sort column descending"
-                                        style="width: 192.34375px;">Tên dự án</th>
-                                    <th class="sorting" tabindex="0" aria-controls="copy-print-csv" rowspan="1"
-                                        colspan="1" aria-label="Added Date: activate to sort column ascending"
-                                        style="width: 96.875px;">Ngày thêm</th>
-                                    <th class="sorting" tabindex="0" aria-controls="copy-print-csv" rowspan="1"
-                                        colspan="1" aria-label="Actions: activate to sort column ascending"
-                                        style="width: 71.421875px;">Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-
-                        <div class="dataTables_info" id="construction-table-info" role="status" aria-live="polite">
-                        </div>
-
-                        <div class="dataTables_paginate paging_simple_numbers" id="construction-table-pagination-links">
-
+                                            </td>
+                                        </tr>
+                                    @endforeach --}}
+                                </tbody>
+                            </table>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
     </div>
 
 

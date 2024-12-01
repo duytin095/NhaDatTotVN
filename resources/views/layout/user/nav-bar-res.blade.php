@@ -18,6 +18,7 @@
 
               @php
                   $purposes = App\Models\Type::distinct('property_purpose_id')->pluck('property_purpose_id');
+                  $news_types = App\Models\NewsType::where('active_flg', 0)->get();
               @endphp
 
               @foreach ($purposes as $purposeId)
@@ -44,26 +45,23 @@
                   </div>
               @endforeach
               <div class="accordion-item">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapse{{ $purposeId }}" aria-expanded="false"
-                    aria-controls="collapse{{ $purposeId }}">
-                    {{ App\Models\Type::where('property_purpose_id', $purposeId)->first()->getPurposeNameAttribute() }}
-                </button>
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#collapseBlog" aria-expanded="false" aria-controls="collapseBlog">
+                      Blog
+                  </button>
 
-                <div id="collapse{{ $purposeId }}" class="accordion-collapse collapse"
-                    data-bs-parent="#navbarAccordion">
-                    <div class="accordion-body">
-                        @foreach (App\Models\Type::where('property_purpose_id', $purposeId)->get() as $type)
-                            <div class="accordion-item">
-                                <a href="{{ route('user.posts.show-by-type', $type->slug) }}"
-                                    class="accordion-link">
-                                    {{ $type->property_type_name }}
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+                  <div id="collapseBlog" class="accordion-collapse collapse" data-bs-parent="#navbarAccordion">
+                      <div class="accordion-body">
+                          @foreach ($news_types as $type)
+                              <div class="accordion-item">
+                                  <a href="#" class="accordion-link">
+                                      {{ $type['name'] }}
+                                  </a>
+                              </div>
+                          @endforeach
+                      </div>
+                  </div>
+              </div>
 
               @if (auth()->check())
                   <div class="accordion-item">
@@ -85,10 +83,10 @@
                                       </a>
                                   </div>
                                   <div class="accordion-item">
-                                    <a href="{{ route('user.profile.favorites') }}" class="accordion-link">
-                                        Yêu thích
-                                    </a>
-                                </div>
+                                      <a href="{{ route('user.profile.favorites') }}" class="accordion-link">
+                                          Yêu thích
+                                      </a>
+                                  </div>
                               </div>
                           </div>
                       </div>
