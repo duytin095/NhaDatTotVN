@@ -69,6 +69,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
         // LOAI TIN TUC
         Route::get      ('/news-types', [NewsTypeController::class, 'index'])->name('news-types.index');
         Route::post     ('/news-types/store', [NewsTypeController::class, 'store'])->name('news-types.store');
+        Route::get      ('/news-types/get', [NewsTypeController::class, 'get'])->name('news-types.get');
+
 
         Route::controller(DashboardController::class)->name('dashboard.')->prefix('dashboard')->group(function () {
             Route::get('/', 'index')->name('show');

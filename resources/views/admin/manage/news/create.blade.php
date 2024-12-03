@@ -22,8 +22,8 @@
                                 data-live-search="true">
                                 <option value="" disabled selected>Chọn loại tin tức
                                 </option>
-                                @foreach ($purposes as $key => $purpose)
-                                    <option value="{{ $key }}"> {{ $purpose['name'] }}</option>
+                                @foreach ($news_types as $key => $news_type)
+                                    <option value="{{ $key }}"> {{ $news_type['name'] }}</option>
                                 @endforeach
                             </select>
                             <div class="field-placeholder">Loại tin <span class="text-danger">*</span> </div>

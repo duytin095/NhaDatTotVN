@@ -26,20 +26,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($news_types as $type)
-                                        <tr>
-                                            <td>{{ $type['name'] }}</td>
-                                            <td>{{ $type['created_at'] }}</td>
-                                            <td>
-                                                <a href="#" class="btn btn-primary">Sửa</a>
-                                                <a href="#" class="btn btn-danger">Xoá</a>
-                                                <a href="#" class="btn btn-success">Hiển thị</a>
-                                                {{-- <a href="{{ route('admin.news.edit', $new->id) }}" class="btn btn-primary">Sửa</a>
-                                            <a href="{{ route('admin.news.delete', $new->id) }}" class="btn btn-danger">Xoá</a> --}}
-
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                    
                                 </tbody>
                             </table>
                         </div>

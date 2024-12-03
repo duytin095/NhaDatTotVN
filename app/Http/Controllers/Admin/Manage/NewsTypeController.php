@@ -12,9 +12,21 @@ class NewsTypeController extends Controller
 {
     public function index()
     {
-        $news_types = NewsType::all();
-        return view('admin.manage.news-types.index', compact('news_types'));
-
+        return view('admin.manage.news-types.index');
+    }
+    public function get()
+    {
+        try {
+            $news_types = NewsType::where('active_flg', ACTIVE)
+                ->orderBy('created_at', 'desc')
+                ->get()->toArray();
+            return response()->json([
+                'status' => 200,
+                'data' => $news_types,
+            ]);
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
     }
 
     public function create()
@@ -81,5 +93,9 @@ class NewsTypeController extends Controller
         NewsType::create([
             'name' => $request->name,
         ]);
+    }
+    private function getNewsTypes()
+    {
+        return NewsType::where('active_flg', ACTIVE)->orderBy('created_at', 'desc')->get();
     }
 }

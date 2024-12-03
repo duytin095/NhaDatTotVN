@@ -15860,6 +15860,10 @@ Blog Area CSS
 }
 .blog-card .blog-image a img {
   border-radius: 5px;
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  min-height: 300px;
 }
 .blog-card .blog-image .tag-btn {
   display: inline-flex;
@@ -20011,6 +20015,7 @@ Blog Sidebar Widget Area CSS
   height: 85px;
   margin-right: 20px;
 }
+
 .widget-area .widget_posts_thumb .item .thumb .fullimage {
   width: 100px;
   height: 85px;
@@ -20019,6 +20024,7 @@ Blog Sidebar Widget Area CSS
   background-size: cover !important;
   background-repeat: no-repeat;
   background-position: center center !important;
+  object-fit: cover;
 }
 .widget-area .widget_posts_thumb .item .thumb .fullimage.bg1 {
   background-image: url(../../assets/images/blog/blog1.jpg);
