@@ -48,7 +48,8 @@
                                             <span>Chia sẻ:</span>
                                         </li>
                                         <li>
-                                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://nhadatdongnai.com/tin/5-cach-tim-khach-hang-mua-dat-hieu-qua-nhu-cau-thuc-403.html" target="_blank">
+                                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ LOCAL_HOST }}/user/news/{{ $news['slug'] }}"
+                                                target="_blank">
                                                 <i class="ri-facebook-fill"></i></a>
                                             <a href="https://twitter.com/" target="_blank"><i
                                                     class="ri-twitter-fill"></i></a>
@@ -66,7 +67,8 @@
 
                 <div class="col-lg-4 col-md-12">
                     <div class="widget-area">
-                        <div class="widget widget_posts_thumb">
+                        <x-news-side :news="$mostViewNews" />
+                        {{-- <div class="widget widget_posts_thumb">
                             <h3 class="widget-title">Tin nhiều người đọc</h3>
                             @foreach ($mostViewNews as $news)
                                 <article class="item">
@@ -81,7 +83,7 @@
                                     </div>
                                 </article>
                             @endforeach
-                        </div>
+                        </div> --}}
                         <div class="col-lg-12 col-md-12">
                             <div class="property-details-sidebar">
                                 <div class="featured-properties">
@@ -90,7 +92,10 @@
                                         <div class="swiper-wrapper">
                                             @foreach ($forSaleProperties as $property)
                                                 <div class="swiper-slide">
-                                                    <x-property-listing :property="$property" :columnSizes="['xl' => 12, 'md' => 12]" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
+                                                    <x-property-listing :property="$property" :columnSizes="['xl' => 12, 'md' => 12]"
+                                                        :isFavorite="$property->favoritedBy->contains(
+                                                            Auth::guard('users')->user(),
+                                                        )" />
                                                 </div>
                                             @endforeach
                                         </div>
@@ -107,7 +112,10 @@
                                         <div class="swiper-wrapper">
                                             @foreach ($forRentProperties as $property)
                                                 <div class="swiper-slide">
-                                                    <x-property-listing :property="$property" :columnSizes="['xl' => 12, 'md' => 12]" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
+                                                    <x-property-listing :property="$property" :columnSizes="['xl' => 12, 'md' => 12]"
+                                                        :isFavorite="$property->favoritedBy->contains(
+                                                            Auth::guard('users')->user(),
+                                                        )" />
                                                 </div>
                                             @endforeach
                                         </div>

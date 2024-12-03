@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('news_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug')->unique();
             $table->tinyInteger('active_flg')->default(0);
             $table->tinyInteger('delete_flg')->default(0);
             $table->timestamps();

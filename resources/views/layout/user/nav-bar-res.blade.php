@@ -47,14 +47,14 @@
               <div class="accordion-item">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                       data-bs-target="#collapseBlog" aria-expanded="false" aria-controls="collapseBlog">
-                      Blog
+                      Tin tức
                   </button>
 
                   <div id="collapseBlog" class="accordion-collapse collapse" data-bs-parent="#navbarAccordion">
                       <div class="accordion-body">
                           @foreach ($news_types as $type)
                               <div class="accordion-item">
-                                  <a href="#" class="accordion-link">
+                                  <a href="{{ route('user.news.show-by-type', $type['slug']) }}" class="accordion-link">
                                       {{ $type['name'] }}
                                   </a>
                               </div>

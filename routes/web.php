@@ -113,7 +113,9 @@ Route::name('user.')->prefix('user')->group(function () {
     Route::get      ('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 
     // TIN TUC 
+    Route::get     ('/news', [NewsController::class, 'userIndex'])->name('news.index');
     Route::get     ('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
+    Route::get     ('/news-by-type/{slug}', [NewsController::class, 'showByType'])->name('news.show-by-type');
 
 });
 

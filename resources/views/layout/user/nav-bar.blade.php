@@ -50,17 +50,14 @@
                 @endforeach
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        Blog <i class="ri-arrow-down-s-line"></i>
+                    <a href="{{ route('user.news.index') }}" class="nav-link">
+                        Tin tức <i class="ri-arrow-down-s-line"></i>
                     </a>
                     <ul class="dropdown-menu">
                         @foreach ($news_types as $news_type)
                             <li class="nav-item">
-                                {{-- <a href="{{ route('user.posts.show-by-news-type', ['slug' => $news_type->slug]) }}"
+                                <a href="{{ route('user.news.show-by-type', ['slug' => $news_type['slug']]) }}"
                                     class="nav-link">
-                                    {{ $news_type->news_type_name }}
-                                </a> --}}
-                                <a href="#" class="nav-link">
                                     {{ $news_type['name'] }}
                                 </a>
                             </li>

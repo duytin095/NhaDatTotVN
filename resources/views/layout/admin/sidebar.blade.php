@@ -146,24 +146,15 @@
                                 <a href="{{ route('admin.constructions.show') }}">Danh sách dự án</a>
                             </li>
                             <li>
-                                <a href="{{ route('admin.news.show') }}">Danh sách tin tức</a>
+                                <a href="{{ route('admin.news-types.index') }}">Danh sách loại tin tức</a>
                             </li>
                             <li>
-                                <a href="{{ route('admin.news-types.index') }}">Danh sách loại tin tức</a>
+                                <a href="{{ route('admin.news.show') }}">Danh sách tin tức</a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <!-- Sidebar menu ends -->
-
-                <!-- Sidebar actions starts -->
-                <div class="sidebar-actions">
-                    <div class="support-tile">
-                        <i class="icon-headphones"></i> 24/7 Support
-                    </div>
-                </div>
-                <!-- Sidebar actions ends -->
-
             </div>
         </div>
         <!-- Tabs content end -->

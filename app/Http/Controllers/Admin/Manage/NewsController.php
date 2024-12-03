@@ -33,6 +33,23 @@ class NewsController extends Controller
             abort(500);
         }
     }
+    public function userIndex()
+    {
+        try {
+            $news = News::where('active_flg', ACTIVE)->orderBy('created_at', 'desc')->paginate(12);
+            
+            $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+            $this->breadcrumbService->addCrumb('Tin tức', '');
+
+            return view('user.news.index')
+                ->with('news', $news)
+                ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
+                
+        } catch (\Throwable $th) {
+            if (config('app.debug')) return response()->json($th->getMessage());
+            abort(500);
+        }
+    }
 
     public function create()
     {
@@ -108,7 +125,7 @@ class NewsController extends Controller
                ->get();
 
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
-            $this->breadcrumbService->addCrumb('Tin tức', '');
+            $this->breadcrumbService->addCrumb('Tin tức', '/user/news');
             $this->breadcrumbService->addCrumb($news['title'], '');
 
             return view('user.news.detail')
@@ -116,6 +133,27 @@ class NewsController extends Controller
                 ->with('mostViewNews', $mostViewNews)
                 ->with('forSaleProperties', $forSaleProperties)
                 ->with('forRentProperties', $forRentProperties)
+                ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
+        } catch (\Throwable $th) {
+            if (config('app.debug')) return response()->json($th->getMessage());
+            abort(500);
+        }
+    }
+    public function showByType($slug){
+        try {
+            $news_types = $this->getNewsTypes();
+            $news = News::whereHas('type', function ($query) use ($slug) {
+                $query->where('slug', $slug);
+            })->where('active_flg', ACTIVE)
+                ->orderBy('created_at', 'desc')
+                ->paginate(12);
+
+            $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+            $this->breadcrumbService->addCrumb('Tin tức', '/user/news');
+            $this->breadcrumbService->addCrumb($news_types->where('slug', $slug)->first()->name, '/user/news-by-type/'.$slug);
+
+            return view('user.news.index-by-type')
+                ->with('news', $news)
                 ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
         } catch (\Throwable $th) {
             if (config('app.debug')) return response()->json($th->getMessage());
