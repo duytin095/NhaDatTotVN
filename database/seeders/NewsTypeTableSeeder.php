@@ -24,6 +24,7 @@ class NewsTypeTableSeeder extends Seeder
         foreach ($data as $item) {
             \App\Models\NewsType::create([
                 'name' => $item,
+                'slug' => \Illuminate\Support\Str::slug($item),
             ]);
         }
     }

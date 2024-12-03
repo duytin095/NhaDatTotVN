@@ -43,6 +43,10 @@ class News extends Model
         'active_flg',
         'delete_flg',
     ];
+    public function type()
+    {
+        return $this->belongsTo(NewsType::class, 'type', 'id');
+    }
     public function getCreatedAtAttribute($value)
     {
         $carbon = Carbon::parse($value);

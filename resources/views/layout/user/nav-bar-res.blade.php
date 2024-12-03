@@ -47,7 +47,7 @@
               <div class="accordion-item">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                       data-bs-target="#collapseBlog" aria-expanded="false" aria-controls="collapseBlog">
-                      Blog
+                      Tin tức
                   </button>
 
                   <div id="collapseBlog" class="accordion-collapse collapse" data-bs-parent="#navbarAccordion">
