@@ -69,7 +69,7 @@ class News extends Model
         if ($images->length > 0) {
             return $images->item(0)->getAttribute('src');
         }
-        return 'asset/use/images/propertys/properties1.jpg';
+        return ;
     }
     public function getAuthorAttribute()
     {

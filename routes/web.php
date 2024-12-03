@@ -63,8 +63,12 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
         // TIN TUC
         Route::get      ('/news', [NewsController::class, 'index'])->name('news.show');
+        Route::get      ('/news/get', [NewsController::class, 'get'])->name('news.get');
         Route::get      ('/news/create', [NewsController::class, 'create'])->name('news.create');
         Route::post     ('/news/store', [NewsController::class, 'store'])->name('news.store');
+        Route::get      ('/news/edit/{id}', [NewsController::class, 'edit'])->name('news.edit');
+        Route::put      ('/news/update/{id}', [NewsController::class, 'update'])->name('news.update');
+        Route::delete   ('/news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
 
         // LOAI TIN TUC
         Route::get      ('/news-types', [NewsTypeController::class, 'index'])->name('news-types.index');

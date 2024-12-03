@@ -1,12 +1,18 @@
 @props([
-'news' => null,
+    'news' => null,
 ])
 
 <div class="col-xl-4 col-md-6">
     <div class="blog-card">
         <div class="blog-image">
             <a href="{{ route('user.news.show', $news['slug']) }}">
-                <img src="{{ $news['thumbnail'] }}" alt="thumbnail">
+
+                @if (isset($news['thumbnail']))
+                    <img src="{{ $news['thumbnail'] }}" alt="thumbnail">
+                @else
+                    <img src="{{ asset('assets/user/images/no-image.png') }}" alt="thumbnail">
+                @endif
+
             </a>
             <a href="#" class="tag-btn">{{ $news['type'] }}</a>
         </div>
@@ -18,7 +24,7 @@
                 </li>
                 <li>
                     <i class="ri-eye-2-line"></i>
-                    {{ $news['view']}}
+                    {{ $news['view'] }}
                 </li>
             </ul>
             <h3>

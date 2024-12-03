@@ -26,7 +26,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+
                                 </tbody>
                             </table>
                         </div>
@@ -34,7 +34,6 @@
                 </div>
             </div>
         </div>
-        
     </div>
 
     <!-- Modal start -->
@@ -67,7 +66,8 @@
                 </div>
             </div>
         </div>
-        <!-- Modal end -->
+    </div>
+    <!-- Modal end -->
 
     @endsection
     @push('scripts')

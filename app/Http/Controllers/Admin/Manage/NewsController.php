@@ -36,7 +36,11 @@ class NewsController extends Controller
     public function userIndex()
     {
         try {
-            $news = News::where('active_flg', ACTIVE)->orderBy('created_at', 'desc')->paginate(12);
+            $news = News::where('active_flg', ACTIVE)
+            ->whereHas('type', function ($query) {
+                $query->where('active_flg', ACTIVE);
+            })
+            ->orderBy('created_at', 'desc')->paginate(12);
             
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
             $this->breadcrumbService->addCrumb('Tin tức', '');
@@ -48,6 +52,21 @@ class NewsController extends Controller
         } catch (\Throwable $th) {
             if (config('app.debug')) return response()->json($th->getMessage());
             abort(500);
+        }
+    }
+    
+    public function get()
+    {
+        try {
+            $news = News::where('active_flg', ACTIVE)
+                ->orderBy('created_at', 'desc')
+                ->get()->toArray();
+            return response()->json([
+                'status' => 200,
+                'data' => $news,
+            ]);
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
         }
     }
 
@@ -74,7 +93,6 @@ class NewsController extends Controller
                 'type.required' => 'Chọn loại tin tức',
             ]);
 
-            // dd($request['content']);
             $content = $this->storeImages($request);
 
             $this->addNews($request, $content);
@@ -163,7 +181,14 @@ class NewsController extends Controller
 
     public function edit(string $id)
     {
-        //
+        try{
+            $news = News::where('id', $id)->firstOrFail();
+            $news_types = $this->getNewsTypes();
+            return view('admin.manage.news.edit', compact('news', 'news_types'));
+        }catch (\Throwable $th) {
+            if (config('app.debug')) return response()->json($th->getMessage());
+            abort(500);
+        }
     }
 
     /**
@@ -171,7 +196,33 @@ class NewsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $request->validate([
+                'title' => 'required',
+                'type' => 'required',
+            ], [
+                'title.required' => 'Nhập tiêu đề tin tức',
+                'type.required' => 'Chọn loại tin tức',
+            ]);
+            $oldContent = News::where('id', $id)->firstOrFail()->content;
+            $this->deleteImages($oldContent);
+
+            $content = $this->storeImages($request);
+
+            $news = News::where('id', $id)->firstOrFail();
+            $news->update([
+                'title' => $request->title,
+                'content' => $content,
+                'type' => $request->type,
+            ]);
+            DB::commit();
+            return ApiResponse::updateSuccessResponse();
+        }catch (\Throwable $th) {
+            DB::rollBack();
+            return ApiResponse::errorResponse($th);
+        }
     }
 
     /**
@@ -179,7 +230,15 @@ class NewsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            News::where('id', $id)->delete();
+            DB::commit();
+            return ApiResponse::deleteSuccessResponse();
+        }catch (\Throwable $th) {
+            DB::rollBack();
+            return ApiResponse::errorResponse($th);
+        }
     }
 
     private function addNews($request, $content)
@@ -193,11 +252,24 @@ class NewsController extends Controller
     }
     private function getNews()
     {
-        return News::where('active_flg', ACTIVE)->orderBy('created_at', 'desc')->get();
+        return News::where('active_flg', ACTIVE)
+
+        ->orderBy('created_at', 'desc')->get();
     }
     private function getNewsTypes()
     {
         return NewsType::where('active_flg', ACTIVE)->orderBy('created_at', 'desc')->get();
+    }
+    public function deleteImages($content){
+        $dom = new DOMDocument();
+        libxml_use_internal_errors(true);
+        $dom->loadHTML($content);
+        $imageTags = $dom->getElementsByTagName('img');
+        foreach ($imageTags as $imageTag) {
+            $imageData = $imageTag->attributes->getNamedItem('src')->nodeValue;
+            $imageName = basename($imageData);
+            File::delete(public_path('assets/user/images/news/'.$imageName));
+        }
     }
     public function storeImages(Request $request)
     {
