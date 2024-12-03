@@ -67,7 +67,8 @@
 
                 <div class="col-lg-4 col-md-12">
                     <div class="widget-area">
-                        <div class="widget widget_posts_thumb">
+                        <x-news-side :news="$mostViewNews" />
+                        {{-- <div class="widget widget_posts_thumb">
                             <h3 class="widget-title">Tin nhiều người đọc</h3>
                             @foreach ($mostViewNews as $news)
                                 <article class="item">
@@ -82,7 +83,7 @@
                                     </div>
                                 </article>
                             @endforeach
-                        </div>
+                        </div> --}}
                         <div class="col-lg-12 col-md-12">
                             <div class="property-details-sidebar">
                                 <div class="featured-properties">

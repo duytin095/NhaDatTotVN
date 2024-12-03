@@ -45,7 +45,7 @@ class News extends Model
     ];
     public function type()
     {
-        return $this->belongsTo(NewsType::class, 'type', 'id');
+        return $this->belongsTo(NewsType::class, 'type');
     }
     public function getCreatedAtAttribute($value)
     {
@@ -69,7 +69,7 @@ class News extends Model
         if ($images->length > 0) {
             return $images->item(0)->getAttribute('src');
         }
-        return null;
+        return 'asset/use/images/propertys/properties1.jpg';
     }
     public function getAuthorAttribute()
     {

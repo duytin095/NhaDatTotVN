@@ -1,5 +1,5 @@
 @props([
-    'news' => null,
+'news' => null,
 ])
 
 <div class="col-xl-4 col-md-6">

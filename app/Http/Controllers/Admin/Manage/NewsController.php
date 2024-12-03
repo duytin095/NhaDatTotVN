@@ -142,8 +142,9 @@ class NewsController extends Controller
     public function showByType($slug){
         try {
             $news_types = $this->getNewsTypes();
-            $news = News::where('type', $slug)
-                ->where('active_flg', ACTIVE)
+            $news = News::whereHas('type', function ($query) use ($slug) {
+                $query->where('slug', $slug);
+            })->where('active_flg', ACTIVE)
                 ->orderBy('created_at', 'desc')
                 ->paginate(12);
 

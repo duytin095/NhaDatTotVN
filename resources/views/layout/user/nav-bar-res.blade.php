@@ -54,7 +54,7 @@
                       <div class="accordion-body">
                           @foreach ($news_types as $type)
                               <div class="accordion-item">
-                                  <a href="#" class="accordion-link">
+                                  <a href="{{ route('user.news.show-by-type', $type['slug']) }}" class="accordion-link">
                                       {{ $type['name'] }}
                                   </a>
                               </div>

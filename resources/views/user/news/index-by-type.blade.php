@@ -9,7 +9,6 @@
                 @empty
                     <p> Chưa có tin đăng nào</p>
                 @endforelse
-                
                 <x-pagination :paginator="$news" />
             </div>
         </div>

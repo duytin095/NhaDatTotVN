@@ -17,12 +17,13 @@ class NewsTableSeeder extends Seeder
     {
         $typeCount = DB::table('news_types')->count();
 
-        for($index = 1; $index <= 10; $index++) {
+        for($index = 1; $index <= 50; $index++) {
             DB::table('news')->insert([
                 'title' => 'Tin tức ' . $index,
                 'content' => $this->content,
                 'slug' => 'tin-tuc-' . $index,
                 'type' => rand(1, $typeCount),
+                'user_id' => 1,
 
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
