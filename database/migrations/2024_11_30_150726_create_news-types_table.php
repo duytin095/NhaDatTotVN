@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->tinyInteger('active_flg')->default(0);
-            $table->tinyInteger('delete_flg')->default(0);
+            $table->string('active_flg')->default(0);
+            $table->string('delete_flg')->default(0);
             $table->timestamps();
         });
     }

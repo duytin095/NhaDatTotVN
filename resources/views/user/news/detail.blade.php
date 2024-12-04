@@ -13,7 +13,7 @@
                                 @if($news['thumbnail'] === null)
                                     <img src="{{ asset('assets/user/images/no-image.png') }}" alt="thumbnail">
                                 @else
-                                    <img src="{{ $news['thumbnail'] }}" alt="thumbnail">
+                                    <img src="{{ $news['thumbnail']}}" alt="thumbnail">
                                 @endif
                             </div>
                             <div class="content">

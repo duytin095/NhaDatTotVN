@@ -31,7 +31,7 @@ function initSummerNote() {
         toolbar: [
             ['font', ['bold', 'underline', 'clear']],
             ['para', ['ul', 'ol']],
-            ['insert', ['link', 'picture']],
+            ['insert', ['picture']],
             ['view', ['fullscreen', 'codeview', 'help']],
         ]
     });

@@ -29,7 +29,7 @@ class AuthController extends Controller
     public function displayAdminSignup()
     {
         if (Auth::guard('admin')->check()) {
-            return redirect()->route('admin.dashboard.show');
+            return redirect()->route('admin.news.show');
         }
         return view('admin.auth.signup');
     }
@@ -70,7 +70,7 @@ class AuthController extends Controller
     public function displayAdminLogin()
     {
         if (Auth::guard('admin')->check()) {
-            return redirect()->route('admin.dashboard.show');
+            return redirect()->route('admin.news.show');
         }
         return view('admin.auth.login');
     }

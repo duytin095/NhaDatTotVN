@@ -75,6 +75,10 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get      ('/news-types', [NewsTypeController::class, 'index'])->name('news-types.index');
         Route::post     ('/news-types/store', [NewsTypeController::class, 'store'])->name('news-types.store');
         Route::get      ('/news-types/get', [NewsTypeController::class, 'get'])->name('news-types.get');
+        Route::put      ('/news-types/update/{id}', [NewsTypeController::class, 'update'])->name('news-types.update');
+        Route::put      ('/news-types/toggle-active/{id}', [NewsTypeController::class, 'toggleActive'])->name('news-types.toggle-active');
+
+
 
 
         Route::controller(DashboardController::class)->name('dashboard.')->prefix('dashboard')->group(function () {

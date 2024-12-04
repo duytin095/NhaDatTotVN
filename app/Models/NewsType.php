@@ -16,12 +16,15 @@ class NewsType extends Model
 
     protected $fillable = [
         'name',
+        'slug',
+        'active_flg',
+        'delete_flg',
     ];
     public function sluggable(): array
     {
         return [
             'slug' => [
-                'source' => 'title'
+                'source' => 'name'
             ]
         ];
     }

@@ -6,6 +6,7 @@ use DOMDocument;
 use App\Models\News;
 use App\Models\NewsType;
 use App\Models\Property;
+use Illuminate\Support\Str;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -197,7 +198,6 @@ class NewsController extends Controller
     {
         try {
             DB::beginTransaction();
-
             $request->validate([
                 'title' => 'required',
                 'type' => 'required',
@@ -205,17 +205,26 @@ class NewsController extends Controller
                 'title.required' => 'Nhập tiêu đề tin tức',
                 'type.required' => 'Chọn loại tin tức',
             ]);
+            
             $oldContent = News::where('id', $id)->firstOrFail()->content;
-            $this->deleteImages($oldContent);
+            if($oldContent){
+                $this->deleteImages($oldContent);
+            }
 
             $content = $this->storeImages($request);
 
             $news = News::where('id', $id)->firstOrFail();
-            $news->update([
-                'title' => $request->title,
-                'content' => $content,
-                'type' => $request->type,
-            ]);
+            $news->title = $request->title;
+            $news->content = $content;
+            $news->type = $request->type;
+            $news->slug = null; // Reset the slug to trigger re-generation
+            $news->save(); // This will trigger sluggable
+
+            // $news->update([
+            //     'title' => $request->title,
+            //     'content' => $content,
+            //     'type' => $request->type,
+            // ]);
             DB::commit();
             return ApiResponse::updateSuccessResponse();
         }catch (\Throwable $th) {
@@ -282,9 +291,11 @@ class NewsController extends Controller
         $dom->loadHTML($content);
         $imageTags = $dom->getElementsByTagName('img');
         foreach ($imageTags as $imageTag) {
-            $imageData = $imageTag->attributes->getNamedItem('src')->nodeValue;
-            $imageName = basename($imageData);
-            File::delete(public_path('assets/user/images/news/'.$imageName));
+            if(isset($imageTag)){
+                $imageData = $imageTag->attributes->getNamedItem('src')->nodeValue;
+                $imageName = basename($imageData);
+                File::delete(public_path('assets/user/images/news/'.$imageName));
+            }
         }
     }
     public function storeImages(Request $request)
@@ -296,40 +307,84 @@ class NewsController extends Controller
 
         $imageTags = $dom->getElementsByTagName('img');
 
-        foreach ($imageTags as $imageTag) {
-            $imageData = $imageTag->attributes->getNamedItem('src')->nodeValue;
+        // foreach ($imageTags as $imageTag) {
+        //     $imageData = $imageTag->attributes->getNamedItem('src')->nodeValue;
 
+        //     // Check if the image data is a base64 encoded string
+        //     if (strpos($imageData, 'data:image/') === 0) {
+        //         // Extract the base64 encoded string
+        //         $base64String = substr($imageData, strpos($imageData, ',') + 1);
+
+        //         // Decode the base64 string
+        //         $decodedString = base64_decode($base64String);
+
+        //         // Store the decoded string as a file
+        //         $imagePath = public_path('assets/user/images/news/' . time() . '.jpg');
+        //         if(!file_exists(public_path('assets/user/images/news'))) {
+        //             mkdir(public_path('assets/user/images/news'), 0777, true);
+        //         }
+        //         File::put($imagePath, $decodedString);
+
+        //         // Update the image tag with the new image path
+        //         $imageTag->attributes->getNamedItem('src')->nodeValue = url('/assets/user/images/news/' . time() . '.jpg');
+        //     } 
+        //     else {
+        //         // If the image is not base64 encoded, download it from the URL
+        //         $imageName = basename($imageData);
+        //         $imagePath = public_path('assets/user/images/news/' . $imageName);
+        //         if(!file_exists(public_path('assets/user/images/news'))) {
+        //             mkdir(public_path('assets/user/images/news'), 0777, true);
+        //         }
+        //         $imageContent = file_get_contents($imageData);
+        //         File::put($imagePath, $imageContent);
+    
+        //         // Update the image tag with the new image path
+        //         $imageTag->attributes->getNamedItem('src')->nodeValue = url('/assets/user/images/news/' . Str::uuid() . '.jpg');
+        //     }
+        // }
+
+
+        foreach ($imageTags as $imageTag) {
+            $originalSrc = $imageTag->attributes->getNamedItem('src')->nodeValue;
+            $imageData = $imageTag->attributes->getNamedItem('src')->nodeValue;
+        
             // Check if the image data is a base64 encoded string
             if (strpos($imageData, 'data:image/') === 0) {
                 // Extract the base64 encoded string
                 $base64String = substr($imageData, strpos($imageData, ',') + 1);
-
+        
                 // Decode the base64 string
                 $decodedString = base64_decode($base64String);
-
+        
                 // Store the decoded string as a file
-                $imagePath = public_path('assets/user/images/news/' . time() . '.jpg');
+                $imagePath = public_path('assets/user/images/news/' . Str::uuid() . '.jpg');
                 if(!file_exists(public_path('assets/user/images/news'))) {
                     mkdir(public_path('assets/user/images/news'), 0777, true);
                 }
                 File::put($imagePath, $decodedString);
-
+        
                 // Update the image tag with the new image path
-                $imageTag->attributes->getNamedItem('src')->nodeValue = url('/assets/user/images/news/' . time() . '.jpg');
-            } 
-            // else {
-            //     // If the image is not base64 encoded, download it from the URL
-            //     $imageName = basename($imageData);
-            //     $imagePath = public_path('assets/user/images/news/' . $imageName);
-            //     if(!file_exists(public_path('assets/user/images/news'))) {
-            //         mkdir(public_path('assets/user/images/news'), 0777, true);
-            //     }
-            //     $imageContent = file_get_contents($imageData);
-            //     File::put($imagePath, $imageContent);
-    
-            //     // Update the image tag with the new image path
-            //     $imageTag->attributes->getNamedItem('src')->nodeValue = url('/assets/user/images/news/' . time() . '.jpg');
-            // }
+                // if (strpos($originalSrc, 'data:image/')) {
+                //     // If the original src is a base64 encoded string, update it to the new base64 encoded string
+                //     $imageTag->attributes->getNamedItem('src')->nodeValue = 'data:image/jpeg;base64,' . $base64String;
+                // } else {
+                //     // If the original src is a URL, update it to the new image path
+                //     $newImagePath = '/assets/user/images/news/' . basename($imagePath);
+                //     $imageTag->attributes->getNamedItem('src')->nodeValue = url($newImagePath);
+                // }
+            } else {
+                // If the image is not base64 encoded, download it from the URL
+                $imageName = basename($imageData);
+                $imagePath = public_path('assets/user/images/news/' . $imageName);
+                if(!file_exists(public_path('assets/user/images/news'))) {
+                    mkdir(public_path('assets/user/images/news'), 0777, true);
+                }
+                $imageContent = file_get_contents($imageData);
+                File::put($imagePath, $imageContent);
+        
+                // Update the image tag with the new image path
+                $imageTag->attributes->getNamedItem('src')->nodeValue = url('/assets/user/images/news/' . $imageName);
+            }
         }
 
         // Store the updated HTML content

@@ -68,8 +68,10 @@
         </div>
     </div>
     <!-- Modal end -->
-
-    @endsection
-    @push('scripts')
-        <script src="{{ asset('assets/admin/js/manage/news-type/news-type.js') }}"></script>
-    @endpush
+@endsection
+@push('scripts')
+    <script>
+        const ACTIVE = {{ $active_flg }};
+    </script>
+    <script src="{{ asset('assets/admin/js/manage/news-type/news-type.js') }}"></script>
+@endpush

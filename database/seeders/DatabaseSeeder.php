@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             UserTableSeeder::class,
             PropertyTableSeeder::class,
             NewsTypeTableSeeder::class,
-            // NewsTableSeeder::class,
+            NewsTableSeeder::class,
             // Other seeder...
         ]);
     }
