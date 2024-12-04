@@ -17,14 +17,14 @@ class ConstructionController extends Controller
      */
     public function index()
     {
-        return view('admin.manage.construction.index');
+        $active_flg = ACTIVE;
+        return view('admin.manage.construction.index', compact('active_flg'));
     }
 
     public function get()
     {
         try {
-            $constructions = Construction::where('active_flg', ACTIVE)
-                ->orderBy('created_at', 'desc')
+            $constructions = Construction::orderBy('created_at', 'desc')
                 ->get()->toArray();
             return response()->json([
                 'status' => 200,
@@ -89,13 +89,18 @@ class ConstructionController extends Controller
         }
     }
 
-    public function active(string $id){
+    public function toggleActive(string $id)
+    {
         try {
-            Construction::findOrFail($id)->update([
-                'active_flg' => INACTIVE
+            DB::beginTransaction();
+            $construction = Construction::where('construction_id', $id)->firstOrFail();
+            $construction->update([
+                'active_flg' => $construction->active_flg == ACTIVE ? INACTIVE : ACTIVE
             ]);
+            DB::commit();
             return ApiResponse::updateSuccessResponse();
-        } catch (\Throwable $th) {
+        }catch (\Throwable $th) {
+            DB::rollBack();
             return ApiResponse::errorResponse($th);
         }
     }

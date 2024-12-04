@@ -56,6 +56,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get      ('/constructions/get', [ConstructionController::class, 'get'])->name('constructions.get');
         Route::post     ('/constructions/store', [ConstructionController::class, 'store'])->name('constructions.store');
         Route::put      ('/constructions/{id}', [ConstructionController::class, 'update'])->name('constructions.update');
+        Route::put      ('/constructions/toggle-active/{id}', [ConstructionController::class, 'toggleActive'])->name('constructions.toggle-active');
         Route::delete   ('/constructions/{id}', [ConstructionController::class, 'destroy'])->name('constructions.destroy');
 
         // TRANG THAI

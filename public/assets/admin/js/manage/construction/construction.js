@@ -17,6 +17,7 @@ $('#create-construction-submit-btn').on('click', function () {
     }
 });
 
+
 async function createConstruction() {
     try {
         let data = {
@@ -87,7 +88,7 @@ function openCreateModal() {
     $('#createNewConstruction').modal('show');
 }
 
-function openUpdateModal(constructionId, constructionName) {
+function openEditModal(constructionId, constructionName) {
     $('#createNewConstructionLabel').text('Chỉnh sửa dự án');
     $('#create-construction-submit-btn').text('Cập nhật');
     $('#construction_id').val(constructionId);
@@ -105,6 +106,18 @@ function openDeleteModal(id) {
     confirmEvent(event);
 }
 
+async function activeConstruction(id) {
+    try {
+        const response = await sendRequest(`${window.location.origin}/admin/constructions/toggle-active/${id}`, 'PUT');
+        if (response.status == 200) {
+            $('#construction-table').DataTable().ajax.reload(null, false);
+            showMessage(response.message);
+        }
+    } catch (error) {
+        showMessage(error.message);
+    }
+}
+
 function initDataTable() {
     $('#construction-table').DataTable({
         "ajax": {
@@ -119,7 +132,12 @@ function initDataTable() {
             {
                 "data": null,
                 "render": function (row) {
-                    return "<button onclick='openUpdateModal(" + row.construction_id + ", \"" + row.construction_name + "\")' class='btn btn-primary'>Sửa</button>  <button class='btn btn-secondary'>Ẩn</button>";
+                    if(row.active_flg == ACTIVE)                        
+                        return "<button onclick='openEditModal(" + row.construction_id + ", \"" + row.construction_name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeConstruction("+ row.construction_id +")' class='btn btn-secondary'>Ẩn</button>";
+                    else{
+                        return "<button onclick='openEditModal(" + row.construction_idid + ", \"" + row.construction_name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeConstruction("+ row.construction_id +")' class='btn btn-success'>Hiện</button>";
+                    }
+                    // return "<button onclick='openUpdateModal(" + row.construction_id + ", \"" + row.construction_name + "\")' class='btn btn-primary'>Sửa</button>  <button class='btn btn-secondary'>Ẩn</button>";
                 },
                 "width": "20%",
                 "orderable": false

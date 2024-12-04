@@ -13,6 +13,8 @@ class Construction extends Model
     protected $table = 'constructions';
     protected $fillable = [
         'construction_name',
+        'active_flg',
+        'delete_flg',
     ];
     public function getCreatedAtAttribute($value){
         return Carbon::parse($value)->format('d-m-Y');

@@ -64,7 +64,7 @@ class PostController extends Controller
             $legals = config('constants.property-basic-info.property-legals');
             $statuses = config('constants.property-basic-info.property-statuses');
             $videoLinks = config('constants.property-basic-info.video-links');
-            $constructions = Construction::all()->toArray();
+            $constructions = Construction::where('active_flg', ACTIVE)->toArray();
             return view('user.post-create', compact('purposes', 'types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
                 'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
             ]);

@@ -69,5 +69,8 @@
 
     @endsection
     @push('scripts')
+        <script>
+            const ACTIVE = {{ $active_flg }}
+        </script>
         <script src="{{ asset('assets/admin/js/manage/construction/construction.js') }}"></script>
     @endpush

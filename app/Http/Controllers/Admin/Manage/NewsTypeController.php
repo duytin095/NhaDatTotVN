@@ -82,11 +82,10 @@ class NewsTypeController extends Controller
     {
         try {
             DB::beginTransaction();
-            $newstypes = NewsType::where('id', $id)->firstOrFail();
-            $newstypes->update([
-                'active_flg' => $newstypes->active_flg == ACTIVE ? INACTIVE : ACTIVE
+            $newstype = NewsType::where('id', $id)->firstOrFail();
+            $newstype->update([
+                'active_flg' => $newstype->active_flg == ACTIVE ? INACTIVE : ACTIVE
             ]);
-            // dd($newstypes);
             DB::commit();
             return ApiResponse::updateSuccessResponse();
         }catch (\Throwable $th) {
