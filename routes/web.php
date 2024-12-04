@@ -68,6 +68,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::post     ('/news/store', [NewsController::class, 'store'])->name('news.store');
         Route::get      ('/news/edit/{id}', [NewsController::class, 'edit'])->name('news.edit');
         Route::put      ('/news/update/{id}', [NewsController::class, 'update'])->name('news.update');
+        Route::put      ('/news/toggle-active/{id}', [NewsController::class, 'toggleActive'])->name('news.toggle-active');
         Route::delete   ('/news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
 
         // LOAI TIN TUC

@@ -2,7 +2,6 @@ $(document).ready(function () {
     initDataTable();
 });
 
-
 async function openCreatePage() {
     window.location.href = '/admin/news/create';
 }
@@ -33,6 +32,19 @@ async function deleteNews(id) {
     }
 }
 
+async function activeNews(id) {
+    try {
+        const response = await sendRequest(`${window.location.origin}/admin/news/toggle-active/${id}`, 'PUT');
+        if (response.status == 200) {
+            $('#news-table').DataTable().ajax.reload(null, false);
+            showMessage(response.message);
+        }
+    } catch (error) {
+        showMessage(error.message);
+    }
+}
+
+
 function initDataTable() {
     $('#news-table').DataTable({
         "ajax": {
@@ -47,7 +59,11 @@ function initDataTable() {
             {
                 "data": null,
                 "render": function (row) {
-                    return "<button onclick='openEditPage(" + row.id + " \)' class='btn btn-primary'>Sửa</button> <button class='btn btn-secondary'>Ẩn</button> <button onclick='openDeleteModal(" + row.id + ")' class='btn btn-danger'>Xoá</button>";
+                    if (row.active_flg == ACTIVE) {
+                        return "<button onclick='openEditPage(" + row.id + ")' class='btn btn-primary'>Sửa</button> <button onclick='activeNews(" + row.id + ")' class='btn btn-secondary'>Ẩn</button> <button onclick='openDeleteModal(" + row.id + ")' class='btn btn-danger'>Xoá</button>";
+                    }else{
+                        return "<button onclick='openEditPage(" + row.id + ")' class='btn btn-primary'>Sửa</button> <button onclick='activeNews(" + row.id + ")' class='btn btn-success'>Hiện</button> <button onclick='openDeleteModal(" + row.id + ")' class='btn btn-danger'>Xoá</button>";
+                    }
                 },
                 "width": "20%",
                 "orderable": false

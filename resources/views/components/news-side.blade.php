@@ -6,7 +6,11 @@
     @foreach ($news as $item)
         <article class="item">
             <a href="{{ route('user.news.show', $item['slug']) }}" class="thumb">
-                <img class="fullimage" src="{{ $item['thumbnail'] }}" alt="thumbnail">
+                @if (isset($item['thumbnail']))
+                    <img class="fullimage" src="{{ $item['thumbnail'] }}" alt="thumbnail">
+                @else
+                    <img class="fullimage" src="{{ asset('assets/user/images/no-image.png') }}" alt="thumbnail">
+                @endif
             </a>
             <div class="info">
                 <h4 class="title usmall">

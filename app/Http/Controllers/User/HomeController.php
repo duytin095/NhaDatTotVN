@@ -69,7 +69,7 @@ class HomeController extends Controller
             // ->with(['seller', 'status', 'type'])
             // ->take(5)->get();
 
-            $news = News::latest()->take(6)->get();
+            $news = News::where('active_flg', ACTIVE)->latest()->take(6)->get();
             // dd($news);
 
             return view(

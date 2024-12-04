@@ -10,7 +10,11 @@
                     <div class="blog-details-desc full-width">
                         <div class="article-content">
                             <div class="image">
-                                <img src="{{ $news->thumbnail }}" alt="thumbnail">
+                                @if($news['thumbnail'] === null)
+                                    <img src="{{ asset('assets/user/images/no-image.png') }}" alt="thumbnail">
+                                @else
+                                    <img src="{{ $news['thumbnail'] }}" alt="thumbnail">
+                                @endif
                             </div>
                             <div class="content">
                                 <a href="tags.html" class="tag-btn">Real-Estate</a>
@@ -68,22 +72,6 @@
                 <div class="col-lg-4 col-md-12">
                     <div class="widget-area">
                         <x-news-side :news="$mostViewNews" />
-                        {{-- <div class="widget widget_posts_thumb">
-                            <h3 class="widget-title">Tin nhiều người đọc</h3>
-                            @foreach ($mostViewNews as $news)
-                                <article class="item">
-                                    <a href="{{ route('user.news.show', $news['slug']) }}" class="thumb">
-                                        <img class="fullimage" src="{{ asset($news['thumbnail']) }}" alt="thumbnail">
-                                    </a>
-                                    <div class="info">
-                                        <h4 class="title usmall">
-                                            <a href="blog-details.html">{{ $news['title'] }}</a>
-                                        </h4>
-                                        <span><i class="ri-calendar-line"></i>{{ $news['created_at'] }}</span>
-                                    </div>
-                                </article>
-                            @endforeach
-                        </div> --}}
                         <div class="col-lg-12 col-md-12">
                             <div class="property-details-sidebar">
                                 <div class="featured-properties">

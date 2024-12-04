@@ -36,5 +36,8 @@
     </div>
 @endsection
 @push('scripts')
+    <script>
+        const ACTIVE = {{ $active_flg }};
+    </script>
     <script src="{{ asset('assets/admin/js/manage/news/news.js') }}"></script>
 @endpush

@@ -26,8 +26,8 @@ class NewsController extends Controller
     public function index()
     {
         try {
-            $news = $this->getNews();
-            return view('admin.manage.news.index', compact('news'));
+            $active_flg = ACTIVE;
+            return view('admin.manage.news.index', compact('active_flg'));
         } catch (\Throwable $th) {
             if (config('app.debug')) return response()->json($th->getMessage());
             abort(500);
@@ -58,8 +58,7 @@ class NewsController extends Controller
     public function get()
     {
         try {
-            $news = News::where('active_flg', ACTIVE)
-                ->orderBy('created_at', 'desc')
+            $news = News::orderBy('created_at', 'desc')
                 ->get()->toArray();
             return response()->json([
                 'status' => 200,
@@ -119,7 +118,7 @@ class NewsController extends Controller
     public function show($slug)
     {
         try {
-            $news = News::where('slug', $slug)
+            $news = News::where('active_flg', ACTIVE)->where('slug', $slug)
                 ->firstOrFail();
             $news->incrementNewsViews();
 
@@ -154,7 +153,7 @@ class NewsController extends Controller
                 ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
         } catch (\Throwable $th) {
             if (config('app.debug')) return response()->json($th->getMessage());
-            abort(500);
+            abort(404);
         }
     }
     public function showByType($slug){
@@ -224,6 +223,23 @@ class NewsController extends Controller
             return ApiResponse::errorResponse($th);
         }
     }
+
+    public function toggleActive(string $id)
+    {
+        try {
+            DB::beginTransaction();
+            $news = News::where('id', $id)->firstOrFail();
+            $news->update([
+                'active_flg' => $news->active_flg == ACTIVE ? INACTIVE : ACTIVE
+            ]);
+            DB::commit();
+            return ApiResponse::updateSuccessResponse();
+        }catch (\Throwable $th) {
+            DB::rollBack();
+            return ApiResponse::errorResponse($th);
+        }
+    }
+    
 
     /**
      * Remove the specified resource from storage.
