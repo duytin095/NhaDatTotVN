@@ -30,14 +30,14 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="remember-me">
                                     <label class="form-check-label" for="remember-me">
-                                        Remember me
+                                        Ghi nhớ đăng nhập
                                     </label>
                                 </div>
                                 <a href="forgot-password.html" class="forgot-password">
-                                    Forgot your password?
+                                    Quên mật khẩu?
                                 </a>
                             </div>
-                            <button type="submit" id="user-login-btn" class="default-btn">Sign In</button>
+                            <button type="submit" id="user-login-btn" class="default-btn">Đăng nhập</button>
                         </form>
                     </div>
 
