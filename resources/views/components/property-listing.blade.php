@@ -6,7 +6,6 @@
     ],
     'isFavorite' => false
 ])
-
 <div class="col-xl-{{ $columnSizes['xl'] }} col-md-{{ $columnSizes['md'] }}">
     <div class="properties-item">
         <div class="properties-image">

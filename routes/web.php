@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\Manage\TypeController;
 use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\PropertyController;
 use App\Http\Controllers\Admin\Manage\ConstructionController;
+use App\Http\Controllers\User\WatchedPostController;
 
 Route::name('admin.')->prefix('admin')->group(function () {
     Route::controller(AuthController::class)->group(function () {
@@ -109,6 +110,7 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::get      ('/profile', [ProfileController::class, 'index'])->name('profile.index');
         Route::get      ('/profile/favorites', [FavoritesController::class, 'index'])->name('profile.favorites');
         Route::post     ('/profile/favorites/toggle', [FavoritesController::class, 'toggleFavorite'])->name('profile.favorites.toggle');
+        Route::get      ('/profile/watched-posts', [WatchedPostController::class, 'index'])->name('profile.watched-posts');
 
         // TIN DANG
         Route::get      ('/posts', [PostController::class, 'index'])->name('posts.index');

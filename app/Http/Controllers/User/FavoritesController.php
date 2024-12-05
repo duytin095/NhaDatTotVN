@@ -24,7 +24,7 @@ class FavoritesController extends Controller
 
         $user = Auth::guard('users')->user();
         $favorites = $user->favorites()->orderBy('pivot_created_at', 'desc')->paginate(12);
-        // dd($user->favorites()->latest()->get()->toArray());
+        
 
         return view('user.favorites', [
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),

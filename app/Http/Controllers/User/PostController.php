@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Helpers\ApiResponse;
 use App\Models\Type;
 use App\Models\Property;
+use App\Models\WatchedPost;
+use App\Helpers\ApiResponse;
 use App\Models\Construction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,22 +32,27 @@ class PostController extends Controller
         $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
         $this->breadcrumbService->addCrumb('Bài đăng');
 
-        $filter = request()->input('filter', 'newest');
-        $properties = Property::where('property_seller_id', Auth::guard('users')->user()->user_id)
-            ->when(request()->input('filter'), function ($query, $filter) {
-                return $query->{$filter}();
-            })
-            ->with(['favoritedBy' => function ($query) {
-                $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
-            }])
-            ->paginate(12);
-           
-        return view('user.post', [
-            'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
-            'properties' => $properties,
-            'filterOptions' => Property::filterOptions(),
-            'selectedFilter' => $filter,
-        ]);
+        try {
+            $filter = request()->input('filter', 'newest');
+            $properties = Property::where('property_seller_id', Auth::guard('users')->user()->user_id)
+                ->when(request()->input('filter'), function ($query, $filter) {
+                    return $query->{$filter}();
+                })
+                ->with(['favoritedBy' => function ($query) {
+                    $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
+                }])
+                ->paginate(12);
+    
+            return view('user.post', [
+                'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
+                'properties' => $properties,
+                'filterOptions' => Property::filterOptions(),
+                'selectedFilter' => $filter,
+            ]);
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
+
     }
 
     /**
@@ -69,10 +75,7 @@ class PostController extends Controller
                 'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
             ]);
         } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
-            ]);
+            return ApiResponse::errorResponse($th);
         }
     }
 
@@ -237,10 +240,7 @@ class PostController extends Controller
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json([
-                'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
-            ]);
+            return ApiResponse::errorResponse($th);
         }
     }
 
@@ -251,13 +251,15 @@ class PostController extends Controller
     {
         try {
             $property = Property::where('slug', $slug)
-            ->with(['favoritedBy' => function ($query) {
-                if (Auth::guard('users')->check()) {
-                    $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
-                }
-            }])
-            ->firstOrFail();
+                ->with(['favoritedBy' => function ($query) {
+                    if (Auth::guard('users')->check()) {
+                        $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
+                    }
+                }])
+                ->firstOrFail();
             $property->incrementPropertyView();
+            $this->watch($property->property_id);
+
             $featuredProperties = Property::take(5)->get();
 
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
@@ -268,7 +270,6 @@ class PostController extends Controller
                 ->with('property', $property)
                 ->with('featuredProperties', $featuredProperties)
                 ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
-
         } catch (\Throwable $th) {
             return ApiResponse::errorResponse($th);
         }
@@ -367,10 +368,7 @@ class PostController extends Controller
                 'message' => 'Type not found. Error: ' . $e->getMessage(),
             ]);
         } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
-            ]);
+            return ApiResponse::errorResponse($th);
         }
     }
 
@@ -383,7 +381,7 @@ class PostController extends Controller
         $maxPrice = $request->input('property_max_price');
         $minAcreage = $request->input('property_min_acreage');
         $maxAcreage = $request->input('property_max_acreage');
-        
+
         // Validate input data
         $validator = Validator::make($request->all(), [
             'property_purpose_id' => 'required|integer',
@@ -393,7 +391,6 @@ class PostController extends Controller
             'property_min_acreage' => 'nullable|numeric',
             'property_max_acreage' => 'nullable|numeric',
         ]);
-        // dd(request()->all());
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -406,57 +403,50 @@ class PostController extends Controller
             return $this->showByType($purposeSlug, $minPrice, $maxPrice, $minAcreage, $maxAcreage);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function watch($property_id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        try {
+            $user = Auth::guard('users')->user();
+            WatchedPost::firstOrCreate([
+                'user_id' => $user->user_id,
+                'property_id' => $property_id,
+            ]);
+            return ApiResponse::createSuccessResponse();
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

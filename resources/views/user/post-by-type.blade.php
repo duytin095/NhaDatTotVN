@@ -20,7 +20,10 @@
 
                     <div id="property-listing" class="row justify-content-center">
                         @forelse ($properties as $property)
-                            <x-property-listing :property="$property" :columnSizes="['xl' => 6, 'md' => 6]" />
+                            <x-property-listing 
+                                :property="$property" 
+                                :columnSizes="['xl' => 6, 'md' => 6]"
+                                :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())" />
                         @empty
                             <p> Chưa có tin đăng nào</p>
                         @endforelse

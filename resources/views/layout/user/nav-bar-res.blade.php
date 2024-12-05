@@ -87,6 +87,11 @@
                                           Yêu thích
                                       </a>
                                   </div>
+                                  <div class="accordion-item">
+                                    <a href="{{ route('user.profile.watched-posts') }}" class="accordion-link">
+                                        Đã xem
+                                    </a>
+                                </div>
                               </div>
                           </div>
                       </div>

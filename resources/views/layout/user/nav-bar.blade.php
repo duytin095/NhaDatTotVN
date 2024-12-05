@@ -81,6 +81,9 @@
                             <li class="nav-item">
                                 <a href="{{ route('user.profile.favorites') }}" class="nav-link">Yêu thích</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('user.profile.watched-posts') }}" class="nav-link">Đã xem</a>
+                            </li>
                         </ul>
                     </li>
                 @endif
