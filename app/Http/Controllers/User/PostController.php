@@ -257,7 +257,11 @@ class PostController extends Controller
                     }
                 }])
                 ->firstOrFail();
-            $property->incrementPropertyView();
+            
+            if($property->property_seller_id != Auth::guard('users')->user()->user_id){
+                $property->incrementPropertyView();
+            }
+            
             $this->watch($property->property_id);
 
             $featuredProperties = Property::take(5)->get();
