@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin\Manage;
 
 use App\Models\Type;
+use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Spatie\FlareClient\Api;
 
 class TypeController extends Controller
 {
@@ -14,42 +16,65 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $purposes = config('constants.property-basic-info.property-purposes');
-        return view('admin.manage.type.index', compact('purposes'));
+        try {
+            $purposes = config('constants.property-basic-info.property-purposes');
+            $active_flg = ACTIVE;
+            return view('admin.manage.type.index', compact('purposes', 'active_flg'));
+        }catch (\Throwable $th) {
+            if (config('app.debug')) return response()->json($th->getMessage());
+            abort(500);
+        }
     }
 
-    public function getTypes(Request $request)
+    // public function getTypes(Request $request)
+    // {
+    //     try {
+    //         $page = $request->input('page', 1); // default to page 1 if not provided
+    //         $types = Type::orderByDesc('created_at')->paginate(10, ['*'], 'page', $page);
+
+    //         $propertyPurposes = config('constants.property-basic-info.property-purposes');
+
+    //         $types->transform(function ($type) use ($propertyPurposes) {
+    //             $type->property_purpose_name = $propertyPurposes[$type->property_purpose_id]['name'];
+    //             return $type;
+    //         });
+
+    //         return response()->json([
+    //             'status' => 200,
+    //             'types' => $types,
+    //             'paginate' => [
+    //                 'total' => $types->total(),
+    //                 'per_page' => $types->perPage(),
+    //                 'current_page' => $types->currentPage(),
+    //                 'last_page' => $types->lastPage(),
+    //                 'from' => $types->firstItem(),
+    //                 'to' => $types->lastItem(),
+    //                 // 'links' => $types->links()->toHtml(),
+    //                 'links' => $this->getPaginationLinks($types)
+    //             ],
+    //         ]);
+    //     } catch (\Throwable $th) {
+    //         return ApiResponse::errorResponse($th);
+    //     }
+    // }
+
+    public function get()
     {
         try {
-            $page = $request->input('page', 1); // default to page 1 if not provided
-            $types = Type::orderByDesc('created_at')->paginate(10, ['*'], 'page', $page);
-
+            $types = Type::orderBy('created_at', 'desc')
+                ->get()
+                ->toArray();
             $propertyPurposes = config('constants.property-basic-info.property-purposes');
-        
-            $types->transform(function ($type) use ($propertyPurposes) {
-                $type->property_purpose_name = $propertyPurposes[$type->property_purpose_id]['name'];
-                return $type;
-            });
 
+            foreach ($types as &$type) {
+                $type['property_purpose_name'] = $propertyPurposes[$type['property_purpose_id']]['name'];
+            }
             return response()->json([
                 'status' => 200,
-                'types' => $types,
-                'paginate' => [
-                    'total' => $types->total(),
-                    'per_page' => $types->perPage(),
-                    'current_page' => $types->currentPage(),
-                    'last_page' => $types->lastPage(),
-                    'from' => $types->firstItem(),
-                    'to' => $types->lastItem(),
-                    // 'links' => $types->links()->toHtml(),
-                    'links' => $this->getPaginationLinks($types)
-                ],
+                'data' => $types,
             ]);
         } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
-            ]);
+            return ApiResponse::errorResponse($th);
         }
     }
     public function getAllTypes()
@@ -61,28 +86,24 @@ class TypeController extends Controller
                 'types' => $types,
             ]);
         } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : 'Có gì đó không đúng! Liên hệ quản trị viên để khắc phục',
-            ]);
+            return ApiResponse::errorResponse($th);
         }
     }
-    private function getPaginationLinks($paginator)
+    public function toggleActive(string $id)
     {
-        $links = [];
-        for ($i = 1; $i <= $paginator->lastPage(); $i++) {
-            $links[] = [
-                'label' => $i,
-                'active' => $i == $paginator->currentPage(),
-            ];
+        try {
+            DB::beginTransaction();
+            $type = Type::where('property_type_id', $id)->firstOrFail();
+            $type->update([
+                'active_flg' => $type->active_flg == ACTIVE ? INACTIVE : ACTIVE
+            ]);
+            DB::commit();
+            return ApiResponse::updateSuccessResponse();
+        }catch (\Throwable $th) {
+            DB::rollBack();
+            return ApiResponse::errorResponse($th);
         }
-        return $links;
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create() {}
 
     /**
      * Store a newly created resource in storage.
@@ -98,7 +119,7 @@ class TypeController extends Controller
             DB::beginTransaction();
             $imagePath = null;
             $image = $request->file('image');
-            if($image){
+            if ($image) {
                 $imageName = time() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('assets/media/images/types'), $imageName);
                 $imagePath = 'assets/media/images/types/' . $imageName;
@@ -109,7 +130,7 @@ class TypeController extends Controller
                 'property_purpose_id' => $request->input('property_purpose_id'),
                 'property_type_image' => json_encode($imagePath),
             ]);
-            
+
             DB::commit();
             return response()->json([
                 'status' => 200,
@@ -117,25 +138,10 @@ class TypeController extends Controller
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json([
-                'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
-            ]);
+            return ApiResponse::errorResponse($th);
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id) {}
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -160,18 +166,12 @@ class TypeController extends Controller
                 $image->move(public_path('assets/media/images/types'), $imageName);
                 $type->property_type_image = json_encode('assets/media/images/types/' . $imageName);
             }
-           
+
             $type->save();
             DB::commit();
-            return response()->json([
-                'status' => 200,
-                'message' => config('constants.response.messages.updated'),
-            ]);
+            return ApiResponse::updateSuccessResponse();
         } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
-            ]);
+            return ApiResponse::errorResponse($th);
         }
     }
 

@@ -40,6 +40,9 @@ class User extends Authenticatable
         'password',
         'owner_referral_code',
         'referral_code',
+
+        'created_at',
+        'updated_at'
     ];
 
     public function properties()

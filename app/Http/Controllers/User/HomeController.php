@@ -15,7 +15,7 @@ class HomeController extends Controller
     public function index()
     {
         try {
-            $types = Type::withCount('properties')->take(8)->get();
+            $types = Type::where('active_flg', ACTIVE)->withCount('properties')->take(8)->get();
             $statuses = Status::all()->toArray();
             $purposes = config('constants.property-basic-info.property-purposes');
             $labels = config('constants.property-basic-info.property-labels');

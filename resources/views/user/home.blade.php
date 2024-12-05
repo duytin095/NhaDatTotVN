@@ -132,10 +132,11 @@
                     <div class="col-lg-3 col-sm-6">
                         <div class="category-card">
                             <div class="image">
-                                @if ($type['type_image'] != null)
+                                @if ($type['type_image'] !== null)
                                     <img src="{{ asset($type['type_image']) }}" alt="type_image">
+                                @else
+                                    <img src="{{ asset('assets/user/images/default-type.jpg') }}" alt="type_image">
                                 @endif
-                                <img src="{{ asset('assets/user/images/default-type.jpg') }}" alt="type_image">
                             </div>
                             <div class="content">
                                 <h3>

@@ -17,6 +17,8 @@ class NewsType extends Model
     protected $fillable = [
         'name',
         'slug',
+        'created_at',
+        'updated_at',
         'active_flg',
         'delete_flg',
     ];

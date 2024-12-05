@@ -72,6 +72,8 @@ class Property extends Model
         'property_seller_id',
         'slug',
         'property_label',
+        'created_at',
+        'updated_at'
     ];
 
     public function type()

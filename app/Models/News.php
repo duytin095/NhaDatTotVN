@@ -40,6 +40,8 @@ class News extends Model
         'view',
         'user_id',
         'type',
+        'created_at',
+        'updated_at',
         'active_flg',
         'delete_flg',
     ];

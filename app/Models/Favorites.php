@@ -12,6 +12,8 @@ class Favorites extends Model
     protected $fillable = [
         'property_id',
         'user_id',
+        'created_at',
+        'updated_at',
     ];
 
     public function scopeLatest($query)

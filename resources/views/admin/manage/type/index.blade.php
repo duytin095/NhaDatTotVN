@@ -3,21 +3,16 @@
     <div>
         <div class="card">
             <div class="card-body">
-                <button id="create-new-type-btn" type="button" class="btn btn-primary">
+                <button onclick="openCreateModal()" type="button" class="btn btn-primary">
                     Thêm danh mục
                 </button>
             </div>
         </div>
 
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-body">
-
                 <div class="table-responsive">
                     <div id="copy-print-csv_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-
-                        {{-- <div id="copy-print-csv_filter" class="dataTables_filter"><label>Tìm kiếm:<input type="search"
-                                    class="form-control form-control-sm selectpicker" placeholder=""
-                                    aria-controls="copy-print-csv"></label></div> --}}
                         <table id="type-table" class="table v-middle dataTable no-footer" role="grid"
                             aria-describedby="copy-print-csv_info">
                             <thead>
@@ -50,6 +45,29 @@
 
                         </div>
                     </div>
+                </div>
+            </div>
+        </div> --}}
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Danh sách danh mục</div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="type-table" class="table custom-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Tên</th>
+                                <th>Thuộc danh mục</th>
+                                <th>Ngày thêm</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -90,7 +108,8 @@
 
                         <div class="col-12 d-flex flex-column justify-content-center align-items-center">
                             <div class="">
-                                <img name="type-image-preview" src="https://placehold.co/200x200" class="rounded" alt="type image">
+                                <img name="type-image-preview" src="https://placehold.co/200x200" class="rounded"
+                                    alt="type image">
                             </div>
                             <div>
                                 <button style="color: black;" class="file-upload">
@@ -111,30 +130,10 @@
     <!-- Modal end -->
 @endsection
 @push('scripts')
-    <script src="{{ asset('assets/admin/js/manage/type/type.js') }}"></script>
     <script>
-        // // Get the file input and image elements
-        // const fileInput = $('.type-image-file-input');
-        // const imageElement = $('[name="type-image-preview"]');
-
-        // // Add an event listener to the file input
-        // fileInput.on('change', function() {
-        //     // Get the selected file
-        //     const file = this.files[0];
-
-        //     // Create a FileReader instance
-        //     const reader = new FileReader();
-
-        //     // Add an event listener to the FileReader
-        //     reader.onload = function(event) {
-        //         // Set the image source to the uploaded image
-        //         imageElement.attr('src', event.target.result);
-        //     };
-
-        //     // Read the file as a data URL
-        //     reader.readAsDataURL(file);
-        // });
+        const ACTIVE = {{ $active_flg }}
     </script>
+    <script src="{{ asset('assets/admin/js/manage/type/type.js') }}"></script>
 @endpush
 <style>
     [name="type-image-preview"] {

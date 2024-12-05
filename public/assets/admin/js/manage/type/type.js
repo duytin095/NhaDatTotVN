@@ -1,17 +1,13 @@
 let fileInput, imageElement;
 $(document).ready(function () {
-    getTypes();
-    $('#createNewType').on('hidden.bs.modal', function () {
-        $('.text-danger.form-error').remove();
-        clearFormSelectors(['[name="type_id"]', '[name="property_type_name"]'], '[name="property_purpose_id"]');
-    });
-
+    initDataTable();
     imageUpload();
 });
-
-$('#create-new-type-btn').on('click', function(){
-    openCreateModal();
+$('#createNewType').on('hidden.bs.modal', function () {
+    $('.text-danger.form-error').remove();
+    clearFormSelectors(['[name="type_id"]', '[name="property_type_name"]'], '[name="property_purpose_id"]');
 });
+
 
 $('#create-type-submit-btn').on('click', function () {
     var typeId = $('[name="type_id"]').val();
@@ -21,22 +17,6 @@ $('#create-type-submit-btn').on('click', function () {
         createType();
     }
 });
-
-async function getTypes(page = 1) {
-    try {
-        const response = await sendRequest(`${window.location.origin}/admin/types/data?page=${page}`, 'GET');
-        if (response.status == 200) {
-            const types = response.types.data;
-            const paginate = response.paginate;
-            displayTypes(types, paginate);
-
-            window.history.pushState(null, null, `${window.location.pathname}?page=${page}`); // update the URL in the browser's address bar to reflect the current page number
-            // window.location.hash = `page=${page}`; // the other way to update the URL fragment (the part after the # symbol) to reflect the current page number
-        }
-    } catch (error) {
-        showMessage(error.message);
-    }
-}
 
 async function createType() {
     try {
@@ -48,15 +28,10 @@ async function createType() {
         const response = await sendRequest(`${window.location.origin}/admin/types/store`, 'POST', formData, true);
 
         if (response.status == 200) {
-            getTypes();
+            $('#type-table').DataTable().ajax.reload();
             showMessage(response.message);
-            
-            // if(!$('.type-image-file-input')[0]){
-                $('.type-image-file-input')[0].value = '';
-            // }
-            $('#createNewType').modal('hide');
-            console.log($('.type-image-file-input')[0]);
-            
+            $('.type-image-file-input')[0].value = '';
+            $('#createNewType').modal('hide');            
         }
     } catch (error) {
         if (error.status == 422) {
@@ -71,6 +46,7 @@ async function createType() {
         }
     }
 }
+
 async function updateType(id) {
     try {
         let formData = new FormData();
@@ -86,8 +62,7 @@ async function updateType(id) {
 
         const response = await sendRequest(`${window.location.origin}/admin/types/${id}`, 'POST', formData, true);
         if (response.status == 200) {
-            const current_page = new URLSearchParams(window.location.search).get('page');
-            getTypes(current_page);
+            $('#type-table').DataTable().ajax.reload(null, false);
             $('#createNewType').modal('hide');
             showMessage(response.message);
             $('.type-image-file-input')[0].value = '';
@@ -97,11 +72,11 @@ async function updateType(id) {
         showMessage(error.message);
     }
 }
-async function deleteType(id) {
+async function activeType(id) {
     try {
-        const response = await sendRequest(`${window.location.origin}/admin/types/${id}`, 'DELETE');
+        const response = await sendRequest(`${window.location.origin}/admin/types/toggle-active/${id}`, 'PUT');
         if (response.status == 200) {
-            getTypes();
+            $('#type-table').DataTable().ajax.reload(null, false);
             showMessage(response.message);
         }
     } catch (error) {
@@ -109,65 +84,6 @@ async function deleteType(id) {
     }
 }
 
-function displayTypes(data, paginate) {
-    $('#type-table tbody').empty();
-    $.each(data, function (key, value) {
-        let thumbnail;        
-        if (value.property_type_image === null) {
-            thumbnail = 'assets/user/images/default-type.jpg'; // or any other default value
-        } else {
-            thumbnail = JSON.parse(value.property_type_image);
-        }
-        
-        $('#type-table tbody').append(`
-                <tr role="row" class="odd">
-                    <td class="sorting_1">
-                        <div class="media-box">
-                            <img src="${window.location.origin}/${thumbnail}" width="40" class="media-avatar" alt="Product">
-                            <div class="media-box-body">
-                                <a href="# class="text-truncate">${value.property_type_name}</a>
-                                <p>ID: ${value.property_type_id}</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td>${value.property_purpose_name}</td>
-                    <td>${value.created_at}</td>
-    
-                    <td>
-                        <div class="actions">
-                            <a href="javascript:void(0)" 
-                                onclick="openUpdateModal(${value.property_type_id}, '${value.property_type_name}', ${value.property_purpose_id},  '${thumbnail}' )"
-                                data-toggle="tooltip" data-placement="top" title=""
-                                data-original-title="Edit">
-                                <i class="icon-edit1 text-info"></i>
-                            </a>
-                            <a href="javascript:void(0)" onclick="openDeleteModal(${value.property_type_id})" data-toggle="tooltip" data-placement="top" title=""
-                                data-original-title="Delete">
-                                <i class="icon-x-circle text-danger"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            `);
-    });
-    const paginationHtml = `
-        <ul class="pagination pagination-sm">
-            <li class="paginate_button page-item previous ${paginate.current_page == 1 ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="getTypes(${paginate.current_page - 1})">Lùi</a>
-            </li>
-            ${paginate.links.map((link, index) => `
-                <li class="page-item ${link.active ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="getTypes(${link.label})">${link.label}</a>
-                </li>
-            `).join('')}
-            <li class="page-item ${paginate.current_page == paginate.last_page ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="getTypes(${paginate.current_page + 1})">Tiếp</a>
-            </li>
-        </ul>
-    `;
-    $('#type-table-pagination-links').html(paginationHtml);
-    $('#type-table-info').text(`Hiển thị ${paginate.from} từ ${paginate.to} đến ${paginate.total} danh mục`);
-}
 function openDeleteModal(id) {
     let event = {
         icon: 'question',
@@ -188,7 +104,8 @@ function openUpdateModal(id, name, purpose, image) {
     $('[name="property_type_name"]').val(name);
     $('#purpose-list option[value="' + purpose + '"]').prop('selected', true);
     // $('#imagePreview').css('background-image', 'url(' + window.location.origin + '/' + (image) + ')');
-    setImage('[name="type-image-preview"]', `${window.location.origin}/${image}`);
+    // setImage('[name="type-image-preview"]', `${window.location.origin}/${image}`);
+    setImage('[name="type-image-preview"]', image);
    
     $('#createNewType').modal('show');
 }
@@ -213,12 +130,14 @@ function clearFormSelectors(selectors) {
 function clearImage(selector) {
     $(selector).attr('src', '');
 }
-function setImage(selector, url = null) {
-    if(url) {
-        $(selector).attr('src', url);
+function setImage(selector, url = 'null') {    
+    if(url !== 'null') {
+        $(selector).attr('src',  `${window.location.origin}/${url}`);
+        return;
+    }else if(url === 'null') {
+        $(selector).attr('src', 'https://placehold.co/200');
         return;
     }
-    $(selector).attr('src', 'https://placehold.co/200');
 }
 function imageUpload() {
     fileInput = $('.type-image-file-input');
@@ -242,4 +161,50 @@ function imageUpload() {
     });
 }
 
+function initDataTable() {
+    $('#type-table').DataTable({
+        "ajax": {
+            "url": "/admin/types/data",
+            "dataSrc": function (json) {
+                return json.data;
+            }
+        },
+        "columns": [
+            {
+                "data": null,
+                "render": function (row) {
+                    if (row.property_type_image === null) {
+                        return '<img src="' + window.location.origin + '/assets/user/images/default-type.jpg" width="50" height="50">';
+                    } else {
+                        return '<img src="' + window.location.origin + '/' + JSON.parse(row.property_type_image) + '" width="50" height="50">';
+                    }
+                },
+                "width": "5%",
+                "orderable": false
+            },
+            { "data": "property_type_name", "width": "55%" },
+            { "data": "property_purpose_name", "width": "10%" },
+            { "data": "created_at", "width": "10%" },
+            {
+                "data": null,
+                "render": function (row) {                    
+                    if(row.active_flg == ACTIVE)                        
+                        return "<button onclick='openUpdateModal(" + row.property_type_id + ", \"" + row.property_type_name + "\", \"" + row.property_purpose_id + "\", \"" + row.property_type_image + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-secondary'>Ẩn</button>";
+                    else{
+                        return "<button onclick='openUpdateModal(" + row.property_type_id + ", \"" + row.property_type_name + "\", \"" + row.property_purpose_id + "\", \"" + row.property_type_image + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-success'>Hiện</button>";
+                    }
+                },
+                "width": "20%",
+                "orderable": false
+            }
+        ],
+        "ordering": true,
+        "order": [[1, "desc"]],
+        "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50, "All"]],
+        "language": {
+            "lengthMenu": "Hiển thị _MENU_ tin/trang",
+            "info": "Hiển thị trang _PAGE_ của _PAGES_",
+        }
+    });
+}
 

@@ -46,8 +46,10 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
         // DANH MUC
         Route::get      ('/types', [TypeController::class, 'index'])->name('types.show');
-        Route::get      ('/types/data', [TypeController::class, 'getTypes'])->name('types.get-types');
+        Route::get      ('/types/data', [TypeController::class, 'get'])->name('types.get-types');
         Route::get      ('/types/all-data', [TypeController::class, 'getAllTypes'])->name('types.get-all-types');
+        Route::put      ('/types/toggle-active/{id}', [TypeController::class, 'toggleActive'])->name('types.toggle-active');
+
         Route::post     ('/types/store', [TypeController::class, 'store'])->name('types.store');
         Route::post     ('/types/{id}', [TypeController::class, 'update'])->name('types.update');
         Route::delete   ('/types/{id}', [TypeController::class, 'destroy'])->name('types.destroy');

@@ -17,6 +17,10 @@ class Type extends Model
         'property_purpose_id',
         'slug',
         'property_type_image',
+        'created_at',
+        'updated_at',
+        'active_flg',
+        'deleted_flg'
     ];
     public function sluggable(): array
     {

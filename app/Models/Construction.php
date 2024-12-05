@@ -13,6 +13,8 @@ class Construction extends Model
     protected $table = 'constructions';
     protected $fillable = [
         'construction_name',
+        'created_at',
+        'updated_at',
         'active_flg',
         'delete_flg',
     ];

@@ -64,7 +64,7 @@ class PostController extends Controller
         $this->breadcrumbService->addCrumb('Tạo Tin Đăng');
 
         try {
-            $types = Type::orderBy('property_purpose_id', 'asc')->get()->groupBy('property_purpose_id');
+            $types = Type::where('active_flg', ACTIVE)->orderBy('property_purpose_id', 'asc')->get()->groupBy('property_purpose_id');
             $purposes = config('constants.property-basic-info.property-purposes');
             $directions = config('constants.property-basic-info.property-directions');
             $legals = config('constants.property-basic-info.property-legals');
