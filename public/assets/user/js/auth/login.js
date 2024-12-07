@@ -1,6 +1,6 @@
 $(document).ready(function () {
     if (isJustSignup()) {
-        showMessage('Success!', 'Registration successful. Please enter your email and password to log in', 'success');
+        showMessage('Success!', 'Đăng ký thành công', 'success');
         sessionStorage.removeItem('show_signup_popup');
     }
 });

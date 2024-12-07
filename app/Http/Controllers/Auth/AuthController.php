@@ -277,7 +277,9 @@ class AuthController extends Controller
             'user_phone' => $request->input('user_phone'),
             'password' => $request->input('password'),
         ];
-        if (!Auth::guard('users')->attempt($credentials)) {
+        try {
+            Auth::guard('users')->attempt($credentials);
+        } catch (\Throwable $th) {
             return response()->json([
                 'status' => 401,
                 'message' => 'Thông tin đăng nhập không chính xác',

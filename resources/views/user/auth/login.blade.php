@@ -27,13 +27,13 @@
                                 </div>
                             </div>
                             <div class="form-bottom d-flex justify-content-between">
-                                <div class="form-check">
+                                {{-- <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="remember-me">
                                     <label class="form-check-label" for="remember-me">
                                         Ghi nhớ đăng nhập
                                     </label>
-                                </div>
-                                <a href="forgot-password.html" class="forgot-password">
+                                </div> --}}
+                                <a href="{{ route('user.password.request') }}" class="forgot-password">
                                     Quên mật khẩu?
                                 </a>
                             </div>
