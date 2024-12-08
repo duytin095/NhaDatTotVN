@@ -4,7 +4,8 @@
         'xl' => 4,
         'md' => 6,
     ],
-    'isFavorite' => false
+    'isFavorite' => false,
+    'isEditable' => false
 ])
 <div class="col-xl-{{ $columnSizes['xl'] }} col-md-{{ $columnSizes['md'] }}">
     <div class="properties-item">
@@ -108,6 +109,23 @@
                             </i>
                         </button>
                     </li>
+                    @if($isEditable)
+                        <li>
+                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Sửa">
+                                <i class="ri-pencil-line"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Ẩn">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Xóa">
+                                <i class="ri-delete-bin-5-line"></i>
+                            </button>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>

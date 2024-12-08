@@ -420,6 +420,17 @@ class PostController extends Controller
             return ApiResponse::errorResponse($th);
         }
     }
+
+    public function edit(string $id)
+    {
+        try{
+            $property = Property::where('property_id', $id)->firstOrFail();
+            return view('user.post.edit', compact('property'));
+        }catch (\Throwable $th) {
+            if (config('app.debug')) return response()->json($th->getMessage());
+            abort(500);
+        }
+    }
 }
 
 
