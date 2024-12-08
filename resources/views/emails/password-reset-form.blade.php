@@ -5,6 +5,8 @@
         <div class="container">
             <div class="forgot-password-box">
                 <form>
+                    <input type="text" name="token" hidden value="{{ $token }}">
+                    <input type="text" name="email" hidden value="{{ $email }}">
                     <label>Mật khẩu</label>
                     <input name="password" type="password" class="form-control"> 
                     <br></br>

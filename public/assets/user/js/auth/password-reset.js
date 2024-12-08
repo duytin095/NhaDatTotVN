@@ -1,14 +1,11 @@
 async function onUserResetPassword(){
-    const url = new URL(window.location.href);
-    const pathSegments = url.pathname.split('/');
-    const token = pathSegments[pathSegments.length - 1];
     try {
         const data = {
             password: $('[name="password"]').val(),
             password_confirmation: $('[name="password_confirmation"]').val(),
-            token: token,
+            token: $('[name="token"]').val(),
+            email: $('[name="email"]').val(),
         };
-        console.log(data);
         
         const response = await sendRequest(`${window.location.origin}/user/password/reset`, 'POST', data);
         if(response.status == 200){
