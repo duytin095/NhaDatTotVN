@@ -11,6 +11,7 @@
                             <p>Chưa có tài khoản? <a href=" {{ route('user.signup.show') }}">Đăng ký</a></p>
                         </div>
                         <form class="authentication-form" method="POST">
+                            @csrf
                             <div class="form-group">
                                 <label>Số điện thoại</label>
                                 <input type="number" name="user_phone" class="form-control"

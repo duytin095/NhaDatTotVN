@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Livewire\ShowPropertiesByType;
-use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\PostController;
@@ -10,14 +8,12 @@ use App\Http\Controllers\User\AgentController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Home\DashboardController;
 use App\Http\Controllers\User\FavoritesController;
-use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\User\WatchedPostController;
 use App\Http\Controllers\Admin\Manage\NewsController;
 use App\Http\Controllers\Admin\Manage\TypeController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\NewsTypeController;
-use App\Http\Controllers\Admin\Manage\PropertyController;
 use App\Http\Controllers\Admin\Manage\ConstructionController;
 
 Route::name('admin.')->prefix('admin')->group(function () {
@@ -109,7 +105,7 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::get      ('/password/request', 'showRequestForm')->name('password.request');
         Route::post     ('/password/email', 'sendResetLinkEmail')->name('password.email');
         Route::post     ('/password/reset', 'reset')->name('password.update');
-        Route::get      ('/password/reset/{token}', 'showResetTokenForm')->name('password.reset');
+        Route::get      ('/password/reset/{token}/{email}', 'showResetTokenForm')->name('password.reset');
     });
 
     Route::get      ('/home', [HomeController::class, 'index'])->name('home.index');

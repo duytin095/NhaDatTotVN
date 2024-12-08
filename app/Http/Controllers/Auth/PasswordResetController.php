@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class PasswordResetController extends Controller
         $this->breadcrumbService = $breadcrumbService;
     }
 
-    public function showRequestForm(Request $request, $token = null)
+    public function showRequestForm()
     {
         $this->breadcrumbService->addCrumb('Đăng nhập', '/user/login');
         $this->breadcrumbService->addCrumb('Đặt lại mật khẩu', '');
@@ -41,7 +42,6 @@ class PasswordResetController extends Controller
             'email.email' => 'Email không đúng định dạng',
         ]);
 
-
         $email = $request->email;
         $token = Str::random(60);
         try {
@@ -51,15 +51,13 @@ class PasswordResetController extends Controller
                 'created_at' => now(),
             ]);
 
-            $url = route('user.password.reset', ['token' => $token]);
+            $url = route('user.password.reset', ['token' => $token, 'email' => $email]);
             Mail::to($email)->send(new PasswordResetEmail($url));
 
-            return response(
-                [
-                    'status' => 200,
-                    'message' => 'Email đã được gửi',
-                ]
-            );
+            return response([
+                'status' => 200,
+                'message' => 'Email đã được gửi',
+            ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'errors' => $e->errors()
@@ -69,13 +67,14 @@ class PasswordResetController extends Controller
         }
     }
 
-    public function showResetTokenForm($token)
+    public function showResetTokenForm($token, $email)
     {
         $this->breadcrumbService->addCrumb('Đăng nhập', '/user/login');
         $this->breadcrumbService->addCrumb('Đặt lại mật khẩu', '');
 
         return view('emails.password-reset-form', [
             'token' => $token,
+            'email' => $email,
             'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
         ]);
     }
@@ -95,25 +94,42 @@ class PasswordResetController extends Controller
         // dd($request->all());
 
         try {
-            $status = Password::reset(
-                $request->only('password', 'password_confirmation', 'token'),
-                function ($user, $password) {
+            $user = User::where('email', $request->email)->first();
+
+            if ($user) {
+                $tokenRecord = DB::table('password_resets')
+                    ->where('email', $request->email)
+                    ->where('token', $request->token)
+                    ->first();
+
+                if ($tokenRecord) {
                     $user->forceFill([
-                        'password' => bcrypt($password)
+                        'password' => bcrypt($request->password)
                     ])->setRememberToken(Str::random(60));
-    
+
                     $user->save();
-    
+
                     event(new PasswordReset($user));
+
+                    return response([
+                        'status' => 200,
+                        'message' => 'Mật khẩu đã được đặt lại',
+                        'redirect' => route('user.login.show')
+                    ]);
+                } else {
+                    return response([
+                        'status' => 400,
+                        'message' => 'Token không hợp lệ',
+                    ]);
                 }
-            );
-    
-            return $status == Password::INVALID_TOKEN
-                ? redirect()->back()->withErrors(['email' => __($status)])
-                : redirect()->route('user.login.show')->with('status', __($status));
+            } else {
+                return response([
+                    'status' => 400,
+                    'message' => 'User không tồn tại',
+                ]);
+            }
         } catch (\Throwable $th) {
             return ApiResponse::errorResponse($th);
         }
-       
     }
 }

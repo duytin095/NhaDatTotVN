@@ -6,13 +6,15 @@ use App\Models\User;
 use App\Models\Admin;
 use App\Models\Property;
 use App\Traits\Paginatable;
+use Spatie\FlareClient\Api;
+use App\Helpers\ApiResponse;
 use function Ramsey\Uuid\v1;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-
 use Illuminate\Support\Facades\Cookie;
 use App\Services\UserBreadcrumbService;
 use Illuminate\Support\Facades\Session;
@@ -277,21 +279,22 @@ class AuthController extends Controller
             'user_phone' => $request->input('user_phone'),
             'password' => $request->input('password'),
         ];
-        try {
-            Auth::guard('users')->attempt($credentials);
-        } catch (\Throwable $th) {
+        if (Auth::guard('users')->attempt($credentials)) {
             return response()->json([
-                'status' => 401,
-                'message' => 'Thông tin đăng nhập không chính xác',
-            ], 401);
+                'status' => 200,
+                'message' => 'Đăng nhập thành công',
+                'redirect' => route('user.home.index'),
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Thông tin đăng nhập không chính xác',
+            ]);
         }
-        return response()->json([
-            'status' => 200,
-            'message' => 'Đăng nhập thành công',
-            'redirect' => route('user.home.index'),
-        ]);
+    
+        
     }
-    public function onUserLogout(Request $request)
+    public function onUserLogout()
     {
         Auth::guard('users')->logout();
         return redirect(route('user.login.show'));
