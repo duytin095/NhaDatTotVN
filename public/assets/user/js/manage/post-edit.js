@@ -1,6 +1,5 @@
 Dropzone.autoDiscover = false;
 let marker, provinces, districts, wards;
-let provinceId = 1, districtId = 1, wardId = 1;
 var imageDropzone, images_data = [];
 
 $(document).ready(function () {
@@ -33,13 +32,33 @@ $(document).ready(function () {
     let submitTimeout = null;
 
     $('#submit-btn').on('click', function () {
-        // createPost();
         if (submitTimeout) {
             clearTimeout(submitTimeout);
-          }
-          submitTimeout = setTimeout(updatePost, 500);
-    })
+        }
+        submitTimeout = setTimeout(updatePost, 500);
+    });
+
+    $('.dz-remove').on('click', function(e) {
+        e.preventDefault();
+        var imagePreview = $(this).parent();
+        imagePreview.remove();
+    });
+
+    $.each(existingImages, function (index, imagePath) {
+        var mockFile = {
+            name: imagePath,
+            size: 12345,
+            type: 'image/jpeg',
+            upload: {
+              uuid: Math.random().toString(36).substr(2, 9) // Generate a random UUID
+            }
+          };
+        imageDropzone.emit('addedfile', mockFile);
+        imageDropzone.emit('thumbnail', mockFile, '/'+imagePath); // Note the leading slash
+        imageDropzone.emit('complete', mockFile);
+      });
 });
+
 async function updatePost() {
     try {
         let formData = new FormData();
@@ -78,12 +97,22 @@ async function updatePost() {
         formData.append('property_video_link', $('[name="video_link"]').val());
         formData.append('property_video_type', $('[name="video_type"]').val());
 
+        
         images_data = Object.values(images_data);
-        $.each(images_data, function (key, value) {
-            formData.append('image_' + key, value);
-        });
+        console.log(images_data);
+        $.each(existingImages, function (index, imagePath) {
+            var file = new File([imagePath], imagePath, { type: 'image/jpeg' });
+            images_data.push(file);
+            formData.append('image_' + index, file);
+          });
+          
+        // images_data = Object.values(imageDropzone.files);
+        // $.each(images_data, function (key, value) {            
+        //     formData.append('image_' + key, value);
+        // });
 
-        const response = await sendRequest(`${window.location.origin}/user/posts/store`, 'POST', formData, true);
+
+        const response = await sendRequest(`${window.location.origin}/user/posts/update/${property_id}`, 'POST', formData, true);
 
         if (response.status == 200) {
             window.location.href = response.redirect;
@@ -101,6 +130,8 @@ async function updatePost() {
         }
     }
 }
+//---------------------- https://oapi.vn/api-tinh-thanh-viet-nam ----------------------//
+
 async function getProvinces() {
     try {
         const provinces = await sendRequest('https://open.oapi.vn/location/provinces?size=63', 'GET');
@@ -108,15 +139,15 @@ async function getProvinces() {
             $('[name="provinces"]')
                 .empty()
                 .html(`<option value="${provinces.data[0].id}" selected>${provinces.data[0].name}</option>
-                    ${provinces.data.slice(1).map((province) => `<option value="${province.id}">${province.name}</option>`)
+                    ${provinces.data.slice(1).map((province) => `<option value="${province.id}" ${province_id == province.id ? 'selected' : ''}>${province.name}</option>`)
                         .join('')
                     }`);
-                    
-            await getDistricts(provinces.data[0].id);
+
+            await getDistricts(province_id);
 
             $('[name="provinces"]').on('change', async function () {
-                provinceId = $(this).val();
-                await getDistricts(provinceId);
+                province_id = $(this).val();
+                await getDistricts(province_id);
             })
         } else {
             showMessage(provinces.message);
@@ -125,22 +156,22 @@ async function getProvinces() {
         showMessage(error.message);
     }
 }
+
 async function getDistricts(provinceId) {
     try {
-        // const districts = await sendRequest(`https://open.oapi.vn/location/districts?provinceId=${provinceId}`, 'GET');
         const districts = await sendRequest(`https://open.oapi.vn/location/districts/${provinceId}`, 'GET');
         if (districts.code == "success") {
             $('[name="districts"]')
                 .empty()
                 .html(
                     `<option value="${districts.data[0].id}" selected>${districts.data[0].name}</option>
-                    ${districts.data.slice(1).map((district) => `<option value="${district.id}">${district.name}</option>`)
+                    ${districts.data.slice(1).map((district) => `<option value="${district.id}" ${district_id == district.id ? 'selected' : ''}>${district.name}</option>`)
                         .join('')}`);
-                        
+
             getWards(districts.data[0].id);
             $('[name="districts"]').on('change', async function () {
-                districtId = $(this).val();
-                getWards(districtId);
+                district_id = $(this).val();
+                getWards(district_id);
             })
         } else {
             showMessage(districts.message);
@@ -150,13 +181,12 @@ async function getDistricts(provinceId) {
     }
 }
 async function getWards(districtId) {
-    // const wards = await sendRequest(`https://open.oapi.vn/location/wards?districtId=${districtId}`, 'GET');
     const wards = await sendRequest(`https://open.oapi.vn/location/wards/${districtId}`, 'GET');
     try {
         if (wards.code == "success") {
             $('[name="wards"]')
                 .empty()
-                .html(wards.data.map((ward) => `<option value="${ward.id}">${ward.name}</option>`)
+                .html(wards.data.map((ward) => `<option value="${ward.id}" ${ward_id == ward.id ? 'selected' : ''}>${ward.name}</option>`)
                     .join(''));
 
             autoFillAddress();
@@ -167,6 +197,7 @@ async function getWards(districtId) {
         showMessage(error.message);
     }
 }
+
 function initImageDropzone() {
     imageDropzone = new Dropzone("form#upload-property-image", {
         url: '/fake',
@@ -220,17 +251,6 @@ async function initMap() {
                     map: map,
                     title: place.name,
                 });
-
-                // Get address components
-                // const addressComponents = place.address_components;
-                // const districtIndex = addressComponents.findIndex((component) => component.types.includes("administrative_area_level_2"));
-                // const street = addressComponents.slice(0, districtIndex).map((component) => component.long_name).join(", ");
-
-                // // Populate input fields
-                // $("[name='street']").val(street);
-                // $("[name='ward']").val(addressComponents.find((component) => component.types.includes("administrative_area_level_3"))?.long_name);
-                // $("[name='district']").val(addressComponents.find((component) => component.types.includes("administrative_area_level_2"))?.long_name);
-                // $("[name='province']").val(addressComponents.find((component) => component.types.includes("administrative_area_level_1"))?.long_name);
 
                 // Get latitude and longitude                
                 const { lat, lng } = place.geometry.location;
@@ -321,7 +341,6 @@ function matchCustom(params, data) {
 
 $(".area-select-matcher").select2({
     matcher: matchCustom,
-    // theme: 'bootstrap'
 });
 
 // Convert currency to VND when price input got changed

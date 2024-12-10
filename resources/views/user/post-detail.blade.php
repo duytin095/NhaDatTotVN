@@ -281,7 +281,7 @@
                                                     </div>
                                                     <div class="col-6 text-end">
                                                         @if ($property->property_legal != 0 && $property->property_legal != null)
-                                                            {{ config('constants.property-basic-info.property-legal')[$property->property_legal] }}
+                                                            {{ config('constants.property-basic-info.property-legals')[$property->property_legal] }}
                                                         @else
                                                             --
                                                         @endif

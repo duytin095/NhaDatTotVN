@@ -63,20 +63,32 @@ class PropertyTableSeeder extends Seeder
             $propertyVideoType = rand(0, count($videoLinks) - 1); // Generate a random video type
             $data[] = [
                 'property_type_id' => rand(1, 20),
-                'property_name' => 'Imo, this ' . ($i + 1) . ' was probably Miyeon and Yuqi’s song!! Both of their raps ate and MIYEONS VOCALS!!',
+                'property_name' => 'BÁN GẤP CĂN HỘ'. ($i + 1) . 'PN, 2WC PHÚ HỮU Q9 NHÀ MỚI, ĐÃ CÓ SỔ GIÁ 2.450 TỶ',
                 'property_description' => $description,
                 // 'property_image' => json_encode($randomImages),
                 'property_image' => json_encode($watermarkedImages),
                 'property_video_type' => $propertyVideoType,
                 'property_video_link' => $videoLinks[$propertyVideoType],
                 // default address
-                'property_address' => '53 An Hoi, Thị trấn An Phú, Huyện An Phú, An Giang',
+                'property_address' => '53 An Hoi, Chuong My, Thị trấn Chúc Sơn, Ha Noi',
                 'property_address_number' => '53',
                 'property_street' => 'An Hoi',
-                'property_ward' => rand(1,2),
-                'property_province' => rand(1,2),
-                'property_district' => rand(1,2),
+                'property_ward' => 10015, //"Thị trấn Chúc Sơn"
+                'property_district' => 277, // "Chuong My"
+                'property_province' => 1, // Ha Noi
                 'property_price' => rand(0, 10000000),
+
+                'property_status' => rand(0, 1),
+                'property_legal' => rand(1, 3),
+                'property_direction' => rand(0, 3),
+                'property_facade' => rand(0, 500),
+                'property_depth' => rand(0, 500),
+                'property_acreage' => rand(0, 500),
+                'property_floor' => rand(1, 5),
+                'property_bedroom' => rand(0, 10),
+                'property_bathroom' => rand(0, 10),
+                'property_entry' => rand(0, 500),
+
 
                 'property_seller_id' => rand(1, 10),
                 'property_label' => rand(0, 4),

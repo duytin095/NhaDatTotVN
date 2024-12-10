@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Services\UserBreadcrumbService;
 use Illuminate\Support\Facades\Validator;
@@ -70,7 +71,7 @@ class PostController extends Controller
             $legals = config('constants.property-basic-info.property-legals');
             $statuses = config('constants.property-basic-info.property-statuses');
             $videoLinks = config('constants.property-basic-info.video-links');
-            $constructions = Construction::where('active_flg', ACTIVE)->toArray();
+            $constructions = Construction::where('active_flg', ACTIVE)->get();
             return view('user.post-create', compact('purposes', 'types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
                 'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
             ]);
@@ -275,7 +276,8 @@ class PostController extends Controller
                 ->with('featuredProperties', $featuredProperties)
                 ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
         } catch (\Throwable $th) {
-            return ApiResponse::errorResponse($th);
+            if (config('app.debug')) return response()->json($th->getMessage());
+            abort(404);
         }
     }
 
@@ -367,12 +369,11 @@ class PostController extends Controller
                 ]
             );
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Type not found. Error: ' . $e->getMessage(),
-            ]);
+            if (config('app.debug')) return response()->json($e);
+            abort(404);
         } catch (\Throwable $th) {
-            return ApiResponse::errorResponse($th);
+            if (config('app.debug')) return response()->json($th->getMessage());
+            abort(404);
         }
     }
 
@@ -407,6 +408,7 @@ class PostController extends Controller
             return $this->showByType($purposeSlug, $minPrice, $maxPrice, $minAcreage, $maxAcreage);
         }
     }
+    /* Add property to user's watched list */
     public function watch($property_id)
     {
         try {
@@ -421,14 +423,68 @@ class PostController extends Controller
         }
     }
 
-    public function edit(string $id)
+    /* Show the form for editing the specified resource. */
+    public function edit(string $slug)
     {
         try{
-            $property = Property::where('property_id', $id)->firstOrFail();
-            return view('user.post.edit', compact('property'));
+            $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+            $this->breadcrumbService->addCrumb('Sửa tin đăng');
+
+            $types = Type::where('active_flg', ACTIVE)->orderBy('property_purpose_id', 'asc')->get()->groupBy('property_purpose_id');
+            $purposes = config('constants.property-basic-info.property-purposes');
+            $directions = config('constants.property-basic-info.property-directions');
+            $legals = config('constants.property-basic-info.property-legals');
+            $statuses = config('constants.property-basic-info.property-statuses');
+            $videoLinks = config('constants.property-basic-info.video-links');
+            $constructions = Construction::where('active_flg', ACTIVE)->get();
+
+            $property = Property::where('slug', $slug)->where('property_seller_id', Auth::guard('users')->user()->user_id)->firstOrFail();
+            // $property['property_image'] = $this->readFiles($property['property_image']);
+            
+            return view('user.post-edit')
+                ->with('property', $property)
+                ->with('types', $types)
+                ->with('purposes', $purposes)
+                ->with('directions', $directions)
+                ->with('legals', $legals)
+                ->with('statuses', $statuses)
+                ->with('videoLinks', $videoLinks)
+                ->with('constructions', $constructions)
+                ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
         }catch (\Throwable $th) {
             if (config('app.debug')) return response()->json($th->getMessage());
-            abort(500);
+            abort(404);
+        }
+    }
+    public function update(Request $request, string $id)
+    {
+        try {
+            $property = Property::where('property_id', $id)->where('property_seller_id', Auth::guard('users')->user()->user_id)->firstOrFail();
+            dd($request->all());
+            $property->update($request->all());
+            return ApiResponse::createSuccessResponse();
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
+    }
+
+    public function readFiles($images = [])
+    {
+        try {
+            $files_info = [];
+            $images = is_string($images) ? json_decode($images) : $images;
+            foreach ($images as $key => $image) {
+                $files_info[] = array(
+                    "name" => File::name($image),
+                    "size" => File::size($image),
+                    "path" => url($image),
+                    'normal' => $image
+                );
+
+            }
+            return $files_info;
+        } catch (\Throwable $th) {
+            return [];
         }
     }
 }
