@@ -11,6 +11,7 @@ use App\Http\Controllers\User\FavoritesController;
 use App\Http\Controllers\User\WatchedPostController;
 use App\Http\Controllers\Admin\Manage\NewsController;
 use App\Http\Controllers\Admin\Manage\TypeController;
+use App\Http\Controllers\Admin\Manage\UserController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\NewsTypeController;
@@ -82,8 +83,10 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::put      ('/news-types/update/{id}', [NewsTypeController::class, 'update'])->name('news-types.update');
         Route::put      ('/news-types/toggle-active/{id}', [NewsTypeController::class, 'toggleActive'])->name('news-types.toggle-active');
 
-
-
+        // DANH SACH NGUOI DUNG
+        Route::get      ('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get      ('/users/get', [UserController::class, 'get'])->name('users.get');
+        Route::put      ('/users/toggle-active/{id}', [UserController::class, 'toggleActive'])->name('users.toggle-active');
 
         Route::controller(DashboardController::class)->name('dashboard.')->prefix('dashboard')->group(function () {
             Route::get('/', 'index')->name('show');

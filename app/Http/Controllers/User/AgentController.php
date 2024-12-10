@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\User;
+use App\Models\Property;
+use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Property;
-use App\Models\User;
 use App\Services\UserBreadcrumbService;
 
 class AgentController extends Controller
@@ -24,18 +25,17 @@ class AgentController extends Controller
         $this->breadcrumbService->addCrumb('Nhà môi giới');
 
         try {
-            $agents = User::paginate(10);
+            $agents = User::where('active_flg', ACTIVE)->paginate(10);
             return view('user.agent.index', [
                 'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
                 'agents' => $agents,
             ]);
         } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
-            ]);
+            if (config('app.debug')) return response()->json($th->getMessage());
+            abort(500);
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -45,19 +45,18 @@ class AgentController extends Controller
         $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
 
         try {
-            $agent = User::where('slug', $slug)->firstOrFail();
+            $agent = User::where('active_flg', ACTIVE)->where('slug', $slug)->firstOrFail();
             $properties = $agent->properties()->paginate(10);   
 
             $this->breadcrumbService->addCrumb($agent->user_name);
 
-            return view('user.agent.detail', compact('agent', 'properties'), [
-                'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
-            ]);
+            return view('user.agent.detail', compact('agent', 'properties'))
+                ->with('properties', $properties)
+                ->with('agent', $agent)
+                ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
         } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
-            ]);
+            if (config('app.debug')) return response()->json($th->getMessage());
+            abort(404);
         }
     }
 

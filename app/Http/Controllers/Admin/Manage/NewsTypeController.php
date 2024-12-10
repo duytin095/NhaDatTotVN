@@ -13,7 +13,7 @@ class NewsTypeController extends Controller
     public function index()
     {
         $active_flg = ACTIVE;
-        return view('admin.manage.news-types.index', compact('active_flg'));
+        return view('admin.manage.news-type.index', compact('active_flg'));
     }
     public function get()
     {

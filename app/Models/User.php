@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Carbon\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -41,6 +42,8 @@ class User extends Authenticatable
         'owner_referral_code',
         'referral_code',
 
+        'active_flg',
+        'delete_flg',
         'created_at',
         'updated_at'
     ];
@@ -53,6 +56,16 @@ class User extends Authenticatable
     public function getUserImageAttribute()
     {
         return json_decode($this->user_avatar, true);
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-m-Y');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-m-Y');
     }
 
     public function favorites(): BelongsToMany{
