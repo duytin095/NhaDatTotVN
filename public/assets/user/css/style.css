@@ -12809,6 +12809,26 @@ Default Btn Area CSS
 }
 
 /*================================================
+Secondary Btn Area CSS
+=================================================*/
+.secondary-btn {
+  display: inline-flex;
+  padding: 15px 32px;
+  margin-left: 10px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  background-color: #BCCCDC;
+  color: #1A1A1D;
+  font-weight: 600;
+  font-family: "Josefin Sans", sans-serif;
+  transition: 0.6s;
+}
+.secondary-btn:hover {
+  background-color: #9AA6B2;
+}
+
+/*================================================
 Section Title CSS
 =================================================*/
 .section-title {
@@ -15627,6 +15647,9 @@ Agents Area CSS
 }
 .agents-card .agents-image a img {
   border-radius: 5px;
+  min-height: 256px;
+  max-height: 256px;
+  object-fit: cover;
 }
 .agents-card .agents-content {
   text-align: center;
@@ -17093,6 +17116,9 @@ Agent Profile Area CSS
 }
 .agent-profile-image img {
   border-radius: 5px;
+  min-height: 436px;
+  max-height: 436px;
+  object-fit: cover;
 }
 
 .agent-profile-content .title h2, .agent-profile-content .title .h2 {
@@ -18121,7 +18147,8 @@ Contact Area CSS
   top: 45.5px;
 }
 .contact-wrap-form form .contact-btn {
-  text-align: end;
+  text-align: center;
+  margin-top: 36px;
 }
 .contact-wrap-form form .contact-btn .default-btn {
   border: none;
@@ -18692,9 +18719,12 @@ Add Property Area CSS
 .add-property-form .bottom {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 .add-property-form .bottom .default-btn {
+  border: none;
+}
+.add-property-form .bottom .secondary-btn {
   border: none;
 }
 .add-property-form .bottom .form-check {

@@ -55,7 +55,7 @@
                         <div class="icon">
                             <img src="{{ asset('assets/user/images/properties/bed.svg') }}" alt="bed">
                         </div>
-                        <span>{{ $property->property_bedroom }} Phòng ngủ</span>
+                        <span>{{ $property->property_bedroom }}</span>
                     </li>
                 @endif
                 @if (!is_null($property->property_bedroom) && $property->property_bedroom !== 0)
@@ -63,7 +63,7 @@
                         <div class="icon">
                             <img src="{{ asset('assets/user/images/properties/bathroom.svg') }}" alt="bathroom">
                         </div>
-                        <span>{{ $property->property_bathroom }} Phòng tắm</span>
+                        <span>{{ $property->property_bathroom }}</span>
                     </li>
                 @endif
                 @if ($property->property_acreage !== null && $property->property_acreage !== 0)
@@ -112,17 +112,21 @@
                     @if($isEditable)
                         <li>
                             <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Sửa">
-                                <i class="ri-pencil-line"></i>
+                                <a href="{{ route('user.posts.edit', $property['slug']) }}">
+                                    <i class="ri-pencil-line"></i>
+                                </a>
                             </button>
                         </li>
                         <li>
-                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Ẩn">
-                                <i class="ri-eye-line"></i>
+                            <button href="{{ route('user.posts.show', $property['slug']) }}" type="button" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Ẩn tin">
+                               <a href="{{ route('user.posts.show', $property['slug']) }}">
+                                   <i class="ri-eye-line"></i>
+                               </a>
                             </button>
                         </li>
                         <li>
                             <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Xóa">
-                                <i class="ri-delete-bin-5-line"></i>
+                                <i class="ri-delete-bin-line"></i>
                             </button>
                         </li>
                     @endif

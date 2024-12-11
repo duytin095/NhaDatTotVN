@@ -19,7 +19,7 @@ class HomeController extends Controller
             $statuses = Status::all()->toArray();
             $purposes = config('constants.property-basic-info.property-purposes');
             $labels = config('constants.property-basic-info.property-labels');
-            $agents = User::take(4)->get();
+            $agents = User::where('active_flg', ACTIVE)->take(4)->get();
             $typesByPurpose = Type::with('properties')->get()->groupBy('property_purpose_id');
 
 

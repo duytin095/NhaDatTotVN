@@ -11,6 +11,7 @@ use App\Http\Controllers\User\FavoritesController;
 use App\Http\Controllers\User\WatchedPostController;
 use App\Http\Controllers\Admin\Manage\NewsController;
 use App\Http\Controllers\Admin\Manage\TypeController;
+use App\Http\Controllers\Admin\Manage\UserController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\NewsTypeController;
@@ -82,8 +83,10 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::put      ('/news-types/update/{id}', [NewsTypeController::class, 'update'])->name('news-types.update');
         Route::put      ('/news-types/toggle-active/{id}', [NewsTypeController::class, 'toggleActive'])->name('news-types.toggle-active');
 
-
-
+        // DANH SACH NGUOI DUNG
+        Route::get      ('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get      ('/users/get', [UserController::class, 'get'])->name('users.get');
+        Route::put      ('/users/toggle-active/{id}', [UserController::class, 'toggleActive'])->name('users.toggle-active');
 
         Route::controller(DashboardController::class)->name('dashboard.')->prefix('dashboard')->group(function () {
             Route::get('/', 'index')->name('show');
@@ -117,6 +120,7 @@ Route::name('user.')->prefix('user')->group(function () {
     Route::middleware(['users.auth'])->group(function () {
         Route::get      ('/logout', [AuthController::class, 'onUserLogout'])->name('logout');
         Route::get      ('/profile', [ProfileController::class, 'index'])->name('profile.index');
+        Route::post     ('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
         Route::get      ('/profile/favorites', [FavoritesController::class, 'index'])->name('profile.favorites');
         Route::post     ('/profile/favorites/toggle', [FavoritesController::class, 'toggleFavorite'])->name('profile.favorites.toggle');
         Route::get      ('/profile/watched-posts', [WatchedPostController::class, 'index'])->name('profile.watched-posts');
@@ -125,6 +129,8 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::get      ('/posts', [PostController::class, 'index'])->name('posts.index');
         Route::get      ('/posts/create', [PostController::class, 'create'])->name('posts.create');
         Route::post     ('/posts/store', [PostController::class, 'store'])->name('posts.store');
+        Route::get      ('/posts/edit/{slug}', [PostController::class, 'edit'])->name('posts.edit');
+        Route::post     ('/posts/update/{id}', [PostController::class, 'update'])->name('posts.update');
     });
 
     Route::get      ('/posts/search', [PostController::class, 'search'])->name('posts.search');

@@ -12,7 +12,7 @@
                     <!-- Card start -->
                     <div class="card">
                         <div class="card-header-lg">
-                            <h4>Account Settings</h4>
+                            <h4>Cập nhật trang cá nhân</h4>
                         </div>
                         <div class="card-body">
 
@@ -32,7 +32,7 @@
                                                     class="dropzone needsclick dz-clickable" id="admin-avatar-upload">
                                                     @csrf
                                                     <div class="dz-message needsclick">
-                                                        <button type="button" class="dz-button">Change Image.</button>
+                                                        <button type="button" class="dz-button">Chọn ảnh khác</button>
                                                     </div>
 
                                                 </form>
@@ -43,7 +43,7 @@
                                             <div class="field-wrapper">
                                                 <input id="admin_name" type="text" class="form-control" 
                                                 value="{{ $admin->admin_name}}">
-                                                <div class="field-placeholder">Name</div>
+                                                <div class="field-placeholder">Tên</div>
                                             </div>
                                         </div>
 
@@ -59,7 +59,7 @@
                                             <div class="field-wrapper">
                                                 <input id="admin_phone" type="text" class="form-control" 
                                                 value="{{ $admin->admin_phone}}">
-                                                <div class="field-placeholder">Phone</div>
+                                                <div class="field-placeholder">Số điện thoại</div>
                                             </div>
                                         </div>
 
@@ -75,7 +75,7 @@
                                 </div>
 
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <button id="save-setting-btn" class="btn btn-primary mb-3">Save Settings</button>
+                                    <button id="save-setting-btn" class="btn btn-primary mb-3">Lưu thay đổi</button>
                                 </div>
                             </div>
 

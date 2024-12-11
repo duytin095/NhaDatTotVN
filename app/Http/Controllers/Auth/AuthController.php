@@ -220,7 +220,7 @@ class AuthController extends Controller
             DB::beginTransaction();
             User::create([
                 'user_name' => $request->input('user_name'),
-                'user_email' => $request->input('user_email'),
+                'email' => $request->input('user_email'),
                 'user_phone' => $request->input('user_phone'),
                 'password' => bcrypt($request->input('password')),
                 'owner_referral_code' => 'NDT' . (1000 + User::orderByDesc('user_id')->value('user_id')),

@@ -33,6 +33,9 @@
                     <div class="sidebar-menu">
                         <ul>
                             <li>
+                                <a href="{{ route('admin.users.index') }}">Danh sách người dùng</a>
+                            </li>
+                            <li>
                                 <a href="{{ route('admin.types.show') }}">Danh sách danh mục</a>
                             </li>
                             <li>

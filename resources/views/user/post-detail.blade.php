@@ -281,7 +281,7 @@
                                                     </div>
                                                     <div class="col-6 text-end">
                                                         @if ($property->property_legal != 0 && $property->property_legal != null)
-                                                            {{ config('constants.property-basic-info.property-legal')[$property->property_legal] }}
+                                                            {{ config('constants.property-basic-info.property-legals')[$property->property_legal] }}
                                                         @else
                                                             --
                                                         @endif
@@ -337,9 +337,9 @@
                                             <li>
                                                 <span>Email:</span>
                                                 <a
-                                                    href="mailto:@isset($property['seller']['user_email']){{ $property['seller']['user_email'] }}@endisset">
-                                                    @isset($property['seller']['user_email'])
-                                                        {{ $property['seller']['user_email'] }}
+                                                    href="mailto:@isset($property['seller']['email']){{ $property['seller']['email'] }}@endisset">
+                                                    @isset($property['seller']['email'])
+                                                        {{ $property['seller']['email'] }}
                                                     @endisset
                                                 </a>
                                             </li>

@@ -11,7 +11,7 @@
                         @if ($agent['user_avatar'] === null)
                             <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
                         @else
-                            <img src="{{ asset($agent['user_avatar']) }}" alt="image">
+                            <img src="{{ asset(json_decode($agent['user_avatar'])) }}" alt="image">
                         @endif
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                                 <ul class="info-list">
                                     <li>
                                         <span>Email:</span>
-                                        <a href="#">{{ $agent['user_email']}}</a>
+                                        <a href="#">{{ $agent['email']}}</a>
                                     </li>
                                     <li>
                                         <span>Điện thoại:</span>

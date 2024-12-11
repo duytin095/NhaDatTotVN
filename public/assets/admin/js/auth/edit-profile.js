@@ -22,26 +22,12 @@ async function updateProfile() {
     formData.append("admin_phone", $('#admin_phone').val());
     formData.append("admin_zalo", $('#admin_zalo').val());
 
-    // if(profileData.admin_avatar == null){
-    //     if(images_data.length > 0){
-    //         images_data = Object.values(images_data);    
-    //         formData.append("admin_avatar", images_data[0]);
-    //     }
-    // }else{
-    //     console.log(profileData.admin_avatar);
-    //     return;
-    // }
     images_data = Object.values(images_data);
 
     if(images_data.length > 0){
         formData.append("admin_avatar", images_data[0]);
         old_image = JSON.parse(profileData.admin_avatar);
         
-
-        // let old_image;
-        // if(profileData.admin_avatar){
-        //     old_image = JSON.parse(profileData.admin_avatar)
-        // }
         if(old_image.length > 0){
             try {
                 const response = await sendRequest(`${window.location.origin}/admin/profile/delete-image/${old_image}`, 'POST');

@@ -18,7 +18,7 @@ class UserTableSeeder extends Seeder
             DB::table('users')->insert([
                 'user_name' => 'User ' . $index,
                 'user_phone' => '012345678' . $index,
-                'user_email' => 'user' . $index . '@gmail.com',
+                'email' => 'user' . $index . '@gmail.com',
                 'owner_referral_code' => 'NDT' . $index,
                 'active_flg' => '0',
                 'delete_flg' => '0',
