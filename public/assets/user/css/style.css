@@ -15650,6 +15650,7 @@ Agents Area CSS
   min-height: 256px;
   max-height: 256px;
   object-fit: cover;
+  min-width: 100%;
 }
 .agents-card .agents-content {
   text-align: center;
