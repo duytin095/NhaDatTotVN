@@ -337,9 +337,9 @@
                                             <li>
                                                 <span>Email:</span>
                                                 <a
-                                                    href="mailto:@isset($property['seller']['user_email']){{ $property['seller']['user_email'] }}@endisset">
-                                                    @isset($property['seller']['user_email'])
-                                                        {{ $property['seller']['user_email'] }}
+                                                    href="mailto:@isset($property['seller']['email']){{ $property['seller']['email'] }}@endisset">
+                                                    @isset($property['seller']['email'])
+                                                        {{ $property['seller']['email'] }}
                                                     @endisset
                                                 </a>
                                             </li>

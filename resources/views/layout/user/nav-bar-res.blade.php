@@ -74,7 +74,7 @@
                               <div class="accordion" id="navbarAccordion">
                                   <div class="accordion-item">
                                       <a href="{{ route('user.profile.index') }}" class="accordion-link">
-                                          Hồ sơ
+                                          Thông tin cá nhân
                                       </a>
                                   </div>
                                   <div class="accordion-item">

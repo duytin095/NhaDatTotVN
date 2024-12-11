@@ -15647,6 +15647,9 @@ Agents Area CSS
 }
 .agents-card .agents-image a img {
   border-radius: 5px;
+  min-height: 256px;
+  max-height: 256px;
+  object-fit: cover;
 }
 .agents-card .agents-content {
   text-align: center;
@@ -17113,6 +17116,9 @@ Agent Profile Area CSS
 }
 .agent-profile-image img {
   border-radius: 5px;
+  min-height: 436px;
+  max-height: 436px;
+  object-fit: cover;
 }
 
 .agent-profile-content .title h2, .agent-profile-content .title .h2 {
@@ -18141,7 +18147,8 @@ Contact Area CSS
   top: 45.5px;
 }
 .contact-wrap-form form .contact-btn {
-  text-align: end;
+  text-align: center;
+  margin-top: 36px;
 }
 .contact-wrap-form form .contact-btn .default-btn {
   border: none;

@@ -142,7 +142,6 @@ class TypeController extends Controller
         }
     }
 
-
     /**
      * Update the specified resource in storage.
      */
@@ -182,15 +181,9 @@ class TypeController extends Controller
     {
         try {
             Type::findOrFail($id)->delete();
-            return response()->json([
-                'status' => 200,
-                'message' => config('constants.response.messages.deleted'),
-            ]);
+            return ApiResponse::deleteSuccessResponse();
         } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
-            ]);
+            return ApiResponse::errorResponse($th);
         }
     }
 }

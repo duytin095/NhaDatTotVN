@@ -73,7 +73,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li class="nav-item">
-                                <a href="{{ route('user.profile.index') }}" class="nav-link active">Hồ sơ</a>
+                                <a href="{{ route('user.profile.index') }}" class="nav-link active">Thông tin cá nhân</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('user.posts.index') }}" class="nav-link">Quản lý tin</a>

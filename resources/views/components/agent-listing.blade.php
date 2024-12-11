@@ -9,7 +9,7 @@
                 @if ($agent['user_avatar'] === null)
                     <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
                 @else
-                    <img src="{{ asset($agent['user_avatar']) }}" alt="image">
+                    <img src="{{ asset(json_decode($agent['user_avatar'])) }}" alt="image">
                 @endif
             </a>
         </div>
@@ -18,7 +18,7 @@
                 <a href="{{ route('user.agents.show', $agent['slug'])}}">{{ $agent['user_name'] }}</a>
             </h3>
             <span>{{ $agent['user_phone'] }}</span>
-            <span>{{ $agent['user_email'] }}</span>
+            <span>{{ $agent['email'] }}</span>
             {{-- <div class="social-info">
                 <a href="https://www.facebook.com/" target="_blank">
                     <i class="ri-facebook-fill"></i>

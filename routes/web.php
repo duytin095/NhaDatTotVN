@@ -120,6 +120,7 @@ Route::name('user.')->prefix('user')->group(function () {
     Route::middleware(['users.auth'])->group(function () {
         Route::get      ('/logout', [AuthController::class, 'onUserLogout'])->name('logout');
         Route::get      ('/profile', [ProfileController::class, 'index'])->name('profile.index');
+        Route::post     ('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
         Route::get      ('/profile/favorites', [FavoritesController::class, 'index'])->name('profile.favorites');
         Route::post     ('/profile/favorites/toggle', [FavoritesController::class, 'toggleFavorite'])->name('profile.favorites.toggle');
         Route::get      ('/profile/watched-posts', [WatchedPostController::class, 'index'])->name('profile.watched-posts');
