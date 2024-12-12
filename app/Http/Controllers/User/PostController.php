@@ -34,6 +34,7 @@ class PostController extends Controller
         $this->breadcrumbService->addCrumb('Bài đăng');
 
         try {
+            $ACTIVE = ACTIVE;
             $filter = request()->input('filter', 'newest');
             $properties = Property::where('property_seller_id', Auth::guard('users')->user()->user_id)
                 ->when(request()->input('filter'), function ($query, $filter) {
@@ -49,6 +50,7 @@ class PostController extends Controller
                 'properties' => $properties,
                 'filterOptions' => Property::filterOptions(),
                 'selectedFilter' => $filter,
+                'ACTIVE' => $ACTIVE
             ]);
         } catch (\Throwable $th) {
             return ApiResponse::errorResponse($th);
@@ -562,8 +564,6 @@ class PostController extends Controller
                 }
             }
 
-
-
             DB::beginTransaction();
             $property->update([
                 // THONG TIN CO BAN
@@ -609,6 +609,22 @@ class PostController extends Controller
             DB::commit();
             return ApiResponse::updateSuccessResponse();
         } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
+    }
+    public function toggleActive(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $property = Property::where('property_id', $request['property_id'])->firstOrFail();
+            $property->update([
+                'active_flg' => $property->active_flg == ACTIVE ? INACTIVE : ACTIVE
+            ]);
+            dd($property);
+            DB::commit();
+            return ApiResponse::updateSuccessResponse();
+        }catch (\Throwable $th) {
+            DB::rollBack();
             return ApiResponse::errorResponse($th);
         }
     }

@@ -43,12 +43,12 @@ class AuthController extends Controller
             'password' => 'required',
             'confirm_password' => 'bail|required|same:password',
         ], [
-            'admin_email.required' => 'Please enter your email',
-            'admin_email.email' => 'Please enter a valid email',
-            'admin_email.unique' => 'Email already exists',
-            'password.required' => 'Please enter your password',
-            'confirm_password.required' => 'Please confirm your password',
-            'confirm_password.same' => 'Password do not match',
+            'admin_email.required' => 'Vui lòng nhập email',
+            'admin_email.email' => 'Email không hợp lệ',
+            'admin_email.unique' => 'Email đã tồn tại',
+            'password.required' => 'Vui lòng nhập mật khẩu',
+            'confirm_password.required' => 'Vui lòng xác nhận mật khẩu',
+            'confirm_password.same' => 'Mật khẩu không trùng khớp',
         ]);
 
         try {
@@ -60,7 +60,7 @@ class AuthController extends Controller
             DB::commit();
             return response()->json([
                 'status' => 200,
-                'message' => 'Registration successful. Please enter your email and password to log in',
+                'message' => 'Đăng ký thành công. Nhập email và mật khẩu để đăng nhập',
                 'redirect' => route('admin.login.show'),
                 'show_popup' => true,
             ]);
@@ -82,9 +82,9 @@ class AuthController extends Controller
             'admin_email' => 'required|email:filter',
             'password' => 'required',
         ], [
-            'admin_email.required' => 'Please enter your email',
-            'admin_email.email' => 'Please enter a valid email',
-            'password.required' => 'Please enter your password',
+            'admin_email.required' => 'Vui lòng nhập email',
+            'admin_email.email' => 'Email không hợp lệ',
+            'password.required' => 'Vui lòng nhập mật khẩu',
         ]);
         $credentials = [
             'admin_email' => $request->input('admin_email'),
@@ -191,7 +191,7 @@ class AuthController extends Controller
         File::delete($imagePath);
         return response()->json([
             'status' => 200,
-            'message' => "Delete old avatar successfully" + $imagePath
+            'message' => "Xoá hình ảnh thành công" + $imagePath
         ]);
     }
 
@@ -279,6 +279,16 @@ class AuthController extends Controller
             'user_phone' => $request->input('user_phone'),
             'password' => $request->input('password'),
         ];
+
+        $user = User::where('user_phone', $credentials['user_phone'])->first();
+
+        if (!$user || $user->active_flg == INACTIVE) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Tài khoản của bạn đã bị khóa',
+            ]);
+        }
+
         if (Auth::guard('users')->attempt($credentials)) {
             return response()->json([
                 'status' => 200,
@@ -290,9 +300,7 @@ class AuthController extends Controller
                 'status' => 400,
                 'message' => 'Thông tin đăng nhập không chính xác',
             ]);
-        }
-    
-        
+        }    
     }
     public function onUserLogout()
     {

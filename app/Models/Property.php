@@ -73,7 +73,10 @@ class Property extends Model
         'slug',
         'property_label',
         'created_at',
-        'updated_at'
+        'updated_at',
+
+        'active_flg',
+        'delete_flg',
     ];
 
     public function type()

@@ -78,12 +78,12 @@
                                     </ul>
                                     <div class="price">{{ $property->formatted_price }} </div>
                                     <div class="user">
-                                        @if ($property['seller']['admin_image'] === null)
-                                            <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
+                                        @if ($property['seller']['user_avatar'] === null)
+                                            <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="user avatar">
                                         @else
-                                            <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
+                                            <img src="{{ asset(json_decode($property['seller']['user_avatar'])) }}" alt="user avatar">
                                         @endif
-                                        <a href="#">{{ $property['seller']['user_name'] }}</a>
+                                        <a href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
                                     </div>
                                 </div>
                             </div>

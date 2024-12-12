@@ -94,7 +94,7 @@
                     @if ($property['seller']['user_avatar'] === null)
                         <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
                     @else
-                        <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
+                        <img src="{{ asset(json_decode($property['seller']['user_avatar'], true)) }}" alt="image">
                     @endif
                     <a
                         href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
@@ -117,18 +117,18 @@
                                 </a>
                             </button>
                         </li>
-                        <li>
-                            <button href="{{ route('user.posts.show', $property['slug']) }}" type="button" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Ẩn tin">
-                               <a href="{{ route('user.posts.show', $property['slug']) }}">
-                                   <i class="ri-eye-line"></i>
-                               </a>
+                        {{-- <li>
+                            <button onclick="active({{ $property->property_id }})" 
+                                type="button" data-bs-toggle="tooltip" data-bs-placement="top" 
+                                data-bs-original-title={{ $property->active_flg == $ACTIVE ? 'Ẩn tin' : 'Hiện tin' }}>
+                                <i class="ri-eye-line"></i>
                             </button>
-                        </li>
-                        <li>
+                        </li> --}}
+                        {{-- <li>
                             <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Xóa">
                                 <i class="ri-delete-bin-line"></i>
                             </button>
-                        </li>
+                        </li> --}}
                     @endif
                 </ul>
             </div>
@@ -137,4 +137,5 @@
 </div>
 @push('scripts')
     <script src="{{ asset('assets/user/js/favorite.js') }}"></script>
+    <script src="{{ asset('assets/user/js/active.js') }}"></script>
 @endpush
