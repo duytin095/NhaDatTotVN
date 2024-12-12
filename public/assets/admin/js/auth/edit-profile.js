@@ -38,9 +38,6 @@ async function updateProfile() {
             }
         }
     }
-    
-    
-    
 
     try {
         const response = await sendRequest(`${window.location.origin}/admin/profile/update`, 'POST', formData, true);

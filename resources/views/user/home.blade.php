@@ -158,8 +158,6 @@
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
                 <h2>Bất động sản dành cho bạn</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra
-                    iaculis consectetur.</p>
             </div>
             <div class="properties-information-tabs">
                 {{-- <ul class="nav nav-tabs" id="properties_tab" role="tablist" data-cue="slideInUp">
@@ -306,8 +304,6 @@
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
                 <h2>Dự án nổi bật</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra
-                    iaculis consectetur.</p>
             </div>
         </div>
         <div class="container-fluid">
@@ -325,8 +321,6 @@
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
                 <h2>Dự án cho thuê</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra
-                    iaculis consectetur.</p>
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
                 @forelse ($propertiesForSale as $property)
@@ -379,8 +373,6 @@
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
                 <h2>Danh sách nhà môi giới</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra
-                    iaculis consectetur.</p>
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
                 @foreach ($agents as $agent)
@@ -405,8 +397,6 @@
         <div class="container">
             <div class="section-title text-center" data-cues="slideInUp">
                 <h2>Tin đăng tiêu điểm</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in. Pharetra
-                    iaculis consectetur.</p>
             </div>
             <div class="row justify-content-center" data-cues="slideInUp">
                 @foreach ($news as $new)

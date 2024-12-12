@@ -1,6 +1,7 @@
 Dropzone.autoDiscover = false;
 let marker, provinces, districts, wards;
 var imageDropzone, images_data = [];
+var removedImages = [];
 
 $(document).ready(function () {
     getProvinces();
@@ -56,6 +57,13 @@ $(document).ready(function () {
         imageDropzone.emit('addedfile', mockFile);
         imageDropzone.emit('thumbnail', mockFile, '/'+imagePath); // Note the leading slash
         imageDropzone.emit('complete', mockFile);
+    });
+
+    imageDropzone.on('removedfile', function(file) {
+        if (existingImages.indexOf(file.name) !== -1) {
+          removedImages.push(file.name);
+          existingImages.splice(existingImages.indexOf(file.name), 1);
+        }
       });
 });
 
@@ -97,25 +105,24 @@ async function updatePost() {
         formData.append('property_video_link', $('[name="video_link"]').val());
         formData.append('property_video_type', $('[name="video_type"]').val());
 
-        
-        images_data = Object.values(images_data);
-        console.log(images_data);
-        $.each(existingImages, function (index, imagePath) {
-            var file = new File([imagePath], imagePath, { type: 'image/jpeg' });
-            images_data.push(file);
-            formData.append('image_' + index, file);
-          });
-          
-        // images_data = Object.values(imageDropzone.files);
-        // $.each(images_data, function (key, value) {            
-        //     formData.append('image_' + key, value);
-        // });
+        // Get all files from Dropzone
+        var files = imageDropzone.getAcceptedFiles();
 
+        // Loop through files and append to FormData
+        $.each(files, function(index, file) {
+            formData.append('image_' + index, file);
+        });
+
+        // Send paths of existing images that were removed
+        $.each(removedImages, function(index, imagePath) {
+            formData.append('removed_image_' + index, imagePath);
+          });
+       
 
         const response = await sendRequest(`${window.location.origin}/user/posts/update/${property_id}`, 'POST', formData, true);
 
         if (response.status == 200) {
-            window.location.href = response.redirect;
+            showMessage(response.message);
         }
     } catch (error) {
         if (error.status == 422) {

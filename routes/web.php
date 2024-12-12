@@ -131,6 +131,7 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::post     ('/posts/store', [PostController::class, 'store'])->name('posts.store');
         Route::get      ('/posts/edit/{slug}', [PostController::class, 'edit'])->name('posts.edit');
         Route::post     ('/posts/update/{id}', [PostController::class, 'update'])->name('posts.update');
+        Route::post     ('/posts/toggle-active', [PostController::class, 'toggleActive'])->name('posts.toggle-active');
     });
 
     Route::get      ('/posts/search', [PostController::class, 'search'])->name('posts.search');

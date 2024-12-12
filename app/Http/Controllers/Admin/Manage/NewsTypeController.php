@@ -107,8 +107,4 @@ class NewsTypeController extends Controller
             'name' => $request->name,
         ]);
     }
-    private function getNewsTypes()
-    {
-        return NewsType::where('active_flg', ACTIVE)->orderBy('created_at', 'desc')->get();
-    }
 }

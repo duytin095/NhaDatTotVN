@@ -17,6 +17,8 @@ async function onUserLogin() {
         const response = await sendRequest(`${window.location.origin}/user/login`, 'POST', data);
         if (response.status == 200) {
             window.location.href = response.redirect;
+        }else if(response.status == 401){
+            showMessage(response.message);
         }else{
             showMessage(response.message);
         }

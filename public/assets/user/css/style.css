@@ -14183,6 +14183,9 @@ Properties Area CSS
 }
 .properties-item .properties-content .bottom .user img {
   max-width: 30px;
+  min-height: 30px;
+  max-height: 30px;
+  object-fit: cover;
   border: 2px solid #ffffff;
   box-shadow: 0px 4px 20px 0px rgba(84, 196, 217, 0.15);
   border-radius: 50px;
@@ -15650,6 +15653,7 @@ Agents Area CSS
   min-height: 256px;
   max-height: 256px;
   object-fit: cover;
+  min-width: 100%;
 }
 .agents-card .agents-content {
   text-align: center;
@@ -18934,6 +18938,9 @@ Property Details Area CSS
 }
 .property-details-content .right-content .user img {
   max-width: 30px;
+  max-height: 30px;
+  min-height: 30px;
+  object-fit: cover;
   border: 2px solid #ffffff;
   box-shadow: 0px 4px 20px 0px rgba(84, 196, 217, 0.15);
   border-radius: 50px;
