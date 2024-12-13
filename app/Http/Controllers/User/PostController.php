@@ -260,7 +260,7 @@ class PostController extends Controller
                 }])
                 ->firstOrFail();
 
-            if ($property->property_seller_id != Auth::guard('users')->user()->user_id) {
+            if(Auth::guard('users')->check() && $property->property_seller_id != Auth::guard('users')->user()->user_id) {
                 $property->incrementPropertyView();
             }
 

@@ -31,7 +31,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::middleware(['admin.auth'])->group(function () {
         Route::get      ('/logout', [AuthController::class, 'onAdminLogout'])->name('logout');
         Route::get      ('/profile', [AuthController::class, 'displayAdminProfile'])->name('profile.show');
-        Route::post     ('/profile', [AuthController::class, 'getAdminProfileInfomation'])->name('profile.data');
+        // Route::post     ('/profile', [AuthController::class, 'getAdminProfileInfomation'])->name('profile.data');
         Route::get      ('/profile/edit', [AuthController::class, 'editAdminProfile'])->name('profile.edit');
         Route::post     ('/profile/update', [AuthController::class, 'updateAdminProfile'])->name('profile.update');
         Route::post     ('/profile/delete-image/{imagePath}', [AuthController::class, 'deleteImage'])->name('profile.delete-image');
@@ -86,11 +86,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
         // DANH SACH NGUOI DUNG
         Route::get      ('/users', [UserController::class, 'index'])->name('users.index');
         Route::get      ('/users/get', [UserController::class, 'get'])->name('users.get');
+        Route::get      ('/users/create', [UserController::class, 'create'])->name('users.create');
         Route::put      ('/users/toggle-active/{id}', [UserController::class, 'toggleActive'])->name('users.toggle-active');
-
-        Route::controller(DashboardController::class)->name('dashboard.')->prefix('dashboard')->group(function () {
-            Route::get('/', 'index')->name('show');
-        });
 
     });
 });

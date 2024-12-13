@@ -1,20 +1,9 @@
 Dropzone.autoDiscover = false;
 let images_data = [];
-let profileData;
 $(document).ready(function () {
     initImageDropzone();
-    getProfileData()
 });
-async function getProfileData(){
-    try{
-        const response = await sendRequest(`${window.location.origin}/admin/profile`, 'POST');
-        if(response.status == 200){
-            profileData = response.data;
-        }
-    }catch(error){
-        showMessage(error);
-    }
-}
+
 async function updateProfile() {
     let formData = new FormData();
     formData.append("admin_name", $('#admin_name').val());
@@ -24,39 +13,24 @@ async function updateProfile() {
 
     images_data = Object.values(images_data);
 
-    if(images_data.length > 0){
+    // if(images_data.length > 0){
         formData.append("admin_avatar", images_data[0]);
-        old_image = JSON.parse(profileData.admin_avatar);
-        
-        if(old_image.length > 0){
-            try {
-                const response = await sendRequest(`${window.location.origin}/admin/profile/delete-image/${old_image}`, 'POST');
-                return response;
-            } catch (error) {
-                showMessage(error.message);
-                return error.message;
-            }
-        }
-    }
-
+    // }
     try {
         const response = await sendRequest(`${window.location.origin}/admin/profile/update`, 'POST', formData, true);
         if (response.status == 200) {
-            //redirect to profile 
-            window.location.href = response.redirect;
+            showMessage(response.message);
         }
     } catch (error) {
         showMessage(error.message);
     }
 }
-$('#save-setting-btn').on('click', function(){
-    openUpdateModal();    
-});
+
 function openUpdateModal(id){
     let event = {
         icon: 'question',
-        title: 'Save Setting',
-        text: 'Do you really want to save all changes?',
+        title: 'Lưu thay đổi?',
+        text: 'Xác nhận lưu lại tất cả thay đổi?',
         action: 'updateProfile',
         data: id,
     }

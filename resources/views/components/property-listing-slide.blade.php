@@ -10,11 +10,6 @@
             <x-property-media :property="$property" />
             <ul class="group-info">
                 <li>
-                    {{-- <button id="addToFavorites" onclick="addToFavorites({{ $property->property_id }})"
-                        type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                        title={{ $isFavorite ? 'Xoá' : 'Thêm' }}>
-                        <i class="ri-heart-{{ $isFavorite ? 'fill' : 'line' }} {{ $isFavorite ? 'text-danger' : '' }}"></i>
-                    </button> --}}
                     <button id="addToFavorites" onclick="addToFavorites({{ $property->property_id }})"
                         type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                         aria-label="" data-bs-original-title={{ $isFavorite ? 'Xoá' : 'Thêm' }}>
@@ -48,7 +43,7 @@
                 @if ($property['seller']['user_avatar'] === null)
                     <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="image">
                 @else
-                    <img src="{{ asset($property['seller']['user_avatar']) }}" alt="image">
+                    <img src="{{ asset(json_decode($property['seller']['user_avatar'], true)) }}" alt="image">
                 @endif
                 <a href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
             </div>
