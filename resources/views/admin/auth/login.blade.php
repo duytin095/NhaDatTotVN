@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="actions">
                                         {{-- <a href="forgot-password.html">Quên mật khẩu?</a> --}}
-                                        <button id="admin-login-btn" type="submit" class="btn btn-primary">Login</button>
+                                        <button id="admin-login-btn" type="submit" class="btn btn-primary">Đăng nhập</button>
                                     </div>
                                 </div>
                                 <div class="login-footer">
