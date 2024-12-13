@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Manage;
 use App\Models\User;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
@@ -30,6 +31,122 @@ class UserController extends Controller
             return ApiResponse::errorResponse($th);
         }
     }
+
+    public function create()
+    {
+        return view('admin.manage.user.create');
+    }
+
+    public function store(Request $req)
+    {
+        try {
+            $req->validate([
+                'name' => 'required',
+                'email' => 'required|email:filter|unique:users',
+                'user_phone' => 'required|min:10|unique:users',
+                'password' => 'required',
+                'password_confirmation' => 'required|same:password'
+            ], [
+                'name.required' => 'Tên không được để trống',
+                'email.required' => 'Email không được để trống',
+                'email.email' => 'Email không hợp lệ',
+                'email.unique' => 'Email đã tồn tại',
+                'user_phone.required' => 'Nhập số điện thoại',
+                'user_phone.min' => 'Số điện thoại không hợp lệ',
+                'user_phone.unique' => 'Số điện thoại đã tồn tại',
+                'password.required' => 'Nhập mật khẩu',
+                'password_confirmation.required' => 'Nhập lại mật khẩu',
+                'password_confirmation.same' => 'Mật khẩu không đúng',
+            ]);
+            DB::beginTransaction();
+            User::create([
+                'user_name' => $req->input('name'),
+                'email' => $req->input('email'),
+                'user_phone' => $req->input('user_phone'),
+                'password' => bcrypt($req->input('password')),
+                'owner_referral_code' => 'NDT' . (1000 + User::orderByDesc('user_id')->value('user_id')),
+                'referral_code' => $req->input('referral_code') ?? '',
+            ]);
+            DB::commit();
+            return ApiResponse::createSuccessResponse();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return ApiResponse::errorResponse($th);
+        }
+    }
+
+    public function edit(string $id)
+    {
+        try {
+            $user = User::where('user_id', $id)->firstOrFail();
+            return view('admin.manage.user.edit', compact('user'));
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
+            ]);
+        }
+    }
+
+    public function update(Request $req, string $id)
+    {
+        try {
+            $req->validate([
+                'name' => 'required',
+                'email' => [
+                    'required',
+                    'email:filter',
+                    Rule::unique('users', 'email')->ignore($id, 'user_id'),
+                ],
+                'user_phone' => [
+                    'required',
+                    'min:10',
+                    Rule::unique('users', 'user_phone')->ignore($id, 'user_id'),
+                ],
+                'password' => 'sometimes|required',
+                'password_confirmation' => 'sometimes|required|same:password'
+            ], [
+                'name.required' => 'Tên không được để trống',
+                'email.required' => 'Email không được để trống',
+                'email.email' => 'Email không hợp lệ',
+                'email.unique' => 'Email đã tồn tại',
+                'user_phone.required' => 'Nhập số điện thoại',
+                'user_phone.min' => 'Số điện thoại không hợp lệ',
+                'user_phone.unique' => 'Số điện thoại đã tồn tại',
+                'password.required' => 'Nhập mật khẩu',
+                'password_confirmation.required' => 'Nhập lại mật khẩu',
+                'password_confirmation.same' => 'Mật khẩu không đúng',
+            ]);
+
+            DB::beginTransaction();
+            $user = User::where('user_id', $id)->firstOrFail();
+            $user->update([
+                'user_name' => $req->input('name'),
+                'email' => $req->input('email'),
+                'user_phone' => $req->input('user_phone'),
+                'password' => bcrypt($req->input('password')),
+            ]);
+            DB::commit();
+            return ApiResponse::updateSuccessResponse();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return ApiResponse::errorResponse($th);
+        }
+    }
+
+    public function destroy(string $id)
+    {
+        try {
+            DB::beginTransaction();
+            User::where('user_id', $id)->delete();
+            DB::commit();
+            return ApiResponse::deleteSuccessResponse();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return ApiResponse::errorResponse($th);
+        }
+    }
+
     public function toggleActive(string $id)
     {
         try {
@@ -40,19 +157,8 @@ class UserController extends Controller
             ]);
             DB::commit();
             return ApiResponse::updateSuccessResponse();
-        }catch (\Throwable $th) {
-            DB::rollBack();
-            return ApiResponse::errorResponse($th);
-        }
-    } 
-    
-    public function create(){
-        return view('admin.manage.user.create');
-    }
-    public function store(Request $req){
-        try {
-            dd($req->all());
         } catch (\Throwable $th) {
+            DB::rollBack();
             return ApiResponse::errorResponse($th);
         }
     }
