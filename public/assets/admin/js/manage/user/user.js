@@ -2,112 +2,6 @@ $(document).ready(function () {
     initDataTable();
 });
 
-// $('#createNewConstruction').on('hidden.bs.modal', function () {
-//     $('.text-danger.form-error').remove();
-//     $('[name="construction_name"]').val('');
-//     $('#construction_id').val('');
-// });
-
-// $('#create-construction-submit-btn').on('click', function () {
-//     var constructioin_id = $('#construction_id').val();
-//     if (constructioin_id) {
-//         updateConstruction(constructioin_id);
-//     } else {
-//         createConstruction();
-//     }
-// });
-
-
-// async function createConstruction() {
-//     try {
-//         let data = {
-//             construction_name: $('[name="construction_name"]').val(),
-//         }
-
-//         const response = await sendRequest(
-//             `${window.location.origin}/admin/constructions/store`,
-//             'POST',
-//             data
-//         );
-
-//         if (response.status == 200) {
-//             $('#construction-table').DataTable().ajax.reload();
-//             showMessage(response.message);
-//             $('#createNewConstruction').modal('hide');
-//         }
-//     } catch (error) {
-//         if (error.status == 422) {
-//             const errors = error.responseJSON.errors;
-//             $('.text-danger.form-error').remove();            // clear the error text so it doesnt display duplicate if validate fail many time
-//             $.each(errors, function (key, value) {
-//                 const errorText = `<div class="text-danger form error">${value[0]}</div>`;
-//                 $(`[name="${key}"]`).after(errorText);
-//             });
-//         } else {
-//             showMessage(error.message);
-//         }
-//     }
-// }
-
-// async function updateConstruction(id) {
-//     try {
-//         data = {
-//             construction_name: $('[name="construction_name"]').val(),
-//         }
-//         const response = await sendRequest(
-//             `${window.location.origin}/admin/constructions/${id}`,
-//             'PUT',
-//             data
-//         );
-
-//         if (response.status == 200) {
-//             $('#construction-table').DataTable().ajax.reload();
-//             $('#createNewConstruction').modal('hide');
-//             showMessage(response.message);
-//         }
-//     } catch (error) {
-//         showMessage(error.message);
-//     }
-// }
-
-async function deleteConstruction(id) {
-    try {
-        const response = await sendRequest(`${window.location.origin}/admin/constructions/${id}`, 'DELETE');
-        if (response.status == 200) {
-            $('#construction-table').DataTable().ajax.reload();
-            showMessage(response.message);
-        }
-    } catch (error) {
-        showMessage(error.message);
-    }
-}
-
-function openCreateModal() {
-    $('#createNewConstructionLabel').text('Thêm dự án');
-    $('#create-construction-submit-btn').text('Tạo');
-    $('#construction_id').val('');
-    $('[name="construction_name"]').val('');
-    $('#createNewConstruction').modal('show');
-}
-
-function openEditModal(constructionId, constructionName) {
-    $('#createNewConstructionLabel').text('Chỉnh sửa dự án');
-    $('#create-construction-submit-btn').text('Cập nhật');
-    $('#construction_id').val(constructionId);
-    $('[name="construction_name"]').val(constructionName);
-    $('#createNewConstruction').modal('show');
-}
-function openDeleteModal(id) {
-    let event = {
-        icon: 'question',
-        title: 'Xoá danh mục',
-        text: 'Xác nhận xoá danh mục?',
-        action: 'deleteConstruction',
-        data: id,
-    }
-    confirmEvent(event);
-}
-
 async function activeUser(id) {
     try {
         const response = await sendRequest(`${window.location.origin}/admin/users/toggle-active/${id}`, 'PUT');
@@ -118,6 +12,33 @@ async function activeUser(id) {
     } catch (error) {
         showMessage(error.message);
     }
+}
+
+async function deleteUser(id) {
+    try {
+        const response = await sendRequest(`${window.location.origin}/admin/users/${id}`, 'DELETE');
+        if (response.status == 200) {
+            $('#user-table').DataTable().ajax.reload();
+            showMessage(response.message);
+        }
+    } catch (error) {
+        showMessage(error.message);
+    }
+}
+
+function openEditPage(id) {
+    window.location.href = '/admin/users/edit/' + id;
+}
+
+async function openDeleteModal(id) {
+    let event = {
+        icon: 'question',
+        title: 'Xoá người dùng',
+        text: 'Xác nhận xoá người dùng?',
+        action: 'deleteUser',
+        data: id,
+    }
+    confirmEvent(event);
 }
 
 function initDataTable() {
@@ -141,7 +62,7 @@ function initDataTable() {
                 "width": "5%",
                 "orderable": false
             },
-            { "data": "user_name", "width": "40%" },
+            { "data": "user_name", "width": "35%" },
             { "data": "user_phone", "width": "10%" },
             { "data": "email", "width": "10%" },
             {
@@ -159,12 +80,12 @@ function initDataTable() {
                 "data": null,
                 "render": function (row) {
                     if (row.active_flg == ACTIVE)
-                        return "<button onclick='activeUser(" + row.user_id + ")' class='btn btn-secondary'>Khoá</button>";
+                        return "<button onclick='activeUser(" + row.user_id + ")' class='btn btn-secondary'>Khoá</button> <button onclick='openEditPage(" + row.user_id + ")' class='btn btn-primary'>Sửa</button>  <button onclick='openDeleteModal(" + row.user_id + ")' class='btn btn-danger'>Xoá</button>";
                     else {
-                        return "<button onclick='activeUser(" + row.user_id + ")' class='btn btn-success'>Mở khoá</button>";
+                        return "<button onclick='activeUser(" + row.user_id + ")' class='btn btn-success'>Mở khoá</button> <button onclick='openEditPage(" + row.user_id + ")' class='btn btn-primary'>Sửa</button>  <button onclick='openDeleteModal(" + row.user_id + ")' class='btn btn-danger'>Xoá</button>";
                     }
                 },
-                "width": "20%",
+                "width": "25%",
                 "orderable": false
             }
         ],
