@@ -100,7 +100,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Đăng nhập thành công',
-            'redirect' => route('admin.types.show'),
+            'redirect' => route('admin.users.index'),
         ]);
     }
     public function onAdminLogout(Request $request)

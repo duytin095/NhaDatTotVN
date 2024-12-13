@@ -59,8 +59,6 @@
     <!-- Sidebar content end -->
 
 </nav> --}}
-
-<!-- Sidebar wrapper start -->
 <nav class="sidebar-wrapper">
 
     <!-- Sidebar content start -->
@@ -71,23 +69,28 @@
             <a href="#" class="logo">
                 <img src="{{ asset('assets/admin/img/logo.svg') }}" alt="Nha Dat Tot Admin">
             </a>
-            <a class="nav-link active" id="user-tab" data-bs-toggle="tab" href="#tab-user" role="tab" aria-controls="tab-home" aria-selected="true">
+            <a class="nav-link" id="users-tab" data-bs-toggle="tab" href="#tab-users" role="tab"
+                aria-controls="tab-users" aria-selected="true">
                 <i class="icon-users"></i>
                 <span class="nav-link-text">Người dùng</span>
             </a>
-            <a class="nav-link" id="type-tab" data-bs-toggle="tab" href="#tab-type" role="tab" aria-controls="tab-product" aria-selected="false">
+            <a class="nav-link" id="types-tab" data-bs-toggle="tab" href="#tab-types" role="tab"
+                aria-controls="tab-types" aria-selected="false">
                 <i class="icon-layers2"></i>
                 <span class="nav-link-text">Danh mục</span>
             </a>
-            <a class="nav-link" id="news-tab" data-bs-toggle="tab" href="#tab-news" role="tab" aria-controls="tab-pages" aria-selected="false">
+            <a class="nav-link" id="news-tab" data-bs-toggle="tab" href="#tab-news" role="tab"
+                aria-controls="tab-news" aria-selected="false">
                 <i class="icon-book-open"></i>
                 <span class="nav-link-text">Tin tức</span>
             </a>
-            <a class="nav-link" id="news-type-tab" data-bs-toggle="tab" href="#tab-news-type" role="tab" aria-controls="tab-news-type" aria-selected="false">
-                <i class="icon-edit1"></i>
+            <a class="nav-link" id="news-types-tab" data-bs-toggle="tab" href="#tab-news-types" role="tab"
+                aria-controls="tab-news-types" aria-selected="false">
+                <i class="icon-list"></i>
                 <span class="nav-link-text">Loại tin tức</span>
             </a>
-            <a class="nav-link" id="construction-tab" data-bs-toggle="tab" href="#tab-construction" role="tab" aria-controls="tab-construction" aria-selected="false">
+            <a class="nav-link" id="constructions-tab" data-bs-toggle="tab" href="#tab-constructions" role="tab"
+                aria-controls="tab-constructions" aria-selected="false">
                 <i class="icon-box"></i>
                 <span class="nav-link-text">Dự án</span>
             </a>
@@ -96,9 +99,9 @@
 
         <!-- Tabs content start -->
         <div class="tab-content">
-                    
+
             <!-- Chat tab -->
-            <div class="tab-pane fade show" id="tab-user" role="tabpanel" aria-labelledby="user-tab">
+            <div class="tab-pane fade" id="tab-users" role="tabpanel" aria-labelledby="users-tab">
 
                 <!-- Tab content header start -->
                 <div class="tab-pane-header">
@@ -117,7 +120,7 @@
                                 <a href="{{ route('admin.users.create') }}">Thêm người dùng</a>
                             </li>
                         </ul>
-                        
+
                     </div>
                 </div>
                 <!-- Sidebar menu ends -->
@@ -125,8 +128,8 @@
             </div>
 
             <!-- Pages tab -->
-            <div class="tab-pane fade" id="tab-type" role="tabpanel" aria-labelledby="type-tab">
-                
+            <div class="tab-pane fade" id="tab-types" role="tabpanel" aria-labelledby="types-tab">
+
                 <!-- Tab content header start -->
                 <div class="tab-pane-header">
                     Danh mục
@@ -144,12 +147,12 @@
                     </div>
                 </div>
                 <!-- Sidebar menu ends -->
-                
+
             </div>
 
             <!-- Pages tab -->
             <div class="tab-pane fade" id="tab-news" role="tabpanel" aria-labelledby="news-tab">
-                
+
                 <!-- Tab content header start -->
                 <div class="tab-pane-header">
                     Tin tức
@@ -174,7 +177,7 @@
             </div>
 
             <!-- Forms tab -->
-            <div class="tab-pane fade" id="tab-news-type" role="tabpanel" aria-labelledby="news-type-tab">
+            <div class="tab-pane fade" id="tab-news-types" role="tabpanel" aria-labelledby="news-types-tab">
 
                 <!-- Tab content header start -->
                 <div class="tab-pane-header">
@@ -187,18 +190,18 @@
                     <div class="sidebar-menu">
                         <ul>
                             <li>
-                                <a href="forms-layout-one.html">Default Layout</a>
+                                <a href="{{ route('admin.news-types.index') }}">Danh sách loại tin tức</a>
                             </li>
-                        </ul>									
+                        </ul>
                     </div>
                 </div>
                 <!-- Sidebar menu ends -->
 
             </div>
-            
+
             <!-- Components tab -->
-            <div class="tab-pane fade" id="tab-construction" role="tabpanel" aria-labelledby="construction-tab">
-                
+            <div class="tab-pane fade" id="tab-constructions" role="tabpanel" aria-labelledby="constructions-tab">
+
                 <!-- Tab content header start -->
                 <div class="tab-pane-header">
                     Dự án
@@ -210,10 +213,7 @@
                     <div class="sidebar-menu">
                         <ul>
                             <li>
-                                <a href="accordions.html">Accordions</a>
-                            </li>
-                            <li>
-                                <a href="alerts.html">Alerts</a>
+                                <a href="{{ route('admin.constructions.show') }}">Danh sách dự án</a>
                             </li>
                         </ul>
                     </div>
@@ -227,6 +227,25 @@
 
     </div>
     <!-- Sidebar content end -->
-    
+
 </nav>
-<!-- Sidebar wrapper end -->
+@push('scripts')
+    <script>
+        const currentUrl = window.location.href;
+        const match = currentUrl.match(/\/admin\/([^\/]+)/);
+        const currentTabStr = `${match[1]}-tab`;
+        const currentTabPaneStr = `tab-${match[1]}`;
+
+        $('.sidebar-wrapper .sidebar-tabs .nav a.nav-link').removeClass('active');
+        $('.sidebar-wrapper .sidebar-tabs .nav a.nav-link#' + currentTabStr).addClass('active');
+
+        $('.tab-content .tab-pane').removeClass('show active');
+        $('.tab-content .tab-pane#' + currentTabPaneStr).addClass('show active');
+
+        $('.tab-content .tab-pane a').each(function() {
+            if ($(this).attr('href') === window.location.href) {
+                $(this).addClass('current-page');
+            }
+        });
+    </script>
+@endpush

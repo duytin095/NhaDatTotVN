@@ -21,6 +21,7 @@ class UserController extends Controller
     {
         try {
             $users = User::orderBy('created_at', 'desc')
+                ->where('delete_flg', ACTIVE)
                 ->get()
                 ->toArray();
             return response()->json([
@@ -138,7 +139,8 @@ class UserController extends Controller
     {
         try {
             DB::beginTransaction();
-            User::where('user_id', $id)->delete();
+            User::where('user_id', $id)->update(['delete_flg' => INACTIVE]);
+
             DB::commit();
             return ApiResponse::deleteSuccessResponse();
         } catch (\Throwable $th) {
