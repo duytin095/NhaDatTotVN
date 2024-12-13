@@ -90,14 +90,8 @@ class AuthController extends Controller
             'admin_email' => $request->input('admin_email'),
             'password' => $request->input('password'),
         ];
-        // $remember = isset($request->all()['remember']);
+
         if (!Auth::guard('admin')->attempt($credentials)) {
-
-            // if ($remember) {
-            //     $rememberToken = Auth::guard('admin')->user()->remember_token;
-            //     Cookie::queue(Cookie::make("remember_token_admin_" . Auth::guard('admin')->user()->admin_id, $rememberToken, 60 * 24 * 365));
-            // }
-
             return response()->json([
                 'status' => 401,
                 'message' => 'Thông tin đăng nhập không chính xác ',
@@ -137,6 +131,7 @@ class AuthController extends Controller
             ]);
         }
     }
+
     function editAdminProfile(Request $request){
         if(Auth::guard('admin')->check()){
             $admin = Admin::where('admin_id', auth('admin')->id())->first();
@@ -144,6 +139,7 @@ class AuthController extends Controller
         }
         return view('admin.auth.login');
     }
+
     function updateAdminProfile(Request $request){
         try {
             $request->validate([
@@ -163,6 +159,14 @@ class AuthController extends Controller
                 $imagePath = 'assets/media/images/' . $imageName;
             }
 
+            // dd(
+            //     $request->input('admin_name'), 
+            //     $request->input('admin_phone'), 
+            //     $request->input('admin_zalo'), 
+            //     $request->input('admin_email'),
+            //     $request->file('admin_avatar')
+            // );
+
             DB::beginTransaction();
             $admin->update([
                 'admin_name' => $request->input('admin_name'),
@@ -180,21 +184,9 @@ class AuthController extends Controller
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json([
-                'status' => 500,
-                'message' => $th->getMessage(),
-            ]);
+            return ApiResponse::errorResponse($th);
         }
     }
-    function deleteImage($imagePath){
-        dd($imagePath);
-        File::delete($imagePath);
-        return response()->json([
-            'status' => 200,
-            'message' => "Xoá hình ảnh thành công" + $imagePath
-        ]);
-    }
-
 
     public function onUserSignup(Request $request)
     {

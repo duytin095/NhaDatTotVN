@@ -18,7 +18,7 @@
                             displays key performance indicators (KPI), metrics and key data points to monitor the health of
                             a business, department or specific process.
                         </div>
-                        <a href="crm.html" class="know-more">Know More <img src="{{ asset('assets/admin/img/right-arrow.svg') }}"
+                        <a href="#" class="know-more">Know More <img src="{{ asset('assets/admin/img/right-arrow.svg') }}"
                                 alt="Uni Pro Admin"></a>
 
                     </div>
@@ -31,22 +31,22 @@
                                 <div class="login-body">
                                     <a href="crm.html" class="login-logo">
                                         <img src="{{ asset('assets/admin/img/logo.svg') }}" alt="iChat"> </a>
-                                    <h6>Welcome back,<br>Please login to your account.</h6>
+                                    <h6>Chào mừng trở lại<br>Vui lòng đăng nhập vào tài khoản của bạn.</h6>
                                     <div class="field-wrapper">
                                         <input type="email" name="admin_email" autofocus>
                                         <div class="field-placeholder">Email</div>
                                     </div>
                                     <div class="field-wrapper mb-3">
                                         <input type="password" name="password">
-                                        <div class="field-placeholder">Password</div>
+                                        <div class="field-placeholder">Mật khẩu</div>
                                     </div>
                                     <div class="actions">
-                                        <a href="forgot-password.html">Forgot password?</a>
+                                        {{-- <a href="forgot-password.html">Quên mật khẩu?</a> --}}
                                         <button id="admin-login-btn" type="submit" class="btn btn-primary">Login</button>
                                     </div>
                                 </div>
                                 <div class="login-footer">
-									<span class="additional-link">No Account? <a href="{{route('admin.signup.show')}}" class="btn btn-light">Sign Up</a></span>
+									<span class="additional-link">Chưa có tài khoản? <a href="{{route('admin.signup.show')}}" class="btn btn-light">Đăng ký</a></span>
 								</div>
                             </div>
                         </form>

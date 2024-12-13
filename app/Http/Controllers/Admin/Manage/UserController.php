@@ -44,5 +44,16 @@ class UserController extends Controller
             DB::rollBack();
             return ApiResponse::errorResponse($th);
         }
+    } 
+    
+    public function create(){
+        return view('admin.manage.user.create');
+    }
+    public function store(Request $req){
+        try {
+            dd($req->all());
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
     }
 }

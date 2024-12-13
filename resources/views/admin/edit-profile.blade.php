@@ -1,21 +1,17 @@
 @extends('layout.admin.index')
 @section('content')
     <div class="content-wrapper-scroll">
-
         <!-- Content wrapper start -->
         <div class="content-wrapper">
-
             <!-- Row start -->
             <div class="row gutters">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-
                     <!-- Card start -->
                     <div class="card">
                         <div class="card-header-lg">
                             <h4>Cập nhật trang cá nhân</h4>
                         </div>
                         <div class="card-body">
-
                             <div class="row gutters">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <div class="row gutters">
@@ -73,12 +69,10 @@
 
                                     </div>
                                 </div>
-
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <button id="save-setting-btn" class="btn btn-primary mb-3">Lưu thay đổi</button>
+                                    <button onclick="openUpdateModal()" class="btn btn-primary mb-3">Lưu thay đổi</button>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <!-- Card end -->
@@ -86,10 +80,8 @@
                 </div>
             </div>
             <!-- Row end -->
-
         </div>
         <!-- Content wrapper end -->
-
     </div>
 @endsection
 @push('scripts')

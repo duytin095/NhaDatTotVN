@@ -15527,7 +15527,12 @@ Featured Properties Area CSS
   padding-left: 15px;
 }
 .featured-properties-slide .slide .properties-content .price-and-user .user img {
+  min-height: 30px;
+  min-width: 30px;
   max-width: 30px;
+  max-height: 30px;
+  object-fit: cover;
+
   border: 2px solid #A68E74;
   box-shadow: 0px 4px 20px 0px rgba(84, 196, 217, 0.15);
   border-radius: 50px;
@@ -15540,6 +15545,11 @@ Featured Properties Area CSS
   letter-spacing: 0.52px;
 }
 .featured-properties-slide .slide .properties-content .price-and-user .user:hover img {
+  min-height: 30px;
+  min-width: 30px;
+  max-width: 30px;
+  max-height: 30px;
+  object-fit: cover;
   border: 2px solid #1B6F58;
 }
 .featured-properties-slide .slide.bg-1 {
