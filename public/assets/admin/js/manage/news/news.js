@@ -9,7 +9,7 @@ async function openEditPage(id) {
     window.location.href = '/admin/news/edit/' + id;
 }
 
-async function openDeleteModal(id) {
+function openDeleteModal(id) {
     let event = {
         icon: 'question',
         title: 'Xoá tin',

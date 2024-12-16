@@ -38,24 +38,23 @@ class NewsController extends Controller
     {
         try {
             $news = News::where('active_flg', ACTIVE)
-            ->whereHas('type', function ($query) {
-                $query->where('active_flg', ACTIVE);
-            })
-            ->orderBy('created_at', 'desc')->paginate(12);
-            
+                ->whereHas('type', function ($query) {
+                    $query->where('active_flg', ACTIVE);
+                })
+                ->orderBy('created_at', 'desc')->paginate(12);
+
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
             $this->breadcrumbService->addCrumb('Tin tức', '');
 
             return view('user.news.index')
                 ->with('news', $news)
                 ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
-                
         } catch (\Throwable $th) {
             if (config('app.debug')) return response()->json($th->getMessage());
             abort(500);
         }
     }
-    
+
     public function get()
     {
         try {
@@ -125,22 +124,24 @@ class NewsController extends Controller
 
             $mostViewNews = News::where('active_flg', ACTIVE)
                 ->orderByDesc('view')
-                ->take(6) 
+                ->take(6)
                 ->get();
 
-           $forSaleProperties = Property::where('active_flg', ACTIVE)
-               ->whereHas('type', function ($query)  {
-                   $query->where('property_purpose_id', FOR_SELL);
-               })
-               ->take(5)
-               ->get();
+            $forSaleProperties = Property::where('active_flg', ACTIVE)
+                ->where('delete_flg', ACTIVE)
+                ->whereHas('type', function ($query) {
+                    $query->where('property_purpose_id', FOR_SELL);
+                })
+                ->take(5)
+                ->get();
 
             $forRentProperties = Property::where('active_flg', ACTIVE)
-               ->whereHas('type', function ($query)  {
-                   $query->where('property_purpose_id', FOR_RENT);
-               })
-               ->take(5)
-               ->get();
+                ->where('delete_flg', ACTIVE)
+                ->whereHas('type', function ($query) {
+                    $query->where('property_purpose_id', FOR_RENT);
+                })
+                ->take(5)
+                ->get();
 
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
             $this->breadcrumbService->addCrumb('Tin tức', '/user/news');
@@ -157,7 +158,8 @@ class NewsController extends Controller
             abort(404);
         }
     }
-    public function showByType($slug){
+    public function showByType($slug)
+    {
         try {
             $news_types = $this->getNewsTypes();
             $news = News::whereHas('type', function ($query) use ($slug) {
@@ -168,7 +170,7 @@ class NewsController extends Controller
 
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
             $this->breadcrumbService->addCrumb('Tin tức', '/user/news');
-            $this->breadcrumbService->addCrumb($news_types->where('slug', $slug)->first()->name, '/user/news-by-type/'.$slug);
+            $this->breadcrumbService->addCrumb($news_types->where('slug', $slug)->first()->name, '/user/news-by-type/' . $slug);
 
             return view('user.news.index-by-type')
                 ->with('news', $news)
@@ -181,11 +183,11 @@ class NewsController extends Controller
 
     public function edit(string $id)
     {
-        try{
+        try {
             $news = News::where('id', $id)->firstOrFail();
             $news_types = $this->getNewsTypes();
             return view('admin.manage.news.edit', compact('news', 'news_types'));
-        }catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             if (config('app.debug')) return response()->json($th->getMessage());
             abort(500);
         }
@@ -205,9 +207,9 @@ class NewsController extends Controller
                 'title.required' => 'Nhập tiêu đề tin tức',
                 'type.required' => 'Chọn loại tin tức',
             ]);
-            
+
             $oldContent = News::where('id', $id)->firstOrFail()->content;
-            if($oldContent){
+            if ($oldContent) {
                 $this->deleteImages($oldContent);
             }
 
@@ -227,7 +229,7 @@ class NewsController extends Controller
             // ]);
             DB::commit();
             return ApiResponse::updateSuccessResponse();
-        }catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             DB::rollBack();
             return ApiResponse::errorResponse($th);
         }
@@ -243,12 +245,12 @@ class NewsController extends Controller
             ]);
             DB::commit();
             return ApiResponse::updateSuccessResponse();
-        }catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             DB::rollBack();
             return ApiResponse::errorResponse($th);
         }
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -260,7 +262,7 @@ class NewsController extends Controller
             News::where('id', $id)->delete();
             DB::commit();
             return ApiResponse::deleteSuccessResponse();
-        }catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             DB::rollBack();
             return ApiResponse::errorResponse($th);
         }
@@ -279,22 +281,23 @@ class NewsController extends Controller
     {
         return News::where('active_flg', ACTIVE)
 
-        ->orderBy('created_at', 'desc')->get();
+            ->orderBy('created_at', 'desc')->get();
     }
     private function getNewsTypes()
     {
         return NewsType::where('active_flg', ACTIVE)->orderBy('created_at', 'desc')->get();
     }
-    public function deleteImages($content){
+    public function deleteImages($content)
+    {
         $dom = new DOMDocument();
         libxml_use_internal_errors(true);
         $dom->loadHTML($content);
         $imageTags = $dom->getElementsByTagName('img');
         foreach ($imageTags as $imageTag) {
-            if(isset($imageTag)){
+            if (isset($imageTag)) {
                 $imageData = $imageTag->attributes->getNamedItem('src')->nodeValue;
                 $imageName = basename($imageData);
-                File::delete(public_path('assets/user/images/news/'.$imageName));
+                File::delete(public_path('assets/user/images/news/' . $imageName));
             }
         }
     }
@@ -337,7 +340,7 @@ class NewsController extends Controller
         //         }
         //         $imageContent = file_get_contents($imageData);
         //         File::put($imagePath, $imageContent);
-    
+
         //         // Update the image tag with the new image path
         //         $imageTag->attributes->getNamedItem('src')->nodeValue = url('/assets/user/images/news/' . Str::uuid() . '.jpg');
         //     }
@@ -347,22 +350,22 @@ class NewsController extends Controller
         foreach ($imageTags as $imageTag) {
             $originalSrc = $imageTag->attributes->getNamedItem('src')->nodeValue;
             $imageData = $imageTag->attributes->getNamedItem('src')->nodeValue;
-        
+
             // Check if the image data is a base64 encoded string
             if (strpos($imageData, 'data:image/') === 0) {
                 // Extract the base64 encoded string
                 $base64String = substr($imageData, strpos($imageData, ',') + 1);
-        
+
                 // Decode the base64 string
                 $decodedString = base64_decode($base64String);
-        
+
                 // Store the decoded string as a file
                 $imagePath = public_path('assets/user/images/news/' . Str::uuid() . '.jpg');
-                if(!file_exists(public_path('assets/user/images/news'))) {
+                if (!file_exists(public_path('assets/user/images/news'))) {
                     mkdir(public_path('assets/user/images/news'), 0777, true);
                 }
                 File::put($imagePath, $decodedString);
-        
+
                 // Update the image tag with the new image path
                 // if (strpos($originalSrc, 'data:image/')) {
                 //     // If the original src is a base64 encoded string, update it to the new base64 encoded string
@@ -376,12 +379,12 @@ class NewsController extends Controller
                 // If the image is not base64 encoded, download it from the URL
                 $imageName = basename($imageData);
                 $imagePath = public_path('assets/user/images/news/' . $imageName);
-                if(!file_exists(public_path('assets/user/images/news'))) {
+                if (!file_exists(public_path('assets/user/images/news'))) {
                     mkdir(public_path('assets/user/images/news'), 0777, true);
                 }
                 $imageContent = file_get_contents($imageData);
                 File::put($imagePath, $imageContent);
-        
+
                 // Update the image tag with the new image path
                 $imageTag->attributes->getNamedItem('src')->nodeValue = url('/assets/user/images/news/' . $imageName);
             }

@@ -51,5 +51,5 @@
     </div>
 </div>
 @push('scripts')
-    <script src="{{ asset('assets/user/js/favorite.js') }}"></script>
+    <script src="{{ asset('assets/user/js/likePost.js') }}"></script>
 @endpush

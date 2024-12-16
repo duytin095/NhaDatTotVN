@@ -26,16 +26,25 @@ class HomeController extends Controller
             $userCount = User::count();
             $sellCount = Property::leftJoin('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
                 ->where('property_types.property_purpose_id', FOR_SELL)
+                ->where('properties.delete_flg', ACTIVE)
+                ->where('properties.active_flg', ACTIVE)
                 ->count();
             $rentCount = Property::leftJoin('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
+                ->where('properties.delete_flg', ACTIVE)
+                ->where('properties.active_flg', ACTIVE)
+
                 ->where('property_types.property_purpose_id', FOR_RENT)
                 ->count();
             $investCount = Property::leftJoin('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
+                ->where('properties.delete_flg', ACTIVE)
+                ->where('properties.active_flg', ACTIVE)
                 ->where('property_types.property_purpose_id', FOR_INVEST)
                 ->count();
 
 
             $latestProperties = Property::latest()
+                ->where('delete_flg', ACTIVE)
+                ->where('active_flg', ACTIVE)
                 ->with(['favoritedBy' => function ($query) {
                     if (Auth::guard('users')->check()) {
                         $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
@@ -45,35 +54,33 @@ class HomeController extends Controller
 
             // Change property_purpose_id for what you like to show
             $propertiesForInvest = Property::latest()
+                ->where('delete_flg', ACTIVE)
+                ->where('active_flg', ACTIVE)
                 ->with(['favoritedBy' => function ($query) {
                     if (Auth::guard('users')->check()) {
                         $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
                     }
                 }])
                 ->take(6)->get();
-            // Property::join('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
-            // ->where('property_types.property_purpose_id', 1)
-            // ->with(['seller', 'status', 'type'])
-            // ->take(5)->get();
+
 
             // Change property_purpose_id for what you like to show
             $propertiesForSale = Property::latest()
+                ->where('delete_flg', ACTIVE)
+                ->where('active_flg', ACTIVE)
                 ->with(['favoritedBy' => function ($query) {
                     if (Auth::guard('users')->check()) {
                         $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
                     }
                 }])
                 ->take(6)->get();
-            // Property::join('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
-            // ->where('property_types.property_purpose_id', 1)
-            // ->with(['seller', 'status', 'type'])
-            // ->take(5)->get();
+
 
             $news = News::where('active_flg', ACTIVE)
-            ->whereHas('type', function ($query) {
-                $query->where('active_flg', ACTIVE);
-            })
-            ->latest()->take(6)->get();
+                ->whereHas('type', function ($query) {
+                    $query->where('active_flg', ACTIVE);
+                })
+                ->latest()->take(6)->get();
             // dd($news);
 
             return view(

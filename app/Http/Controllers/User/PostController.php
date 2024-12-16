@@ -36,7 +36,9 @@ class PostController extends Controller
         try {
             $ACTIVE = ACTIVE;
             $filter = request()->input('filter', 'newest');
-            $properties = Property::where('property_seller_id', Auth::guard('users')->user()->user_id)
+            $properties = Property::where('delete_flg', ACTIVE)
+                ->where('active_flg', ACTIVE)
+                ->where('property_seller_id', Auth::guard('users')->user()->user_id)
                 ->when(request()->input('filter'), function ($query, $filter) {
                     return $query->{$filter}();
                 })
@@ -253,6 +255,8 @@ class PostController extends Controller
     {
         try {
             $property = Property::where('slug', $slug)
+                ->where('delete_flg', ACTIVE)
+                ->where('active_flg', ACTIVE)
                 ->with(['favoritedBy' => function ($query) {
                     if (Auth::guard('users')->check()) {
                         $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
@@ -260,13 +264,16 @@ class PostController extends Controller
                 }])
                 ->firstOrFail();
 
-            if(Auth::guard('users')->check() && $property->property_seller_id != Auth::guard('users')->user()->user_id) {
+            if (Auth::guard('users')->check() && $property->property_seller_id != Auth::guard('users')->user()->user_id) {
                 $property->incrementPropertyView();
             }
 
             $this->watch($property->property_id);
 
-            $featuredProperties = Property::take(5)->get();
+            $featuredProperties = Property::where('delete_flg', ACTIVE)
+                ->where('active_flg', ACTIVE)
+
+                ->take(5)->get();
 
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
             $this->breadcrumbService->addCrumb($property['type']->getPurposeNameAttribute(), '/user/posts-by-type/' . $property['type']->getPurposeSlugAttribute());
@@ -305,23 +312,25 @@ class PostController extends Controller
 
             if ($key !== false) {
                 $types = Type::where('property_purpose_id', $key)->withCount('properties')->get();
-                $properties = Property::whereHas('type', function ($query) use ($key) {
-                    $query->where('property_purpose_id', $key);
-                })->when($searchQuery, function ($q, $searchQuery) use ($columnsToSearch) { // make it more dynamic and allow searching in multiple columns, 
-                    return $q->where(function ($query) use ($searchQuery, $columnsToSearch) {
-                        foreach ($columnsToSearch as $column) {
-                            $query->orWhere($column, 'LIKE', '%' . $searchQuery . '%');
-                        }
-                    });
-                })->when($minPrice, function ($q, $minPrice) {
-                    return $q->where('property_price', '>=', $minPrice);
-                })->when($maxPrice, function ($q, $maxPrice) {
-                    return $q->where('property_price', '<=', $maxPrice);
-                })->when($minAcreage, function ($q, $minAcreage) {
-                    return $q->where('property_acreage', '>=', $minAcreage);
-                })->when($maxAcreage, function ($q, $maxAcreage) {
-                    return $q->where('property_acreage', '<=', $maxAcreage);
-                })
+                $properties = Property::where('delete_flg', ACTIVE)
+                    ->where('active_flg', ACTIVE)
+                    ->whereHas('type', function ($query) use ($key) {
+                        $query->where('property_purpose_id', $key);
+                    })->when($searchQuery, function ($q, $searchQuery) use ($columnsToSearch) { // make it more dynamic and allow searching in multiple columns, 
+                        return $q->where(function ($query) use ($searchQuery, $columnsToSearch) {
+                            foreach ($columnsToSearch as $column) {
+                                $query->orWhere($column, 'LIKE', '%' . $searchQuery . '%');
+                            }
+                        });
+                    })->when($minPrice, function ($q, $minPrice) {
+                        return $q->where('property_price', '>=', $minPrice);
+                    })->when($maxPrice, function ($q, $maxPrice) {
+                        return $q->where('property_price', '<=', $maxPrice);
+                    })->when($minAcreage, function ($q, $minAcreage) {
+                        return $q->where('property_acreage', '>=', $minAcreage);
+                    })->when($maxAcreage, function ($q, $maxAcreage) {
+                        return $q->where('property_acreage', '<=', $maxAcreage);
+                    })
                     ->paginate(10);
                 $this->breadcrumbService->addCrumb($purposes[$key]['name'], $purposes[$key]['slug']);
             } else {
@@ -439,7 +448,9 @@ class PostController extends Controller
             $videoLinks = config('constants.property-basic-info.video-links');
             $constructions = Construction::where('active_flg', ACTIVE)->get();
 
-            $property = Property::where('slug', $slug)->where('property_seller_id', Auth::guard('users')->user()->user_id)->firstOrFail();
+            $property = Property::where('delete_flg', ACTIVE)
+                ->where('active_flg', ACTIVE)
+                ->where('slug', $slug)->where('property_seller_id', Auth::guard('users')->user()->user_id)->firstOrFail();
 
             return view('user.post-edit')
                 ->with('property', $property)
@@ -612,18 +623,17 @@ class PostController extends Controller
             return ApiResponse::errorResponse($th);
         }
     }
-    public function toggleActive(Request $request)
+
+    public function destroy(string $id)
     {
         try {
             DB::beginTransaction();
-            $property = Property::where('property_id', $request['property_id'])->firstOrFail();
-            $property->update([
-                'active_flg' => $property->active_flg == ACTIVE ? INACTIVE : ACTIVE
-            ]);
-            dd($property);
+            $property = Property::findOrFail($id);
+            $property->delete_flg = INACTIVE;
+            $property->save();
             DB::commit();
-            return ApiResponse::updateSuccessResponse();
-        }catch (\Throwable $th) {
+            return ApiResponse::deleteSuccessResponse();
+        } catch (\Throwable $th) {
             DB::rollBack();
             return ApiResponse::errorResponse($th);
         }

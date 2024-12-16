@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Manage;
 
+use App\Helpers\ApiResponse;
 use App\Models\Type;
 use App\Models\Status;
 use App\Models\Property;
@@ -34,6 +35,8 @@ class PropertyController extends Controller
             $page = $request->input('page', 1); // default to page 1 if not provided
             // $properties = Property::paginate(3, ['*'], 'page', $page);
             $properties = Property::with(['type'])
+            ->where('delete_flg', ACTIVE)
+            ->where('active_flg', ACTIVE)
             ->with(['status'])
             ->orderByDesc('created_at')
             ->where('property_seller_id', '=', auth('admin')->id())
@@ -270,16 +273,15 @@ class PropertyController extends Controller
     public function destroy(string $id)
     {
         try {
-            Property::findOrFail($id)->delete();
-            return response()->json([
-                'status' => 200,
-                'message' => config('constants.response.messages.deleted')
-            ]);
+            DB::beginTransaction();
+            $property = Property::findOrFail($id);
+            $property->delete_flg = INACTIVE;
+            $property->save();
+            DB::commit();
+            return ApiResponse::deleteSuccessResponse();
         } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
-            ]);
+            DB::rollBack();
+            return ApiResponse::errorResponse($th);
         }
     }
 }
