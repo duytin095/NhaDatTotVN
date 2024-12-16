@@ -218,6 +218,11 @@ a:hover {
 
 img {
     border-radius: 3px;
+    max-width: 50px;
+    min-width: 50px;
+    max-height: 50px;
+    min-height: 50px;
+    object-fit: cover;
 }
 
 ul {
