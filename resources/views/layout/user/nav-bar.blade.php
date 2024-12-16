@@ -73,7 +73,10 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li class="nav-item">
-                                <a href="{{ route('user.profile.index') }}" class="nav-link active">Thông tin cá nhân</a>
+                                <a href="{{ route('user.agents.show', ['slug' => auth()->guard('users')->user()->slug]) }}" class="nav-link">Trang cá nhân</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('user.profile.index') }}" class="nav-link">Thông tin cá nhân</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('user.posts.index') }}" class="nav-link">Quản lý tin</a>

@@ -67,7 +67,6 @@ class ProfileController extends Controller
 
                 // Delete existing image
                 $existingImagePath = json_decode($user->user_avatar, true);
-                // dd($existingImagePath);
                 if ($existingImagePath && file_exists($existingImagePath)) {
                     unlink($existingImagePath);
                 }
@@ -82,13 +81,5 @@ class ProfileController extends Controller
         } catch (\Throwable $th) {
             return ApiResponse::errorResponse($th);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

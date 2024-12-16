@@ -6,7 +6,6 @@ use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\AgentController;
 use App\Http\Controllers\User\ProfileController;
-use App\Http\Controllers\Home\DashboardController;
 use App\Http\Controllers\User\FavoritesController;
 use App\Http\Controllers\User\WatchedPostController;
 use App\Http\Controllers\Admin\Manage\NewsController;

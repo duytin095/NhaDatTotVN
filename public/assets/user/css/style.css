@@ -12769,6 +12769,7 @@ a.property-title{
 
 img {
   max-width: 100%;
+  min-width: 100%;
   height: auto;
 }
 
@@ -14121,6 +14122,7 @@ Properties Area CSS
   margin: auto;
   top: 50%;
   transform: translateY(-50%);
+  min-width: 0;
 }
 .properties-item .properties-image .info-list li span {
   font-size: 15px;
@@ -14183,6 +14185,7 @@ Properties Area CSS
 }
 .properties-item .properties-content .bottom .user img {
   max-width: 30px;
+  min-width: 30px;
   min-height: 30px;
   max-height: 30px;
   object-fit: cover;
@@ -17130,9 +17133,6 @@ Agent Profile Area CSS
 }
 .agent-profile-image img {
   border-radius: 5px;
-  min-height: 436px;
-  max-height: 436px;
-  object-fit: cover;
 }
 
 .agent-profile-content .title h2, .agent-profile-content .title .h2 {
