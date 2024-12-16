@@ -73,6 +73,12 @@
                           <div class="accordion-body">
                               <div class="accordion" id="navbarAccordion">
                                   <div class="accordion-item">
+                                      <a href="{{ route('user.agents.show', auth()->guard('users')->user()->slug) }}"
+                                          class="accordion-link">
+                                          Trang cá nhân
+                                      </a>
+                                  </div>
+                                  <div class="accordion-item">
                                       <a href="{{ route('user.profile.index') }}" class="accordion-link">
                                           Thông tin cá nhân
                                       </a>
@@ -83,15 +89,20 @@
                                       </a>
                                   </div>
                                   <div class="accordion-item">
+                                    <a href="{{ route('user.wallet.index') }}" class="accordion-link">
+                                        Nạp tiền
+                                    </a>
+                                </div>
+                                  <div class="accordion-item">
                                       <a href="{{ route('user.profile.favorites') }}" class="accordion-link">
                                           Yêu thích
                                       </a>
                                   </div>
                                   <div class="accordion-item">
-                                    <a href="{{ route('user.profile.watched-posts') }}" class="accordion-link">
-                                        Đã xem
-                                    </a>
-                                </div>
+                                      <a href="{{ route('user.profile.watched-posts') }}" class="accordion-link">
+                                          Đã xem
+                                      </a>
+                                  </div>
                               </div>
                           </div>
                       </div>

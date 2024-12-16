@@ -117,18 +117,11 @@
                                 </a>
                             </button>
                         </li>
-                        {{-- <li>
-                            <button onclick="active({{ $property->property_id }})" 
-                                type="button" data-bs-toggle="tooltip" data-bs-placement="top" 
-                                data-bs-original-title={{ $property->active_flg == $ACTIVE ? 'Ẩn tin' : 'Hiện tin' }}>
-                                <i class="ri-eye-line"></i>
-                            </button>
-                        </li> --}}
-                        {{-- <li>
-                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Xóa">
+                        <li>
+                            <button type="button" onclick="openDeleteModal({{ $property['property_id'] }})" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Xóa">
                                 <i class="ri-delete-bin-line"></i>
                             </button>
-                        </li> --}}
+                        </li>
                     @endif
                 </ul>
             </div>
@@ -136,6 +129,6 @@
     </div>
 </div>
 @push('scripts')
-    <script src="{{ asset('assets/user/js/favorite.js') }}"></script>
-    <script src="{{ asset('assets/user/js/active.js') }}"></script>
+    <script src="{{ asset('assets/user/js/likePost.js') }}"></script>
+    <script src="{{ asset('assets/user/js/deletePost.js') }}"></script>
 @endpush

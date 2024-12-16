@@ -5,8 +5,8 @@ use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\AgentController;
+use App\Http\Controllers\User\WalletController;
 use App\Http\Controllers\User\ProfileController;
-use App\Http\Controllers\Home\DashboardController;
 use App\Http\Controllers\User\FavoritesController;
 use App\Http\Controllers\User\WatchedPostController;
 use App\Http\Controllers\Admin\Manage\NewsController;
@@ -119,6 +119,7 @@ Route::name('user.')->prefix('user')->group(function () {
          
 
     Route::middleware(['users.auth'])->group(function () {
+        // TRANG CA NHAN
         Route::get      ('/logout', [AuthController::class, 'onUserLogout'])->name('logout');
         Route::get      ('/profile', [ProfileController::class, 'index'])->name('profile.index');
         Route::post     ('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
@@ -126,13 +127,18 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::post     ('/profile/favorites/toggle', [FavoritesController::class, 'toggleFavorite'])->name('profile.favorites.toggle');
         Route::get      ('/profile/watched-posts', [WatchedPostController::class, 'index'])->name('profile.watched-posts');
 
+        // VI TIEN
+        Route::get      ('/wallet', [WalletController::class, 'index'])->name('wallet.index');
+        // Route::post     ('/wallet/charge', [WalletController::class, 'charge'])->name('wallet.charge');
+        // Route::post     ('/wallet/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
+
         // TIN DANG
         Route::get      ('/posts', [PostController::class, 'index'])->name('posts.index');
         Route::get      ('/posts/create', [PostController::class, 'create'])->name('posts.create');
         Route::post     ('/posts/store', [PostController::class, 'store'])->name('posts.store');
         Route::get      ('/posts/edit/{slug}', [PostController::class, 'edit'])->name('posts.edit');
         Route::post     ('/posts/update/{id}', [PostController::class, 'update'])->name('posts.update');
-        Route::post     ('/posts/toggle-active', [PostController::class, 'toggleActive'])->name('posts.toggle-active');
+        Route::post     ('/posts/delete/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
     });
 
     Route::get      ('/posts/search', [PostController::class, 'search'])->name('posts.search');

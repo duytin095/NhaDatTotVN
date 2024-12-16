@@ -54,9 +54,9 @@ function initDataTable() {
                 "data": null,
                 "render": function (row) {
                     if (row.user_avatar === null) {
-                        return '<img src="' + window.location.origin + '/assets/admin/img/freepik-avatar.jpg" width="50" height="50">';
+                        return '<img src="' + window.location.origin + '/assets/admin/img/freepik-avatar.jpg">';
                     } else {
-                        return '<img src="' + window.location.origin + '/' + JSON.parse(row.user_avatar) + '" width="50" height="50">';
+                        return '<img src="' + window.location.origin + '/' + JSON.parse(row.user_avatar) + '">';
                     }
                 },
                 "width": "5%",

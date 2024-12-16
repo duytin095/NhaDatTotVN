@@ -94,18 +94,17 @@ function openDeleteModal(id) {
     }
     confirmEvent(event);
 }
-function openUpdateModal(id, name, purpose, image) {
+
+function openUpdateModal(data) {    
     correspondingModalText('Chỉnh sửa danh mục', 'Cập nhật');
     clearFormSelectors(['[name="type_id"]', '[name="property_type_name"]'], '[name="property_purpose_id"]');
     clearImage('[name="type-image-preview"]');
 
 
-    $('[name="type_id"]').val(id);
-    $('[name="property_type_name"]').val(name);
-    $('#purpose-list option[value="' + purpose + '"]').prop('selected', true);
-    // $('#imagePreview').css('background-image', 'url(' + window.location.origin + '/' + (image) + ')');
-    // setImage('[name="type-image-preview"]', `${window.location.origin}/${image}`);
-    setImage('[name="type-image-preview"]', image);
+    $('[name="type_id"]').val(data.property_type_id);
+    $('[name="property_type_name"]').val(data.property_type_name);
+    $('#purpose-list option[value="' + data.property_purpose_id + '"]').prop('selected', true);
+    setImage('[name="type-image-preview"]', JSON.parse(data.property_type_image));
    
     $('#createNewType').modal('show');
 }
@@ -189,9 +188,9 @@ function initDataTable() {
                 "data": null,
                 "render": function (row) {                    
                     if(row.active_flg == ACTIVE)                        
-                        return "<button onclick='openUpdateModal(" + row.property_type_id + ", \"" + row.property_type_name + "\", \"" + row.property_purpose_id + "\", \"" + row.property_type_image + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-secondary'>Ẩn</button>";
+                        return "<button onclick='openUpdateModal("+JSON.stringify(row)+")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-secondary'>Ẩn</button>";
                     else{
-                        return "<button onclick='openUpdateModal(" + row.property_type_id + ", \"" + row.property_type_name + "\", \"" + row.property_purpose_id + "\", \"" + row.property_type_image + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-success'>Hiện</button>";
+                        return "<button onclick='openUpdateModal("+JSON.stringify(row)+")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-success'>Hiện</button>";
                     }
                 },
                 "width": "20%",

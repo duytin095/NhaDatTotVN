@@ -21,11 +21,11 @@
                             <h2>{{ $agent['user_name'] }}</h2>
                         </div>
                         <div class="row justify-content-center">
-                            <div class="col-lg-12 col-md-12">
+                            <div class="col-lg-6 col-md-6">
                                 <ul class="info-list">
                                     <li>
                                         <span>Email:</span>
-                                        <a href="#">{{ $agent['email']}}</a>
+                                        <a href="#">{{ $agent['email'] }}</a>
                                     </li>
                                     <li>
                                         <span>Điện thoại:</span>
@@ -37,24 +37,28 @@
                                     </li>
                                 </ul>
                             </div>
-                            {{-- <div class="col-lg-6 col-md-6">
+                            <div class="col-lg-6 col-md-6">
                                 <ul class="info-list">
                                     <li>
                                         <span>Website:</span>
-                                        <a href="https://envytheme.com/" target="_blank">andora.net</a>
+                                        <a href="#" target="_blank">--</a>
                                     </li>
                                     <li>
                                         <span>Licenses:</span>
-                                        Abcd
+                                        --
                                     </li>
                                     <li>
-                                        <span>Address:</span>
-                                        194 Mercer Street, NY 10012, USA
+                                        <span>Địa chỉ:</span>
+                                        @if ($agent['user_address'] === null)
+                                            --
+                                        @else
+                                            {{ $agent['user_address'] }}
+                                        @endif
                                     </li>
                                 </ul>
-                            </div> --}}
+                            </div>
                         </div>
-                        {{-- <div class="social-info">
+                        <div class="social-info">
                             <a href="https://www.facebook.com/" target="_blank">
                                 <i class="ri-facebook-fill"></i>
                             </a>
@@ -67,7 +71,7 @@
                             <a href="https://bd.linkedin.com/" target="_blank">
                                 <i class="ri-linkedin-fill"></i>
                             </a>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -85,11 +89,11 @@
                             <div class="tab-pane fade show active" id="overview" role="tabpanel">
                                 <div class="overview-content">
                                     <h3>Về tôi</h3>
-                                    <p>Prepare for an unforgettable day of friendly competition, camaraderie, and charitable
-                                        impact. Our 18-hole tournament is designed for golfers of all levels, from seasoned
-                                        pros to beginners eager to take on the course. Not only will you enjoy a day of
-                                        sport, but your participation directly supports local charitable organizations,
-                                        making a positive impact in our community.</p>
+                                    @if ($agent['user_introduction'] === null)
+                                        <p>Chưa cập nhật</p>
+                                    @else
+                                        <p>{{ $agent['user_introduction'] }}</p>
+                                    @endif
                                     <ul class="list">
                                         <li>
                                             <h4>Kinh nghiệm</h4>
@@ -120,17 +124,17 @@
                                 <div class="properties-grid-box">
                                     <div class="row justify-content-center align-items-center">
                                         <div class="col-lg-12 col-md-12">
-                                            <x-pagination-info :paginator="$properties" :label="'tin đăng'"/>
+                                            <x-pagination-info :paginator="$properties" :label="'tin đăng'" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row justify-content-center">
                                     @forelse ($properties as $property)
-                                        <x-property-listing :property="$property"/>
+                                        <x-property-listing :property="$property" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
                                     @empty
                                         <h4>Chưa có tin đăng nào</h4>
                                     @endforelse
-                                <x-pagination :paginator="$properties" />
+                                    <x-pagination :paginator="$properties" />
                                 </div>
                             </div>
                         </div>

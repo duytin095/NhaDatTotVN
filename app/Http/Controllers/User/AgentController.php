@@ -21,7 +21,7 @@ class AgentController extends Controller
      */
     public function index()
     {
-        $this->breadcrumbService->addCrumb('Trang chủ', '/user/posts');
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
         $this->breadcrumbService->addCrumb('Nhà môi giới');
 
         try {
