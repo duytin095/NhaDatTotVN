@@ -5,10 +5,15 @@
         'md' => 6,
     ],
     'isFavorite' => false,
-    'isEditable' => false
+    'isEditable' => false,
 ])
 <div class="col-xl-{{ $columnSizes['xl'] }} col-md-{{ $columnSizes['md'] }}">
     <div class="properties-item">
+        @if($property['is_pending'] == PENDING)
+            <div class="properties-item-overlay">
+                <span class="pending">Đang duyệt</span>
+            </div>
+        @endif
         <div class="properties-image">
             <a href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">
                 <img src="{{ asset($property['property_images'][0]) }}" alt="image">
@@ -102,23 +107,25 @@
                 <ul class="group-info">
                     <li>
                         <button id="addToFavorites" onclick="addToFavorites({{ $property->property_id }})"
-                            type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                            aria-label="" data-bs-original-title={{ $isFavorite ? 'Xoá' : 'Thêm' }}>
+                            type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label=""
+                            data-bs-original-title={{ $isFavorite ? 'Xoá' : 'Thêm' }}>
                             <i class="heart-icon ri-heart-3-{{ $isFavorite ? 'fill' : 'line' }} {{ $isFavorite ? 'text-danger' : '' }}"
                                 data-property-id="{{ $property->property_id }}">
                             </i>
                         </button>
                     </li>
-                    @if($isEditable)
+                    @if ($isEditable)
                         <li>
-                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Sửa">
+                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
+                                data-bs-original-title="Sửa">
                                 <a href="{{ route('user.posts.edit', $property['slug']) }}">
                                     <i class="ri-pencil-line"></i>
                                 </a>
                             </button>
                         </li>
                         <li>
-                            <button type="button" onclick="openDeleteModal({{ $property['property_id'] }})" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-original-title="Xóa">
+                            <button type="button" onclick="openDeleteModal({{ $property['property_id'] }})"
+                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Xóa">
                                 <i class="ri-delete-bin-line"></i>
                             </button>
                         </li>

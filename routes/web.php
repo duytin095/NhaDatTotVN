@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Manage\UserController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\NewsTypeController;
+use App\Http\Controllers\Admin\Manage\PropertyController;
 use App\Http\Controllers\Admin\Manage\ConstructionController;
 
 Route::name('admin.')->prefix('admin')->group(function () {
@@ -37,10 +38,10 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::post     ('/profile/delete-image/{imagePath}', [AuthController::class, 'deleteImage'])->name('profile.delete-image');
 
         // TIN DANG
-        // Route::get      ('/properties', [PropertyController::class, 'index'])->name('properties.show');
-        // Route::get      ('/properties/create', [PropertyController::class, 'create'])->name('properties.create');
+        Route::get      ('/properties', [PropertyController::class, 'index'])->name('properties.index');
+        Route::get      ('/properties/create', [PropertyController::class, 'create'])->name('properties.create');
         // Route::post     ('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
-        // Route::get      ('/properties/data', [PropertyController::class, 'getProperties'])->name('properties.get-properties');
+        Route::get      ('/properties/data', [PropertyController::class, 'get'])->name('properties.get');
         // Route::get      ('/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties.edit');
         // Route::put      ('/properties/update/{id}', [PropertyController::class, 'update'])->name('properties.update');
         // Route::delete   ('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.destroy');

@@ -55,7 +55,8 @@ class PostController extends Controller
                 'ACTIVE' => $ACTIVE
             ]);
         } catch (\Throwable $th) {
-            return ApiResponse::errorResponse($th);
+            if(config('app.debug')) return response()->json($th->getMessage());
+            abort(500);
         }
     }
 
@@ -235,6 +236,7 @@ class PostController extends Controller
                 // AUTO SAVE
                 'property_seller_id' => auth('users')->id(),
                 'property_label' => rand(0, 4),
+                'is_pending' => PENDING,
             ]);
             DB::commit();
             return response()->json([
@@ -257,6 +259,7 @@ class PostController extends Controller
             $property = Property::where('slug', $slug)
                 ->where('delete_flg', ACTIVE)
                 ->where('active_flg', ACTIVE)
+                ->where('is_pending', APPROVED)
                 ->with(['favoritedBy' => function ($query) {
                     if (Auth::guard('users')->check()) {
                         $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
@@ -272,7 +275,7 @@ class PostController extends Controller
 
             $featuredProperties = Property::where('delete_flg', ACTIVE)
                 ->where('active_flg', ACTIVE)
-
+                ->where('is_pending', APPROVED)
                 ->take(5)->get();
 
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
@@ -314,6 +317,7 @@ class PostController extends Controller
                 $types = Type::where('property_purpose_id', $key)->withCount('properties')->get();
                 $properties = Property::where('delete_flg', ACTIVE)
                     ->where('active_flg', ACTIVE)
+                    ->where('is_pending', APPROVED)
                     ->whereHas('type', function ($query) use ($key) {
                         $query->where('property_purpose_id', $key);
                     })->when($searchQuery, function ($q, $searchQuery) use ($columnsToSearch) { // make it more dynamic and allow searching in multiple columns, 
@@ -450,6 +454,7 @@ class PostController extends Controller
 
             $property = Property::where('delete_flg', ACTIVE)
                 ->where('active_flg', ACTIVE)
+                ->where('is_pending', APPROVED)
                 ->where('slug', $slug)->where('property_seller_id', Auth::guard('users')->user()->user_id)->firstOrFail();
 
             return view('user.post-edit')

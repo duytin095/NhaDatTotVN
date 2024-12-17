@@ -44,6 +44,7 @@ class HomeController extends Controller
 
             $latestProperties = Property::latest()
                 ->where('delete_flg', ACTIVE)
+                ->where('is_pending', APPROVED)
                 ->where('active_flg', ACTIVE)
                 ->with(['favoritedBy' => function ($query) {
                     if (Auth::guard('users')->check()) {
@@ -56,6 +57,7 @@ class HomeController extends Controller
             $propertiesForInvest = Property::latest()
                 ->where('delete_flg', ACTIVE)
                 ->where('active_flg', ACTIVE)
+                ->where('is_pending', APPROVED)
                 ->with(['favoritedBy' => function ($query) {
                     if (Auth::guard('users')->check()) {
                         $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
@@ -68,6 +70,7 @@ class HomeController extends Controller
             $propertiesForSale = Property::latest()
                 ->where('delete_flg', ACTIVE)
                 ->where('active_flg', ACTIVE)
+                ->where('is_pending', APPROVED)
                 ->with(['favoritedBy' => function ($query) {
                     if (Auth::guard('users')->check()) {
                         $query->where('favorite_list.user_id', Auth::guard('users')->user()->user_id);
