@@ -145,9 +145,6 @@
                                 <a href="{{ route('admin.properties.index') }}">Danh sách tin đăng</a>
                             </li>
                             <li>
-                                <a href="{{ route('admin.properties.create') }}">Tin cần duyệt</a>
-                            </li>
-                            <li>
                                 <a href="{{ route('admin.properties.create') }}">Thêm tin đăng</a>
                             </li>
                         </ul>

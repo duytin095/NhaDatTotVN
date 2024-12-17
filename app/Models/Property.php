@@ -74,7 +74,6 @@ class Property extends Model
         'property_label',
         'created_at',
         'updated_at',
-        'is_pending',
 
         'active_flg',
         'delete_flg',

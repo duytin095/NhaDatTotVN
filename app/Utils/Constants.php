@@ -20,8 +20,6 @@ const TIKTOK = 2;
 const ACTIVE = 0;
 const INACTIVE = 1;
 
-const APPROVED = 0;
-const PENDING = 1;
 
 const LOCAL_HOST = 'http://127.0.0.1:8000';
 const PRODUCTION_HOST = '';

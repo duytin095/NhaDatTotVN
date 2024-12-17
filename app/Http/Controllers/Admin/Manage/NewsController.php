@@ -129,7 +129,6 @@ class NewsController extends Controller
 
             $forSaleProperties = Property::where('active_flg', ACTIVE)
                 ->where('delete_flg', ACTIVE)
-                ->where('is_pending', APPROVED)
                 ->whereHas('type', function ($query) {
                     $query->where('property_purpose_id', FOR_SELL);
                 })
@@ -138,7 +137,6 @@ class NewsController extends Controller
 
             $forRentProperties = Property::where('active_flg', ACTIVE)
                 ->where('delete_flg', ACTIVE)
-                ->where('is_pending', APPROVED)
                 ->whereHas('type', function ($query) {
                     $query->where('property_purpose_id', FOR_RENT);
                 })
