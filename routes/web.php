@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\NewsTypeController;
 use App\Http\Controllers\Admin\Manage\PropertyController;
 use App\Http\Controllers\Admin\Manage\ConstructionController;
+use App\Http\Controllers\User\SePayController;
 
 Route::name('admin.')->prefix('admin')->group(function () {
     Route::controller(AuthController::class)->group(function () {
@@ -130,7 +131,9 @@ Route::name('user.')->prefix('user')->group(function () {
 
         // VI TIEN
         Route::get      ('/wallet', [WalletController::class, 'index'])->name('wallet.index');
-        // Route::post     ('/wallet/charge', [WalletController::class, 'charge'])->name('wallet.charge');
+        Route::post     ('/wallet/deposit', [SePayController::class, 'requestDeposit'])->name('wallet.deposit');
+        Route::get      ('/wallet/check-pending-payment', [SePayController::class, 'checkPendingPayment'])->name('wallet.check-pending-payment');
+        Route::get      ('/wallet/schedule-check-pending-payment', [SePayController::class, 'scheduleCheckPendingPayment'])->name('wallet.schedule-check-pending-payment');
         // Route::post     ('/wallet/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
 
         // TIN DANG

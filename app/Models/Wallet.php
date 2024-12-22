@@ -10,6 +10,9 @@ class Wallet extends Model
 {
     use HasFactory;
 
+    protected $table = 'wallet';
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'user_id',
         'balance',
@@ -17,7 +20,12 @@ class Wallet extends Model
         'updated_at'
     ];
 
-    public function getCreatedAtAttribute($value){
+    public function getCreatedAtAttribute($value)
+    {
         return Carbon::parse($value)->format('d-m-Y');
+    }
+    public function setUserAttribute($value)
+    {
+        $this->attributes['user_id'] = $value ?: auth()->id();
     }
 }

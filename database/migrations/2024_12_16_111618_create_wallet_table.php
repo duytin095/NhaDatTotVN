@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('wallet', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->decimal('balance', 10, 2);
+            $table->decimal('balance', 10, 2)->default(0);
             $table->tinyInteger('active_flg')->default(0);
             $table->tinyInteger('delete_flg')->default(0);
             $table->timestamps();

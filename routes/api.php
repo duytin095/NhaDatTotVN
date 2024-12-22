@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\User\SePayController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\User\WalletController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post     ('/wallet/recharge', [SePayController::class, 'handleSepayWebhook'])->name('wallet.recharge');
+// Route::post     ('/check/recharge', [WalletController::class, 'recharge'])->name('wallet.recharge');

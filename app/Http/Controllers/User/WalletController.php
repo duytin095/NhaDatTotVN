@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helpers\SePay;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Wallet;
 use App\Services\UserBreadcrumbService;
 
 class WalletController extends Controller
@@ -18,10 +20,15 @@ class WalletController extends Controller
     {
         $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
         $this->breadcrumbService->addCrumb('Ví tiền');
-
+        $wallet = Wallet::firstOrCreate(
+            ['user_id' => auth()->id()],
+            ['balance' => 0]
+        );
         return view('user.wallet.index')
+            ->with('wallet', $wallet)
             ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -29,6 +36,19 @@ class WalletController extends Controller
     public function create()
     {
         //
+    }
+
+    public function recharge(Request $request){
+        try {
+            
+            return response()->json([
+                'status' => 200,
+                'message' => 'success',
+                'data' => $request->all()
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     /**

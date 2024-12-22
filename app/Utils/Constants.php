@@ -20,6 +20,12 @@ const TIKTOK = 2;
 const ACTIVE = 0;
 const INACTIVE = 1;
 
+const TRANS_IN = 0;
+const TRANS_OUT = 1;
+
+const TRANSACTION_PENDING = 0;
+const TRANSACTION_SUCCESS = 1;
+const TRANSACTION_FAILED = 2;
 
 const LOCAL_HOST = 'http://127.0.0.1:8000';
 const PRODUCTION_HOST = '';

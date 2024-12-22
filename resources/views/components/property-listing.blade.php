@@ -9,11 +9,6 @@
 ])
 <div class="col-xl-{{ $columnSizes['xl'] }} col-md-{{ $columnSizes['md'] }}">
     <div class="properties-item">
-        @if($property['is_pending'] == PENDING)
-            <div class="properties-item-overlay">
-                <span class="pending">Đang duyệt</span>
-            </div>
-        @endif
         <div class="properties-image">
             <a href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">
                 <img src="{{ asset($property['property_images'][0]) }}" alt="image">

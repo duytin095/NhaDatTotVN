@@ -6,7 +6,7 @@
                 <div class="single-footer-widget pe-3">
                     <div class="widget-logo">
                         <a href="index.html">
-                            <img src="assets/images/logo2.png" alt="logo2">
+                            <img src="#" alt="logo2">
                         </a>
                     </div>
                     <p>Lorem ipsum dolor sit amet, elit dollar consectetur adipiscing elit. Diam lectus purus ultricies neque.</p>
