@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class WalletBalanceChanges extends Model
 {
@@ -20,4 +21,15 @@ class WalletBalanceChanges extends Model
         'expired_at',
         'description',
     ];
+
+    public function wallet()
+    {
+        return $this->belongsTo(Wallet::class, 'wallet_id', 'id');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-m-Y');
+    }
+    
 }

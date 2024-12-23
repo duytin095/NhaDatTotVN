@@ -1,6 +1,15 @@
 @extends('layout.user.index')
 @section('content')
     @include('components.user-breadcrumb', ['breadcrumbs' => $breadcrumbs])
+    <!-- Style Flipdown -->
+    <link href="https://pbutcher.uk/flipdown/css/flipdown/flipdown.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet" />
+    <!-- ALL MIN CSS -->
+    <link rel="stylesheet" href="assets/css/all.min.css">
+    <!-- File Normalization -->
+    <link rel="stylesheet" href="assets/css/normalize.css">
+
     <div class="profile-authentication-area ptb-120">
         <div class="container">
             <div class="profile-authentication-inner">
@@ -10,9 +19,10 @@
                             <div class="content">
                                 <h3>Số dư hiện tại</h3>
                                 <h1>{{ $wallet->balance }} VNĐ</h1>
-                                <input type="number" min="2000" step="1000" id="amount" class="form-control mb-3">
+                                <input type="number" min="2000" step="1000" id="amount"
+                                    class="form-control mb-3">
                                 <button type="button" onclick="requestDeposit()" class="default-btn" id="recharge-btn"
-                                    style="display: none; border: none" >Nạp tiền</button>
+                                    style="display: none; border: none">Nạp tiền</button>
                             </div>
                         </div>
                         <br>
@@ -20,16 +30,12 @@
                             <h3 class="text-center">Yêu cầu nạp tiền đang chờ thanh toán.</h3>
                             <!-- HTML -->
 
-                            <div class="contact-info-box my-3 text-center">
-                                <div class="box d-flex align-items-center justify-content-center">
-                                    <div class="icon">
-                                        <i class="ri-timer-line"></i>
-                                    </div>
-                                    <div class="info">
-                                        <h4 id="countdown" class="mb-0"></h4>
-                                    </div>
-                                </div>
+                            <div class="count-down">
+                                <div class="flipdown" id="flipdown"></div>
                             </div>
+
+                            
+
                             <div class="row justify-content-center">
                                 <div class="col-lg-6 col-md-6">
                                     <h3>Cách 1:</h3>
@@ -68,6 +74,31 @@
                                     <p class="mt-3">Lưu ý, vui lòng giữ nguyên nội dung chuyển khoản <strong
                                             name="content"></strong> để hệ thống tự động xác nhận thanh toán</p>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="profile-authentication-box">
+                            <div class="content">
+                                <h3>Lịch sử giao dịch</h3>
+                                <table class="table table-striped">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Thời gian</th>
+                                            <th scope="col">Số tiền</th>
+                                            <th scope="col">Loại giao dịch</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($walletBalanceChanges as $key => $change)
+                                            <tr>
+                                                <th scope="row">{{ $key + 1 }}</th>
+                                                <td>{{ $change->created_at }}</td>
+                                                <td>{{ $change->amount }} VNĐ</td>
+                                                <td>{{ $change->type == 1 ? 'Rút tiền' : 'Nạp tiền' }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -147,6 +178,7 @@
 @endsection
 @push('scripts')
     <script src="{{ asset('assets/user/js/wallet/wallet.js') }}"></script>
+    <script src="https://pbutcher.uk/flipdown/js/flipdown/flipdown.js"></script>
 @endpush
 <style>
     #amount {
@@ -156,5 +188,37 @@
         display: inline-block;
         width: 100%;
         font-size: 20px;
+    }
+
+    .count-down {
+        width: 550px;
+        height: 215px;
+        margin: auto;
+        padding: 15px;
+    }
+
+    .count-down .flipdown {
+        margin: auto;
+        width: 600px;
+        margin-top: 30px;
+    }
+
+    .count-down h1 {
+        text-align: center;
+        font-weight: 400;
+        font-size: 3em;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 550px) {
+        .count-down {
+            width: 100%;
+            height: 362px;
+        }
+
+        .count-down h1 {
+            font-size: 2.5em;
+        }
     }
 </style>

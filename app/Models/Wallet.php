@@ -28,4 +28,8 @@ class Wallet extends Model
     {
         $this->attributes['user_id'] = $value ?: auth()->id();
     }
+    public function balanceChanges()
+    {
+        return $this->hasMany(WalletBalanceChanges::class, 'wallet_id', 'id');
+    }
 }

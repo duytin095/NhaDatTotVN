@@ -61,39 +61,53 @@ async function checkPendingPayment() {
     }
 }
 
+// function counter(expiredAt) {
+//     const expiredAtDate = new Date(expiredAt);
+
+//     setInterval(() => {
+//         const now = new Date();
+//         const timeLeft = expiredAtDate.getTime() - now.getTime();
+
+//         // Check if the countdown has expired
+//         if (timeLeft <= 0) {
+//             $('#countdown').text('Đã hết hạn!');
+//         } else {
+//             // Calculate days, hours, minutes, and seconds
+//             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+//             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+//             // Display the countdown
+//             $('#countdown').text(`${minutes} phút, ${seconds} giây`);
+
+
+//             // recall every 1 second
+//             scheduleCheckPendingPayment();
+//         }
+//     }, 1000);
+
+// }
+
 function counter(expiredAt) {
     const expiredAtDate = new Date(expiredAt);
-    setInterval(() => {
-        const now = new Date();
-        const timeLeft = expiredAtDate.getTime() - now.getTime();
+    const timestamp = expiredAtDate.getTime() / 1000;
 
-        // Check if the countdown has expired
-        if (timeLeft <= 0) {
+    var flipdown = new FlipDown(timestamp, {
+        headings: ["Ngày", "Giờ", "Phút", "Giây"],
+    })
+        .start()
+        .ifEnded(() => {
             $('#countdown').text('Đã hết hạn!');
-        } else {
-            // Calculate days, hours, minutes, and seconds
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-            // Display the countdown
-            $('#countdown').text(`${minutes} phút, ${seconds} giây`);
-
-
-            // recall every 1 second
-            scheduleCheckPendingPayment();
-        }
-    }, 1000);
-
+        });
 }
 async function scheduleCheckPendingPayment() {
-    try{
+    try {
         const response = await sendRequest(`${window.location.origin}/user/wallet/schedule-check-pending-payment`, 'GET');
         if (response.status == 200) {
             window.location.reload();
-        }else{
+        } else {
             console.log(response);
         }
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 }

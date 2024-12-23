@@ -165,7 +165,9 @@ class SePayController extends Controller
                 $recharge_transactions = WalletBalanceChanges::find($wallet_balance_changes_id);
 
                 // Nếu trạng thái là chờ thanh toán thì cập nhật là thanh toán thành công
-                if ($recharge_transactions['status'] == TRANSACTION_PENDING && $recharge_transactions['amount'] == $sePayWebhookData->transferAmount) {
+                if ($recharge_transactions['status'] == TRANSACTION_PENDING 
+                    && $recharge_transactions['amount'] == $sePayWebhookData->transferAmount
+                    && $recharge_transactions['expired_at'] >= Carbon::now()) {
                     $recharge_transactions->status = TRANSACTION_SUCCESS;
                     $recharge_transactions->save();
 
@@ -175,12 +177,11 @@ class SePayController extends Controller
 
 
                     DB::commit();
-                    // $this->scheduleCheckPendingPayment();
                     return response()->json([
                         'status' => 200,
                         'message' => "Thanh toán thành công lúc: " . Carbon::now(),
                     ], 200);
-                }else{
+                } else {
                     return response()->json([
                         'status' => 404,
                         'message' => "Không tìm thấy giao dịch nạp tiền",
@@ -207,7 +208,7 @@ class SePayController extends Controller
                     'status' => 200,
                     'message' => 'You have successfully deposited money into your account'
                 ]);
-            }else{
+            } else {
                 return response()->json([
                     'status' => 404,
                     'message' => 'No successful deposit'
@@ -221,37 +222,37 @@ class SePayController extends Controller
 
     public function checkPendingPayment()
     {
-        try{
+        try {
             $user = Auth::guard('users')->user();
             $wallet = $user->wallet()->firstOrCreate();
 
-    
+
             $payment = WalletBalanceChanges::where('wallet_id', $wallet->id)
                 ->where('status', TRANSACTION_PENDING)
                 ->where('expired_at', '>=', Carbon::now())
                 ->first();
-    
-    
+
+
             if ($payment) {
                 $banks = SePay::getBankAccountList();
                 if ($banks['status'] !== 200) {
                     ApiResponse::errorResponse($banks['message']);
                 }
-    
+
                 $bank_account_detail = collect($banks['bankaccounts'])->first();
                 if (empty($bank_account_detail)) {
                     ApiResponse::errorResponse($banks['message']);
                 }
                 $QR = 'https://qr.sepay.vn/img?bank=' . $bank_account_detail['bank_short_name'] . '&acc='
                     . $bank_account_detail['account_number'] . '&template=compact&amount=' . $payment->amount . '&des=DH' . $payment->id;
-    
+
                 $payment_data = [
                     'payment' => $payment,
                     'QR' => $QR,
                     'content' => 'DH' .  $payment->id,
                     'bank_account_detail' => $bank_account_detail,
                 ];
-    
+
                 return response()->json([
                     'status' => 200,
                     'data' => $payment_data
@@ -262,7 +263,7 @@ class SePayController extends Controller
                     'message' => 'No pending payment'
                 ]);
             }
-        }catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             ApiResponse::errorResponse($th);
         }
     }
