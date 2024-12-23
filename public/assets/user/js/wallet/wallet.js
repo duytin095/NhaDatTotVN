@@ -1,4 +1,4 @@
-
+let checkRequestInterval; 
 $('#recharge').on('hide.bs.modal', function () {
     $('#amount').val('');
     $("#payment-methods").hide();
@@ -14,6 +14,7 @@ async function requestDeposit() {
 
             $('#pending-payment').show();
             $('#amount').hide();
+            $('#amount').val('');
             $('#recharge-btn').hide();
 
             $('.qr-code').attr('src', response.data.QR);
@@ -37,6 +38,7 @@ async function checkPendingPayment() {
         if (response.status == 200) {
             $('#pending-payment').show();
             $('#amount').hide();
+            $('#amount').val('');
             $('#recharge-btn').hide();
 
             $('.qr-code').attr('src', response.data.QR);
@@ -61,43 +63,21 @@ async function checkPendingPayment() {
     }
 }
 
-// function counter(expiredAt) {
-//     const expiredAtDate = new Date(expiredAt);
-
-//     setInterval(() => {
-//         const now = new Date();
-//         const timeLeft = expiredAtDate.getTime() - now.getTime();
-
-//         // Check if the countdown has expired
-//         if (timeLeft <= 0) {
-//             $('#countdown').text('Đã hết hạn!');
-//         } else {
-//             // Calculate days, hours, minutes, and seconds
-//             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-//             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-//             // Display the countdown
-//             $('#countdown').text(`${minutes} phút, ${seconds} giây`);
-
-
-//             // recall every 1 second
-//             scheduleCheckPendingPayment();
-//         }
-//     }, 1000);
-
-// }
-
 function counter(expiredAt) {
     const expiredAtDate = new Date(expiredAt);
     const timestamp = expiredAtDate.getTime() / 1000;
 
+    checkRequestInterval = setInterval(() => {
+        scheduleCheckPendingPayment();
+    }, 1000);
+
     var flipdown = new FlipDown(timestamp, {
         headings: ["Ngày", "Giờ", "Phút", "Giây"],
     })
-        .start()
-        .ifEnded(() => {
-            $('#countdown').text('Đã hết hạn!');
-        });
+    .start()
+    .ifEnded(() => {
+        forceReload('warning', 'Giao dịch đã hết hạn, vui lòng thực hiện lại giao dịch khác.');
+    });
 }
 async function scheduleCheckPendingPayment() {
     try {
@@ -105,12 +85,60 @@ async function scheduleCheckPendingPayment() {
         if (response.status == 200) {
             window.location.reload();
         } else {
-            console.log(response);
+            
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
+function initTable(){
+    $('#transactions-table').DataTable({
+        "ajax": {
+            "url": "/user/wallet/transactions",
+            "dataSrc": function (json) {                
+                return json.data;
+            }
+        },
+        "columns": [
+            { "data": "id" },
+            { "data": "created_at" },
+            { "data": "amount" },
+            {
+                "data": "type",
+                "render": function (data, type, row) {
+                    if (data == 0) {
+                        return "Nạp tiền";
+                    } else if (data == 1) {
+                        return "Rút tiền";
+                    } else {
+                        return "Trạng thái khác";
+                    }
+                }
+            },
+            {
+                "data": "status",
+                "render": function (data, type, row) {
+                    if (data == 0) {
+                        return "Đã hết hạn";
+                    } else if (data == 1) {
+                        return "Thành công";
+                    } else {
+                        return "Trạng thái khác";
+                    }
+                }
+            }
+        
+        ],
+        "ordering": true,
+        "order": [[1, "desc"]],
+        "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50, "All"]],
+        "language": {
+            "lengthMenu": "Hiển thị _MENU_ tin/trang",
+            "info": "Hiển thị trang _PAGE_ của _PAGES_",
+        }
+    });
+}
 $(document).ready(function () {
+    initTable();
     checkPendingPayment();
 });

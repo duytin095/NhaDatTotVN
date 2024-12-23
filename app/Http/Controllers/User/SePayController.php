@@ -37,7 +37,7 @@ class SePayController extends Controller
         try {
             // DB::beginTransaction();
             $user = Auth::guard('users')->user();
-            $wallet = $user->wallet()->firstOrFail();
+            $wallet = $user->wallet;
 
             $new_payment_request = [
                 'user_id' => $user->user_id,
@@ -45,7 +45,7 @@ class SePayController extends Controller
                 'amount' => $request->amount,
                 'type' => TRANS_IN,
                 'status' => TRANSACTION_PENDING,
-                'expired_at' => Carbon::now()->addMinutes(30),
+                'expired_at' => Carbon::now()->addMinutes(1),
             ];
             $payment = WalletBalanceChanges::create($new_payment_request);
             $QR = 'https://qr.sepay.vn/img?bank=' . $bank_account_detail['bank_short_name'] . '&acc='
@@ -201,7 +201,7 @@ class SePayController extends Controller
     {
         try {
             $user = Auth::guard('users')->user();
-            $wallet = $user->wallet()->first();
+            $wallet = $user->wallet;
             $wallet_balance_changes = WalletBalanceChanges::where('wallet_id', $wallet->id)->latest()->first();
             if ($wallet_balance_changes && $wallet_balance_changes->status === TRANSACTION_SUCCESS) {
                 return response()->json([

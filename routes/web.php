@@ -134,6 +134,7 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::post     ('/wallet/deposit', [SePayController::class, 'requestDeposit'])->name('wallet.deposit');
         Route::get      ('/wallet/check-pending-payment', [SePayController::class, 'checkPendingPayment'])->name('wallet.check-pending-payment');
         Route::get      ('/wallet/schedule-check-pending-payment', [SePayController::class, 'scheduleCheckPendingPayment'])->name('wallet.schedule-check-pending-payment');
+        Route::get      ('/wallet/transactions', [WalletController::class, 'get'])->name('wallet.transactions');
         // Route::post     ('/wallet/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
 
         // TIN DANG

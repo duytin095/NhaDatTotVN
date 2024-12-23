@@ -30,6 +30,6 @@ class Wallet extends Model
     }
     public function balanceChanges()
     {
-        return $this->hasMany(WalletBalanceChanges::class, 'wallet_id', 'id');
+        return $this->hasMany(WalletBalanceChanges::class, 'wallet_id', 'id')->orderBy('created_at', 'desc');
     }
 }
