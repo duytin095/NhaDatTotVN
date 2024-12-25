@@ -16,8 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('wallet_id');
             $table->decimal('amount', 10, 2);
+            $table->tinyInteger('status')->default(0);
             $table->tinyInteger('type');
             $table->string('description');
+            $table->datetime('expired_at')->nullable();
             $table->string('active_flg')->default(0);
             $table->timestamps();
         });

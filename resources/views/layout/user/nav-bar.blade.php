@@ -82,7 +82,7 @@
                                 <a href="{{ route('user.posts.index') }}" class="nav-link">Quản lý tin</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('user.wallet.index') }}" class="nav-link">Nạp tiền</a>
+                                <a href="{{ route('user.wallet.index') }}" class="nav-link">Ví tiền</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('user.profile.favorites') }}" class="nav-link">Yêu thích</a>

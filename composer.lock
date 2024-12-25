@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8570ccd544d605e75385bf6cab693993",
+    "content-hash": "9052207b8c2300ea378c1359d3ff87f2",
     "packages": [
         {
             "name": "brick/math",
@@ -3525,6 +3525,67 @@
                 }
             ],
             "time": "2024-04-27T21:32:50+00:00"
+        },
+        {
+            "name": "sepayvn/laravel-sepay",
+            "version": "dev-lite",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sepayvn/laravel-sepay.git",
+                "reference": "e4b3c8dd69c0000516990ea91e4c642280379810"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sepayvn/laravel-sepay/zipball/e4b3c8dd69c0000516990ea91e4c642280379810",
+                "reference": "e4b3c8dd69c0000516990ea91e4c642280379810",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^7.0 | ^8.0 | ^9.28 | ^10.0 | ^11.0",
+                "php": "^7.4 | ^8.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "SePay": "SePay\\SePay\\Facades\\SePay"
+                    },
+                    "providers": [
+                        "SePay\\SePay\\SePayServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SePay\\SePay\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SePay",
+                    "email": "info@sepay.vn",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Package cho SePay - Giải pháp tự động hóa cho thanh toán chuyển khoản ngân hàng",
+            "homepage": "https://github.com/sepayvn/laravel-sepay",
+            "keywords": [
+                "SePay",
+                "laravel",
+                "laravel-sepay"
+            ],
+            "support": {
+                "issues": "https://github.com/sepayvn/laravel-sepay/issues",
+                "source": "https://github.com/sepayvn/laravel-sepay/tree/lite"
+            },
+            "time": "2024-05-28T06:20:46+00:00"
         },
         {
             "name": "symfony/console",
@@ -8469,7 +8530,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "sepayvn/laravel-sepay": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

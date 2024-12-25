@@ -9,45 +9,6 @@
             </div>
         </div>
 
-        {{-- <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <div id="copy-print-csv_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                        <table id="type-table" class="table v-middle dataTable no-footer" role="grid"
-                            aria-describedby="copy-print-csv_info">
-                            <thead>
-                                <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" aria-controls="copy-print-csv" rowspan="1"
-                                        colspan="1" aria-sort="ascending"
-                                        aria-label="Type: activate to sort column descending" style="width: 192.34375px;">
-                                        Danh mục</th>
-                                    <th class="sorting" tabindex="0" aria-controls="copy-print-csv" rowspan="1"
-                                        colspan="1" aria-label="Purpose: activate to sort column ascending"
-                                        style="width: 96.875px;">Thuộc Danh mục</th>
-                                    <th class="sorting" tabindex="0" aria-controls="copy-print-csv" rowspan="1"
-                                        colspan="1" aria-label="Added Date: activate to sort column ascending"
-                                        style="width: 96.875px;">Ngày thêm</th>
-                                    <th class="sorting" tabindex="0" aria-controls="copy-print-csv" rowspan="1"
-                                        colspan="1" aria-label="Actions: activate to sort column ascending"
-                                        style="width: 71.421875px;">Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-
-                        <div class="dataTables_info" id="type-table-info" role="status" aria-live="polite">
-                            Hiển thị 1 đến 5 của 5 danh mục
-                        </div>
-
-                        <div class="dataTables_paginate paging_simple_numbers" id="type-table-pagination-links">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
         <div class="card">
             <div class="card-header">
                 <div class="card-title">Danh sách danh mục</div>

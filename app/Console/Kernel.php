@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\DeductWalletBalance;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,7 +14,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // $schedule->call(function () {
+        //     // Get the user ID from somewhere (e.g., a database, a config file, etc.)
+        //     $userId = \App\Models\User::first()->user_id;
+        //     // dd($userId);
+
+        
+        //     // Run the command with the user ID and amount
+        //     Artisan::call('app:deduct-wallet-balance', ['userId' => $userId, 'amount' => 10]);
+        // })->everyMinute();
+ 
+        $schedule->command(DeductWalletBalance::class)->daily('23:59');
     }
 
     /**

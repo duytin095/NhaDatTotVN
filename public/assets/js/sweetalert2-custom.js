@@ -80,11 +80,11 @@ function confirmEvent(event) {
     })
 }
 
-function forceReload() {
+function forceReload(icon = 'success', title = 'Thành công', text = 'Vui lòng tải lại trang') {
     Swal.fire({
-        icon: 'success',
-        title: 'Thành công',
-        text: 'Vui lòng tải lại trang',
+        icon: icon,
+        title: title,
+        text: text,
         confirmButtonColor: '#3085d6',
         confirmButtonText: 'Tải lại trang',
         allowOutsideClick: false,

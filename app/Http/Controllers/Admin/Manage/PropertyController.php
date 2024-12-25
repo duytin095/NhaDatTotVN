@@ -17,7 +17,29 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        return view('admin.manage.property.index');
+        try {
+            $active_flg = ACTIVE;
+            return view('admin.manage.property.index')
+                ->with('active_flg', $active_flg);
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
+       
+    }
+
+    public function get()
+    {
+        try {
+            $properties = Property::where('delete_flg', ACTIVE)
+                ->orderBy('created_at', 'desc')
+                ->get()->toArray();
+            return response()->json([
+                'status' => 200,
+                'data' => $properties,
+            ]);
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
     }
 
     /**
@@ -35,12 +57,12 @@ class PropertyController extends Controller
             $page = $request->input('page', 1); // default to page 1 if not provided
             // $properties = Property::paginate(3, ['*'], 'page', $page);
             $properties = Property::with(['type'])
-            ->where('delete_flg', ACTIVE)
-            ->where('active_flg', ACTIVE)
-            ->with(['status'])
-            ->orderByDesc('created_at')
-            ->where('property_seller_id', '=', auth('admin')->id())
-            ->paginate(3, ['*'], 'page', $page);
+                ->where('delete_flg', ACTIVE)
+                ->where('active_flg', ACTIVE)
+                ->with(['status'])
+                ->orderByDesc('created_at')
+                ->where('property_seller_id', '=', auth('admin')->id())
+                ->paginate(3, ['*'], 'page', $page);
 
             return response()->json([
                 'status' => 200,
@@ -110,7 +132,7 @@ class PropertyController extends Controller
             // 'image_0.required' => 'Please upload image',
             'property_latitude.required' => 'Could not get property latitude',
             'property_longitude.required' => 'Could not get property longitude',
-            
+
         ];
 
         for ($i = 1; $i < 10; $i++) {
@@ -126,7 +148,7 @@ class PropertyController extends Controller
         $request->validate($validateRules, $validateRulesMessages);
 
         try {
-            
+
             $imagePaths = [];
             for ($i = 0; $i < 10; $i++) {
                 if (!empty($request->file('image_' . $i))) {
@@ -247,9 +269,7 @@ class PropertyController extends Controller
             $request->validate([
                 'property_type_name' => 'required',
                 'property_status_id' => 'required',
-            ], [
-
-            ]);
+            ], []);
 
             $properties = Property::findOrFail($id);
             $properties->update([

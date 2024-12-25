@@ -2,7 +2,7 @@
   <div class="responsive-navbar offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvas">
       <div class="offcanvas-header">
           <a href="index.html" class="logo d-inline-block">
-              <img src="assets/images/logo.png" alt="logo">
+              <img src="#" alt="logo">
           </a>
           <button type="button" data-bs-dismiss="offcanvas" aria-label="Close" class="close-btn">
               <i class="ri-close-line"></i>
@@ -90,7 +90,7 @@
                                   </div>
                                   <div class="accordion-item">
                                     <a href="{{ route('user.wallet.index') }}" class="accordion-link">
-                                        Nạp tiền
+                                        Ví tiền
                                     </a>
                                 </div>
                                   <div class="accordion-item">

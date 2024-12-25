@@ -74,6 +74,11 @@
                 <i class="icon-users"></i>
                 <span class="nav-link-text">Người dùng</span>
             </a>
+            <a class="nav-link" id="properties-tab" data-bs-toggle="tab" href="#tab-properties" role="tab"
+                aria-controls="tab-properties" aria-selected="false">
+                <i class="icon-map"></i>
+                <span class="nav-link-text">Tin đăng</span>
+            </a>
             <a class="nav-link" id="types-tab" data-bs-toggle="tab" href="#tab-types" role="tab"
                 aria-controls="tab-types" aria-selected="false">
                 <i class="icon-layers2"></i>
@@ -99,8 +104,6 @@
 
         <!-- Tabs content start -->
         <div class="tab-content">
-
-            <!-- Chat tab -->
             <div class="tab-pane fade" id="tab-users" role="tabpanel" aria-labelledby="users-tab">
 
                 <!-- Tab content header start -->
@@ -124,8 +127,33 @@
                     </div>
                 </div>
                 <!-- Sidebar menu ends -->
-
             </div>
+
+            <div class="tab-pane fade" id="tab-properties" role="tabpanel" aria-labelledby="properties-tab">
+
+                <!-- Tab content header start -->
+                <div class="tab-pane-header">
+                    Tin đăng
+                </div>
+                <!-- Tab content header end -->
+
+                <!-- Sidebar menu starts -->
+                <div class="sidebarMenuScroll">
+                    <div class="sidebar-menu">
+                        <ul>
+                            <li>
+                                <a href="{{ route('admin.properties.index') }}">Danh sách tin đăng</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.properties.create') }}">Thêm tin đăng</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+                <!-- Sidebar menu ends -->
+            </div>
+
 
             <!-- Pages tab -->
             <div class="tab-pane fade" id="tab-types" role="tabpanel" aria-labelledby="types-tab">

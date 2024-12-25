@@ -55,7 +55,8 @@ class PostController extends Controller
                 'ACTIVE' => $ACTIVE
             ]);
         } catch (\Throwable $th) {
-            return ApiResponse::errorResponse($th);
+            if(config('app.debug')) return response()->json($th->getMessage());
+            abort(500);
         }
     }
 
@@ -272,7 +273,6 @@ class PostController extends Controller
 
             $featuredProperties = Property::where('delete_flg', ACTIVE)
                 ->where('active_flg', ACTIVE)
-
                 ->take(5)->get();
 
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');

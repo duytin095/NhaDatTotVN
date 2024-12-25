@@ -130,7 +130,10 @@
                                 </div>
                                 <div class="row justify-content-center">
                                     @forelse ($properties as $property)
-                                        <x-property-listing :property="$property" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
+                                        <x-property-listing 
+                                        :property="$property"
+                                        :columnSizes="['xl' => 4, 'md' => 6]"  
+                                        :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
                                     @empty
                                         <h4>Chưa có tin đăng nào</h4>
                                     @endforelse
