@@ -34,12 +34,20 @@ class WalletController extends Controller
             ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
     }
 
+    public function pricing()
+    {
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+        $this->breadcrumbService->addCrumb('Ví tiền', '/user/wallet');
+        $this->breadcrumbService->addCrumb('Bảng giá');
+        return view('user.wallet.pricing')
+            ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
+    }
+
     public function get()
     {
         try {
             $wallet = Wallet::where('user_id', auth()->id())->first();
             $walletBalanceChanges = $wallet->balanceChanges;
-
             return response()->json([
                 'status' => 200,
                 'data' => $walletBalanceChanges,

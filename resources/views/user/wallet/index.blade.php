@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
 
 
+    <a href="{{route('user.wallet.pricing')}}">Bảng giá</a>
     <div class="profile-authentication-area ptb-120">
         <div class="container">
             <div class="profile-authentication-inner">
