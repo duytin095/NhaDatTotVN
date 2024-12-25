@@ -72,7 +72,7 @@
                 <div class="col-lg-4 col-md-12">
                     <div class="widget-area">
                         <x-news-side :news="$mostViewNews" />
-                        <div class="col-lg-12 col-md-12">
+                        <div class="col-lg-12 col-md-12 mb-5">
                             <div class="property-details-sidebar">
                                 <div class="featured-properties">
                                     <h3>Nhà đất bán</h3>

@@ -84,6 +84,10 @@ class User extends Authenticatable
         return $this->hasOne(Wallet::class, 'user_id', 'user_id');
     }
 
+    public function posts()
+    {
+        return $this->hasMany(Property::class, 'property_seller_id', 'user_id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

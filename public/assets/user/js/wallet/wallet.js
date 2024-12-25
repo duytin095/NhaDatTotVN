@@ -51,8 +51,6 @@ async function checkPendingPayment() {
             $('[name="content"]').text(response.data.content);
 
             counter(response.data.payment.expired_at);
-
-
         } else {
             $('#pending-payment').hide();
             $('#recharge-btn').show();
@@ -71,7 +69,7 @@ function counter(expiredAt) {
         scheduleCheckPendingPayment();
     }, 1000);
 
-    var flipdown = new FlipDown(timestamp, {
+    new FlipDown(timestamp, {
         headings: ["Ngày", "Giờ", "Phút", "Giây"],
     })
     .start()

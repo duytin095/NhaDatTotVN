@@ -19,7 +19,6 @@ class SePayController extends Controller
 {
     public function requestDeposit(Request $request)
     {
-        $isPendingPaymentExist = false;
         $payment = null;
         $QR = null;
 
@@ -57,8 +56,6 @@ class SePayController extends Controller
                 'content' => 'DH' .  $payment->id,
                 'bank_account_detail' => $bank_account_detail,
             ];
-
-            // dd($payment_data);
             DB::commit();
 
             return response()->json([
@@ -190,10 +187,7 @@ class SePayController extends Controller
             }
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json([
-                'status' => 500,
-                'message' => $th->getMessage(),
-            ], 500);
+            ApiResponse::errorResponse($th);
         }
     }
 
@@ -206,7 +200,7 @@ class SePayController extends Controller
             if ($wallet_balance_changes && $wallet_balance_changes->status === TRANSACTION_SUCCESS) {
                 return response()->json([
                     'status' => 200,
-                    'message' => 'You have successfully deposited money into your account'
+                    'message' => 'Deposit successfully'
                 ]);
             } else {
                 return response()->json([

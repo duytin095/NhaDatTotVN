@@ -124,6 +124,12 @@
                                 <i class="ri-delete-bin-line"></i>
                             </button>
                         </li>
+                        <li>
+                            <button type="button" onclick="openDeleteModal({{ $property['property_id'] }})"
+                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Hiển thị">
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                        </li>
                     @endif
                 </ul>
             </div>

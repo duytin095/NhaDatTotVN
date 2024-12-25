@@ -20,6 +20,12 @@ class Wallet extends Model
         'updated_at'
     ];
 
+    public function deductBalance($amount)
+    {
+        $this->balance -= $amount;
+        $this->save();
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-m-Y');
