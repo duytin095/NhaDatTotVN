@@ -134,31 +134,6 @@ class PostController extends Controller
 
         try {
             $watermarkedImages = [];
-            // for ($i = 0; $i < 10; $i++) {
-            //     if ($request->hasFile('image_' . $i)) {
-            //         $image = $request->file('image_' . $i);
-            //         if ($image->isValid()) {
-            //             $imagePath = $image->getPathName();
-            //             $imageInstance = Image::make($imagePath);
-            //             $watermark = Image::make(public_path('assets/user/images/watermark.png'));
-            //             $imageInstance->insert($watermark, 'center', 10, 10);
-
-            //             if (!file_exists(public_path('temp'))) {
-            //                 mkdir(public_path('temp'), 0777, true);
-            //             }
-            //             // Store the watermarked image in a temporary location
-            //             $imageName = time() . '_' . basename($image);
-            //             $imageInstance->save(public_path('temp/' . $imageName));
-            //             // Add the watermarked image to the array
-            //             $watermarkedImages[] = 'temp/' . $imageName;
-            //         } else {
-            //             // Handle the case where the image upload fails
-            //             // You can add some error handling code here
-            //         }
-            //     } else {
-            //         break;
-            //     }
-            // }
             $watermarkedImages = [];
             for ($i = 0; $i < 10; $i++) {
                 if ($request->hasFile('image_' . $i)) {
@@ -193,7 +168,15 @@ class PostController extends Controller
                 }
             }
 
+            if(Auth::guard('users')->user()->verified === UNVERIFIED) {
+                return ApiResponse::walletNotVerifiedResponse('/user/wallet');
+            }
 
+            $balance = Auth::guard('users')->user()->wallet->balance;
+            if($balance < POST_FEE) {
+                return ApiResponse::balanceNotEnoughResponse('/user/wallet');
+            }
+            ApiResponse::createSuccessResponse();
 
             DB::beginTransaction();
             $property = Property::create([
@@ -237,12 +220,9 @@ class PostController extends Controller
                 'property_seller_id' => auth('users')->id(),
                 'property_label' => rand(0, 4),
             ]);
+
             DB::commit();
-            return response()->json([
-                'status' => 200,
-                'message' => 'Property created successfully',
-                'redirect' => '/user/posts/',
-            ]);
+            return ApiResponse::createSuccessResponse('/user/posts/');
         } catch (\Throwable $th) {
             DB::rollBack();
             return ApiResponse::errorResponse($th);

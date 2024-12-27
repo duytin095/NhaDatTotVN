@@ -22,7 +22,7 @@
                             <li><i class="ri-check-fill"></i>Giá đẩy tin: <strong class="format-price">
                                     {{ POST_FEE }}đ/lần</strong></li>
                             <li><i class="ri-check-fill"></i>Đăng tối thiểu: <strong> 7 ngày </strong></li>
-                            <li><i class="ri-check-fill"></i>Màu sắc tiêu đề: <strong style="color: blue">Màu xanh viết
+                            <li><i class="ri-check-fill"></i>Màu sắc tiêu đề: <strong style="color: DeepSkyBlue">Màu xanh viết
                                     thường</strong></li>
                             <li><i class="ri-check-fill"></i>Vị trí: Hiển thị sau tin VIP và siêu VIP</li>
                             <li><i class="ri-check-fill"></i>Tự động duyệt</li>
@@ -56,9 +56,9 @@
                             <li><i class="ri-check-fill"></i>Giá đẩy tin: <strong class="format-price">
                                     {{ POST_FEE }}đ/lần</strong></li>
                             <li><i class="ri-check-fill"></i>Đăng tối thiểu: <strong> 7 ngày </strong></li>
-                            <li><i class="ri-check-fill"></i>Màu sắc tiêu đề: <strong style="color: pink">MÀU HỒNG IN
+                            <li><i class="ri-check-fill"></i>Màu sắc tiêu đề: <strong style="color: deeppink">MÀU HỒNG IN
                                     HOA</strong></li>
-                            <li><i class="ri-check-fill"></i>Vị trí: Hiển thị sau tin VIP và siêu VIP</li>
+                            <li><i class="ri-check-fill"></i>Vị trí: Hiển thị sau siêu VIP và các tin khác</li>
                             <li><i class="ri-check-fill"></i>Tự động duyệt</li>
                             <li>
                                 <i class="ri-close-fill text-danger"></i>
@@ -90,10 +90,11 @@
                             <li><i class="ri-check-fill"></i>Giá đẩy tin: <strong class="format-price">
                                     {{ POST_FEE }}đ/lần</strong></li>
                             <li><i class="ri-check-fill"></i>Đăng tối thiểu: <strong> 7 ngày </strong></li>
-                            <li><i class="ri-check-fill"></i>Màu sắc tiêu đề: <strong style="color: red">MÀU ĐỎ IN
+                            <li><i class="ri-check-fill"></i>Màu sắc tiêu đề: <strong style="color: orangered">MÀU ĐỎ IN
                                     HOA</strong>
                             </li>
-                            <li><i class="ri-check-fill"></i>Vị trí: Hiển thị sau tin VIP và siêu VIP</li>
+                            <li><i class="ri-check-fill"></i>Vị trí: Hiển thị ở trên tất cả các tin khác sau tin VIP ĐẶC
+                                BIỆT</li>
                             <li><i class="ri-check-fill"></i>Tự động duyệt</li>
                             <li>
                                 <i class="ri-check-fill"></i>
@@ -122,10 +123,11 @@
                             <li><i class="ri-check-fill"></i>Giá đẩy tin: <strong class="format-price">
                                     {{ POST_FEE }}đ/lần</strong></li>
                             <li><i class="ri-check-fill"></i>Đăng tối thiểu: <strong> 7 ngày </strong></li>
-                            <li><i class="ri-check-fill"></i>Màu sắc tiêu đề: <strong style="color: red">MÀU ĐỎ IN
+                            <li><i class="ri-check-fill"></i>Màu sắc tiêu đề: <strong style="color: orangered">MÀU ĐỎ IN
                                     HOA</strong>
                             </li>
-                            <li><i class="ri-check-fill"></i>Vị trí: Hiển thị sau tin VIP và siêu VIP</li>
+                            <li><i class="ri-check-fill"></i>Vị trí: Hiển thị tin ở trên tất cả. Được hưởng nhiều ưu tiên
+                            </li>
                             <li><i class="ri-check-fill"></i>Tự động duyệt</li>
                             <li>
                                 <i class="ri-check-fill"></i>
@@ -134,6 +136,85 @@
                             </li>
                         </ul>
                     </div>
+                </div>
+
+                <div class="col-xl-12 col-md-12">
+                    <div class="pricing-card">
+                        <table class="table table-striped">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th class="w-50 text-center title">GIÁ TRỊ NẠP</th>
+                                    <th class="w-50 text-center title">TẶNG THÊM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center">
+                                    <th>Từ 100k đến 500K</th>
+                                    <td>10%</td>
+                                </tr>
+                                <tr class="text-center">
+                                    <th>Từ 500k đến 1500K</th>
+                                    <td>15%</td>
+                                </tr>
+                                <tr class="text-center">
+                                    <th>Từ 1500k đến 2000K</th>
+                                    <td>20%</td>
+                                </tr>
+                                <tr class="text-center">
+                                    <th>
+                                        <span class="plan">
+                                            Từ 2 đến dưới 4 Triệu
+                                        </span>
+                                        <br>
+                                        <span class="note">
+                                            (Nhóm kinh doanh dưới 10 Salers nên dùng).
+                                        </span>
+                                    </th>
+                                    <td>30%</td>
+                                </tr>
+                                <tr class="text-center">
+                                    <th>Từ 4 đến dưới 10 Triệu</th>
+                                    <td>40%</td>
+                                </tr>
+                                <tr class="text-center">
+                                    <th>Từ 10 đến dưới 20 Triệu</th>
+                                    <td>50%</td>
+                                </tr>
+                                <tr class="text-center">
+                                    <th> 
+                                        <span class="plan">
+                                            Từ 20 đến 60 Triệu
+                                        </span> 
+                                        <br>
+                                        <span class="note">
+                                            (Sản giao dịch từ 30 Salers nên dùng).</th>
+                                        </span>
+                                    <td>60%</td>
+                                </tr>
+                                <tr class="text-center">
+                                    <th>
+                                        <span class="plan">
+                                            Trên 60 Triệu
+                                        </span>
+                                        <br>
+                                        <span class="note">
+                                            (Sàn giao dịch lớn nên dùng).
+                                        </span>
+                                    </th>
+                                    <td>
+                                        <span class="note">Liên hệ</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-xl-12 col-md-12 text-center">
+                    <p style="color: orangered">Lưu ý tất cả tin đăng có thể mua nhãn dán.</p>
+                    <p>
+                        <span style="color: orangered">TIN Siêu VIP</span> được (<span style="color: seagreen">miễn phí</span>) nhãn dán
+                    </p>
+                    <a href="#">Minh họa tin miễn phí</a>
                 </div>
             </div>
         </div>
@@ -179,3 +260,14 @@
         });
     </script>
 @endpush
+<style>
+    .plan {
+        color: orangered;
+    }
+    .note {
+        color: deepskyblue
+    }
+    .title {
+        color: orangered
+    }
+</style>

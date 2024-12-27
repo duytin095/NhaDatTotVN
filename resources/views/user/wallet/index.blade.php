@@ -32,7 +32,7 @@
                                     @endif
 
                                     <div>
-                                        <p>{{ Auth::guard('users')->user()->user_name }}</p>
+                                        <strong>{{ Auth::guard('users')->user()->user_name }}</strong>
                                         <p>{{ Auth::guard('users')->user()->user_phone }}</p>
                                     </div>
                                 </div>
@@ -103,7 +103,7 @@
                                 <h3>Số dư hiện tại</h3>
                                 <h1>{{ $wallet->balance }} VNĐ</h1>
                                 <input type="number" min="2000" step="1000" id="amount"
-                                    class="form-control mb-3">
+                                    class="form-control mb-3" placeholder="Nhập số tiền ">
                                 <button type="button" onclick="requestDeposit()" class="default-btn" id="recharge-btn"
                                     style="display: none; border: none">Nạp tiền</button>
                             </div>

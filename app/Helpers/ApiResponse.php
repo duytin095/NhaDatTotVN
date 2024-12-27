@@ -36,4 +36,21 @@ class ApiResponse
             'message' => config('constants.response.messages.updated'),
         ]);
     }
+    public static function balanceNotEnoughResponse($redirect = null)
+    {
+        return response()->json([
+            'status' => 500,
+            'type' => 'balance_not_enough',
+            'message' => config('constants.response.messages.balance_not_enough'),
+            'redirect' => $redirect,
+        ]);
+    }
+    public static function walletNotVerifiedResponse($redirect = null){
+        return response()->json([
+            'status' => 500,
+            'type' => 'unverified',
+            'message' => config('constants.response.messages.unverified'),
+            'redirect' => $redirect,
+        ]);
+    }
 }

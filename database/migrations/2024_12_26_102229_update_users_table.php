@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->tinyInteger('pricing_plan_id')->default(0);
+            $table->tinyInteger('verified')->default(0);
         });
     }
 
