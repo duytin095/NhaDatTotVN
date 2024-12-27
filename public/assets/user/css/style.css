@@ -12803,6 +12803,7 @@ Default Btn Area CSS
   font-weight: 600;
   font-family: "Josefin Sans", sans-serif;
   transition: 0.6s;
+  border: none;
 }
 .default-btn:hover {
   background-color: #A68E74;

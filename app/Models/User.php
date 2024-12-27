@@ -84,6 +84,11 @@ class User extends Authenticatable
         return $this->hasOne(Wallet::class, 'user_id', 'user_id');
     }
 
+    public function pricingPlan()
+    {
+        return $this->belongsTo(PricingPlan::class);
+    }
+
     public function posts()
     {
         return $this->hasMany(Property::class, 'property_seller_id', 'user_id');

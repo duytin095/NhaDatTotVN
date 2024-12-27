@@ -65,7 +65,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+        $this->breadcrumbService->addCrumb('Ví tiền', '/user/wallet');
         $this->breadcrumbService->addCrumb('Tạo Tin Đăng');
 
         try {

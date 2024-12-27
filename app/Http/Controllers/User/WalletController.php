@@ -25,11 +25,11 @@ class WalletController extends Controller
             ['user_id' => auth()->id()],
             ['balance' => 0]
         );
-
         $walletBalanceChanges = $wallet->balanceChanges;
 
         return view('user.wallet.index')
             ->with('wallet', $wallet)
+            ->with('user', $wallet->user)
             ->with('walletBalanceChanges', $walletBalanceChanges)
             ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
     }

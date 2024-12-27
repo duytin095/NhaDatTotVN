@@ -15,4 +15,7 @@ class PricingPlan extends Model
         'duration', // e.g. 'daily', 'weekly', 'monthly'
         'features', // e.g. ' vip', 'priority_support'
     ];
+    public function users(){
+        return $this->hasMany(User::class);
+    }
 }

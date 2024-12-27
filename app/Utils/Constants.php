@@ -27,5 +27,15 @@ const TRANSACTION_PENDING = 0;
 const TRANSACTION_SUCCESS = 1;
 const TRANSACTION_FAILED = 2;
 
+const PRICE = [
+    'tin_thuong' => 500,
+    'VIP1' => 10000,
+    'VIP2' => 20000,
+    'VIP3' => 30000,
+];
+
+const POST_FEE = 2000;
+
+
 const LOCAL_HOST = 'http://127.0.0.1:8000';
 const PRODUCTION_HOST = '';
