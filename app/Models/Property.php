@@ -97,6 +97,11 @@ class Property extends Model
         return Carbon::parse($value)->format('d-m-Y');
     }
 
+    public function getDiffForHumansAttribute()
+    {
+        return Carbon::parse($this->created_at)->locale('vi')->diffForHumans();
+    }
+
     public function favoritedBy()
     {
         return $this->belongsToMany(User::class, 'favorite_list', 'property_id', 'user_id')->withTimestamps();

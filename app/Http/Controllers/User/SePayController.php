@@ -44,7 +44,8 @@ class SePayController extends Controller
                 'amount' => $request->amount,
                 'type' => TRANS_IN,
                 'status' => TRANSACTION_PENDING,
-                'expired_at' => Carbon::now()->addMinutes(1),
+                'expired_at' => Carbon::now()->addMinutes(EXPRIRED_MINUTES),
+                'expired_at' => env('APP_DEBUG') ? Carbon::now()->addSeconds(15) : Carbon::now()->addMinutes(EXPRIRED_MINUTES),
             ];
             $payment = WalletBalanceChanges::create($new_payment_request);
             $QR = 'https://qr.sepay.vn/img?bank=' . $bank_account_detail['bank_short_name'] . '&acc='
@@ -206,6 +207,30 @@ class SePayController extends Controller
                 return response()->json([
                     'status' => 404,
                     'message' => 'No successful deposit'
+                ]);
+            }
+        } catch (\Throwable $th) {
+            ApiResponse::errorResponse($th);
+        }
+    }
+
+    public function cancelPendingPayment()
+    {
+        try {
+            $user = Auth::guard('users')->user();
+            $wallet = $user->wallet;
+            $wallet_balance_changes = WalletBalanceChanges::where('wallet_id', $wallet->id)->latest()->first();
+            if ($wallet_balance_changes && $wallet_balance_changes->status === TRANSACTION_PENDING) {
+                $wallet_balance_changes->status = TRANSACTION_FAILED;
+                $wallet_balance_changes->save();
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Payment expired'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No pending deposit'
                 ]);
             }
         } catch (\Throwable $th) {

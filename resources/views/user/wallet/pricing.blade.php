@@ -1,5 +1,6 @@
 @extends('layout.user.index')
 @section('content')
+    @include('components.user-breadcrumb', ['breadcrumbs' => $breadcrumbs])
     <!-- Start Pricing Area -->
     <div class="pricing-area pt-120 pb-95">
         <div class="container">
@@ -22,7 +23,8 @@
                             <li><i class="ri-check-fill"></i>Giá đẩy tin: <strong class="format-price">
                                     {{ POST_FEE }}đ/lần</strong></li>
                             <li><i class="ri-check-fill"></i>Đăng tối thiểu: <strong> 7 ngày </strong></li>
-                            <li><i class="ri-check-fill"></i>Màu sắc tiêu đề: <strong style="color: DeepSkyBlue">Màu xanh viết
+                            <li><i class="ri-check-fill"></i>Màu sắc tiêu đề: <strong style="color: DeepSkyBlue">Màu xanh
+                                    viết
                                     thường</strong></li>
                             <li><i class="ri-check-fill"></i>Vị trí: Hiển thị sau tin VIP và siêu VIP</li>
                             <li><i class="ri-check-fill"></i>Tự động duyệt</li>
@@ -181,14 +183,15 @@
                                     <td>50%</td>
                                 </tr>
                                 <tr class="text-center">
-                                    <th> 
+                                    <th>
                                         <span class="plan">
                                             Từ 20 đến 60 Triệu
-                                        </span> 
+                                        </span>
                                         <br>
                                         <span class="note">
-                                            (Sản giao dịch từ 30 Salers nên dùng).</th>
-                                        </span>
+                                            (Sản giao dịch từ 30 Salers nên dùng).
+                                    </th>
+                                    </span>
                                     <td>60%</td>
                                 </tr>
                                 <tr class="text-center">
@@ -212,7 +215,8 @@
                 <div class="col-xl-12 col-md-12 text-center">
                     <p style="color: orangered">Lưu ý tất cả tin đăng có thể mua nhãn dán.</p>
                     <p>
-                        <span style="color: orangered">TIN Siêu VIP</span> được (<span style="color: seagreen">miễn phí</span>) nhãn dán
+                        <span style="color: orangered">TIN Siêu VIP</span> được (<span style="color: seagreen">miễn
+                            phí</span>) nhãn dán
                     </p>
                     <a href="#">Minh họa tin miễn phí</a>
                 </div>
@@ -264,9 +268,11 @@
     .plan {
         color: orangered;
     }
+
     .note {
         color: deepskyblue
     }
+
     .title {
         color: orangered
     }

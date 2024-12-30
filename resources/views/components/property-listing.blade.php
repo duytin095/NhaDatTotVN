@@ -84,6 +84,7 @@
                             href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">{{ $property['property_name'] }}</a>
                     </h3>
                     <span>{{ $property['property_address'] }}</span>
+                    <span>{{ $property['diff_for_humans'] }}</span>                    
                 </div>
                 <div class="price">
                     {{ $property->getFormattedPriceAttribute(true) }}

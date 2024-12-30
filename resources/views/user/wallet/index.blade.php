@@ -186,6 +186,12 @@
     </div>
 @endsection
 @push('scripts')
+    <script> 
+        const TRANSACTION_SUCCESS = {{ $success }};
+        const TRANSACTION_FAILED = {{ $failed }};
+        const TRANSACTION_PENDING = {{ $pending }};
+    </script>
+
     <script src="https://pbutcher.uk/flipdown/js/flipdown/flipdown.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
     <script src="{{ asset('assets/user/js/wallet/wallet.js') }}"></script>

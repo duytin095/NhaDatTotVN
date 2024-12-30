@@ -21,6 +21,11 @@ class WalletController extends Controller
     {
         $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
         $this->breadcrumbService->addCrumb('Ví tiền');
+
+        $pending = TRANSACTION_PENDING;
+        $success = TRANSACTION_SUCCESS;
+        $failed = TRANSACTION_FAILED;
+
         $wallet = Wallet::firstOrCreate(
             ['user_id' => auth()->id()],
             ['balance' => 0]
@@ -28,6 +33,9 @@ class WalletController extends Controller
         $walletBalanceChanges = $wallet->balanceChanges;
 
         return view('user.wallet.index')
+            ->with('pending', $pending)
+            ->with('success', $success)
+            ->with('failed', $failed)
             ->with('wallet', $wallet)
             ->with('user', $wallet->user)
             ->with('walletBalanceChanges', $walletBalanceChanges)

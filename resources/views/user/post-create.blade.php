@@ -158,7 +158,7 @@
                                 Giá <span style="color:red">(ngàn đồng)</span>
                             <label>
                             <input name="price" value="0" type="number" min="0" class="form-control" min="0" step="1000"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Nhập giá"
+                                data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Thoả thuận"
                                 placeholder="">                        
                         </div>
                     </div>

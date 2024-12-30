@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\Sepay;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\User\HomeController;
@@ -134,9 +135,9 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::post     ('/wallet/deposit', [SePayController::class, 'requestDeposit'])->name('wallet.deposit');
         Route::get      ('/wallet/check-pending-payment', [SePayController::class, 'checkPendingPayment'])->name('wallet.check-pending-payment');
         Route::get      ('/wallet/schedule-check-pending-payment', [SePayController::class, 'scheduleCheckPendingPayment'])->name('wallet.schedule-check-pending-payment');
+        Route::post     ('/wallet/cancel-pending-payment', [SepayController::class, 'cancelPendingPayment'])->name('wallet.cancel-pending-payment');
         Route::get      ('/wallet/transactions', [WalletController::class, 'get'])->name('wallet.transactions');
         Route::get      ('/wallet/pricing', [WalletController::class, 'pricing'])->name('wallet.pricing');
-        // Route::post     ('/wallet/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
 
         // TIN DANG
         Route::get      ('/posts', [PostController::class, 'index'])->name('posts.index');

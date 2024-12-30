@@ -312,6 +312,18 @@
                                     </div>
                                     <div style="width: 100%; height: 300px" id="map-container"></div>
                                 </div>
+                                <div>
+                                    <h4>Lưu ý</h4>
+                                    <div>
+                                        Bạn đang xem tin đăng 
+                                        <b class="text-danger">
+                                            "{{ $property->property_name }}"
+                                        </b>
+                                        , có mã số #{{ $property->property_id }}, được đăng 
+                                        <time>{{ $property->created_at }}</time>
+                                        . Thông tin rao vặt là do người đăng tin đăng tải toàn bộ thông tin. Chúng tôi hoàn toàn không chịu trách nhiệm về bất cứ thông tin nào liên quan đến các thông tin này. Hãy thông báo cho chúng tôi nếu tin này không hợp lệ.
+                                    </div>
+                                </div>
                             </div>
 
 

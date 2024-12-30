@@ -53,7 +53,8 @@ class News extends Model
     {
         $carbon = Carbon::parse($value);
         $carbon->setLocale('vi');
-        return $carbon->format('F j, Y');
+        return $carbon->translatedFormat('j F, Y');
+
     }
     public function getTypeAttribute($value)
     {

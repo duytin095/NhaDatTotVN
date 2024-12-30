@@ -34,6 +34,8 @@ const PRICE = [
     'VIP3' => 30000,
 ];
 
+const EXPRIRED_MINUTES = 30; // minutes
+
 const POST_FEE = 2000;
 
 const UNVERIFIED = 0;
