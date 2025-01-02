@@ -33,7 +33,7 @@ class PropertyTableSeeder extends Seeder
         $description = 'Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin quis bibendum auctor, nisilit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu. Gravida nibh vel velit auctor aliquet. Aenean sollicitudin quis bibendum auctor, nisilit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi acnec tellus a odio tincidunt auctor a ornare odio.';
         $data = [];
 
-        for ($i = 0; $i < 40; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $numImages = rand(1, count($images));
             $randomImages = array_slice($images, rand(0, count($images) - $numImages), $numImages);
             $watermarkedImages = [];
@@ -63,7 +63,7 @@ class PropertyTableSeeder extends Seeder
             $propertyVideoType = rand(0, count($videoLinks) - 1); // Generate a random video type
             $data[] = [
                 'property_type_id' => rand(1, 20),
-                'property_name' => 'BÁN GẤP CĂN HỘ'. ($i + 1) . 'PN, 2WC PHÚ HỮU Q9 NHÀ MỚI, ĐÃ CÓ SỔ GIÁ 2.450 TỶ',
+                'property_name' => 'Get the most '. ($i + 1) . ' out of Codeium by going through our interactive tutorial',
                 'property_description' => $description,
                 // 'property_image' => json_encode($randomImages),
                 'property_image' => json_encode($watermarkedImages),
@@ -93,9 +93,10 @@ class PropertyTableSeeder extends Seeder
                 'property_seller_id' => rand(1, 10),
                 'property_label' => rand(0, 4),
                 'slug' => 'property-' . ($i + 1),
+                'property_views' => rand(0, 1000),
 
-                'created_at' => Carbon::now()->addDays($i),
-                'updated_at' => Carbon::now()->addDays($i + 1),
+                'created_at' => Carbon::now()->addHours(3),
+                'updated_at' => Carbon::now()->addHours(3),
             ];
         }
         DB::table('properties')->insert($data);

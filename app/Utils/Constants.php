@@ -29,10 +29,14 @@ const TRANSACTION_FAILED = 2;
 
 const PRICE = [
     'tin_thuong' => 500,
-    'VIP1' => 10000,
     'VIP2' => 20000,
-    'VIP3' => 30000,
+    'VIP1' => 10000,
+    'VIP_DAC_BIET' => 30000,
 ];
+
+const VIP2 = 1;
+const VIP1 = 2;
+const VIP_DAC_BIET = 3;
 
 const EXPRIRED_MINUTES = 30; // minutes
 

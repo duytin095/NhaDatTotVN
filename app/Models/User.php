@@ -42,6 +42,12 @@ class User extends Authenticatable
         'password',
         'owner_referral_code',
         'referral_code',
+        'slug',
+        'province',
+        'district',
+        'ward',
+        'introduction',
+        'pricing_plan_id',
 
         'active_flg',
         'delete_flg',

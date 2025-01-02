@@ -26,7 +26,7 @@ class PostController extends Controller
         $this->breadcrumbService = $breadcrumbService;
     }
     /**
-     * Display a listing of the resource.
+     * Display a listing of the post which belongs to the authenticated user.
      */
     public function index()
     {
@@ -230,7 +230,7 @@ class PostController extends Controller
     }
 
     /**
-     * Chi tiet tin dang
+     * Display detail of the property
      */
     public function show($slug)
     {
@@ -244,6 +244,7 @@ class PostController extends Controller
                     }
                 }])
                 ->firstOrFail();
+
 
             if (Auth::guard('users')->check() && $property->property_seller_id != Auth::guard('users')->user()->user_id) {
                 $property->incrementPropertyView();
@@ -292,8 +293,8 @@ class PostController extends Controller
 
             if ($key !== false) {
                 $types = Type::where('property_purpose_id', $key)->withCount('properties')->get();
-                $properties = Property::where('delete_flg', ACTIVE)
-                    ->where('active_flg', ACTIVE)
+                $properties = Property::where('properties.delete_flg', ACTIVE)
+                    ->where('properties.active_flg', ACTIVE)
                     ->whereHas('type', function ($query) use ($key) {
                         $query->where('property_purpose_id', $key);
                     })->when($searchQuery, function ($q, $searchQuery) use ($columnsToSearch) { // make it more dynamic and allow searching in multiple columns, 
@@ -311,6 +312,11 @@ class PostController extends Controller
                     })->when($maxAcreage, function ($q, $maxAcreage) {
                         return $q->where('property_acreage', '<=', $maxAcreage);
                     })
+                    
+                    ->join('users', 'properties.property_seller_id', '=', 'users.user_id')
+                    ->select('properties.*', 'users.pricing_plan_id')
+                    ->orderBy('users.pricing_plan_id', 'desc')
+                    
                     ->paginate(10);
                 $this->breadcrumbService->addCrumb($purposes[$key]['name'], $purposes[$key]['slug']);
             } else {
@@ -335,6 +341,10 @@ class PostController extends Controller
                     })->when($maxAcreage, function ($q, $maxAcreage) {
                         return $q->where('property_acreage', '<=', $maxAcreage);
                     })
+
+                    ->join('users', 'properties.property_seller_id', '=', 'users.user_id')
+                    ->select('properties.*', 'users.pricing_plan_id')
+                    ->orderBy('users.pricing_plan_id', 'desc')
                     ->paginate(10);
 
                 $this->breadcrumbService->addCrumb($type->getPurposeNameAttribute(), $type->getPurposeSlugAttribute());

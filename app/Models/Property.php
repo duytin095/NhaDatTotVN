@@ -69,6 +69,7 @@ class Property extends Model
         'property_video_type',
 
         // AUTO GEN
+        'property_views',
         'property_seller_id',
         'slug',
         'property_label',

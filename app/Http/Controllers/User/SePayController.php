@@ -34,7 +34,7 @@ class SePayController extends Controller
 
 
         try {
-            // DB::beginTransaction();
+            DB::beginTransaction();
             $user = Auth::guard('users')->user();
             $wallet = $user->wallet;
 
@@ -44,7 +44,6 @@ class SePayController extends Controller
                 'amount' => $request->amount,
                 'type' => TRANS_IN,
                 'status' => TRANSACTION_PENDING,
-                'expired_at' => Carbon::now()->addMinutes(EXPRIRED_MINUTES),
                 'expired_at' => env('APP_DEBUG') ? Carbon::now()->addSeconds(15) : Carbon::now()->addMinutes(EXPRIRED_MINUTES),
             ];
             $payment = WalletBalanceChanges::create($new_payment_request);
