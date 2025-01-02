@@ -8,6 +8,7 @@ use App\Models\Wallet;
 use Illuminate\Support\Str;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
+use App\Services\BonusCalculator;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\WalletBalanceChanges;
@@ -17,6 +18,14 @@ use SePay\SePay\Models\SePayTransaction;
 
 class SePayController extends Controller
 {
+
+    private $bonusCalculator;
+
+    public function __construct(BonusCalculator $bonusCalculator)
+    {
+        $this->bonusCalculator = $bonusCalculator;
+    }
+    
     public function requestDeposit(Request $request)
     {
         $payment = null;
@@ -169,7 +178,9 @@ class SePayController extends Controller
                     $recharge_transactions->save();
 
                     $wallet = Wallet::find($recharge_transactions['wallet_id']);
+                    $bonus = $this->bonusCalculator->calculateBonus($sePayWebhookData->transferAmount);
                     $wallet->balance += $sePayWebhookData->transferAmount;
+                    $wallet->balance += $bonus;
                     $wallet->save();
 
 

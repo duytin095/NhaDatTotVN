@@ -119,9 +119,9 @@
                             <li><i class="ri-check-fill"></i>Giá ngày: <strong class="format-price"> {{ PRICE['VIP_DAC_BIET'] }}
                                     đ</strong> </li>
                             <li><i class="ri-check-fill"></i>Giá tuần(7 ngày): <strong class="format-price">
-                                    {{ PRICE['VIP3'] * 7 }}đ</strong></li>
+                                    {{ PRICE['VIP_DAC_BIET'] * 7 }}đ</strong></li>
                             <li><i class="ri-check-fill"></i>Giá tháng(30 ngày): <strong class="format-price">
-                                    {{ PRICE['VIP3'] * 30 }}đ</strong></li>
+                                    {{ PRICE['VIP_DAC_BIET'] * 30 }}đ</strong></li>
                             <li><i class="ri-check-fill"></i>Giá đẩy tin: <strong class="format-price">
                                     {{ POST_FEE }}đ/lần</strong></li>
                             <li><i class="ri-check-fill"></i>Đăng tối thiểu: <strong> 7 ngày </strong></li>
