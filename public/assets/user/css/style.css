@@ -12753,6 +12753,10 @@ a.property-title{
   -webkit-box-orient: vertical;
   overflow: hidden;
   white-space: normal;
+  text-transform: lowercase;
+}
+a.property-title::first-letter {
+  text-transform: capitalize;
 }
 
 :focus {
@@ -12803,6 +12807,7 @@ Default Btn Area CSS
   font-weight: 600;
   font-family: "Josefin Sans", sans-serif;
   transition: 0.6s;
+  border: none;
 }
 .default-btn:hover {
   background-color: #A68E74;
@@ -17530,7 +17535,7 @@ Pricing Area CSS
 .pricing-card {
   border-radius: 10px;
   border: 1px solid rgba(112, 156, 241, 0.25);
-  padding: 35px;
+  padding: 20px;
   transition: 0.6s;
   margin-bottom: 25px;
 }
@@ -19536,6 +19541,11 @@ Property Details Area CSS
 }
 .property-details-image-item img {
   border-radius: 5px;
+  max-width: 100%;
+  min-width: 100%;
+  max-height: 400px;
+  min-height: 400px;
+  object-fit: cover;
 }
 
 .property-details-image-slider {

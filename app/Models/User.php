@@ -42,6 +42,12 @@ class User extends Authenticatable
         'password',
         'owner_referral_code',
         'referral_code',
+        'slug',
+        'province',
+        'district',
+        'ward',
+        'introduction',
+        'pricing_plan_id',
 
         'active_flg',
         'delete_flg',
@@ -82,6 +88,11 @@ class User extends Authenticatable
     public function wallet()
     {
         return $this->hasOne(Wallet::class, 'user_id', 'user_id');
+    }
+
+    public function pricingPlan()
+    {
+        return $this->belongsTo(PricingPlan::class);
     }
 
     public function posts()

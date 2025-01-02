@@ -87,6 +87,12 @@ async function updatePost() {
 
         if (response.status == 200) {
             window.location.href = response.redirect;
+        }else{
+            if(response.type == 'unverified'){
+                askRedirect(response.redirect, 'warning', 'Tài khoản chưa xác thực', 'Xác thực', response.message);
+            }else if(response.type == 'balance_not_enough'){
+                askRedirect(response.redirect, 'warning', 'Số dư không đủ', 'Nạp tiền', response.message);
+            }
         }
     } catch (error) {
         if (error.status == 422) {

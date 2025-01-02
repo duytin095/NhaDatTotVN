@@ -1,8 +1,35 @@
 @extends('layout.user.index')
 @section('content')
     @include('components.user-breadcrumb', ['breadcrumbs' => $breadcrumbs])
+    <!-- Start Property Details Image Slider Area -->
+    <div class="property-details-image-slider-area pt-120">
+        <div class="container-fluid">
+            <div class="swiper property-details-image-slider">
+                <div class="swiper-wrapper align-items-center">
+                    {{-- @php
+                        $property_img_tmp = $property['property_images'][0];
+                        $property_imgs = array_merge($property['property_images'], [$property_img_tmp]);
+                    @endphp --}}
+                    @foreach ($property['property_images'] as $propertyImage)
+                        <div class="swiper-slide">
+                            <div class="property-details-image-item">
+                                <img src="{{ asset($propertyImage) }}" alt="">
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="property-details-button-prev">
+                    <i class="ri-arrow-left-s-line"></i>
+                </div>
+                <div class="property-details-button-next">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Property Details Image Slider Area -->
 
-    <div class="property-details-area ptb-120">
+    <div class="property-details-area with-extra-top ptb-120">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="property-details-desc">
@@ -48,15 +75,11 @@
                                     </ul>
                                     <ul class="group-info">
                                         <li>
-                                            {{-- <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                aria-label="Thêm vào yêu thích" data-bs-original-title="Thêm vào yêu thích">
-                                                <i class="ri-heart-line"></i>
-                                            </button> --}}
-
-                                            <button id="addToFavorites" onclick="addToFavorites({{ $property->property_id }})"
-                                                type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                aria-label="" data-bs-original-title={{ $property->favoritedBy->contains(Auth::guard('users')->user()) ? 'Xoá' : 'Thêm' }}>
-                                                <i class="heart-icon ri-heart-3-{{ $property->favoritedBy->contains(Auth::guard('users')->user()) ? 'fill' : 'line' }} {{  $property->favoritedBy->contains(Auth::guard('users')->user()) ? 'text-danger' : '' }}"
+                                            <button id="addToFavorites"
+                                                onclick="addToFavorites({{ $property->property_id }})" type="button"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" aria-label=""
+                                                data-bs-original-title={{ $property->favoritedBy->contains(Auth::guard('users')->user()) ? 'Xoá' : 'Thêm' }}>
+                                                <i class="heart-icon ri-heart-3-{{ $property->favoritedBy->contains(Auth::guard('users')->user()) ? 'fill' : 'line' }} {{ $property->favoritedBy->contains(Auth::guard('users')->user()) ? 'text-danger' : '' }}"
                                                     data-property-id="{{ $property->property_id }}">
                                                 </i>
                                             </button>
@@ -79,17 +102,20 @@
                                     <div class="price">{{ $property->formatted_price }} </div>
                                     <div class="user">
                                         @if ($property['seller']['user_avatar'] === null)
-                                            <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}" alt="user avatar">
+                                            <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}"
+                                                alt="user avatar">
                                         @else
-                                            <img src="{{ asset(json_decode($property['seller']['user_avatar'])) }}" alt="user avatar">
+                                            <img src="{{ asset(json_decode($property['seller']['user_avatar'])) }}"
+                                                alt="user avatar">
                                         @endif
-                                        <a href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
+                                        <a
+                                            href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="property-details-image">
+                    {{-- <div class="property-details-image">
                         <div class="row justify-content-center align-items-center">
                             <div class="col-lg-4 col-md-12">
                                 <div class="row justify-content-center">
@@ -108,7 +134,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="property-details-inner-content">
                         <div class="row justify-content-center">
                             <div class="col-xl-8 col-md-12">
@@ -312,6 +338,20 @@
                                     </div>
                                     <div style="width: 100%; height: 300px" id="map-container"></div>
                                 </div>
+                                <div>
+                                    <h4>Lưu ý</h4>
+                                    <div>
+                                        Bạn đang xem tin đăng
+                                        <b class="text-danger">
+                                            "{{ $property->property_name }}"
+                                        </b>
+                                        , có mã số #{{ $property->property_id }}, được đăng
+                                        <time>{{ $property->created_at }}</time>
+                                        . Thông tin rao vặt là do người đăng tin đăng tải toàn bộ thông tin. Chúng tôi hoàn
+                                        toàn không chịu trách nhiệm về bất cứ thông tin nào liên quan đến các thông tin này.
+                                        Hãy thông báo cho chúng tôi nếu tin này không hợp lệ.
+                                    </div>
+                                </div>
                             </div>
 
 
@@ -324,7 +364,10 @@
                                             <div class="swiper-wrapper">
                                                 @foreach ($featuredProperties as $featuredProperty)
                                                     <div class="swiper-slide">
-                                                        <x-property-listing :property="$featuredProperty" :columnSizes="['xl' => 12, 'md' => 12]" :isFavorite="$featuredProperty->favoritedBy->contains(Auth::guard('users')->user())"/>
+                                                        <x-property-listing :property="$featuredProperty" :columnSizes="['xl' => 12, 'md' => 12]"
+                                                            :isFavorite="$featuredProperty->favoritedBy->contains(
+                                                                Auth::guard('users')->user(),
+                                                            )" />
                                                     </div>
                                                 @endforeach
                                             </div>

@@ -1,4 +1,4 @@
-let checkRequestInterval; 
+let checkRequestInterval;
 $('#recharge').on('hide.bs.modal', function () {
     $('#amount').val('');
     $("#payment-methods").hide();
@@ -72,10 +72,10 @@ function counter(expiredAt) {
     new FlipDown(timestamp, {
         headings: ["Ngày", "Giờ", "Phút", "Giây"],
     })
-    .start()
-    .ifEnded(() => {
-        forceReload('warning', 'Giao dịch đã hết hạn, vui lòng thực hiện lại giao dịch khác.');
-    });
+        .start()
+        .ifEnded(() => {
+            cancelPendingPayment();
+        });
 }
 async function scheduleCheckPendingPayment() {
     try {
@@ -83,17 +83,31 @@ async function scheduleCheckPendingPayment() {
         if (response.status == 200) {
             window.location.reload();
         } else {
-            
+
         }
     } catch (error) {
         // console.log(error);
     }
 }
-function initTable(){
+
+async function cancelPendingPayment() {
+    try {
+        const response = await sendRequest(`${window.location.origin}/user/wallet/cancel-pending-payment`, 'POST');
+        if (response.status == 200) {
+            clearInterval(checkRequestInterval);
+            forceReload('warning', 'Giao dịch đã hết hạn, vui lòng thực hiện lại giao dịch khác.');
+        } else {
+
+        }
+    } catch (error) {
+        // console.log(error);
+    }
+}
+function initTable() {
     $('#transactions-table').DataTable({
         "ajax": {
             "url": "/user/wallet/transactions",
-            "dataSrc": function (json) {                
+            "dataSrc": function (json) {
                 return json.data;
             }
         },
@@ -116,16 +130,16 @@ function initTable(){
             {
                 "data": "status",
                 "render": function (data, type, row) {
-                    if (data == 0) {
-                        return "Đã hết hạn";
-                    } else if (data == 1) {
+                    if (data == TRANSACTION_PENDING) {
+                        return "Đang chờ thanh toán";
+                    } else if (data == TRANSACTION_SUCCESS) {
                         return "Thành công";
-                    } else {
-                        return "Trạng thái khác";
+                    } else if (data == TRANSACTION_FAILED) {
+                        return "Đã hết hạn";
                     }
                 }
             }
-        
+
         ],
         "ordering": true,
         "order": [[1, "desc"]],

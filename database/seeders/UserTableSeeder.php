@@ -24,6 +24,7 @@ class UserTableSeeder extends Seeder
                 'delete_flg' => '0',
                 'slug' => 'user-' . $index, 
                 'password' => bcrypt('1234'), // Use bcrypt to hash the password
+                'pricing_plan_id' => rand(0, 3),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
                 // ...

@@ -43,11 +43,19 @@ class DeductWalletBalance extends Command
     }
     public function deductBalance($user, $post)
     {
-        if($post['active_flg'] == ACTIVE){
-            $amount = 10;
+        $pricingPlan = $user->pricingPlan;
+        if($post['active_flg'] == 0){
+            $this->error("Post ID $post->id is not active");
+            return;
+        }
+        if ($pricingPlan) {
+            $amount = $pricingPlan->price;
             $user['wallet']['balance'] -= $amount;
             $user['wallet']->save();
             $this->info("Deducted $amount from user ID $user->user_id");
+        } else {
+            $this->error("User ID $user->user_id does not have a pricing plan");
+
         }
     }
 }

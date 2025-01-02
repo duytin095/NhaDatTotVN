@@ -69,6 +69,7 @@ class Property extends Model
         'property_video_type',
 
         // AUTO GEN
+        'property_views',
         'property_seller_id',
         'slug',
         'property_label',
@@ -95,6 +96,11 @@ class Property extends Model
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-m-Y');
+    }
+
+    public function getDiffForHumansAttribute()
+    {
+        return Carbon::parse($this->created_at)->locale('vi')->diffForHumans();
     }
 
     public function favoritedBy()

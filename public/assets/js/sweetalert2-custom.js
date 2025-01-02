@@ -95,6 +95,23 @@ function forceReload(icon = 'success', title = 'Thành công', text = 'Vui lòng
     })
 }
 
+function askRedirect(url, icon = '', title = '', confirmText = '', text = '') {
+    Swal.fire({
+        icon: icon,
+        title: title,
+        text: text,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: confirmText,
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Hủy',
+        allowOutsideClick: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = url;
+        }
+    })
+}
 if (document.getElementById('message_session_success')) {
     const message_session_success = document.getElementById('message_session_success').innerHTML;
     Swal.fire({

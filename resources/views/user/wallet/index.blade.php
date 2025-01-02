@@ -17,13 +17,93 @@
         <div class="container">
             <div class="profile-authentication-inner">
                 <div class="row justify-content-center">
-                    <div class="col-lg-12 col-md-12">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="properties-widget-area">
+                            <div class="widget widget_categories">
+                                <div class="d-flex align-items-center mb-3">
+                                    @if ($user->user_avatar == null)
+                                        <img src="{{ asset('assets/admin/img/freepik-avatar.jpg') }}"
+                                            style="object-fit: cover;" alt="image" class="me-3 rounded-circle"
+                                            width="50" height="50">
+                                    @else
+                                        <img src="{{ asset(json_decode($user->user_avatar)) }}"
+                                            style="max-width: 80px; max-height: 80px; min-width: 80px; min-height: 80px; object-fit: cover;"
+                                            alt="" class="me-3 rounded-circle">
+                                    @endif
+
+                                    <div>
+                                        <strong>{{ Auth::guard('users')->user()->user_name }}</strong>
+                                        <p>{{ Auth::guard('users')->user()->user_phone }}</p>
+                                    </div>
+                                </div>
+                                <ul class="list">
+                                    <li>
+                                        <a href="{{ route('user.posts.index') }}">Quản lý tin đăng</a>
+                                        <span>
+                                            <a href="{{ route('user.posts.index') }}">
+                                                <i class="ri-arrow-right-s-line"></i>
+                                            </a>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('user.posts.create') }}">Đăng tin mới</a>
+                                        <span>
+                                            <a href="{{ route('user.posts.create') }}">
+                                                <i class="ri-arrow-right-s-line"></i>
+                                            </a>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('user.agents.show', ['slug' => auth()->guard('users')->user()->slug]) }}">Trang cá nhân</a>
+                                        <span>
+                                            <a href="{{ route('user.agents.show', ['slug' => auth()->guard('users')->user()->slug]) }}">
+                                                <i class="ri-arrow-right-s-line"></i>
+                                            </a>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('user.profile.index') }}">Thông tin cá nhân</a>
+                                        <span>
+                                            <a href="{{ route('user.profile.index') }}">
+                                                <i class="ri-arrow-right-s-line"></i>
+                                            </a>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('user.profile.favorites') }}">Yêu thích</a>
+                                        <span>
+                                            <a href="{{ route('user.profile.favorites') }}">
+                                                <i class="ri-arrow-right-s-line"></i>
+                                            </a>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('user.profile.watched-posts') }}">Đã xem</a>
+                                        <span>
+                                            <a href="{{ route('user.profile.watched-posts') }}">
+                                                <i class="ri-arrow-right-s-line"></i>
+                                            </a>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('user.wallet.pricing') }}">Bảng giá</a>
+                                        <span>
+                                            <a href="{{ route('user.wallet.pricing') }}">
+                                                <i class="ri-arrow-right-s-line"></i>
+                                            </a>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
                         <div class="profile-authentication-box">
                             <div class="content">
                                 <h3>Số dư hiện tại</h3>
                                 <h1>{{ $wallet->balance }} VNĐ</h1>
                                 <input type="number" min="2000" step="1000" id="amount"
-                                    class="form-control mb-3">
+                                    class="form-control mb-3" placeholder="Nhập số tiền ">
                                 <button type="button" onclick="requestDeposit()" class="default-btn" id="recharge-btn"
                                     style="display: none; border: none">Nạp tiền</button>
                             </div>
@@ -97,29 +177,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                {{-- <table id="transactions-table" class="table table-striped">
-                                    <thead class="table-primary">
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Thời gian</th>
-                                            <th scope="col">Số tiền</th>
-                                            <th scope="col">Loại giao dịch</th>
-                                            <th scope="col">Trạng thái</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($walletBalanceChanges as $key => $change)
-                                            <tr>
-                                                <th scope="row">{{ $key + 1 }}</th>
-                                                <td>{{ $change->created_at }}</td>
-                                                <td>{{ $change->amount }} VNĐ</td>
-                                                <td>{{ $change->type == 1 ? 'Rút tiền' : 'Nạp tiền' }}</td>
-                                                <td class="{{ $change->status == 1 ? 'text-success' : 'text-danger' }}">
-                                                    {{ $change->status == 1 ? 'Đã thanh toán' : 'Hết hạn' }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table> --}}
                             </div>
                         </div>
                     </div>
@@ -129,6 +186,12 @@
     </div>
 @endsection
 @push('scripts')
+    <script> 
+        const TRANSACTION_SUCCESS = {{ $success }};
+        const TRANSACTION_FAILED = {{ $failed }};
+        const TRANSACTION_PENDING = {{ $pending }};
+    </script>
+
     <script src="https://pbutcher.uk/flipdown/js/flipdown/flipdown.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
     <script src="{{ asset('assets/user/js/wallet/wallet.js') }}"></script>

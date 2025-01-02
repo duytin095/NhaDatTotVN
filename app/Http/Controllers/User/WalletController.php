@@ -21,16 +21,37 @@ class WalletController extends Controller
     {
         $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
         $this->breadcrumbService->addCrumb('Ví tiền');
+
+        $pending = TRANSACTION_PENDING;
+        $success = TRANSACTION_SUCCESS;
+        $failed = TRANSACTION_FAILED;
+
         $wallet = Wallet::firstOrCreate(
             ['user_id' => auth()->id()],
             ['balance' => 0]
         );
-
         $walletBalanceChanges = $wallet->balanceChanges;
 
         return view('user.wallet.index')
+            ->with('pending', $pending)
+            ->with('success', $success)
+            ->with('failed', $failed)
             ->with('wallet', $wallet)
+            ->with('user', $wallet->user)
             ->with('walletBalanceChanges', $walletBalanceChanges)
+            ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
+    }
+
+    public function pricing()
+    {
+        $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
+        $this->breadcrumbService->addCrumb('Ví tiền', '/user/wallet');
+        $this->breadcrumbService->addCrumb('Bảng giá');
+
+        $wallet = auth()->user()->wallet;
+        return view('user.wallet.pricing-plan')
+            ->with('wallet', $wallet)
+            ->with('user', $wallet->user)
             ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
     }
 
@@ -39,7 +60,6 @@ class WalletController extends Controller
         try {
             $wallet = Wallet::where('user_id', auth()->id())->first();
             $walletBalanceChanges = $wallet->balanceChanges;
-
             return response()->json([
                 'status' => 200,
                 'data' => $walletBalanceChanges,
