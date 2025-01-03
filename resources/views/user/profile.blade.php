@@ -85,7 +85,7 @@
                                 </div>
                                 <div>
                                     <button style="color: black;" class="file-upload">
-                                        <input type="file" class="avatar-file-input">Chọn ảnh
+                                        <input type="file" class="avatar-file-input" accept=".png, .jpg, .jpeg">Chọn ảnh
                                     </button>
                                 </div>
                             </div>

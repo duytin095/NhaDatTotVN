@@ -87,7 +87,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <span>Phone:</span>
+                                    <span>Điện thoại:</span>
                                     <a href="#">+0123-4567-890</a>
                                 </li>
                             </ul>
