@@ -2,7 +2,7 @@
 
 use App\Helpers\Sepay;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\auth\AuthController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\AgentController;
@@ -13,7 +13,7 @@ use App\Http\Controllers\User\WatchedPostController;
 use App\Http\Controllers\Admin\Manage\NewsController;
 use App\Http\Controllers\Admin\Manage\TypeController;
 use App\Http\Controllers\Admin\Manage\UserController;
-use App\Http\Controllers\auth\PasswordResetController;
+use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\NewsTypeController;
 use App\Http\Controllers\Admin\Manage\PropertyController;
