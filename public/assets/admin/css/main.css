@@ -4098,6 +4098,8 @@ ul.recent-orders li .order-details span.order-date {
 .profile-header .profile-header-content .profile-avatar-tile img {
     border-radius: 4px;
     width: 180px;
+    min-height: 180px;
+    max-height: 180px;
 }
 
 @media screen and (max-width:768px) {

@@ -10,9 +10,9 @@
             <x-property-media :property="$property" />
             <ul class="group-info">
                 <li>
-                    <button id="addToFavorites" onclick="addToFavorites({{ $property->property_id }})"
-                        type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                        aria-label="" data-bs-original-title={{ $isFavorite ? 'Xoá' : 'Thêm' }}>
+                    <button id="addToFavorites" onclick="addToFavorites({{ $property->property_id }})" type="button"
+                        data-bs-toggle="tooltip" data-bs-placement="top" aria-label=""
+                        data-bs-original-title={{ $isFavorite ? 'Xoá' : 'Thêm' }}>
                         <i class="heart-icon ri-heart-3-{{ $isFavorite ? 'fill' : 'line' }} {{ $isFavorite ? 'text-danger' : '' }}"
                             data-property-id="{{ $property->property_id }}">
                         </i>
@@ -22,11 +22,27 @@
         </div>
         <div class="content">
             <h3>
-                <a class="property-title"
-                    href="{{ route('user.posts.show', $slug = $property['slug']) }}">{{ $property['property_name'] }}</a>
+                {{-- <a class="property-title"
+                    href="{{ route('user.posts.show', $slug = $property['slug']) }}">{{ $property['property_name'] }}</a> --}}
+                <a class="property-title 
+                    {{ $property['seller']['pricing_plan_id'] === VIP1 || $property['seller']['pricing_plan_id'] === VIP_DAC_BIET
+                        ? ' red-title'
+                        : ($property['seller']['pricing_plan_id'] === VIP2
+                            ? ' pink-title'
+                            : '') }}"
+                    href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">
+                    {{ $property['property_name'] }}
+                </a>
             </h3>
             <span>{{ $property['property_address'] }}</span>
-            <span>{{ $property['diff_for_humans'] }}</span>                    
+            <div style="display: flex; align-items: center;">
+                <span>{{ $property['diff_for_humans'] }}</span>
+                @if ($property['seller']['pricing_plan_id'] === VIP1 || $property['seller']['pricing_plan_id'] === VIP_DAC_BIET)
+                    <span class="bg-primary text-white p-1 rounded mx-2">
+                        <i class="ri-phone-line"></i> {{ $property['seller']['user_phone'] }}
+                    </span>
+                @endif
+            </div>
         </div>
         <ul class="info-list">
             <li>
@@ -46,7 +62,8 @@
                 @else
                     <img src="{{ asset(json_decode($property['seller']['user_avatar'], true)) }}" alt="image">
                 @endif
-                <a class="user-name" href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
+                <a class="user-name"
+                    href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
             </div>
         </div>
     </div>
@@ -54,3 +71,13 @@
 @push('scripts')
     <script src="{{ asset('assets/user/js/likePost.js') }}"></script>
 @endpush
+<style>
+    .red-title {
+        color: orangered;
+        text-transform: uppercase !important;
+    }
+
+    .pink-title {
+        color: deeppink;
+    }
+</style>

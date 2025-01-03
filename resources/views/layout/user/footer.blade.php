@@ -5,11 +5,11 @@
             <div class="col-xl-3 col-md-12">
                 <div class="single-footer-widget pe-3">
                     <div class="widget-logo">
-                        <a href="index.html">
-                            <img src="#" alt="logo2">
+                        <a href="{{ route('user.home.index') }}">
+                            <img src="{{ asset('assets/user/images/nhadattotvn_logo_light.png') }}" alt="logo">
                         </a>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, elit dollar consectetur adipiscing elit. Diam lectus purus ultricies neque.</p>
+                    <p>Nền tảng đăng tin, rao bán bất động sản tại Việt Nam.</p>
                     <div class="widget-social">
                         <a href="https://www.facebook.com/" target="_blank">
                             <i class="ri-facebook-fill"></i>
@@ -36,59 +36,59 @@
                 <div class="row justify-content-center" data-cues="slideInUp">
                     <div class="col-lg-3 col-sm-6">
                         <div class="single-footer-widget ps-3">
-                            <h3>Company</h3>
+                            <h3>Công ty</h3>
                             <ul class="custom-links">
-                                <li><a href="about-us.html">About Us</a></li>
-                                <li><a href="contact-us.html">Contact Us</a></li>
-                                <li><a href="customers-review.html">Our Reviews</a></li>
-                                <li><a href="terms-conditions.html">Terms & Conditions</a></li>
-                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                <li><a href="#">Về chúng tôi</a></li>
+                                <li><a href="#">Liên hệ</a></li>
+                                <li><a href="#">Câu hỏi thường gặp</a></li>
+                                <li><a href="#">Điều khoản</a></li>
+                                <li><a href="#">Chính sách</a></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
+                    {{-- <div class="col-lg-3 col-sm-6">
                         <div class="single-footer-widget ps-3">
-                            <h3>Resources</h3>
+                            <h3>Tài nguyên</h3>
                             <ul class="custom-links">
-                                <li><a href="property-grid.html">Apartments</a></li>
-                                <li><a href="property-grid.html">Villa</a></li>
-                                <li><a href="property-grid.html">Sell or Buy</a></li>
-                                <li><a href="property-grid.html">New Apartment</a></li>
-                                <li><a href="agents.html">Our Agents</a></li>
+                                <li><a href="#">Apartments</a></li>
+                                <li><a href="#">Villa</a></li>
+                                <li><a href="#">Sell or Buy</a></li>
+                                <li><a href="#">New Apartment</a></li>
+                                <li><a href="#">Our Agents</a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-3 col-sm-6">
                         <div class="single-footer-widget ps-3">
-                            <h3>Quick Links</h3>
+                            <h3>Lối tắt</h3>
                             <ul class="custom-links">
-                                <li><a href="pricing.html">Pricing</a></li>
-                                <li><a href="what-we-do.html">What We Do</a></li>
-                                <li><a href="customers-review.html">Testimonial</a></li>
-                                <li><a href="blog-grid.html">Blog</a></li>
-                                <li><a href="neighborhood.html">Neighborhood</a></li>
+                                <li><a href="#">Bảng giá</a></li>
+                                {{-- <li><a href="#">What We Do</a></li>
+                                <li><a href="#">Testimonial</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Neighborhood</a></li> --}}
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6">
                         <div class="single-footer-widget">
-                            <h3>Contact Info</h3>
+                            <h3>Thông tin liên hệ</h3>
                             <ul class="info-list">
                                 <li>
-                                    <span>Address:</span>
-                                    45/15 New alsala Avenew Booston town, Austria
+                                    <span>Địa chỉ:</span>
+                                    84 An Dương Vương, Phường 8, Quận 5, TP.HCM
                                 </li>
                                 <li>
                                     <span>Email:</span>
-                                    <a href="/cdn-cgi/l/email-protection#16656366667964625672737b793875797b"><span class="__cf_email__" data-cfemail="d0a3a5a0a0bfa2a490b4b5bdbffeb3bfbd">[email&#160;protected]</span></a>
+                                    <a href="/cdn-cgi/l/email-protection#16656366667964625672737b793875797b">
+                                        <span class="__cf_email__" data-cfemail="d0a3a5a0a0bfa2a490b4b5bdbffeb3bfbd">
+                                            lienhe@gmail.com
+                                        </span>
+                                    </a>
                                 </li>
                                 <li>
                                     <span>Phone:</span>
-                                    <a href="tel:00201068710594">+(002) 0106-8710-594</a>
-                                </li>
-                                <li>
-                                    <span>Fax:</span>
-                                    <a href="tel:01068710594">+0106-8710-594</a>
+                                    <a href="#">+0123-4567-890</a>
                                 </li>
                             </ul>
                         </div>
@@ -98,7 +98,7 @@
         </div>
         <div class="copyright-area">
             <p>
-                Copyright <span>Andora</span> All Rights Reserved by <a href="https://envytheme.com/" target="_blank">EnvyTheme</a>
+                Triển khai <span>Thương Hiệu Việt</span>
             </p>
         </div>
     </div>

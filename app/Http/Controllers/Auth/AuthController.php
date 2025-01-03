@@ -91,17 +91,26 @@ class AuthController extends Controller
             'password' => $request->input('password'),
         ];
 
-        if (!Auth::guard('admin')->attempt($credentials)) {
+        try {
+            if (!Auth::guard('admin')->attempt($credentials)) {
+                // dd(Auth::guard('admin')->attempt($credentials));
+                return response()->json([
+                    'status' => 401,
+                    'message' => 'Thông tin đăng nhập không chính xác ',
+                ]);
+            }else{
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Đăng nhập thành công',
+                    'redirect' => route('admin.users.index'),
+                ]);
+            }
+        } catch (\Throwable $th) {
             return response()->json([
-                'status' => 401,
-                'message' => 'Thông tin đăng nhập không chính xác ',
-            ], 401);
+                'status' => 500,
+                'message' => $th->getMessage(),
+            ]);
         }
-        return response()->json([
-            'status' => 200,
-            'message' => 'Đăng nhập thành công',
-            'redirect' => route('admin.users.index'),
-        ]);
     }
     public function onAdminLogout()
     {
@@ -110,14 +119,16 @@ class AuthController extends Controller
         return redirect(route('admin.login.show'));
     }
 
-    function displayAdminProfile(){
-        if(Auth::guard('admin')->check()){
+    function displayAdminProfile()
+    {
+        if (Auth::guard('admin')->check()) {
             $admin =  Admin::where('admin_id', auth('admin')->id())->first();
             return view('admin.profile', compact('admin'));
         }
         return view('admin.auth.login');
     }
-    function getAdminProfileInfomation(){
+    function getAdminProfileInfomation()
+    {
         try {
             $profile =  Admin::where('admin_id', auth('admin')->id())->first();
             return response()->json([
@@ -132,15 +143,17 @@ class AuthController extends Controller
         }
     }
 
-    function editAdminProfile(Request $request){
-        if(Auth::guard('admin')->check()){
+    function editAdminProfile(Request $request)
+    {
+        if (Auth::guard('admin')->check()) {
             $admin = Admin::where('admin_id', auth('admin')->id())->first();
             return view('admin.edit-profile', compact('admin'));
         }
         return view('admin.auth.login');
     }
 
-    function updateAdminProfile(Request $request){
+    function updateAdminProfile(Request $request)
+    {
         try {
             $request->validate([
                 'admin_name' => 'required',
@@ -292,7 +305,7 @@ class AuthController extends Controller
                 'status' => 400,
                 'message' => 'Thông tin đăng nhập không chính xác',
             ]);
-        }    
+        }
     }
     public function onUserLogout()
     {

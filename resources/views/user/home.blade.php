@@ -203,15 +203,13 @@
                 </div>
                 <div class="col-lg-5 col-md-12">
                     <div class="sell-content">
-                        <span class="sub">Unlocking Dreams, Opening Doors</span>
-                        <h2>Navigating Your Home Odyssey Your Sanctuary</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in.
-                            Pharetra iaculis consectetur augue venenatis enim adipiscing risus sit scelerisque. Id metus
-                            viverra tellus.</p>
+                        <span class="sub">Mở Cánh Cửa, Thả Giấc Mơ</span>
+                        <h2>Giới Thiệu Bất Động Sản Của Bạn</h2>
+                        <p></p>
                         <div class="inner">
-                            <h3>Sell Your Property</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare.</p>
-                            <a href="property-details.html" class="sell-btn">
+                            <h3>Đăng Tin Bán</h3>
+                            <p>Đăng tải tin bất động sản nhanh chóng</p>
+                            <a href="{{ route('user.posts.create') }}" class="sell-btn">
                                 <img src="{{ asset('assets/user/images/sell/arrow.svg') }}" alt="arrow">
                             </a>
                         </div>
@@ -228,15 +226,13 @@
                 <div class="col-lg-5 col-md-12" data-cue="slideInUp" data-show="true"
                     style="animation-name: slideInUp; animation-duration: 600ms; animation-timing-function: ease; animation-delay: 0ms; animation-direction: normal; animation-fill-mode: both;">
                     <div class="rent-content">
-                        <span class="sub">Beyond Brick and Mortar</span>
-                        <h2>Where Vision Meets Realty Crafting Your Perfect Home</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare venenatis, in.
-                            Pharetra iaculis consectetur augue venenatis enim adipiscing risus sit scelerisque. Id metus
-                            viverra tellus.</p>
+                        <span class="sub">Thuê Nhà Thuê Dễ Dàng</span>
+                        <h2>Tìm Ra Ngôi Nhà Phù Hợp Với Nhu Cầu</h2>
+                        <p></p>
                         <div class="inner">
-                            <h3>Rent A Home</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et mauris eget ornare.</p>
-                            <a href="property-details.html" class="rent-btn">
+                            <h3>Xem Tin Tức</h3>
+                            <p>Đi đến danh sách tin tức bất động sản mới nhất.</p>
+                            <a href="{{ route('user.news.index') }}" class="rent-btn">
                                 <img src="{{ asset('assets/user/images/sell/arrow.svg') }}" alt="arrow">
                             </a>
                         </div>

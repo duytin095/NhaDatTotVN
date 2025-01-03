@@ -43,9 +43,9 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end md" aria-labelledby="userSettings">
                         <div class="header-profile-actions">
-                            <a href="{{ route('admin.profile.show') }}"><i class="icon-user1"></i>Profile</a>
-                            <a href="{{ route('admin.profile.edit') }}"><i class="icon-settings1"></i>Settings</a>
-                            <a href="{{ route('admin.logout') }}"><i class="icon-log-out1"></i>Logout</a>
+                            <a href="{{ route('admin.profile.show') }}"><i class="icon-user1"></i>Hồ sơ</a>
+                            <a href="{{ route('admin.profile.edit') }}"><i class="icon-settings1"></i>Cài đặt</a>
+                            <a href="{{ route('admin.logout') }}"><i class="icon-log-out1"></i>Đăng xuất</a>
                         </div>
                     </div>
                 </li>

@@ -2,7 +2,7 @@
   <div class="responsive-navbar offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvas">
       <div class="offcanvas-header">
           <a href="index.html" class="logo d-inline-block">
-              <img src="#" alt="logo">
+              {{-- <img src="{{ asset('assets/user/images/nhadattotvn_logo_light.png') }}" alt="logo"> --}}
           </a>
           <button type="button" data-bs-dismiss="offcanvas" aria-label="Close" class="close-btn">
               <i class="ri-close-line"></i>

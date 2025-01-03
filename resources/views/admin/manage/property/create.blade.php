@@ -310,7 +310,6 @@
             // You can use AJAX or a form submission to send the coordinates
             $.ajax({
                 type: 'GET',
-                // url: '{{ route('admin.properties.store') }}',
                 url: 'https://nominatim.openstreetmap.org/reverse',
                 data: {
                     lat: lat,

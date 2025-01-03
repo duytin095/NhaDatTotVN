@@ -2,7 +2,7 @@
 
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ route('user.home.index') }}">
-            <img src="{{ asset('assets/user/images/logo.png') }}" alt="logo">
+            {{-- <img src="{{ asset('assets/user/images/logo.png') }}" alt="logo"> --}}
         </a>
         <button class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas">
             <span class="burger-menu">

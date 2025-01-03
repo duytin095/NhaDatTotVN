@@ -16,9 +16,9 @@ async function onAdminSignup() {
         const response = await sendRequest(`${window.location.origin}/admin/signup`, 'POST', data)
 
         if (response.status == 200) {
-            if (response.show_popup) {
-                sessionStorage.setItem('show_signup_popup', true);
-            }
+            // if (response.show_popup) {
+            //     sessionStorage.setItem('show_signup_popup', true);
+            // }
             window.location.href = response.redirect;
         }
     } catch (error) {
