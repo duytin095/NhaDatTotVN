@@ -103,7 +103,7 @@ class AuthController extends Controller
             'redirect' => route('admin.users.index'),
         ]);
     }
-    public function onAdminLogout(Request $request)
+    public function onAdminLogout()
     {
         // Cookie::queue(Cookie::forget('remember_token_admin_vanchuyen_' . Auth::guard('admin')->user()->admin_id));
         Auth::guard('admin')->logout();
@@ -192,15 +192,15 @@ class AuthController extends Controller
     {
         $request->validate([
             'user_name' => 'required',
-            'user_email' => 'required|email:filter|unique:users',
+            'email' => 'required|email:filter|unique:users',
             'user_phone' => 'required|min:10|unique:users',
             'password' => 'required',
             'confirm_password' => 'required|same:password'
         ], [
             'user_name.required' => 'Tên không được để trống',
-            'user_email.required' => 'Email không được để trống',
-            'user_email.email' => 'Email không hợp lệ',
-            'user_email.unique' => 'Email đã tồn tại',
+            'email.required' => 'Email không được để trống',
+            'email.email' => 'Email không hợp lệ',
+            'email.unique' => 'Email đã tồn tại',
             'user_phone.required' => 'Nhập số điện thoại',
             'user_phone.min' => 'Số điện thoại không hợp lệ',
             'user_phone.unique' => 'Số điện thoại đã tồn tại',
@@ -212,7 +212,7 @@ class AuthController extends Controller
             DB::beginTransaction();
             User::create([
                 'user_name' => $request->input('user_name'),
-                'email' => $request->input('user_email'),
+                'email' => $request->input('email'),
                 'user_phone' => $request->input('user_phone'),
                 'password' => bcrypt($request->input('password')),
                 'owner_referral_code' => 'NDT' . (1000 + User::orderByDesc('user_id')->value('user_id')),
@@ -274,7 +274,7 @@ class AuthController extends Controller
 
         $user = User::where('user_phone', $credentials['user_phone'])->first();
 
-        if (!$user || $user->active_flg == INACTIVE) {
+        if ($user && $user->active_flg == INACTIVE) {
             return response()->json([
                 'status' => 400,
                 'message' => 'Tài khoản của bạn đã bị khóa',

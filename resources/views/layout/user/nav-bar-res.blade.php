@@ -67,7 +67,7 @@
                   <div class="accordion-item">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                           data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                          {{ auth()->guard('users')->user()->user_name }}
+                          <p class="user-name">{{ auth()->guard('users')->user()->user_name }}</p>
                       </button>
                       <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#navbarAccordion">
                           <div class="accordion-body">

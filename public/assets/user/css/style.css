@@ -18141,6 +18141,13 @@ Contact Area CSS
   padding: 45px 35px;
   border-radius: 5px;
 }
+
+.warning-form {
+  background-color: #F2D8D8;
+  padding: 45px 35px;
+  border-radius: 5px;
+}
+
 .contact-wrap-form h3, .contact-wrap-form .h3 {
   font-size: 20px;
   font-weight: 600;
@@ -23114,6 +23121,10 @@ Footer Area CSS
 }
 .footer-area.dre-footer .copyright-area p a::before {
   background-color: #84ED00;
+}
+
+.user-name{
+  text-transform: capitalize;
 }
 
 /* End "Residential Real Estate Demo" & "Development Real Estate Demo" Style CSS

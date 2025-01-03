@@ -1,6 +1,6 @@
 $(document).ready(function () {
     if (isJustSignup()) {
-        showMessage('Success!', 'Đăng ký thành công', 'success');
+        showMessage('Đăng ký thành công');
         sessionStorage.removeItem('show_signup_popup');
     }
 });

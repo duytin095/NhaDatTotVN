@@ -10,7 +10,7 @@ async function onUserSignup(){
         let data = {
             user_name: $('[name="user_name"]').val(),
             user_phone: $('[name="user_phone"]').val(),
-            user_email: $('[name="user_email"]').val(),
+            email: $('[name="user_email"]').val(),
             password: $('[name="password"]').val(),
             confirm_password: $('[name="confirm_password"]').val(),
             referral_code: $('[name="referral_code"]').val()

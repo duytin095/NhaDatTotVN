@@ -48,6 +48,7 @@ class User extends Authenticatable
         'ward',
         'introduction',
         'pricing_plan_id',
+        'verified',
 
         'active_flg',
         'delete_flg',

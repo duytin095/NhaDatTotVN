@@ -5,13 +5,29 @@
     <div class="contact-area ptb-120">
         <div class="container">
             <div class="row justify-content-center" data-cues="slideInUp">
+                {{-- @if ($user->verified == 0)
+                    <div class="col-lg-12 col-md-7 mb-2">
+                        <div class="warning-form">
+                            <div class="alert alert-warning" role="alert">
+                                <h4 class="alert-heading">Tài khoản chưa xác thực</h4>
+                                <p>Tài khoản của bạn chưa được xác thực, bạn chỉ có thể đăng tối đa <strong>{{ $retrictPostQuantity }}</strong> tin và
+                                    bị hạn chế nhiều tính năng khác. Xem hướng dẫn xác thực
+                                    <strong><a href="#" target="_blank">tại đây.</a> </strong>
+                                </p>
+                                <p>Sau khi xác thực, tài khoản của bạn được phép đăng tin không giới hạn số lượng.</p>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                @endif --}}
                 <div class="col-lg-12 col-md-7">
                     <div class="contact-wrap-form">
                         <h3>Thông tin cá nhân</h3>
                         <form>
                             <div class="form-group">
                                 <label>Số điện thoại</label>
-                                <input type="phone" value="{{ $user->user_phone }}" class="form-control" readonly disabled>
+                                <input type="phone" value="{{ $user->user_phone }}" class="form-control" readonly
+                                    disabled>
                                 <div class="icon">
                                     <i class="ri-phone-line"></i>
                                 </div>
@@ -29,7 +45,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="email" name="user_email" value="{{ $user->email }}" class="form-control" readonly disabled>
+                                <input type="email" name="user_email" value="{{ $user->email }}" class="form-control"
+                                    readonly disabled>
                                 <div class="icon">
                                     <i class="ri-mail-line"></i>
                                 </div>
@@ -48,7 +65,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Địa chỉ</label>
-                                <input type="text" name="user_address" value="{{ $user->user_address }}" class="form-control" placeholder="Địa chỉ">
+                                <input type="text" name="user_address" value="{{ $user->user_address }}"
+                                    class="form-control" placeholder="Địa chỉ">
                                 <div class="icon">
                                     <i class="ri-map-line"></i>
                                 </div>
@@ -72,7 +90,8 @@
                                 </div>
                             </div>
                             <div class="contact-btn">
-                                <button type="button" id="edit-profile-submit-btn" class="default-btn">Hoàn tất và lưu thông tin</button>
+                                <button type="button" id="edit-profile-submit-btn" class="default-btn">Hoàn tất và lưu
+                                    thông tin</button>
                             </div>
                         </form>
                     </div>
@@ -85,9 +104,11 @@
 @push('scripts')
     <script>
         var userData = @json($user);
-        var province_id = userData.province, district_id = userData.district, ward_id = userData.ward;
+        var province_id = userData.province,
+            district_id = userData.district,
+            ward_id = userData.ward;
         const user_id = userData.user_id;
-        const avatar = userData.user_avatar;        
+        const avatar = userData.user_avatar;
     </script>
     <script src="{{ asset('assets/user/js/auth/edit-profile.js') }}"></script>
 @endpush

@@ -22,7 +22,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Mật khẩu</label>
-                                <input type="password" name="password" class="form-control" placeholder="">
+                                <input type="password" name="password" class="form-control" placeholder="Mật khẩu">
                                 <div class="icon">
                                     <i class="ri-lock-line"></i>
                                 </div>

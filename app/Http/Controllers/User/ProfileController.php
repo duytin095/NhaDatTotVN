@@ -27,6 +27,7 @@ class ProfileController extends Controller
             return view('user.profile', [
                 'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs(),
                 'user' => $user,
+                'retrictPostQuantity' => RETRICT_POST_QUANTITY,
             ]);
         } catch (\Throwable $th) {
             config('app.debug') ? response()->json($th->getMessage()) : abort(404);
@@ -38,13 +39,6 @@ class ProfileController extends Controller
      */
     public function update(Request $request, string $id)
     {
-    //     dd($request->input('user_name'), 
-    //    $request->input('user_address'), 
-    //    $request->input('province'), 
-    //    $request->input('district'), 
-    //    $request->input('ward'), 
-    //    $request->input('user_introduction'),
-    //    $request->file('image'));
         try {
             DB::beginTransaction();
             $user = User::findOrFail($id);

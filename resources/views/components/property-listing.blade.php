@@ -81,15 +81,24 @@
                 <div class="title">
                     <h3>
                         <a class="property-title 
-                            {{ $property['seller']['pricing_plan_id'] === VIP1 || $property['seller']['pricing_plan_id'] === VIP_DAC_BIET ? 
-                            ' red-title' : ($property['seller']['pricing_plan_id'] === VIP2 ? 
-                            ' pink-title' : '') }}"
+                            {{ $property['seller']['pricing_plan_id'] === VIP1 || $property['seller']['pricing_plan_id'] === VIP_DAC_BIET
+                                ? ' red-title'
+                                : ($property['seller']['pricing_plan_id'] === VIP2
+                                    ? ' pink-title'
+                                    : '') }}"
                             href="{{ route('user.posts.show', ['slug' => $property->slug]) }}">
                             {{ $property['property_name'] }}
                         </a>
                     </h3>
                     <span>{{ $property['property_address'] }}</span>
-                    <span>{{ $property['diff_for_humans'] }}</span>
+                    <div style="display: flex; align-items: center;">
+                        <span>{{ $property['diff_for_humans'] }}</span>
+                        @if ($property['seller']['pricing_plan_id'] === VIP1 || $property['seller']['pricing_plan_id'] === VIP_DAC_BIET)
+                            <span class="bg-primary text-white p-1 rounded mx-2">
+                                <i class="ri-phone-line"></i> {{ $property['seller']['user_phone'] }}
+                            </span>
+                        @endif
+                    </div>
                 </div>
                 <div class="price">
                     {{ $property->getFormattedPriceAttribute(true) }}
@@ -102,13 +111,10 @@
                     @else
                         <img src="{{ asset(json_decode($property['seller']['user_avatar'], true)) }}" alt="image">
                     @endif
-                    <a href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
-                    @if ($property['seller']['pricing_plan_id'] === VIP1 || $property['seller']['pricing_plan_id'] === VIP_DAC_BIET)
-                        <span class="bg-primary text-white p-1 rounded mx-2">
-                            <i class="ri-phone-line"></i> {{ $property['seller']['user_phone'] }}
-                        </span>
-                    @endif
+                    <a class="user-name"
+                        href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
                 </div>
+
                 <ul class="group-info">
                     <li>
                         <button id="addToFavorites" onclick="addToFavorites({{ $property->property_id }})"

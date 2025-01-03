@@ -46,7 +46,7 @@
                 @else
                     <img src="{{ asset(json_decode($property['seller']['user_avatar'], true)) }}" alt="image">
                 @endif
-                <a href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
+                <a class="user-name" href="{{ route('user.agents.show', $property['seller']['slug']) }}">{{ $property['seller']['user_name'] }}</a>
             </div>
         </div>
     </div>

@@ -67,7 +67,7 @@
 
                 @if (auth()->check())
                     <li class="nav-item">
-                        <a href="{{ route('user.profile.index') }}" class="nav-link">
+                        <a href="{{ route('user.profile.index') }}" class="nav-link user-name">
                             {{ auth()->guard('users')->user()->user_name }}
                             <i class="ri-arrow-down-s-line"></i>
                         </a>

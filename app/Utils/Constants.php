@@ -38,6 +38,8 @@ const VIP2 = 1;
 const VIP1 = 2;
 const VIP_DAC_BIET = 3;
 
+const RETRICT_POST_QUANTITY = 10;
+
 const EXPRIRED_MINUTES = 30; // minutes
 
 const POST_FEE = 2000;

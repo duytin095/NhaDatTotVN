@@ -15,14 +15,14 @@
                             @csrf
                             <div class="form-group">
                                 <label>Tên</label>
-                                <input type="text" name="user_name" class="form-control" placeholder="Nhập tên">
+                                <input type="text" name="user_name" class="form-control" placeholder="Nhập tên" maxlength="16">
                                 <div class="icon">
                                     <i class="ri-user-3-line"></i>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Số điện thoại</label>
-                                <input type="number" name="user_phone" class="form-control" placeholder="Nhập số điện thoại">
+                                <input type="number" name="user_phone" class="form-control" placeholder="Nhập số điện thoại" maxlength="10">
                                 <div class="icon">
                                     <i class="ri-phone-line"></i>
                                 </div>
