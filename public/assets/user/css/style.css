@@ -13874,6 +13874,7 @@ Category Area CSS
   max-height: 90px;
   min-width: 90px;
   object-fit: cover;
+  border-radius: 45px;
 }
 .category-card .content {
   margin-left: 15px;

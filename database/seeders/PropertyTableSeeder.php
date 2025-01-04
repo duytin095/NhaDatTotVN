@@ -30,7 +30,22 @@ class PropertyTableSeeder extends Seeder
             // Add more video types and links as needed
         ];
 
-        $description = 'Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin quis bibendum auctor, nisilit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu. Gravida nibh vel velit auctor aliquet. Aenean sollicitudin quis bibendum auctor, nisilit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi acnec tellus a odio tincidunt auctor a ornare odio.';
+        $description = '
+        Nhiều nhà đầu tư lựa chọn "đánh bắt xa bờ", tức là đầu tư sản phẩm bất động sản tại các tỉnh, thành khác, thậm chí quốc gia khác để đa dạng hóa danh mục đầu tư. Theo Entrepreneur, nhà đầu tư cần lưu ý một số điều trước khi xuống tiền đầu tư theo cách này.
+Bán đẩt 5500m2 đất sào thổ cư đất tại Xã Vĩnh Thanh, Huyện Nhơn Trạch, Đồng Nai.
+BÁN KÍNH 1KM QUAY ĐẦU ĐẦY ĐỦ TIỆN ÍCH.
+- Sát Cảng Vùng 2 Hải Quân Nhân Dân Việt Nam.
+- Xung Quanh là KCN, TT UBND xã, Trường, Chợ,.....
+- Cách DT769 thông thương HL13 kết nối các khu và tiện ích, khu CN lân cận.
+- DT: 65x95m (khoảng 5500m². toàn bộ diện tích đã chuyển đổi Thổ Cư).
+- Đường nhựa thông thương trục chính 12m
+- Tổng 05 sổ Hồng cá nhân.
+- Tại X.Vĩnh Thanh, Nhơn Trạch. Đồng Nai.
+- Pháp lý : công chứng ngay
+- Giá bán : 50 tỷ. (Giá cũ là 60 tỷ)
+- Kính chào quý nhà đầu tư tham quan và sở hữu bất động sản pháp lý và vị trí siêu đầu tư trong năm 2024.
+- Quý nhà đầu tư cần thêm thông tin chi tiết xin vui lòng liên hệ em.
+Xin càm ơn!        ';
         $data = [];
 
         for ($i = 0; $i < 100; $i++) {
@@ -63,7 +78,8 @@ class PropertyTableSeeder extends Seeder
             $propertyVideoType = rand(0, count($videoLinks) - 1); // Generate a random video type
             $data[] = [
                 'property_type_id' => rand(1, 20),
-                'property_name' => 'Get the most '. ($i + 1) . ' out of Codeium by going through our interactive tutorial',
+                'property_name' => 'Bán đẩt 5500m2 đất sào thổ cư đất tại Xã Vĩnh Thanh, Huyện Nhơn Trạch, Đồng Nai Giá: 50 tỷ.',
+
                 'property_description' => $description,
                 // 'property_image' => json_encode($randomImages),
                 'property_image' => json_encode($watermarkedImages),

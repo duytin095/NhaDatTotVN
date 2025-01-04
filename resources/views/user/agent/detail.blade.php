@@ -94,7 +94,7 @@
                                     @else
                                         <p>{{ $agent['user_introduction'] }}</p>
                                     @endif
-                                    <ul class="list">
+                                    {{-- <ul class="list">
                                         <li>
                                             <h4>Kinh nghiệm</h4>
                                         </li>
@@ -117,7 +117,7 @@
                                         <li>Takimata sanctus est sed diam nonumy eirmod tempor invidunt</li>
                                         <li>Labore et dolore magna aliquyam erat, sed diam voluptua.</li>
                                         <li>Stet clita kasd gubergren, no sea takimata sanctus.</li>
-                                    </ul>
+                                    </ul> --}}
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="property" role="tabpanel">
