@@ -53,15 +53,15 @@
                             </div>
                             <div class="form-group form-control">
                                 <label>Tỉnh/Thành phố</label>
-                                <select name="provinces" class="area-select-matcher" style="width: 100%;"></select>
+                                <select name="provinces" class="area-select-matcher form-select" style="width: 100%;"></select>
                             </div>
                             <div class="form-group form-control">
                                 <label>Quận/Huyện</label>
-                                <select name="districts" class="area-select-matcher" style="width: 100%;"></select>
+                                <select name="districts" class="area-select-matcher form-select" style="width: 100%;"></select>
                             </div>
                             <div class="form-group form-control">
                                 <label>Phường/Xã</label>
-                                <select name="wards" class="area-select-matcher" style="width: 100%;"></select>
+                                <select name="wards" class="area-select-matcher form-select" style="width: 100%;"></select>
                             </div>
                             <div class="form-group">
                                 <label>Địa chỉ</label>

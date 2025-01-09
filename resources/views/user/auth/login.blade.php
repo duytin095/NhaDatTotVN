@@ -14,7 +14,7 @@
                             @csrf
                             <div class="form-group">
                                 <label>Số điện thoại</label>
-                                <input type="number" name="user_phone" class="form-control"
+                                <input type="tel" name="user_phone" class="form-control" maxlength="10"
                                     placeholder="Nhập số điện thoại">
                                 <div class="icon">
                                     <i class="ri-phone-line"></i>

@@ -25,8 +25,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get('/login', 'displayAdminLogin')->name('login.show');
         Route::post('/login', 'onAdminLogin')->name('login.store');
 
-        Route::get('/signup', 'displayAdminSignup')->name('signup.show');
-        Route::post('/signup', 'onAdminSignup')->name('signup.store');
+        // Route::get('/signup', 'displayAdminSignup')->name('signup.show');
+        // Route::post('/signup', 'onAdminSignup')->name('signup.store');
         
 
     });

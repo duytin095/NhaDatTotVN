@@ -14,11 +14,8 @@
                             <span></span>
                         </div>
                         <div class="about-desc">
-                           Trang quản lý Nhà Đất Tốt VN,
+                            Trang quản lý Nhà Đất Tốt VN,
                         </div>
-                        {{-- <a href="#" class="know-more">Know More <img src="{{ asset('assets/admin/img/right-arrow.svg') }}"
-                                alt="Uni Pro Admin"></a> --}}
-
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
@@ -40,12 +37,13 @@
                                     </div>
                                     <div class="actions">
                                         {{-- <a href="forgot-password.html">Quên mật khẩu?</a> --}}
-                                        <button type="button" onclick="onAdminLogin()" class="btn btn-primary">Đăng nhập</button>
+                                        <button type="button" onclick="onAdminLogin()" class="btn btn-primary">Đăng
+                                            nhập</button>
                                     </div>
                                 </div>
-                                <div class="login-footer">
+                                {{-- <div class="login-footer">
 									<span class="additional-link">Chưa có tài khoản? <a href="{{route('admin.signup.show')}}" class="btn btn-light">Đăng ký</a></span>
-								</div>
+								</div> --}}
                             </div>
                         </form>
                     </div>

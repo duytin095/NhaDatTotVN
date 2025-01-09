@@ -134,9 +134,9 @@ function initDataTable() {
                 "data": null,
                 "render": function (row) {                    
                     if(row.active_flg == ACTIVE)                        
-                        return "<button onclick='openUpdateModal("+JSON.stringify(row)+")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-secondary'>Ẩn</button>";
+                        return "<button onclick='activeType("+ row.property_type_id +")' class='btn btn-secondary'>Ẩn</button>";
                     else{
-                        return "<button onclick='openUpdateModal("+JSON.stringify(row)+")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-success'>Hiện</button>";
+                        return "<button onclick='activeType("+ row.property_type_id +")' class='btn btn-success'>Hiện</button>";
                     }
                 },
                 "width": "20%",

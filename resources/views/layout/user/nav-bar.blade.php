@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a href="{{ route('user.home.index') }}" class="dropdown-toggle nav-link active">
+                    <a href="{{ route('user.home.index') }}" class="dropdown-toggle nav-link {{ Request::is('user/home') ? 'active' : '' }}">
                         Trang chủ
                     </a>
                 </li>
@@ -32,15 +32,15 @@
                     @endphp
                     <li class="nav-item">
                         <a href="{{ route('user.posts.show-by-type', ['slug' => $purposeSlug]) }}"
-                            class="dropdown-toggle nav-link">
-                            {{ App\Models\Type::where('property_purpose_id', $purposeId)->first()->getPurposeNameAttribute() }}
-                            <i class="ri-arrow-down-s-line"></i>
-                        </a>
+                            class="dropdown-toggle nav-link {{ request()->segment(2) == 'posts-by-type' && request()->segment(3) == $purposeSlug ? 'active' : '' }}">
+                             {{ App\Models\Type::where('property_purpose_id', $purposeId)->first()->getPurposeNameAttribute() }}
+                             <i class="ri-arrow-down-s-line"></i>
+                         </a>
                         <ul class="dropdown-menu">
                             @foreach (App\Models\Type::where('property_purpose_id', $purposeId)->get() as $type)
                                 <li class="nav-item">
                                     <a href="{{ route('user.posts.show-by-type', ['slug' => $type->slug]) }}"
-                                        class="nav-link">
+                                        class="nav-link {{ Request::is('user/posts-by-type' . '/' . $type->slug) ? 'active' : '' }}">
                                         {{ $type->property_type_name }}
                                     </a>
                                 </li>

@@ -9,7 +9,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="field-wrapper">
                         <div class="input-group">
-                            <input name="name" type="text" class="form-control"
+                            <input name="name" type="text" class="form-control" maxlength="28"
                                 placeholder="Nhập họ tên">
                         </div>
                         <div class="field-placeholder">Họ tên<span class="text-danger">*</span></div>
@@ -18,7 +18,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="field-wrapper">
                         <div class="input-group">
-                            <input name="phone" type="text" class="form-control"
+                            <input name="phone" type="tel" class="form-control" maxlength="10"
                                 placeholder="Nhập số điện thoại">
                         </div>
                         <div class="field-placeholder">Số điện thoại<span class="text-danger">*</span></div>

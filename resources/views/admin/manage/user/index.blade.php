@@ -11,7 +11,7 @@
                         <table id="user-table" class="table custom-table">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th>Ảnh</th>
                                     <th>Tên người dùng</th>
                                     <th>Số điện thoại</th>
                                     <th>Email</th>
@@ -20,19 +20,17 @@
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    @endsection
-    @push('scripts')
-        <script>
-            const ACTIVE = {{ $active_flg }};
-        </script>
-        <script src="{{ asset('assets/admin/js/manage/user/user.js') }}"></script>
-    @endpush
+@endsection
+@push('scripts')
+    <script>
+        const ACTIVE = {{ $active_flg }};
+    </script>
+    <script src="{{ asset('assets/admin/js/manage/user/user.js') }}"></script>
+@endpush
