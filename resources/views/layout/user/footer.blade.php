@@ -46,27 +46,11 @@
                             </ul>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-3 col-sm-6">
-                        <div class="single-footer-widget ps-3">
-                            <h3>Tài nguyên</h3>
-                            <ul class="custom-links">
-                                <li><a href="#">Apartments</a></li>
-                                <li><a href="#">Villa</a></li>
-                                <li><a href="#">Sell or Buy</a></li>
-                                <li><a href="#">New Apartment</a></li>
-                                <li><a href="#">Our Agents</a></li>
-                            </ul>
-                        </div>
-                    </div> --}}
                     <div class="col-lg-3 col-sm-6">
                         <div class="single-footer-widget ps-3">
                             <h3>Lối tắt</h3>
                             <ul class="custom-links">
-                                <li><a href="#">Bảng giá</a></li>
-                                {{-- <li><a href="#">What We Do</a></li>
-                                <li><a href="#">Testimonial</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Neighborhood</a></li> --}}
+                                <li><a href="{{ route('user.wallet.pricing') }}">Bảng giá</a></li>
                             </ul>
                         </div>
                     </div>

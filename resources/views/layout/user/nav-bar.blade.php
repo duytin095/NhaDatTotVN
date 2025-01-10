@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a href="{{ route('user.home.index') }}" class="dropdown-toggle nav-link {{ Request::is('user/home') ? 'active' : '' }}">
+                    <a href="{{ route('user.home.index') }}" class="nav-link {{ Request::is('user/home') ? 'active' : '' }}">
                         Trang chủ
                     </a>
                 </li>
@@ -22,6 +22,7 @@
                 @php
                     $purposes = App\Models\Type::distinct('property_purpose_id')->pluck('property_purpose_id');
                     $news_types = App\Models\NewsType::where('active_flg', 0)->get();
+
                 @endphp
 
                 @foreach ($purposes as $purposeId)
@@ -50,7 +51,7 @@
                 @endforeach
 
                 <li class="nav-item">
-                    <a href="{{ route('user.news.index') }}" class="nav-link">
+                    <a href="{{ route('user.news.index') }}" class="nav-link {{ Request::is('user/news') ? 'active' : '' }}">
                         Tin tức <i class="ri-arrow-down-s-line"></i>
                     </a>
                     <ul class="dropdown-menu">
@@ -63,6 +64,11 @@
                             </li>
                         @endforeach
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('user.wallet.pricing') }}" class="nav-link {{ Request::is('user/wallet/pricing') ? 'active' : '' }}">
+                        Bảng giá
+                    </a>
                 </li>
 
                 @if (auth()->check())

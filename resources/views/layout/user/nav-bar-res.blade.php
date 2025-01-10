@@ -63,6 +63,13 @@
                   </div>
               </div>
 
+              <div class="accordion-item">
+                  <a class="accordion-button active" href="{{ route('user.wallet.pricing') }}">
+                        Bảng giá
+                  </a>
+              </div>
+
+
               @if (auth()->check())
                   <div class="accordion-item">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -89,10 +96,10 @@
                                       </a>
                                   </div>
                                   <div class="accordion-item">
-                                    <a href="{{ route('user.wallet.index') }}" class="accordion-link">
-                                        Ví tiền
-                                    </a>
-                                </div>
+                                      <a href="{{ route('user.wallet.index') }}" class="accordion-link">
+                                          Ví tiền
+                                      </a>
+                                  </div>
                                   <div class="accordion-item">
                                       <a href="{{ route('user.profile.favorites') }}" class="accordion-link">
                                           Yêu thích

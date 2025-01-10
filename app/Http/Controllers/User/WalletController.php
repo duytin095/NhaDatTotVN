@@ -48,10 +48,7 @@ class WalletController extends Controller
         $this->breadcrumbService->addCrumb('Ví tiền', '/user/wallet');
         $this->breadcrumbService->addCrumb('Bảng giá');
 
-        $wallet = auth()->user()->wallet;
         return view('user.wallet.pricing-plan')
-            ->with('wallet', $wallet)
-            ->with('user', $wallet->user)
             ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
     }
 

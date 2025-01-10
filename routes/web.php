@@ -119,6 +119,8 @@ Route::name('user.')->prefix('user')->group(function () {
 
     Route::get      ('/agents', [AgentController::class, 'index'])->name('agents.index');
     Route::get      ('/agents/{slug}', [AgentController::class, 'show'])->name('agents.show');
+
+    Route::get      ('/wallet/pricing', [WalletController::class, 'pricing'])->name('wallet.pricing');
          
 
     Route::middleware(['users.auth'])->group(function () {
@@ -137,7 +139,6 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::get      ('/wallet/schedule-check-pending-payment', [SePayController::class, 'scheduleCheckPendingPayment'])->name('wallet.schedule-check-pending-payment');
         Route::post     ('/wallet/cancel-pending-payment', [SepayController::class, 'cancelPendingPayment'])->name('wallet.cancel-pending-payment');
         Route::get      ('/wallet/transactions', [WalletController::class, 'get'])->name('wallet.transactions');
-        Route::get      ('/wallet/pricing', [WalletController::class, 'pricing'])->name('wallet.pricing');
 
         // TIN DANG
         Route::get      ('/posts', [PostController::class, 'index'])->name('posts.index');

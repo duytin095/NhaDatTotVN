@@ -1,11 +1,6 @@
 <?php
 
 return [
-    // 'property-purposes' => [
-    //     FOR_SELL => 'Bán',
-    //     FOR_RENT => 'Cho thuê',
-    //     FOR_INVEST => 'Dự án',
-    // ],
     'property-purposes' => [
         FOR_SELL => [
             'name' => 'Bán',
