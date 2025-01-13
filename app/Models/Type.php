@@ -35,6 +35,7 @@ class Type extends Model
         $properties = $this->hasMany(Property::class, 'property_type_id', 'property_type_id');
         return $properties;    
     }
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-m-Y');

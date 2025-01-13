@@ -26,38 +26,6 @@ class TypeController extends Controller
         }
     }
 
-    // public function getTypes(Request $request)
-    // {
-    //     try {
-    //         $page = $request->input('page', 1); // default to page 1 if not provided
-    //         $types = Type::orderByDesc('created_at')->paginate(10, ['*'], 'page', $page);
-
-    //         $propertyPurposes = config('constants.property-basic-info.property-purposes');
-
-    //         $types->transform(function ($type) use ($propertyPurposes) {
-    //             $type->property_purpose_name = $propertyPurposes[$type->property_purpose_id]['name'];
-    //             return $type;
-    //         });
-
-    //         return response()->json([
-    //             'status' => 200,
-    //             'types' => $types,
-    //             'paginate' => [
-    //                 'total' => $types->total(),
-    //                 'per_page' => $types->perPage(),
-    //                 'current_page' => $types->currentPage(),
-    //                 'last_page' => $types->lastPage(),
-    //                 'from' => $types->firstItem(),
-    //                 'to' => $types->lastItem(),
-    //                 // 'links' => $types->links()->toHtml(),
-    //                 'links' => $this->getPaginationLinks($types)
-    //             ],
-    //         ]);
-    //     } catch (\Throwable $th) {
-    //         return ApiResponse::errorResponse($th);
-    //     }
-    // }
-
     public function get()
     {
         try {

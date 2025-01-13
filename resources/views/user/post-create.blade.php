@@ -134,8 +134,8 @@
                             <label>Pháp lý</label>
                             <select name="legal" class="form-select form-control">
                                 <option value="0" selected >Giấy tờ pháp lý</option>
-                                @foreach ($legals as $key => $legal)
-                                    <option value="{{ $key }}"> {{ $legal }}</option>
+                                @foreach ($legals as $legal)
+                                    <option value="{{ $legal['id'] }}"> {{ $legal['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -32,15 +32,7 @@ return [
         NORTH_WEST => 'Tây-Bắc',
         NORTH_EAST => 'Tây-Nam',
     ],
-    // 0 => illegal
-    'property-legals' => [
-        1 => 'Đã có sổ đỏ, sổ hồng',
-        2 => 'Giấy viết tay',
-        3 => 'Đang tách thửa',
-        4 => 'Đang làm sổ',
-        5 => 'Hợp đồng góp vốn',
-        6 => 'Loại khác'
-    ],
+    
     // 0 => no status
     'property-statuses' => [
         1 => 'Mới 100%',

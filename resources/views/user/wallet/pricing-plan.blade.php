@@ -212,9 +212,6 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-xl-12 col-md-12 text-center">
-                    <p style="color: orangered">Lưu ý tất cả tin đăng có thể mua nhãn dán.</p>
-                </div>
             </div>
         </div>
     </div>
@@ -225,7 +222,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Thanh toán</h5>
-                    {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                 </div>
                 <div class="modal-body justify-content-center align-items-center">
                     <div class="col-lg-12 col-md-12">
@@ -280,8 +276,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
                 </div>
             </div>
         </div>

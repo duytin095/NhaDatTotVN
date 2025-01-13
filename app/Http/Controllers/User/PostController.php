@@ -10,6 +10,7 @@ use App\Models\Construction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Legal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
@@ -72,7 +73,7 @@ class PostController extends Controller
             $types = Type::where('active_flg', ACTIVE)->orderBy('property_purpose_id', 'asc')->get()->groupBy('property_purpose_id');
             $purposes = config('constants.property-basic-info.property-purposes');
             $directions = config('constants.property-basic-info.property-directions');
-            $legals = config('constants.property-basic-info.property-legals');
+            $legals = Legal::where('active_flg', ACTIVE)->get();
             $statuses = config('constants.property-basic-info.property-statuses');
             $videoLinks = config('constants.property-basic-info.video-links');
             $constructions = Construction::where('active_flg', ACTIVE)->get();
@@ -168,9 +169,9 @@ class PostController extends Controller
                 }
             }
 
-            if(Auth::guard('users')->user()->verified === UNVERIFIED) {
-                return ApiResponse::walletNotVerifiedResponse('/user/wallet');
-            }
+            // if(Auth::guard('users')->user()->verified === UNVERIFIED) {
+            //     return ApiResponse::walletNotVerifiedResponse('/user/wallet');
+            // }
 
             $balance = Auth::guard('users')->user()->wallet->balance;
             if($balance < POST_FEE) {

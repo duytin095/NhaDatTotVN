@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\NewsTypeController;
 use App\Http\Controllers\Admin\Manage\PropertyController;
 use App\Http\Controllers\Admin\Manage\ConstructionController;
+use App\Http\Controllers\Admin\Manage\LegalController;
+use App\Http\Controllers\Admin\Manage\PricingPlanController;
 use App\Http\Controllers\User\SePayController;
 
 Route::name('admin.')->prefix('admin')->group(function () {
@@ -27,8 +29,6 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
         // Route::get('/signup', 'displayAdminSignup')->name('signup.show');
         // Route::post('/signup', 'onAdminSignup')->name('signup.store');
-        
-
     });
 
     Route::middleware(['admin.auth'])->group(function () {
@@ -59,7 +59,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::delete   ('/types/{id}', [TypeController::class, 'destroy'])->name('types.destroy');
 
         // DU AN
-        Route::get      ('/constructions', [ConstructionController::class, 'index'])->name('constructions.show');
+        Route::get      ('/constructions', [ConstructionController::class, 'index'])->name('constructions.index');
         Route::get      ('/constructions/get', [ConstructionController::class, 'get'])->name('constructions.get');
         Route::post     ('/constructions/store', [ConstructionController::class, 'store'])->name('constructions.store');
         Route::put      ('/constructions/{id}', [ConstructionController::class, 'update'])->name('constructions.update');
@@ -95,6 +95,18 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::put      ('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
         Route::delete   ('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::put      ('/users/toggle-active/{id}', [UserController::class, 'toggleActive'])->name('users.toggle-active');
+
+        // DANH SACH GOI
+        Route::get      ('/pricing-plans', [PricingPlanController::class, 'index'])->name('pricing-plans.index');
+        Route::get      ('/pricing-plans/create', [PricingPlanController::class, 'create'])->name('pricing-plans.create');
+
+        // DANH SACH PHAP LY
+        Route::get      ('/legals', [LegalController::class, 'index'])->name('legals.index');
+        Route::get      ('/legals/get', [LegalController::class, 'get'])->name('legals.get');
+        Route::post     ('/legals/store', [LegalController::class, 'store'])->name('legals.store');
+        Route::put      ('/legals/{id}', [LegalController::class, 'update'])->name('legals.update');
+        Route::delete   ('/legals/{id}', [LegalController::class, 'destroy'])->name('legals.destroy');
+
 
     });
 });
