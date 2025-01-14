@@ -144,8 +144,8 @@
                             <label>Tình trạng</label>
                             <select name="status" class="form-select form-control">
                                 <option value="0" selected>Tình trạng</option>
-                                @foreach ($statuses as $key => $status)
-                                    <option value="{{ $key }}"> {{ $status }}</option>
+                                @foreach ($statuses as $status)
+                                    <option value="{{ $status['id'] }}"> {{ $status['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -155,10 +155,10 @@
                         <div class="form-group">
                             <label>
                                 Giá <span style="color:red">(ngàn đồng)</span>
-                                <label>
-                                    <input name="price" value="0" type="number" min="0"
-                                        class="form-control" min="0" step="1000" data-bs-toggle="tooltip"
-                                        data-bs-placement="bottom" data-bs-title="Thoả thuận" placeholder="">
+                            <label>
+                                <input name="price" value="0" type="number" min="0"
+                                    class="form-control" min="0" step="1000" data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom" data-bs-title="Thoả thuận" placeholder="">
                         </div>
                     </div>
 
@@ -309,6 +309,7 @@
         border: none !important;
         height: 55px !important;
     }
+
     .select2-container--default .select2-selection--single .select2-selection__rendered {
         line-height: 55px !important;
     }

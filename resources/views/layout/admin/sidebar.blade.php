@@ -44,10 +44,15 @@
                 <span class="nav-link-text">Gói</span>
             </a>
             <a class="nav-link" id="legals-tab" data-bs-toggle="tab" href="#tab-legals" role="tab"
-            aria-controls="tab-legals" aria-selected="false">
-            <i class="icon-shield"></i>
-            <span class="nav-link-text">Pháp lý</span>
-        </a>
+                aria-controls="tab-legals" aria-selected="false">
+                <i class="icon-shield"></i>
+                <span class="nav-link-text">Pháp lý</span>
+            </a>
+            <a class="nav-link" id="statuses-tab" data-bs-toggle="tab" href="#tab-statuses" role="tab"
+                aria-controls="tab-statuses" aria-selected="false">
+                <i class="icon-subject"></i>
+                <span class="nav-link-text">Tình trạng</span>
+            </a>
         </div>
         <!-- Tabs nav end -->
 
@@ -145,6 +150,16 @@
                     <div class="sidebar-menu">
                         <ul>
                             <li><a href="{{ route('admin.legals.index') }}">Danh sách pháp lý</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab-statuses" role="tabpanel" aria-labelledby="statuses-tab">
+                <div class="tab-pane-header">Tình trạng</div>
+                <div class="sidebarMenuScroll">
+                    <div class="sidebar-menu">
+                        <ul>
+                            <li><a href="{{ route('admin.statuses.index') }}">Tình trạng</a></li>
                         </ul>
                     </div>
                 </div>

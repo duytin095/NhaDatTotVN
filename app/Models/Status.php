@@ -2,15 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Status extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'property_status_id';
-    protected $table = 'property_statuses';
+    protected $table = 'statuses';
     protected $fillable = [
-        'property_status_name',
+        'name',
+        'active_flg',
     ];
+    public function getCreatedAtAttribute($value){
+        return Carbon::parse($value)->format('d-m-Y');
+    }
+    
+    public function properties()
+    {
+        $properties = $this->hasMany(Property::class, 'property_type_id', 'id');
+        return $properties;    
+    }
 }

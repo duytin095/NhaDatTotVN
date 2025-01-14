@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Type;
+use App\Models\Legal;
+use App\Models\Status;
 use App\Models\Property;
 use App\Models\WatchedPost;
 use App\Helpers\ApiResponse;
@@ -10,7 +12,6 @@ use App\Models\Construction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Legal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
@@ -74,7 +75,7 @@ class PostController extends Controller
             $purposes = config('constants.property-basic-info.property-purposes');
             $directions = config('constants.property-basic-info.property-directions');
             $legals = Legal::where('active_flg', ACTIVE)->get();
-            $statuses = config('constants.property-basic-info.property-statuses');
+            $statuses = Status::where('active_flg', ACTIVE)->get();
             $videoLinks = config('constants.property-basic-info.video-links');
             $constructions = Construction::where('active_flg', ACTIVE)->get();
             return view('user.post-create', compact('purposes', 'types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [

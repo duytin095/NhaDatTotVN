@@ -53,21 +53,21 @@
                             </div>
                             <div class="form-group">
                                 <label>Tỉnh/Thành phố</label>
-                                <select name="provinces" class="area-select-matcher form-select form-control" style="width: 100%;"></select>
+                                <select name="provinces" class="area-select-matcher form-select form-control"></select>
                                 <div class="icon">
                                     <i class="ri-map-pin-line"></i>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Quận/Huyện</label>
-                                <select name="districts" class="area-select-matcher form-select form-control" style="width: 100%;"></select>
+                                <select name="districts" class="area-select-matcher form-select form-control"></select>
                                 <div class="icon">
                                     <i class="ri-map-pin-line"></i>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Phường/Xã</label>
-                                <select name="wards" class="area-select-matcher form-select form-control" style="width: 100%;"></select>
+                                <select name="wards" class="area-select-matcher form-select form-control"></select>
                                 <div class="icon">
                                     <i class="ri-map-pin-line"></i>
                                 </div>

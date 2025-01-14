@@ -2,43 +2,54 @@
 
 namespace App\Http\Controllers\Admin\Manage;
 
-use App\Http\Controllers\Controller;
 use App\Models\Status;
+use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class StatusController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
-        //
+        return view('admin.manage.status.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function get()
     {
-        //
+        try {
+            $status = Status::orderBy('created_at', 'desc')
+                ->get()->toArray();
+            return response()->json([
+                'status' => 200,
+                'data' => $status,
+            ]);
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'status_name' => 'required',
+        ], [
+            'status_name.required' => 'Tên tình trạng không được để trống',
+        ]);
+        try {
+            DB::beginTransaction();
+            Status::create([
+                'name' => $request->input('status_name'),
+            ]);
+            DB::commit();
+            return ApiResponse::createSuccessResponse();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return ApiResponse::errorResponse($th);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
     public function getAllStatuses()
     {
         try {
@@ -54,27 +65,33 @@ class StatusController extends Controller
             ]);
         }
     }
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $request->validate([
+                'status_name' => 'required',
+            ], [
+                'status_name.required' => 'Tên tình trạng không được để trống',
+            ]);
+
+            $type = Status::findOrFail($id);
+            $type->update([
+                'name' => $request->input('status_name'),
+            ]);
+            return ApiResponse::updateSuccessResponse();
+        } catch (\Throwable $th) {
+           return ApiResponse::errorResponse($th);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        try {
+            Status::findOrFail($id)->delete();
+            return ApiResponse::deleteSuccessResponse();
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
     }
 }

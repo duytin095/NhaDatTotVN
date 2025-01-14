@@ -1,7 +1,7 @@
 $(function initDataTable() {
-    $('#legal-table').DataTable({
+    $('#status-table').DataTable({
         "ajax": {
-            "url": "/admin/legals/get",
+            "url": "/admin/statuses/get",
             "dataSrc": function (json) {
                 return json.data;
             }
@@ -29,29 +29,25 @@ $(function initDataTable() {
     });
 });
 
-$('#create-legal-submit-btn').on('click', function () {
-    var legal_id = $('#legal_id').val();
-    if (legal_id) {
-        updateLegal(legal_id);
-    } else {
-        createLegal();
-    }
+$('#create-status-submit-btn').on('click', function () {
+    const status_id = $('#status_id').val();
+    status_id ? updateStatus(status_id) : createStatus();
 });
 
-async function createLegal() {
+async function createStatus() {
     try {
-        let data = { legal_name: $('[name="legal_name"]').val(), }
+        let data = { status_name: $('[name="status_name"]').val(), }
 
         const response = await sendRequest(
-            `${window.location.origin}/admin/legals/store`,
+            `${window.location.origin}/admin/statuses/store`,
             'POST',
             data
         );
 
         if (response.status == 200) {
-            $('#legal-table').DataTable().ajax.reload();
+            $('#status-table').DataTable().ajax.reload();
             showMessage(response.message);
-            $('#createNewLegal').modal('hide');
+            $('#createNewStatus').modal('hide');
         }
     } catch (error) {
         if (error.status == 422) {
@@ -66,20 +62,21 @@ async function createLegal() {
         }
     }
 }
-async function updateLegal(id) {
+
+async function updateStatus(id) {
     try {
         data = {
-            legal_name: $('[name="legal_name"]').val(),
+            status_name: $('[name="status_name"]').val(),
         }
         const response = await sendRequest(
-            `${window.location.origin}/admin/legals/${id}`,
+            `${window.location.origin}/admin/statuses/${id}`,
             'PUT',
             data
         );
 
         if (response.status == 200) {
-            $('#legal-table').DataTable().ajax.reload();
-            $('#createNewLegal').modal('hide');
+            $('#status-table').DataTable().ajax.reload();
+            $('#createNewStatus').modal('hide');
             showMessage(response.message);
         }
     } catch (error) {
@@ -87,39 +84,41 @@ async function updateLegal(id) {
     }
 }
 
-async function deleteLegal(id) {
+async function deleteStatus(id) {
     try {
-        const response = await sendRequest(`${window.location.origin}/admin/legals/${id}`, 'DELETE');
+        const response = await sendRequest(`${window.location.origin}/admin/statuses/${id}`, 'DELETE');
         if (response.status == 200) {
-            $('#legal-table').DataTable().ajax.reload();
+            $('#status-table').DataTable().ajax.reload();
             showMessage(response.message);
         }
     } catch (error) {
         showMessage(error.message);
     }
 }
+
 function openDeleteModal(id) {
     let event = {
         icon: 'question',
-        title: 'Xoá pháp lý',
-        text: 'Xác nhận xoá loại pháp lý?',
-        action: 'deleteLegal',
+        title: 'Xoá loại tình trạng',
+        text: 'Xác nhận xoá loại tình trạng?',
+        action: 'deleteStatus',
         data: id,
     }
     confirmEvent(event);
 }
 
-function openEditModal(legalId, legalName) {
-    $('#createNewLegalLabel').text('Chỉnh sửa tên loại pháp lý');
-    $('#create-legal-submit-btn').text('Cập nhật');
-    $('#legal_id').val(legalId);
-    $('[name="legal_name"]').val(legalName);
-    $('#createNewLegal').modal('show');
+function openEditModal(statusId, statusName) {
+    $('#createNewStatusLabel').text('Chỉnh sửa loại tình trạng');
+    $('#create-status-submit-btn').text('Cập nhật');
+    $('#status_id').val(statusId);
+    $('[name="status_name"]').val(statusName);
+    $('#createNewStatus').modal('show');
 }
+
 function openCreateModal() {
-    $('#createNewLegalLabel').text('Thêm mới loại pháp lý');
-    $('#create-legal-submit-btn').text('Tạo');
-    $('#legal_id').val('');
-    $('[name="legal_name"]').val('');
-    $('#createNewLegal').modal('show');
+    $('#createNewStatusLabel').text('Thêm mới loại trạng thái');
+    $('#create-status-submit-btn').text('Tạo');
+    $('#status_id').val('');
+    $('[name="status_name"]').val('');
+    $('#createNewStatus').modal('show');
 }

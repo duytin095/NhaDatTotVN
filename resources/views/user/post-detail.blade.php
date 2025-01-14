@@ -292,6 +292,19 @@
                                                         @endif
                                                     </div>
                                                 </li>
+                                                <li>
+                                                    <div class="col-6">
+                                                        <i class="ri-check-double-fill d-inline"></i>
+                                                        <span class="d-inline">Tình trạng</span>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        @if ($property->property_status != 0 && $property->property_status != null)
+                                                            {{ $property['status']['name'] }}
+                                                        @else
+                                                            --
+                                                        @endif
+                                                    </div>
+                                                </li>
                                             </ul>
                                         </div>
 

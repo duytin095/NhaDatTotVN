@@ -66,8 +66,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::put      ('/constructions/toggle-active/{id}', [ConstructionController::class, 'toggleActive'])->name('constructions.toggle-active');
         Route::delete   ('/constructions/{id}', [ConstructionController::class, 'destroy'])->name('constructions.destroy');
 
-        // TRANG THAI
-        Route::get      ('/statuses/all-data', [StatusController::class, 'getAllStatuses'])->name('statuses.get-all-statuses');
+
 
         // TIN TUC
         Route::get      ('/news', [NewsController::class, 'index'])->name('news.show');
@@ -107,7 +106,12 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::put      ('/legals/{id}', [LegalController::class, 'update'])->name('legals.update');
         Route::delete   ('/legals/{id}', [LegalController::class, 'destroy'])->name('legals.destroy');
 
-
+        // DANNH SACH TINH TRANG
+        Route::get      ('/statuses', [StatusController::class, 'index'])->name('statuses.index');
+        Route::get      ('/statuses/get', [StatusController::class, 'get'])->name('statuses.get');
+        Route::post     ('/statuses/store', [StatusController::class, 'store'])->name('statuses.store');
+        Route::put      ('/statuses/{id}', [StatusController::class, 'update'])->name('statuses.update');
+        Route::delete   ('/statuses/{id}', [StatusController::class, 'destroy'])->name('statuses.destroy');
     });
 });
 
