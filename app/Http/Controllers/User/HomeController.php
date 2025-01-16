@@ -8,6 +8,7 @@ use App\Models\Status;
 use App\Models\Property;
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Models\RootType;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -17,7 +18,7 @@ class HomeController extends Controller
         try {
             $types = Type::where('active_flg', ACTIVE)->withCount('properties')->take(8)->get();
             $statuses = Status::all()->toArray();
-            $purposes = config('constants.property-basic-info.property-purposes');
+            $root_types = RootType::all()->toArray();
             $labels = config('constants.property-basic-info.property-labels');
             $agents = User::where('active_flg', ACTIVE)->take(4)->get();
             $typesByPurpose = Type::with('properties')->get()->groupBy('property_purpose_id');
@@ -92,7 +93,7 @@ class HomeController extends Controller
                     'types',
                     'typesByPurpose',
                     'statuses',
-                    'purposes',
+                    'root_types',
                     'agents',
                     'userCount',
                     'sellCount',

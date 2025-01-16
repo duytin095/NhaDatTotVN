@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\AgentController;
+use App\Http\Controllers\User\SePayController;
 use App\Http\Controllers\User\WalletController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\FavoritesController;
@@ -13,14 +14,14 @@ use App\Http\Controllers\User\WatchedPostController;
 use App\Http\Controllers\Admin\Manage\NewsController;
 use App\Http\Controllers\Admin\Manage\TypeController;
 use App\Http\Controllers\Admin\Manage\UserController;
+use App\Http\Controllers\Admin\Manage\LegalController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\NewsTypeController;
 use App\Http\Controllers\Admin\Manage\PropertyController;
-use App\Http\Controllers\Admin\Manage\ConstructionController;
-use App\Http\Controllers\Admin\Manage\LegalController;
+use App\Http\Controllers\Admin\Manage\RootTypeController;
 use App\Http\Controllers\Admin\Manage\PricingPlanController;
-use App\Http\Controllers\User\SePayController;
+use App\Http\Controllers\Admin\Manage\ConstructionController;
 
 Route::name('admin.')->prefix('admin')->group(function () {
     Route::controller(AuthController::class)->group(function () {
@@ -50,10 +51,16 @@ Route::name('admin.')->prefix('admin')->group(function () {
         // Route::delete   ('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.destroy');
 
         // DANH MUC
-        Route::get      ('/types', [TypeController::class, 'index'])->name('types.show');
+        Route::get      ('/types', [TypeController::class, 'index'])->name('types.index');
         Route::get      ('/types/data', [TypeController::class, 'get'])->name('types.get-types');
         Route::get      ('/types/all-data', [TypeController::class, 'getAllTypes'])->name('types.get-all-types');
         Route::put      ('/types/toggle-active/{id}', [TypeController::class, 'toggleActive'])->name('types.toggle-active');
+
+        // DANH MUC LON
+        Route::get      ('/root-types', [RootTypeController::class, 'index'])->name('root-types.index');
+        Route::get      ('/root-types/get', [RootTypeController::class, 'get'])->name('root-types.get');
+        Route::post     ('/root-types/store', [RootTypeController::class, 'store'])->name('root-types.store');
+        Route::put      ('/root-types/toggle-active/{id}', [RootTypeController::class, 'toggleActive'])->name('root-types.toggle-active');
 
         Route::post     ('/types/store', [TypeController::class, 'store'])->name('types.store');
         Route::post     ('/types/{id}', [TypeController::class, 'update'])->name('types.update');

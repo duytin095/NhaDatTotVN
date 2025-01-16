@@ -36,18 +36,22 @@ class Type extends Model
         return $properties;    
     }
 
+    public function rootType()
+    {
+        return $this->belongsTo(RootType::class, 'property_purpose_id', 'id');
+    }
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-m-Y');
     }
-    public function getPurposeNameAttribute()
-    {
-        return config('constants.property-basic-info.property-purposes')[$this->property_purpose_id]['name'];
-    }
-    public function getPurposeSlugAttribute()
-    {
-        return config('constants.property-basic-info.property-purposes')[$this->property_purpose_id]['slug'];
-    }
+    // public function getPurposeNameAttribute()
+    // {
+    //     return config('constants.property-basic-info.property-purposes')[$this->property_purpose_id]['name'];
+    // }
+    // public function getPurposeSlugAttribute()
+    // {
+    //     return config('constants.property-basic-info.property-purposes')[$this->property_purpose_id]['slug'];
+    // }
     public function getTypeImageAttribute()
     {
         return json_decode($this->property_type_image, true);

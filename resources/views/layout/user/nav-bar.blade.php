@@ -21,12 +21,12 @@
                 </li>
 
                 @php
-                    $purposes = App\Models\Type::distinct('property_purpose_id')->pluck('property_purpose_id');
+                    $root_types = App\Models\Type::distinct('property_purpose_id')->pluck('property_purpose_id');
                     $news_types = App\Models\NewsType::where('active_flg', 0)->get();
 
                 @endphp
 
-                @foreach ($purposes as $purposeId)
+                @foreach ($root_types as $root_type)
                     @php
                         $purposeSlug = App\Models\Type::where('property_purpose_id', $purposeId)
                             ->first()
