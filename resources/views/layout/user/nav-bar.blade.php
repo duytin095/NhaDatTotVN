@@ -14,7 +14,8 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a href="{{ route('user.home.index') }}" class="nav-link {{ Request::is('user/home') ? 'active' : '' }}">
+                    <a href="{{ route('user.home.index') }}"
+                        class="nav-link {{ Request::is('user/home') ? 'active' : '' }}">
                         Trang chủ
                     </a>
                 </li>
@@ -34,9 +35,9 @@
                     <li class="nav-item">
                         <a href="{{ route('user.posts.show-by-type', ['slug' => $purposeSlug]) }}"
                             class="dropdown-toggle nav-link {{ request()->segment(2) == 'posts-by-type' && request()->segment(3) == $purposeSlug ? 'active' : '' }}">
-                             {{ App\Models\Type::where('property_purpose_id', $purposeId)->first()->getPurposeNameAttribute() }}
-                             <i class="ri-arrow-down-s-line"></i>
-                         </a>
+                            {{ App\Models\Type::where('property_purpose_id', $purposeId)->first()->getPurposeNameAttribute() }}
+                            <i class="ri-arrow-down-s-line"></i>
+                        </a>
                         <ul class="dropdown-menu">
                             @foreach (App\Models\Type::where('property_purpose_id', $purposeId)->get() as $type)
                                 <li class="nav-item">
@@ -51,7 +52,8 @@
                 @endforeach
 
                 <li class="nav-item">
-                    <a href="{{ route('user.news.index') }}" class="nav-link {{ Request::is('user/news') ? 'active' : '' }}">
+                    <a href="{{ route('user.news.index') }}"
+                        class="nav-link {{ Request::is('user/news') ? 'active' : '' }}">
                         Tin tức <i class="ri-arrow-down-s-line"></i>
                     </a>
                     <ul class="dropdown-menu">
@@ -66,7 +68,8 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('user.wallet.pricing') }}" class="nav-link {{ Request::is('user/wallet/pricing') ? 'active' : '' }}">
+                    <a href="{{ route('user.wallet.pricing') }}"
+                        class="nav-link {{ Request::is('user/wallet/pricing') ? 'active' : '' }}">
                         Bảng giá
                     </a>
                 </li>
@@ -79,7 +82,8 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li class="nav-item">
-                                <a href="{{ route('user.agents.show', ['slug' => auth()->guard('users')->user()->slug]) }}" class="nav-link">Trang cá nhân</a>
+                                <a href="{{ route('user.agents.show', ['slug' => auth()->guard('users')->user()->slug]) }}"
+                                    class="nav-link">Trang cá nhân</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('user.profile.index') }}" class="nav-link">Thông tin cá nhân</a>
@@ -126,3 +130,4 @@
         </div>
     </div>
 </nav>
+

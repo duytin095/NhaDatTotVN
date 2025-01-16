@@ -285,7 +285,7 @@
                                                         <span class="d-inline">Pháp lý</span>
                                                     </div>
                                                     <div class="col-6 text-end">
-                                                        @if ($property->property_legal != 0 && $property->property_legal != null)
+                                                        @if ($property->property_legal != 0)
                                                             {{ $property['legal']['name'] }}
                                                         @else
                                                             --
@@ -298,7 +298,7 @@
                                                         <span class="d-inline">Tình trạng</span>
                                                     </div>
                                                     <div class="col-6 text-end">
-                                                        @if ($property->property_status != 0 && $property->property_status != null)
+                                                        @if ($property->property_status != 0)
                                                             {{ $property['status']['name'] }}
                                                         @else
                                                             --

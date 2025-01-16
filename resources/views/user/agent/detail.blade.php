@@ -80,13 +80,13 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="agent-profile-information-tabs">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item"><a class="nav-link active" id="overview-tab" data-bs-toggle="tab"
-                                    href="#overview" role="tab" aria-controls="overview">Tổng quan</a></li>
-                            <li class="nav-item"><a class="nav-link" id="property-tab" data-bs-toggle="tab" href="#property"
+                            <li class="nav-item"><a class="nav-link active" id="property-tab" data-bs-toggle="tab" href="#property"
                                     role="tab" aria-controls="property">Tin đăng</a></li>
+                            <li class="nav-item"><a class="nav-link" id="overview-tab" data-bs-toggle="tab"
+                                    href="#overview" role="tab" aria-controls="overview">Tổng quan</a></li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                            <div class="tab-pane fade" id="overview" role="tabpanel">
                                 <div class="overview-content">
                                     <h3>Về tôi</h3>
                                     @if ($agent['user_introduction'] === null)
@@ -94,33 +94,9 @@
                                     @else
                                         <p>{{ $agent['user_introduction'] }}</p>
                                     @endif
-                                    {{-- <ul class="list">
-                                        <li>
-                                            <h4>Kinh nghiệm</h4>
-                                        </li>
-                                        <li>At vero eos et accusam et justo duo dolores et ea rebum.</li>
-                                        <li>Stet clita kasd gubergren, no sea takimata sanctus est ipsum dolor sit amet.
-                                        </li>
-                                        <li>Takimata sanctus est sed diam nonumy eirmod tempor invidunt</li>
-                                        <li>Labore et dolore magna aliquyam erat, sed diam voluptua.</li>
-                                        <li>Stet clita kasd gubergren, no sea takimata sanctus.</li>
-                                        <li>Stet clita kasd gubergren, no sea takimata sanctus est ipsum dolor sit amet.
-                                        </li>
-                                    </ul>
-                                    <ul class="list">
-                                        <li>
-                                            <h4>Kĩ năng</h4>
-                                        </li>
-                                        <li>At vero eos et accusam et justo duo dolores et ea rebum.</li>
-                                        <li>Stet clita kasd gubergren, no sea takimata sanctus est ipsum dolor sit amet.
-                                        </li>
-                                        <li>Takimata sanctus est sed diam nonumy eirmod tempor invidunt</li>
-                                        <li>Labore et dolore magna aliquyam erat, sed diam voluptua.</li>
-                                        <li>Stet clita kasd gubergren, no sea takimata sanctus.</li>
-                                    </ul> --}}
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="property" role="tabpanel">
+                            <div class="tab-pane fade show active" id="property" role="tabpanel">
                                 <div class="properties-grid-box">
                                     <div class="row justify-content-center align-items-center">
                                         <div class="col-lg-12 col-md-12">
@@ -130,10 +106,7 @@
                                 </div>
                                 <div class="row justify-content-center">
                                     @forelse ($properties as $property)
-                                        <x-property-listing 
-                                        :property="$property"
-                                        :columnSizes="['xl' => 4, 'md' => 6]"  
-                                        :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())"/>
+                                        <x-property-listing :property="$property" :columnSizes="['xl' => 4, 'md' => 6]" :isFavorite="$property->favoritedBy->contains(Auth::guard('users')->user())" />
                                     @empty
                                         <h4>Chưa có tin đăng nào</h4>
                                     @endforelse

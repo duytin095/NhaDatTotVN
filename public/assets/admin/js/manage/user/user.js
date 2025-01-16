@@ -54,24 +54,41 @@ function initDataTable() {
                 "data": null,
                 "render": function (row) {
                     if (row.user_avatar === null) {
-                        return '<img src="' + window.location.origin + '/assets/admin/img/freepik-avatar.jpg">';
+                        return '<a href="/user/agents/' + row.slug + '" target="_blank"><img src="' + window.location.origin + '/assets/admin/img/freepik-avatar.jpg"></a>';
                     } else {
-                        return '<img src="' + window.location.origin + '/' + JSON.parse(row.user_avatar) + '">';
+                        return '<a href="/user/agents/' + row.slug + '" target="_blank"><img src="' + window.location.origin + '/' + JSON.parse(row.user_avatar) + '"></a>';
                     }
                 },
                 "width": "5%",
                 "orderable": false
             },
-            { "data": "user_name", "width": "35%" },
+            {
+                "data": null,
+                "width": "25%",
+                "render": function (row) {
+                    return '<a href="/user/agents/' + row.slug + '" target="_blank" class="text-truncate" style="font-size: 15px"> <i class="icon-eye" style="margin-right: 5px;"></i>' + row.user_name + '</a>';
+                }
+            },
+            {
+                "data": null,
+                "render": function (row) {
+                    if (row.wallet !== null) {
+                        return row.wallet.balance;
+                    } else {
+                        return '0.00';
+                    }
+                },
+                "width": "5%"
+            },
             { "data": "user_phone", "width": "10%" },
             { "data": "email", "width": "10%" },
             {
                 "data": null,
                 "render": function (row) {
                     if (row.active_flg == ACTIVE)
-                        return "Đang hoạt động";
+                        return "<span class='badge bg-success'>Hoạt động</span>"
                     else
-                        return "Đã khoá";
+                        return "<span class='badge bg-danger'>Đã khoá</span>"
                 },
                 "width": "5%"
             },
@@ -82,10 +99,10 @@ function initDataTable() {
                     if (row.active_flg == ACTIVE)
                         return "<button onclick='activeUser(" + row.user_id + ")' class='btn btn-secondary'>Khoá</button> <button onclick='openEditPage(" + row.user_id + ")' class='btn btn-primary'>Sửa</button>  <button onclick='openDeleteModal(" + row.user_id + ")' class='btn btn-danger'>Xoá</button>";
                     else {
-                        return "<button onclick='activeUser(" + row.user_id + ")' class='btn btn-success'>Mở khoá</button> <button onclick='openEditPage(" + row.user_id + ")' class='btn btn-primary'>Sửa</button>  <button onclick='openDeleteModal(" + row.user_id + ")' class='btn btn-danger'>Xoá</button>";
+                        return "<button onclick='activeUser(" + row.user_id + ")' class='btn btn-success'>&nbsp; Mở &nbsp;</button> <button onclick='openEditPage(" + row.user_id + ")' class='btn btn-primary'>Sửa</button>  <button onclick='openDeleteModal(" + row.user_id + ")' class='btn btn-danger'>Xoá</button>";
                     }
                 },
-                "width": "25%",
+                "width": "30%",
                 "orderable": false
             }
         ],

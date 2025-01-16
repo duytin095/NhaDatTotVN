@@ -45,7 +45,7 @@
             </a>
             <a class="nav-link" id="legals-tab" data-bs-toggle="tab" href="#tab-legals" role="tab"
                 aria-controls="tab-legals" aria-selected="false">
-                <i class="icon-shield"></i>
+                <i class="icon-shield1"></i>
                 <span class="nav-link-text">Pháp lý</span>
             </a>
             <a class="nav-link" id="statuses-tab" data-bs-toggle="tab" href="#tab-statuses" role="tab"
@@ -90,7 +90,7 @@
                     <div class="sidebar-menu">
                         <ul>
                             <li>
-                                <a href="{{ route('admin.types.show') }}">Danh sách danh mục</a>
+                                <a href="{{ route('admin.types.show') }}">Tất cả danh mục</a>
                             </li>
                         </ul>
                     </div>
@@ -192,5 +192,21 @@
                 $(this).addClass('current-page');
             }
         });
+
+
+        // tab hover
+        jQuery('.sidebar-tabs .nav a.nav-link').hover(function(e) {
+            e.preventDefault();
+            jQuery('.tab-pane').removeClass('active');
+            tabContentSelector = jQuery(this).attr('href');
+            jQuery(this).tab('show');
+            jQuery(tabContentSelector).addClass('active');
+        });
     </script>
 @endpush
+<style>
+    .nav-link {
+        border-bottom: 1px solid #111;
+        margin-bottom: 10px;
+    }
+</style>

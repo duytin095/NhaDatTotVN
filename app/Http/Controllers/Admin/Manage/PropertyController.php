@@ -32,6 +32,7 @@ class PropertyController extends Controller
         try {
             $properties = Property::where('delete_flg', ACTIVE)
                 ->orderBy('created_at', 'desc')
+                ->with(['type', 'status', 'seller'])
                 ->get()->toArray();
             return response()->json([
                 'status' => 200,
@@ -284,6 +285,22 @@ class PropertyController extends Controller
                 'status' => 500,
                 'message' => config('app.debug') ? $th->getMessage() : config('constants.response.messages.error'),
             ]);
+        }
+    }
+
+    public function toggleActive(string $id)
+    {
+        try {
+            DB::beginTransaction();
+            $property = Property::where('property_id', $id)->firstOrFail();
+            $property->update([
+                'active_flg' => $property->active_flg == ACTIVE ? INACTIVE : ACTIVE
+            ]);
+            DB::commit();
+            return ApiResponse::updateSuccessResponse();
+        }catch (\Throwable $th) {
+            DB::rollBack();
+            return ApiResponse::errorResponse($th);
         }
     }
 

@@ -17,15 +17,50 @@ async function updateUser(id) {
             'PUT',
             data
         );
-        
+        response.status == 200 ? showMessage(response.message) : showMessage(response.message);
+    } catch (error) {
+        if (error.status == 422) showMessage(error.responseJSON.message);
+    }
+}
+
+async function recharge(id) {
+    try {
+        data = { amount: $('[name="add_amount"]').val(), }
+        const response = await sendRequest(
+            `${window.location.origin}/admin/users/recharge/${id}`,
+            'PUT',
+            data
+        );
         if (response.status == 200) {
             showMessage(response.message);
-        }else{
+            $('input[name="balance"]').val((parseFloat(data.amount) + parseFloat($('input[name="balance"]').val())).toFixed(2));
+        } else {
             showMessage(response.message);
         }
     } catch (error) {
-        if (error.status == 422) {
-            showMessage(error.responseJSON.message);
+        if (error.status == 422) showMessage(error.responseJSON.message);
+    }
+}
+
+async function discharge(id) {
+    try {
+        data = { amount: $('[name="reduce_amount"]').val(), }
+        const response = await sendRequest(
+            `${window.location.origin}/admin/users/discharge/${id}`,
+            'PUT',
+            data
+        );
+        if (response.status == 200) {
+            showMessage(response.message);
+            $('input[name="balance"]').val((parseFloat($('input[name="balance"]').val()) - parseFloat(data.amount)).toFixed(2));
+
+            if ($('input[name="balance"]').val() <= 0) {
+                $('input[name="balance"]').val("0.00");
+            }
+        } else {
+            showMessage(response.message);
         }
+    } catch (error) {
+        if (error.status == 422) showMessage(error.responseJSON.message);
     }
 }

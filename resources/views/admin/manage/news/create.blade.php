@@ -32,13 +32,17 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="field-wrapper mb-2">
                             <div name="content">
-                                {!! lorem(5) !!}
+                                
                             </div>
                             <div class="field-placeholder">Nội dung tin tức<span class="text-danger">*</span></div>
                         </div>
-                        <div>
-                            <button class="btn btn-light" type="button">Huỷ</button>
-                            <button class="btn btn-primary" onclick="createNews()" type="button">Lưu tin</button>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="form-actions-footer">
+                                <div class="text-end">
+                                    <button class="btn btn-light" onclick="history.back()" type="button">Huỷ</button>
+                                    <button class="btn btn-primary" onclick="createNews()" type="button">Lưu tin</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

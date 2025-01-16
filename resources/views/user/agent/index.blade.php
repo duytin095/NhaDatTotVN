@@ -1,4 +1,4 @@
-@extends('layout.user.index')
+w@extends('layout.user.index')
 @section('content')
     @include('components.user-breadcrumb', ['breadcrumbs' => $breadcrumbs])
     <div class="agents-area ptb-120">

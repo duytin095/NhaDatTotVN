@@ -44,6 +44,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get      ('/properties/create', [PropertyController::class, 'create'])->name('properties.create');
         // Route::post     ('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
         Route::get      ('/properties/data', [PropertyController::class, 'get'])->name('properties.get');
+        Route::put      ('/properties/toggle-active/{id}', [PropertyController::class, 'toggleActive'])->name('properties.toggle-active');
         // Route::get      ('/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties.edit');
         // Route::put      ('/properties/update/{id}', [PropertyController::class, 'update'])->name('properties.update');
         // Route::delete   ('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.destroy');
@@ -92,6 +93,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::post     ('/users/store', [UserController::class, 'store'])->name('users.store');
         Route::get      ('/users/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
         Route::put      ('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+        Route::put      ('/users/recharge/{id}', [UserController::class, 'recharge'])->name('users.recharge');
+        Route::put      ('/users/discharge/{id}', [UserController::class, 'discharge'])->name('users.discharge');
         Route::delete   ('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::put      ('/users/toggle-active/{id}', [UserController::class, 'toggleActive'])->name('users.toggle-active');
 
