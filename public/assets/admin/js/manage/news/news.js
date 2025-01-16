@@ -54,13 +54,24 @@ function initDataTable() {
             }
         },
         "columns": [
-            { "data": "title", "width": "70%" },
+            { "data": "title", "width": "60%" },
+            { "data": "view", "width": "5%" },
+            {
+                "data": null,
+                "render": function (row) {
+                    if (row.active_flg == ACTIVE)
+                        return "<span class='badge bg-success'>Hiển thị</span>"
+                    else
+                        return "<span class='badge bg-danger'>Đã ẩn</span>"
+                },
+                "width": "5%"
+            },
             { "data": "created_at", "width": "10%" },
             {
                 "data": null,
                 "render": function (row) {
                     if (row.active_flg == ACTIVE) {
-                        return "<button onclick='openEditPage(" + row.id + ")' class='btn btn-primary'>Sửa</button> <button onclick='activeNews(" + row.id + ")' class='btn btn-secondary'>Ẩn</button> <button onclick='openDeleteModal(" + row.id + ")' class='btn btn-danger'>Xoá</button>";
+                        return "<button onclick='openEditPage(" + row.id + ")' class='btn btn-primary'>Sửa</button> <button onclick='activeNews(" + row.id + ")' class='btn btn-secondary'>&nbsp Ẩn &nbsp</button> <button onclick='openDeleteModal(" + row.id + ")' class='btn btn-danger'>Xoá</button>";
                     }else{
                         return "<button onclick='openEditPage(" + row.id + ")' class='btn btn-primary'>Sửa</button> <button onclick='activeNews(" + row.id + ")' class='btn btn-success'>Hiện</button> <button onclick='openDeleteModal(" + row.id + ")' class='btn btn-danger'>Xoá</button>";
                     }

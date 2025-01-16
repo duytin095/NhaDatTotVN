@@ -33,10 +33,10 @@ class PropertyController extends Controller
             $properties = Property::where('delete_flg', ACTIVE)
                 ->orderBy('created_at', 'desc')
                 ->with(['type', 'status', 'seller'])
-                ->get()->toArray();
+                ->get();
             return response()->json([
                 'status' => 200,
-                'data' => $properties,
+                'data' => $properties->toArray(),
             ]);
         } catch (\Throwable $th) {
             return ApiResponse::errorResponse($th);

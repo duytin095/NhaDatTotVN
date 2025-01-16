@@ -17,6 +17,10 @@ $('#create-construction-submit-btn').on('click', function () {
     }
 });
 
+$('#createNewConstruction').on('shown.bs.modal', function () {
+    $('[name="construction_name"]').focus();
+});
+
 async function createConstruction() {
     try {
         let data = {

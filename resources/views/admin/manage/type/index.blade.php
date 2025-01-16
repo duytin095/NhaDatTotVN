@@ -15,13 +15,14 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="type-table" class="table custom-table">
+                    <table id="type-table" class="table v-middle">
                         <thead>
                             <tr>
                                 <th>Ảnh</th>
                                 <th>Tên</th>
                                 <th>Thuộc danh mục</th>
                                 <th>Ngày thêm</th>
+                                <th>Trạng thái</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
@@ -98,8 +99,8 @@
 @endpush
 <style>
     [name="type-image-preview"] {
-        width: 200px;
-        height: 200px;
+        min-width: 200px !important;
+        min-height: 200px !important;
         object-fit: cover;
     }
 

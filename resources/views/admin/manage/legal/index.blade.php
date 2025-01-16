@@ -17,7 +17,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="legal-table" class="table custom-table">
+                        <table id="legal-table" class="table v-middle">
                             <thead>
                                 <tr>
                                     <th>Tên pháp lý</th>

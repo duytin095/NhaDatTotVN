@@ -181,9 +181,25 @@ function initDataTable() {
                 "width": "5%",
                 "orderable": false
             },
-            { "data": "property_type_name", "width": "55%" },
+            { 
+                "data": null,
+                "width": "55%",
+                "render": function (row) {
+                    return '<a href="/user/posts-by-type/' + row.slug + '" target="_blank" class="text-truncate">' + row.property_type_name + '</a>'; 
+                }
+            },
             { "data": "property_purpose_name", "width": "10%" },
             { "data": "created_at", "width": "10%" },
+            {
+                "data": null,
+                "render": function (row) {
+                    if (row.active_flg == ACTIVE)
+                        return "<span class='badge bg-success'>Hiển thị</span>"
+                    else
+                        return "<span class='badge bg-danger'>Đã ẩn</span>"
+                },
+                "width": "5%"
+            },
             {
                 "data": null,
                 "render": function (row) {                    

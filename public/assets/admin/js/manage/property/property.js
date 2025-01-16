@@ -13,12 +13,13 @@ function initDataTable() {
         "columns": [
             { 
                 "data": null,
-                "width": "55%",
+                "width": "50%",
                 "render": function (row) {
                     return '<a href="/user/posts/' + row.slug + '" target="_blank" class="text-truncate" style="font-size: 15px"> <i class="icon-eye" style="margin-right: 5px;"></i>' + row.property_name + '</a>'; 
                 }
             },
             { "data": "seller.user_name", "width": "5%" },
+            { "data": "property_views", "width": "2%" },
             { "data": "type.property_type_name", "width": "5%" },
             { "data": "created_at", "width": "10%" },
             {
