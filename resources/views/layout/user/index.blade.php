@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/dropzone/dropzone.min.css') }}" />
 
     <!-- Select2 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
     <!-- Toastify -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
@@ -30,8 +30,16 @@
 </head>
 
 <body>
-    @include('layout.user.header')
-    @include('layout.user.nav-bar')
+    @if (Request::is('user/home'))
+        @include('layout.user.header')
+        @include('layout.user.nav-bar')
+    @else
+        <div class="main-header-area main-header-with-relative">
+            @include('layout.user.header') 
+            @include('layout.user.nav-bar')
+        </div>
+    @endif
+
     @include('layout.user.nav-bar-res')
 
 
@@ -61,7 +69,7 @@
 
 
     <script src="{{ asset('assets/user/js/bootstrap.bundle.min.js') }}"></script>
-    
+
     <script src="{{ asset('assets/user/js/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('assets/user/js/scrollCue.min.js') }}"></script>
     <script src="{{ asset('assets/user/js/fslightbox.min.js') }}"></script>
@@ -72,7 +80,9 @@
     <script src="{{ asset('assets/admin/vendor/dropzone/dropzone.min.js') }}"></script>
 
     <!--Google Maps -->
-    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU4Gzc5BpgYWvH7P0hqskwIuRwmr2qX20&libraries=places&loading=async&callback=initMap"></script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU4Gzc5BpgYWvH7P0hqskwIuRwmr2qX20&libraries=places&loading=async&callback=initMap">
+    </script>
 
     <script src="{{ asset('assets/js/jquery.js') }}"></script>
     <script src="{{ asset('assets/js/ajax.js') }}"></script>

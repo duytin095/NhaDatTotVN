@@ -12,11 +12,13 @@
                         <div class="form-group">
                             <label>Danh mục</label>
                             <select id="type_list" class="form-select form-control">
-                                <option value="" disabled selected>Chọn loại bất động sản <span>(BẮT BUỘC)</span></option>
+                                <option value="" disabled selected>Chọn loại bất động sản <span>(BẮT BUỘC)</span>
+                                </option>
                                 @foreach ($purposes as $key => $purpose)
                                     <optgroup label="{{ $purpose['name'] }}">
                                         @foreach ($types[$key] as $type)
-                                            <option value="{{ $type->property_type_id }}"> {{ $type->property_type_name }}</option>
+                                            <option value="{{ $type->property_type_id }}"> {{ $type->property_type_name }}
+                                            </option>
                                         @endforeach
                                     </optgroup>
                                 @endforeach
@@ -24,23 +26,21 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
-                        <div class="form-group form-control">
+                        <div class="form-group">
                             <label>Tỉnh/Thành phố</label>
-                            {{-- <div class="form-select form-control"> --}}
-                            <select name="provinces" class="area-select-matcher form-select" style="width: 100%;"></select>
-                            {{-- </div> --}}
+                            <select name="provinces" class="area-select-matcher form-select form-control"></select>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
-                        <div class="form-group form-control">
+                        <div class="form-group">
                             <label>Quận/Huyện</label>
-                            <select name="districts" class="area-select-matcher form-select" style="width: 100%;"></select>
+                            <select name="districts" class="area-select-matcher form-select form-control"></select>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
-                        <div class="form-group form-control">
+                        <div class="form-group">
                             <label>Phường/Xã</label>
-                            <select name="wards" class="area-select-matcher form-select" style="width: 100%;"></select>
+                            <select name="wards" class="area-select-matcher form-select form-control"></select>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-12">
@@ -63,17 +63,16 @@
                                 placeholder="Ví dụ: 84 An Hội, Phường 12, Gò Vấp, Tp.HCM" disabled>
                         </div>
                     </div>
+
                     <div class="col-lg-12 col-md-12">
-                        <div class="form-group form-control">
+                        <div class="form-group">
                             <label>Dự án</label>
-                            {{-- <div class="form-select form-control"> --}}
-                            <select name="construction" class="area-select-matcher" style="width: 100%;">
+                            <select name="construction" class="area-select-matcher form-select form-control">
                                 <option selected value="">Chọn dự án</option>
                                 @foreach ($constructions as $key => $construction)
                                     <option value="{{ $key }}"> {{ $construction['construction_name'] }}</option>
                                 @endforeach
                             </select>
-                            {{-- </div> --}}
                         </div>
                     </div>
 
@@ -83,8 +82,8 @@
                             <label>Mặt tiền</label>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input name="facade" type="number" min="0" class="form-control" id="floatingInputGroup1"
-                                        placeholder="">
+                                    <input name="facade" type="number" min="0" class="form-control"
+                                        id="floatingInputGroup1" placeholder="">
                                     <label for="floatingInputGroup1"></label>
                                 </div>
                                 <span class="input-group-text">m</span>
@@ -96,8 +95,8 @@
                             <label>Chiều rộng(chiều sâu)</label>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input name="depth" type="number" min="0" class="form-control" id="floatingInputGroup1"
-                                        placeholder="">
+                                    <input name="depth" type="number" min="0" class="form-control"
+                                        id="floatingInputGroup1" placeholder="">
                                     <label for="floatingInputGroup1"></label>
                                 </div>
                                 <span class="input-group-text">m</span>
@@ -109,8 +108,8 @@
                             <label>Diện tích</label>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input name="acreage" type="number" min="0" class="form-control" id="floatingInputGroup1"
-                                        placeholder="">
+                                    <input name="acreage" type="number" min="0" class="form-control"
+                                        id="floatingInputGroup1" placeholder="">
                                     <label for="floatingInputGroup1"></label>
                                 </div>
                                 <span class="input-group-text" style="line-height: 1.5;">m <sup>2</sup></span>
@@ -133,9 +132,9 @@
                         <div class="form-group">
                             <label>Pháp lý</label>
                             <select name="legal" class="form-select form-control">
-                                <option value="0" selected >Giấy tờ pháp lý</option>
-                                @foreach ($legals as $key => $legal)
-                                    <option value="{{ $key }}"> {{ $legal }}</option>
+                                <option value="0" selected>Giấy tờ pháp lý</option>
+                                @foreach ($legals as $legal)
+                                    <option value="{{ $legal['id'] }}"> {{ $legal['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -144,9 +143,9 @@
                         <div class="form-group">
                             <label>Tình trạng</label>
                             <select name="status" class="form-select form-control">
-                                <option value="0" selected >Tình trạng</option>
-                                @foreach ($statuses as $key => $status)
-                                    <option value="{{ $key }}"> {{ $status }}</option>
+                                <option value="0" selected>Tình trạng</option>
+                                @foreach ($statuses as $status)
+                                    <option value="{{ $status['id'] }}"> {{ $status['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -157,9 +156,9 @@
                             <label>
                                 Giá <span style="color:red">(ngàn đồng)</span>
                             <label>
-                            <input name="price" value="0" type="number" min="0" class="form-control" min="0" step="1000"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Thoả thuận"
-                                placeholder="">                        
+                                <input name="price" value="0" type="number" min="0"
+                                    class="form-control" min="0" step="1000" data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom" data-bs-title="Thoả thuận" placeholder="">
                         </div>
                     </div>
 
@@ -172,8 +171,8 @@
                             <div class="col-lg-12 col-md-12">
                                 <div class="form-group">
                                     <label>Địa chỉ<label>
-                                        <input name="property_address" id="search-input" type="text"
-                                            class="form-control" placeholder="Tìm địa chỉ">
+                                            <input name="property_address" id="search-input" type="text"
+                                                class="form-control" placeholder="Tìm địa chỉ">
                                 </div>
                             </div>
                             <div class="col-lg-12 col-md-12">
@@ -188,11 +187,11 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
                             <label>Tiêu đề<label>
-                            <div class="text-end text-secondary">
-                                <span id="title-count" class="">Còn 100 ký tự</span>
-                            </div>
-                            <input name="property_name" id="title-input" type="text" class="form-control"
-                                maxlength="100" placeholder="Tiêu đề tin">
+                                    <div class="text-end text-secondary">
+                                        <span id="title-count" class="">Còn 100 ký tự</span>
+                                    </div>
+                                    <input name="property_name" id="title-input" type="text" class="form-control"
+                                        maxlength="100" placeholder="Tiêu đề tin">
                         </div>
                     </div>
                     <div class="col-lg-12-col-md-12">
@@ -213,7 +212,8 @@
                                 <div class="dz-message">
                                     <button type="button" class="dz-button">Kéo thả hoặc nhấn chọn để thêm
                                         ảnh</button><br>
-                                    <span class="note needsclick" style="color: red">Thêm ít nhất 1 ảnh. Tối đa 10 ảnh</span>
+                                    <span class="note needsclick" style="color: red">Thêm ít nhất 1 ảnh. Tối đa 10
+                                        ảnh</span>
                                 </div>
                             </form>
                         </div>
@@ -225,8 +225,8 @@
                             <label>Phòng ngủ</label>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input name="bedroom" type="number" min="0" class="form-control" id="floatingInputGroup1"
-                                        placeholder="">
+                                    <input name="bedroom" type="number" min="0" class="form-control"
+                                        id="floatingInputGroup1" placeholder="">
                                     <label for="floatingInputGroup1"></label>
                                 </div>
                                 <span class="input-group-text">Phòng ngủ</span>
@@ -238,8 +238,8 @@
                             <label>Số tầng</label>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input name="floor" type="number" min="0" class="form-control" id="floatingInputGroup1"
-                                        placeholder="">
+                                    <input name="floor" type="number" min="0" class="form-control"
+                                        id="floatingInputGroup1" placeholder="">
                                     <label for="floatingInputGroup1"></label>
                                 </div>
                                 <span class="input-group-text">Số tầng</span>
@@ -251,8 +251,8 @@
                             <label>Nhà tắm</label>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input name="bathroom" type="number" min="0" class="form-control" id="floatingInputGroup1"
-                                        placeholder="">
+                                    <input name="bathroom" type="number" min="0" class="form-control"
+                                        id="floatingInputGroup1" placeholder="">
                                     <label for="floatingInputGroup1"></label>
                                 </div>
                                 <span class="input-group-text">Nhà tắm</span>
@@ -264,8 +264,8 @@
                             <label>Đường vào</label>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input name="entry" type="number" min="0" class="form-control" id="floatingInputGroup1"
-                                        placeholder="">
+                                    <input name="entry" type="number" min="0" class="form-control"
+                                        id="floatingInputGroup1" placeholder="">
                                     <label for="floatingInputGroup1"></label>
                                 </div>
                                 <span class="input-group-text">m</span>
@@ -304,3 +304,13 @@
 @push('scripts')
     <script src="{{ asset('assets/user/js/manage/post-create.js') }}"></script>
 @endpush
+<style>
+    .select2-container--default .select2-selection--single {
+        border: none !important;
+        height: 55px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 55px !important;
+    }
+</style>

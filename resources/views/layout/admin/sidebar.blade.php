@@ -1,64 +1,3 @@
-{{-- <nav class="sidebar-wrapper">
-
-    <!-- Sidebar content start -->
-    <div class="sidebar-tabs">
-
-        <!-- Tabs nav start -->
-        <div class="nav" role="tablist" aria-orientation="vertical">
-            <a href="#" class="logo">
-                <img src="{{ asset('assets/admin/img/logo.svg') }}" alt="logo">
-            </a>
-            <a class="nav-link active" id="product-tab" data-bs-toggle="tab" href="#tab-product" role="tab"
-                aria-controls="tab-product" aria-selected="false">
-                <i class="icon-layers2"></i>
-                <span class="nav-link-text">Quản lý</span>
-            </a>
-
-        </div>
-        <!-- Tabs nav end -->
-
-        <!-- Tabs content start -->
-        <div class="tab-content">
-            <!-- Pages tab -->
-            <div class="tab-pane fade show active" id="tab-product" role="tabpanel" aria-labelledby="product-tab">
-
-                <!-- Tab content header start -->
-                <div class="tab-pane-header">
-                    Quản lý
-                </div>
-                <!-- Tab content header end -->
-
-                <!-- Sidebar menu starts -->
-                <div class="sidebarMenuScroll">
-                    <div class="sidebar-menu">
-                        <ul>
-                            <li>
-                                <a href="{{ route('admin.users.index') }}">Danh sách người dùng</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.types.show') }}">Danh sách danh mục</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.constructions.show') }}">Danh sách dự án</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.news-types.index') }}">Danh sách loại tin tức</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.news.show') }}">Danh sách tin tức</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Sidebar menu ends -->
-            </div>
-        </div>
-        <!-- Tabs content end -->
-
-    </div>
-    <!-- Sidebar content end -->
-
-</nav> --}}
 <nav class="sidebar-wrapper">
 
     <!-- Sidebar content start -->
@@ -99,155 +38,131 @@
                 <i class="icon-box"></i>
                 <span class="nav-link-text">Dự án</span>
             </a>
+            <a class="nav-link" id="pricing-plans-tab" data-bs-toggle="tab" href="#tab-pricing-plans" role="tab"
+                aria-controls="tab-pricing-plans" aria-selected="false">
+                <i class="icon-price-tag"></i>
+                <span class="nav-link-text">Gói</span>
+            </a>
+            <a class="nav-link" id="legals-tab" data-bs-toggle="tab" href="#tab-legals" role="tab"
+                aria-controls="tab-legals" aria-selected="false">
+                <i class="icon-shield1"></i>
+                <span class="nav-link-text">Pháp lý</span>
+            </a>
+            <a class="nav-link" id="statuses-tab" data-bs-toggle="tab" href="#tab-statuses" role="tab"
+                aria-controls="tab-statuses" aria-selected="false">
+                <i class="icon-subject"></i>
+                <span class="nav-link-text">Tình trạng</span>
+            </a>
         </div>
         <!-- Tabs nav end -->
 
         <!-- Tabs content start -->
         <div class="tab-content">
             <div class="tab-pane fade" id="tab-users" role="tabpanel" aria-labelledby="users-tab">
-
-                <!-- Tab content header start -->
-                <div class="tab-pane-header">
-                    Người dùng
-                </div>
-                <!-- Tab content header end -->
-
-                <!-- Sidebar menu starts -->
+                <div class="tab-pane-header">Người dùng</div>
                 <div class="sidebarMenuScroll">
                     <div class="sidebar-menu">
                         <ul>
-                            <li>
-                                <a href="{{ route('admin.users.index') }}">Danh sách người dùng</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.users.create') }}">Thêm người dùng</a>
-                            </li>
+                            <li><a href="{{ route('admin.users.index') }}">Danh sách người dùng</a></li>
+                            <li><a href="{{ route('admin.users.create') }}">Thêm người dùng</a></li>
                         </ul>
-
                     </div>
                 </div>
-                <!-- Sidebar menu ends -->
             </div>
 
             <div class="tab-pane fade" id="tab-properties" role="tabpanel" aria-labelledby="properties-tab">
-
-                <!-- Tab content header start -->
-                <div class="tab-pane-header">
-                    Tin đăng
-                </div>
-                <!-- Tab content header end -->
-
-                <!-- Sidebar menu starts -->
+                <div class="tab-pane-header">Tin đăng</div>
                 <div class="sidebarMenuScroll">
                     <div class="sidebar-menu">
                         <ul>
-                            <li>
-                                <a href="{{ route('admin.properties.index') }}">Danh sách tin đăng</a>
-                            </li>
-                            {{-- <li>
-                                <a href="{{ route('admin.properties.create') }}">Thêm tin đăng</a>
-                            </li> --}}
+                            <li><a href="{{ route('admin.properties.index') }}">Danh sách tin đăng</a></li>
                         </ul>
 
                     </div>
                 </div>
-                <!-- Sidebar menu ends -->
             </div>
 
 
-            <!-- Pages tab -->
+            <!-- Types tab -->
             <div class="tab-pane fade" id="tab-types" role="tabpanel" aria-labelledby="types-tab">
-
-                <!-- Tab content header start -->
-                <div class="tab-pane-header">
-                    Danh mục
-                </div>
-                <!-- Tab content header end -->
-
-                <!-- Sidebar menu starts -->
+                <div class="tab-pane-header">Danh mục</div>
                 <div class="sidebarMenuScroll">
                     <div class="sidebar-menu">
                         <ul>
                             <li>
-                                <a href="{{ route('admin.types.show') }}">Danh sách danh mục</a>
+                                <a href="{{ route('admin.types.show') }}">Tất cả danh mục</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <!-- Sidebar menu ends -->
-
             </div>
 
-            <!-- Pages tab -->
+            <!-- News tab -->
             <div class="tab-pane fade" id="tab-news" role="tabpanel" aria-labelledby="news-tab">
-
-                <!-- Tab content header start -->
-                <div class="tab-pane-header">
-                    Tin tức
-                </div>
-                <!-- Tab content header end -->
-
-                <!-- Sidebar menu starts -->
+                <div class="tab-pane-header">Tin tức</div>
                 <div class="sidebarMenuScroll">
                     <div class="sidebar-menu">
                         <ul>
-                            <li>
-                                <a href="{{ route('admin.news.show') }}">Danh sách tin tức</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.news.create') }}">Thêm tin tức</a>
-                            </li>
+                            <li><a href="{{ route('admin.news.show') }}">Danh sách tin tức</a></li>
+                            <li><a href="{{ route('admin.news.create') }}">Thêm tin tức</a></li>
                         </ul>
                     </div>
                 </div>
-                <!-- Sidebar menu ends -->
-
             </div>
 
-            <!-- Forms tab -->
+            <!-- News types tab -->
             <div class="tab-pane fade" id="tab-news-types" role="tabpanel" aria-labelledby="news-types-tab">
-
-                <!-- Tab content header start -->
-                <div class="tab-pane-header">
-                    Loại tin tức
-                </div>
-                <!-- Tab content header end -->
-
-                <!-- Sidebar menu starts -->
+                <div class="tab-pane-header">Loại tin tức</div>
                 <div class="sidebarMenuScroll">
                     <div class="sidebar-menu">
                         <ul>
-                            <li>
-                                <a href="{{ route('admin.news-types.index') }}">Danh sách loại tin tức</a>
-                            </li>
+                            <li><a href="{{ route('admin.news-types.index') }}">Danh sách loại tin tức</a></li>
                         </ul>
                     </div>
                 </div>
-                <!-- Sidebar menu ends -->
-
             </div>
 
-            <!-- Components tab -->
+            <!-- Constructions tab -->
             <div class="tab-pane fade" id="tab-constructions" role="tabpanel" aria-labelledby="constructions-tab">
-
-                <!-- Tab content header start -->
-                <div class="tab-pane-header">
-                    Dự án
-                </div>
-                <!-- Tab content header end -->
-
-                <!-- Sidebar menu starts -->
+                <div class="tab-pane-header">Dự án</div>
                 <div class="sidebarMenuScroll">
                     <div class="sidebar-menu">
                         <ul>
-                            <li>
-                                <a href="{{ route('admin.constructions.show') }}">Danh sách dự án</a>
-                            </li>
+                            <li><a href="{{ route('admin.constructions.index') }}">Danh sách dự án</a></li>
                         </ul>
                     </div>
                 </div>
-                <!-- Sidebar menu ends -->
-
+            </div>
+            <div class="tab-pane fade" id="tab-pricing-plans" role="tabpanel" aria-labelledby="pricing-plans-tab">
+                <div class="tab-pane-header">Gói đẩy tin</div>
+                <div class="sidebarMenuScroll">
+                    <div class="sidebar-menu">
+                        <ul>
+                            <li><a href="{{ route('admin.pricing-plans.index') }}">Danh sách gói</a></li>
+                            <li><a href="{{ route('admin.pricing-plans.create') }}">Thêm gói</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab-legals" role="tabpanel" aria-labelledby="legals-tab">
+                <div class="tab-pane-header">Pháp lý</div>
+                <div class="sidebarMenuScroll">
+                    <div class="sidebar-menu">
+                        <ul>
+                            <li><a href="{{ route('admin.legals.index') }}">Danh sách pháp lý</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab-statuses" role="tabpanel" aria-labelledby="statuses-tab">
+                <div class="tab-pane-header">Tình trạng</div>
+                <div class="sidebarMenuScroll">
+                    <div class="sidebar-menu">
+                        <ul>
+                            <li><a href="{{ route('admin.statuses.index') }}">Tình trạng</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -259,6 +174,7 @@
 </nav>
 @push('scripts')
     <script>
+        // check the name on current url and add active class to the tab
         const currentUrl = window.location.href;
         const match = currentUrl.match(/\/admin\/([^\/]+)/);
         const currentTabStr = `${match[1]}-tab`;
@@ -271,9 +187,26 @@
         $('.tab-content .tab-pane#' + currentTabPaneStr).addClass('show active');
 
         $('.tab-content .tab-pane a').each(function() {
-            if ($(this).attr('href') === window.location.href) {
+
+            if ($(this).attr('href').trim() === window.location.href.trim()) {
                 $(this).addClass('current-page');
             }
         });
+
+
+        // tab hover
+        jQuery('.sidebar-tabs .nav a.nav-link').hover(function(e) {
+            e.preventDefault();
+            jQuery('.tab-pane').removeClass('active');
+            tabContentSelector = jQuery(this).attr('href');
+            jQuery(this).tab('show');
+            jQuery(tabContentSelector).addClass('active');
+        });
     </script>
 @endpush
+<style>
+    .nav-link {
+        border-bottom: 1px solid #111;
+        margin-bottom: 10px;
+    }
+</style>

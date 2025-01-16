@@ -119,6 +119,7 @@ function initDataTable() {
         "ordering": true,
         "order": [[1, "desc"]],
         "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50, "All"]],
+        "pageLength": 50,
         "language": {
             "lengthMenu": "Hiển thị _MENU_ tin/trang",
             "info": "Hiển thị trang _PAGE_ của _PAGES_",

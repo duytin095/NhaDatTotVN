@@ -95,7 +95,7 @@ Xin càm ơn!        ';
                 'property_price' => rand(0, 10000000),
 
                 'property_status' => rand(0, 1),
-                'property_legal' => rand(1, 3),
+                'property_legal' => 0,
                 'property_direction' => rand(0, 3),
                 'property_facade' => rand(0, 500),
                 'property_depth' => rand(0, 500),

@@ -18,7 +18,7 @@
                     <table id="type-table" class="table custom-table">
                         <thead>
                             <tr>
-                                <th></th>
+                                <th>Ảnh</th>
                                 <th>Tên</th>
                                 <th>Thuộc danh mục</th>
                                 <th>Ngày thêm</th>

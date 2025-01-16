@@ -114,26 +114,6 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="property-details-image">
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col-lg-4 col-md-12">
-                                <div class="row justify-content-center">
-                                    @for ($i = 1; $i < count($property['property_images']); $i++)
-                                        <div class="col-lg-6 col-sm-6">
-                                            <div class="block-image">
-                                                <img src="{{ asset($property['property_images'][$i]) }}" alt="image">
-                                            </div>
-                                        </div>
-                                    @endfor
-                                </div>
-                            </div>
-                            <div class="col-lg-8 col-md-12">
-                                <div class="block-image">
-                                    <img src="{{ asset($property['property_images'][0]) }}" alt="image">
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="property-details-inner-content">
                         <div class="row justify-content-center">
                             <div class="col-xl-8 col-md-12">
@@ -305,8 +285,21 @@
                                                         <span class="d-inline">Pháp lý</span>
                                                     </div>
                                                     <div class="col-6 text-end">
-                                                        @if ($property->property_legal != 0 && $property->property_legal != null)
-                                                            {{ config('constants.property-basic-info.property-legals')[$property->property_legal] }}
+                                                        @if ($property->property_legal != 0)
+                                                            {{ $property['legal']['name'] }}
+                                                        @else
+                                                            --
+                                                        @endif
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-6">
+                                                        <i class="ri-check-double-fill d-inline"></i>
+                                                        <span class="d-inline">Tình trạng</span>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        @if ($property->property_status != 0)
+                                                            {{ $property['status']['name'] }}
                                                         @else
                                                             --
                                                         @endif

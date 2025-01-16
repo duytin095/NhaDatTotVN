@@ -51,8 +51,13 @@
                         <div class="field-placeholder">Nhập lại mật khẩu<span class="text-danger">*</span></div>
                     </div>
                 </div>
-                <div>
-                    <button class="btn btn-primary" onclick="createUser()" type="button">Lưu</button>
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="form-actions-footer">
+                        <div class="text-end">
+                            <button class="btn btn-secondary" onclick="history.back()" type="button">Trở về</button>
+                            <button class="btn btn-primary" onclick="createUser()" type="button">Lưu</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

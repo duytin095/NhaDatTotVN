@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Manage;
 
 use App\Models\User;
+use App\Models\Wallet;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -21,12 +22,12 @@ class UserController extends Controller
     {
         try {
             $users = User::orderBy('created_at', 'desc')
-                ->where('delete_flg', ACTIVE)
-                ->get()
-                ->toArray();
+                ->where('delete_flg', ACTIVE)->with('wallet')
+                ->get();
+
             return response()->json([
                 'status' => 200,
-                'data' => $users,
+                'data' => $users->toArray(),
             ]);
         } catch (\Throwable $th) {
             return ApiResponse::errorResponse($th);
@@ -131,6 +132,36 @@ class UserController extends Controller
             return ApiResponse::updateSuccessResponse();
         } catch (\Throwable $th) {
             DB::rollBack();
+            return ApiResponse::errorResponse($th);
+        }
+    }
+
+    public function recharge(Request $req, string $id)
+    {
+        try {
+            $wallet = Wallet::where('user_id', $id)->firstOrCreate();
+            $wallet->update([
+                'balance' => $wallet->balance + $req->input('amount')
+            ]);
+            return ApiResponse::updateSuccessResponse();
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
+    }
+    public function discharge(Request $req, string $id)
+    {
+        try {
+            $wallet = Wallet::where('user_id', $id)->firstOrCreate();
+            $wallet->update([
+                'balance' => $wallet->balance - $req->input('amount')
+            ]);
+            if ($wallet->balance < 0) {
+                $wallet->update([
+                    'balance' => 0.00
+                ]);
+            }
+            return ApiResponse::updateSuccessResponse();
+        } catch (\Throwable $th) {
             return ApiResponse::errorResponse($th);
         }
     }

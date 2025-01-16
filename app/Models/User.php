@@ -60,7 +60,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Property::class, 'property_seller_id', 'user_id');
     }
-    
+
     public function getUserImageAttribute()
     {
         return json_decode($this->user_avatar, true);
@@ -76,7 +76,8 @@ class User extends Authenticatable
         return Carbon::parse($value)->format('d-m-Y');
     }
 
-    public function favorites(): BelongsToMany{
+    public function favorites(): BelongsToMany
+    {
         return $this->belongsToMany(Property::class, 'favorite_list', 'user_id', 'property_id')
             ->withTimestamps();
     }
@@ -96,10 +97,17 @@ class User extends Authenticatable
         return $this->belongsTo(PricingPlan::class);
     }
 
+    public function getBalanceAttribute()
+    {
+        return $this->wallet->balance;
+    }
+
     public function posts()
     {
         return $this->hasMany(Property::class, 'property_seller_id', 'user_id');
     }
+
+
     /**
      * The attributes that should be hidden for serialization.
      *

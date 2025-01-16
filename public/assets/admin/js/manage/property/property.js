@@ -1,110 +1,6 @@
 $(document).ready(function () {
     initDataTable();
 });
-// async function getProperties(page = 1) {
-//     try {
-//         const response = await sendRequest(`${window.location.origin}/admin/properties/data?page=${page}`, 'GET');
-//         if (response.status == 200) {
-//             const properties = response.properties.data;
-//             const paginate = response.paginate;
-//             displayProperties(properties, paginate);
-
-//             window.history.pushState(null, null, `${window.location.pathname}?page=${page}`); // update the URL in the browser's address bar to reflect the current page number
-//             // window.location.hash = `page=${page}`; // the other way to update the URL fragment (the part after the # symbol) to reflect the current page number
-//         }
-//     } catch (error) {
-//         showMessage(error.message);
-//     }
-// }
-// function displayProperties(data, paginate) {
-//     $('#property-table tbody').empty();
-//     $.each(data, function (key, value) {
-//         const thumbnail = JSON.parse(value.property_image);
-
-//         $('#property-table tbody').append(`
-//             <tr role="row" class="odd">
-//                 <td class="sorting_1">
-//                     <div class="media-box">
-//                         <img src="${window.location.origin}/${thumbnail[0]}" width="40" class="media-avatar" alt="Product">
-//                         <div class="media-box-body">
-//                             <a href="# class="text-truncate">${value.property_name}</a>
-//                             <p>ID: ${value.property_id}</p>
-//                         </div>
-//                     </div>
-//                 </td>
-//                 <td>${value.type.property_type_name}</td>
-//                 <td>${value.created_at}</td>
-//                 <td>${value.property_price}</td>
-//                 <td>${value.property_acreage}</td>
-//                 <td>
-//                     <span class="badge bg-success">${value.status.property_status_name}</span>
-//                 </td>
-//                 <td>${value.property_address}</td>
-//                 <td>
-//                         <div class="actions">
-//                             <a href="javascript:void(0)" onclick="openEditPage(${value.property_id})" data-toggle="tooltip" data-placement="top" title=""
-//                                 data-original-title="Edit">
-//                                 <i class="icon-edit1 text-info"></i>
-//                             </a>
-//                             <a href="javascript:void(0)" onclick="openDeleteModal(${value.property_id})" data-toggle="tooltip" data-placement="top" title=""
-//                                 data-original-title="Delete">
-//                                 <i class="icon-x-circle text-danger"></i>
-//                             </a>
-//                         </div>
-//                     </td>
-//             </tr>
-//         `)
-//     });
-//     const paginationHtml = `
-//         <ul class="pagination pagination-sm">
-//             <li class="paginate_button page-item previous ${paginate.current_page == 1 ? 'disabled' : ''}">
-//                 <a class="page-link" href="#" onclick="getProperties(${paginate.current_page - 1})">Previous</a>
-//             </li>
-//             ${paginate.links.map((link, index) => `
-//                 <li class="page-item ${link.active ? 'active' : ''}">
-//                     <a class="page-link" href="#" onclick="getProperties(${link.label})">${link.label}</a>
-//                 </li>
-//             `).join('')}
-//             <li class="page-item ${paginate.current_page == paginate.last_page ? 'disabled' : ''}">
-//                 <a class="page-link" href="#" onclick="getProperties(${paginate.current_page + 1})">Next</a>
-//             </li>
-//         </ul>
-//     `;
-//     $('#property-table-pagination-links').html(paginationHtml);
-//     $('#property-table-info').text(`Showing ${paginate.from} to ${paginate.to} of ${paginate.total} entries`);
-// }
-
-
-// function openDeleteModal(id) {
-//     let event = {
-//         icon: 'question',
-//         title: 'Delete Type',
-//         text: 'You sure want to delete this type?',
-//         action: 'deleteProperty',
-//         data: id,
-//     }
-//     confirmEvent(event);
-// }
-// async function deleteProperty(id) {
-//     try {
-//         const response = await sendRequest(`${window.location.origin}/admin/properties/${id}`, 'DELETE');
-//         if (response.status == 200) {
-//             getProperties();
-//             showMessage(response.message);
-//         }
-//     } catch (error) {
-//         showMessage(error.message);
-//     }
-// }
-
-// async function openEditPage(id) {
-//     try {
-//         window.location.href = '/admin/properties/edit/' + id + '';
-//     } catch (error) {
-//         showMessage(error.message);
-//     }
-// }
-
 
 function initDataTable() {
     $('#property-table').DataTable({
@@ -115,40 +11,58 @@ function initDataTable() {
             }
         },
         "columns": [
-            // {
-            //     "data": null,
-            //     "render": function (row) {
-            //         if (row.property_type_image === null) {
-            //             return '<img src="' + window.location.origin + '/assets/user/images/default-type.jpg" width="50" height="50">';
-            //         } else {
-            //             return '<img src="' + window.location.origin + '/' + JSON.parse(row.property_type_image) + '" width="50" height="50">';
-            //         }
-            //     },
-            //     "width": "5%",
-            //     "orderable": false
-            // },
-            { "data": "property_name", "width": "55%" },
-            // { "data": "property_purpose_name", "width": "10%" },
+            { 
+                "data": null,
+                "width": "55%",
+                "render": function (row) {
+                    return '<a href="/user/posts/' + row.slug + '" target="_blank" class="text-truncate" style="font-size: 15px"> <i class="icon-eye" style="margin-right: 5px;"></i>' + row.property_name + '</a>'; 
+                }
+            },
+            { "data": "seller.user_name", "width": "5%" },
+            { "data": "type.property_type_name", "width": "5%" },
             { "data": "created_at", "width": "10%" },
+            {
+                "data": null,
+                "render": function (row) {
+                    if (row.active_flg == ACTIVE)
+                        return "<span class='badge bg-success'>Hiển thị</span>"
+                    else
+                        return "<span class='badge bg-danger'>Đã ẩn</span>"
+                },
+                "width": "5%"
+            },
             {
                 "data": null,
                 "render": function (row) {                    
                     if(row.active_flg == ACTIVE)                        
-                        return "<button onclick='activeType("+ row.property_type_id +")' class='btn btn-secondary'>Ẩn</button>";
+                        return "<button onclick='activeProperty("+ row.property_id +")' class='btn btn-secondary'>Ẩn</button>";
                     else{
-                        return "<button onclick='activeType("+ row.property_type_id +")' class='btn btn-success'>Hiện</button>";
+                        return "<button onclick='activeProperty("+ row.property_id +")' class='btn btn-success'>Hiện</button>";
                     }
                 },
-                "width": "20%",
+                "width": "10%",
                 "orderable": false
             }
         ],
         "ordering": true,
         "order": [[1, "desc"]],
         "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50, "All"]],
+        "pageLength": 50,
         "language": {
             "lengthMenu": "Hiển thị _MENU_ tin/trang",
             "info": "Hiển thị trang _PAGE_ của _PAGES_",
         }
     });
+}
+
+async function activeProperty(id) {
+    try {
+        const response = await sendRequest(`${window.location.origin}/admin/properties/toggle-active/${id}`, 'PUT');
+        if (response.status == 200) {
+            $('#property-table').DataTable().ajax.reload(null, false);
+            showMessage(response.message);
+        }
+    } catch (error) {
+        showMessage(error.message);
+    }
 }

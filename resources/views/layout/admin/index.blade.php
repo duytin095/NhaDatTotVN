@@ -50,7 +50,8 @@
     <!-- Summernote CSS -->
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/summernote/summernote-bs4.css') }}">
 
-
+    <!-- Notify -->
+    <link rel="stylesheet" href="{{ asset('assets/admin/vendor/notify/notify-flat.css') }}"/>
 
 </head>
 
@@ -157,6 +158,10 @@
     <!-- Summernote JS -->
     <script src="{{ asset('assets/admin/vendor/summernote/summernote-bs4.js') }}"></script>
 
+    <!-- Notify -->
+    <script src="{{ asset('assets/admin/vendor/notify/notify.js') }}"></script>
+    <script src="{{ asset('assets/admin/vendor/notify/notify-custom.js') }}"></script>
+    
     <!-- Main Js Required -->
     <script src="{{ asset('assets/admin/js/main.js') }}"></script>
 

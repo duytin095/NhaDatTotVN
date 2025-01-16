@@ -8,11 +8,12 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="user-table" class="table custom-table">
+                        <table id="user-table" class="table v-middle">
                             <thead>
                                 <tr>
                                     <th>Ảnh</th>
                                     <th>Tên người dùng</th>
+                                    <th>Số dư</th>
                                     <th>Số điện thoại</th>
                                     <th>Email</th>
                                     <th>Trạng thái</th>

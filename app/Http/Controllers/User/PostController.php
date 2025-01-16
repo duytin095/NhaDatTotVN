@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Type;
+use App\Models\Legal;
+use App\Models\Status;
 use App\Models\Property;
 use App\Models\WatchedPost;
 use App\Helpers\ApiResponse;
@@ -72,8 +74,8 @@ class PostController extends Controller
             $types = Type::where('active_flg', ACTIVE)->orderBy('property_purpose_id', 'asc')->get()->groupBy('property_purpose_id');
             $purposes = config('constants.property-basic-info.property-purposes');
             $directions = config('constants.property-basic-info.property-directions');
-            $legals = config('constants.property-basic-info.property-legals');
-            $statuses = config('constants.property-basic-info.property-statuses');
+            $legals = Legal::where('active_flg', ACTIVE)->get();
+            $statuses = Status::where('active_flg', ACTIVE)->get();
             $videoLinks = config('constants.property-basic-info.video-links');
             $constructions = Construction::where('active_flg', ACTIVE)->get();
             return view('user.post-create', compact('purposes', 'types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
@@ -168,9 +170,9 @@ class PostController extends Controller
                 }
             }
 
-            if(Auth::guard('users')->user()->verified === UNVERIFIED) {
-                return ApiResponse::walletNotVerifiedResponse('/user/wallet');
-            }
+            // if(Auth::guard('users')->user()->verified === UNVERIFIED) {
+            //     return ApiResponse::walletNotVerifiedResponse('/user/wallet');
+            // }
 
             $balance = Auth::guard('users')->user()->wallet->balance;
             if($balance < POST_FEE) {

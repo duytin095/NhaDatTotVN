@@ -47,9 +47,10 @@ class AgentController extends Controller
         try {
             $agent = User::where('active_flg', ACTIVE)->where('slug', $slug)->firstOrFail();
             $properties = $agent->properties()
+                ->orderBy('created_at', 'desc')
                 ->where('active_flg', ACTIVE)
                 ->where('delete_flg', ACTIVE)
-                ->paginate(10);   
+                ->paginate(9);   
 
             $this->breadcrumbService->addCrumb($agent->user_name);
 

@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\Manage\StatusController;
 use App\Http\Controllers\Admin\Manage\NewsTypeController;
 use App\Http\Controllers\Admin\Manage\PropertyController;
 use App\Http\Controllers\Admin\Manage\ConstructionController;
+use App\Http\Controllers\Admin\Manage\LegalController;
+use App\Http\Controllers\Admin\Manage\PricingPlanController;
 use App\Http\Controllers\User\SePayController;
 
 Route::name('admin.')->prefix('admin')->group(function () {
@@ -27,8 +29,6 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
         // Route::get('/signup', 'displayAdminSignup')->name('signup.show');
         // Route::post('/signup', 'onAdminSignup')->name('signup.store');
-        
-
     });
 
     Route::middleware(['admin.auth'])->group(function () {
@@ -44,6 +44,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get      ('/properties/create', [PropertyController::class, 'create'])->name('properties.create');
         // Route::post     ('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
         Route::get      ('/properties/data', [PropertyController::class, 'get'])->name('properties.get');
+        Route::put      ('/properties/toggle-active/{id}', [PropertyController::class, 'toggleActive'])->name('properties.toggle-active');
         // Route::get      ('/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties.edit');
         // Route::put      ('/properties/update/{id}', [PropertyController::class, 'update'])->name('properties.update');
         // Route::delete   ('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.destroy');
@@ -59,15 +60,14 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::delete   ('/types/{id}', [TypeController::class, 'destroy'])->name('types.destroy');
 
         // DU AN
-        Route::get      ('/constructions', [ConstructionController::class, 'index'])->name('constructions.show');
+        Route::get      ('/constructions', [ConstructionController::class, 'index'])->name('constructions.index');
         Route::get      ('/constructions/get', [ConstructionController::class, 'get'])->name('constructions.get');
         Route::post     ('/constructions/store', [ConstructionController::class, 'store'])->name('constructions.store');
         Route::put      ('/constructions/{id}', [ConstructionController::class, 'update'])->name('constructions.update');
         Route::put      ('/constructions/toggle-active/{id}', [ConstructionController::class, 'toggleActive'])->name('constructions.toggle-active');
         Route::delete   ('/constructions/{id}', [ConstructionController::class, 'destroy'])->name('constructions.destroy');
 
-        // TRANG THAI
-        Route::get      ('/statuses/all-data', [StatusController::class, 'getAllStatuses'])->name('statuses.get-all-statuses');
+
 
         // TIN TUC
         Route::get      ('/news', [NewsController::class, 'index'])->name('news.show');
@@ -93,9 +93,28 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::post     ('/users/store', [UserController::class, 'store'])->name('users.store');
         Route::get      ('/users/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
         Route::put      ('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+        Route::put      ('/users/recharge/{id}', [UserController::class, 'recharge'])->name('users.recharge');
+        Route::put      ('/users/discharge/{id}', [UserController::class, 'discharge'])->name('users.discharge');
         Route::delete   ('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::put      ('/users/toggle-active/{id}', [UserController::class, 'toggleActive'])->name('users.toggle-active');
 
+        // DANH SACH GOI
+        Route::get      ('/pricing-plans', [PricingPlanController::class, 'index'])->name('pricing-plans.index');
+        Route::get      ('/pricing-plans/create', [PricingPlanController::class, 'create'])->name('pricing-plans.create');
+
+        // DANH SACH PHAP LY
+        Route::get      ('/legals', [LegalController::class, 'index'])->name('legals.index');
+        Route::get      ('/legals/get', [LegalController::class, 'get'])->name('legals.get');
+        Route::post     ('/legals/store', [LegalController::class, 'store'])->name('legals.store');
+        Route::put      ('/legals/{id}', [LegalController::class, 'update'])->name('legals.update');
+        Route::delete   ('/legals/{id}', [LegalController::class, 'destroy'])->name('legals.destroy');
+
+        // DANNH SACH TINH TRANG
+        Route::get      ('/statuses', [StatusController::class, 'index'])->name('statuses.index');
+        Route::get      ('/statuses/get', [StatusController::class, 'get'])->name('statuses.get');
+        Route::post     ('/statuses/store', [StatusController::class, 'store'])->name('statuses.store');
+        Route::put      ('/statuses/{id}', [StatusController::class, 'update'])->name('statuses.update');
+        Route::delete   ('/statuses/{id}', [StatusController::class, 'destroy'])->name('statuses.destroy');
     });
 });
 
@@ -119,6 +138,8 @@ Route::name('user.')->prefix('user')->group(function () {
 
     Route::get      ('/agents', [AgentController::class, 'index'])->name('agents.index');
     Route::get      ('/agents/{slug}', [AgentController::class, 'show'])->name('agents.show');
+
+    Route::get      ('/wallet/pricing', [WalletController::class, 'pricing'])->name('wallet.pricing');
          
 
     Route::middleware(['users.auth'])->group(function () {
@@ -137,7 +158,6 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::get      ('/wallet/schedule-check-pending-payment', [SePayController::class, 'scheduleCheckPendingPayment'])->name('wallet.schedule-check-pending-payment');
         Route::post     ('/wallet/cancel-pending-payment', [SepayController::class, 'cancelPendingPayment'])->name('wallet.cancel-pending-payment');
         Route::get      ('/wallet/transactions', [WalletController::class, 'get'])->name('wallet.transactions');
-        Route::get      ('/wallet/pricing', [WalletController::class, 'pricing'])->name('wallet.pricing');
 
         // TIN DANG
         Route::get      ('/posts', [PostController::class, 'index'])->name('posts.index');

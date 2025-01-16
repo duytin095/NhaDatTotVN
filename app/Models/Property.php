@@ -85,10 +85,21 @@ class Property extends Model
         return $this->belongsTo(Type::class, 'property_type_id', 'property_type_id');
     }
 
+    public function legal()
+    {
+        return $this->belongsTo(Legal::class, 'property_legal', 'id');
+    }
+
     public function seller()
     {
         return $this->belongsTo(User::class, 'property_seller_id', 'user_id');
     }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'property_status', 'id');
+    }
+
     public function getLabelAttribute()
     {
         return config('constants.property-basic-info.property-labels')[$this->property_label];

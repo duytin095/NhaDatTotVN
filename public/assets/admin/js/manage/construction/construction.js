@@ -17,7 +17,6 @@ $('#create-construction-submit-btn').on('click', function () {
     }
 });
 
-
 async function createConstruction() {
     try {
         let data = {
@@ -135,7 +134,7 @@ function initDataTable() {
                     if(row.active_flg == ACTIVE)                        
                         return "<button onclick='openEditModal(" + row.construction_id + ", \"" + row.construction_name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeConstruction("+ row.construction_id +")' class='btn btn-secondary'>Ẩn</button>";
                     else{
-                        return "<button onclick='openEditModal(" + row.construction_idid + ", \"" + row.construction_name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeConstruction("+ row.construction_id +")' class='btn btn-success'>Hiện</button>";
+                        return "<button onclick='openEditModal(" + row.construction_id + ", \"" + row.construction_name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeConstruction("+ row.construction_id +")' class='btn btn-success'>Hiện</button>";
                     }
                     // return "<button onclick='openUpdateModal(" + row.construction_id + ", \"" + row.construction_name + "\")' class='btn btn-primary'>Sửa</button>  <button class='btn btn-secondary'>Ẩn</button>";
                 },
@@ -146,6 +145,7 @@ function initDataTable() {
         "ordering": true,
         "order": [[1, "desc"]],
         "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50, "All"]],
+        "pageLength": 50,
         "language": {
             "lengthMenu": "Hiển thị _MENU_ tin/trang",
             "info": "Hiển thị trang _PAGE_ của _PAGES_",
