@@ -43,7 +43,7 @@
                                 </form>
                             @else
                                 <form class="search-form"
-                                    action="{{ route('user.posts.show-by-type', ['slug' => $purposes[$key]['slug']]) }}"
+                                    action="{{ route('user.posts.show-by-type', ['slug' => $rootTypes[$key]['slug']]) }}"
                                     method="GET">
                                     <input type="text" class="search-field" name="query"
                                         value="{{ request()->input('query') }}" placeholder="Tìm kiếm">
@@ -129,7 +129,7 @@
                         </div> --}}
                         <div class="widget widget_advanced_search">
                             <h3 class="widget-title">Tìm kiếm nâng cao</h3>
-                            <form class="advanced-search-form" action="{{ route('user.posts.search') }}" method="GET">
+                            <form class="advanced-search-form" action="{{ route('user.posts-by-type.search') }}" method="GET">
                                 <div class="form-group">
                                     <input name="property_min_acreage" type="number" min="0" class="form-control"
                                         placeholder="Diện tích tối thiểu">

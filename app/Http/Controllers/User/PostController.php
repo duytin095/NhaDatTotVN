@@ -12,6 +12,7 @@ use App\Models\Construction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\RootType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
@@ -248,9 +249,9 @@ class PostController extends Controller
                 ->firstOrFail();
 
 
-            if (Auth::guard('users')->check() && $property->property_seller_id != Auth::guard('users')->user()->user_id) {
-                $property->incrementPropertyView();
-            }
+            // if (Auth::guard('users')->check() && $property->property_seller_id != Auth::guard('users')->user()->user_id) {
+            $property->incrementPropertyView();
+            // }
 
             $this->watch($property->property_id);
 
@@ -259,7 +260,7 @@ class PostController extends Controller
                 ->take(5)->get();
 
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
-            $this->breadcrumbService->addCrumb($property['type']->getPurposeNameAttribute(), '/user/posts-by-type/' . $property['type']->getPurposeSlugAttribute());
+            $this->breadcrumbService->addCrumb($property->type->rootType->name, '/user/posts-by-type/' . $property->type->rootType->name);
             $this->breadcrumbService->addCrumb($property['type']->property_type_name, '/user/posts-by-type/' . $property['type']->slug);
 
             return view('user.post-detail')
@@ -289,9 +290,8 @@ class PostController extends Controller
 
             $this->breadcrumbService->addCrumb('Trang chủ', '/user/home');
 
-            $purposes = config('constants.property-basic-info.property-purposes');
-            $key = array_search($slug, array_column($purposes, 'slug'));
-
+            $rootTypes = RootType::where('active_flg', ACTIVE)->get()->toArray();
+            $key = array_search($slug, array_column($rootTypes, 'slug'));
 
             if ($key !== false) {
                 $types = Type::where('property_purpose_id', $key)->withCount('properties')->get();
@@ -320,7 +320,7 @@ class PostController extends Controller
                     ->orderBy('users.pricing_plan_id', 'desc')
                     
                     ->paginate(10);
-                $this->breadcrumbService->addCrumb($purposes[$key]['name'], $purposes[$key]['slug']);
+                $this->breadcrumbService->addCrumb($rootTypes[$key]['name'], $rootTypes[$key]['slug']);
             } else {
                 $type = Type::where('slug', $slug)->first();
                 $types = Type::where('property_purpose_id', $type->property_purpose_id)->withCount('properties')->get();
@@ -349,7 +349,7 @@ class PostController extends Controller
                     ->orderBy('users.pricing_plan_id', 'desc')
                     ->paginate(10);
 
-                $this->breadcrumbService->addCrumb($type->getPurposeNameAttribute(), $type->getPurposeSlugAttribute());
+                $this->breadcrumbService->addCrumb($type->rootType->name, $type->rootType->slug);
                 $this->breadcrumbService->addCrumb($type->property_type_name, $type->slug);
             }
 
@@ -364,7 +364,7 @@ class PostController extends Controller
                     'type' => $type,
                     'types' => $types,
                     'key' => $key,
-                    'purposes' => $purposes,
+                    'rootTypes' => $rootTypes,
                     'directions' => $directions,
                     'minAcreage' => $minAcreage,
                     'maxAcreage' => $maxAcreage,
@@ -381,7 +381,6 @@ class PostController extends Controller
 
     public function search(Request $request)
     {
-
         $purposeId = $request->input('property_purpose_id');
         $typeId = $request->input('property_type_id');
         $minPrice = $request->input('property_min_price');
@@ -406,8 +405,8 @@ class PostController extends Controller
             $type = Type::where('property_type_id', $typeId)->first();
             return $this->showByType($type->slug, $minPrice, $maxPrice, $minAcreage, $maxAcreage);
         } else {
-            $purposeSlug = config('constants.property-basic-info.property-purposes')[$purposeId]['slug'];
-            return $this->showByType($purposeSlug, $minPrice, $maxPrice, $minAcreage, $maxAcreage);
+            $rootTypeSlug = RootType::where('id', $purposeId)->first()->slug;
+            return $this->showByType($rootTypeSlug, $minPrice, $maxPrice, $minAcreage, $maxAcreage);
         }
     }
     /* Add property to user's watched list */

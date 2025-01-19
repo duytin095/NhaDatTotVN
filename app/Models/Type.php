@@ -12,6 +12,7 @@ class Type extends Model
     use HasFactory, Sluggable;
     protected $primaryKey = 'property_type_id';
     protected $table = 'property_types';
+
     protected $fillable = [
         'property_type_name',
         'property_purpose_id',
@@ -44,14 +45,7 @@ class Type extends Model
     {
         return Carbon::parse($value)->format('d-m-Y');
     }
-    // public function getPurposeNameAttribute()
-    // {
-    //     return config('constants.property-basic-info.property-purposes')[$this->property_purpose_id]['name'];
-    // }
-    // public function getPurposeSlugAttribute()
-    // {
-    //     return config('constants.property-basic-info.property-purposes')[$this->property_purpose_id]['slug'];
-    // }
+    
     public function getTypeImageAttribute()
     {
         return json_decode($this->property_type_image, true);

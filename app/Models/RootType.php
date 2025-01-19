@@ -16,6 +16,7 @@ class RootType extends Model
     protected $fillable = [
         'name',
         'slug',
+        'active_flg'
     ];
 
     public function sluggable(): array
@@ -27,7 +28,7 @@ class RootType extends Model
         ];
     }
 
-    public function type(){
+    public function types(){
         return $this->hasMany(Type::class, 'property_purpose_id', 'id');
     }
 

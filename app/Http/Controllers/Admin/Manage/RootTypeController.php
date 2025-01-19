@@ -53,12 +53,20 @@ class RootTypeController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function toggleActive(string $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $rootType = RootType::where('id', $id)->firstOrFail();
+            $rootType->update([
+                'active_flg' => $rootType->active_flg == ACTIVE ? INACTIVE : ACTIVE
+            ]);
+            DB::commit();
+            return ApiResponse::updateSuccessResponse();
+        }catch (\Throwable $th) {
+            DB::rollBack();
+            return ApiResponse::errorResponse($th);
+        }
     }
 
     /**
@@ -66,7 +74,24 @@ class RootTypeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $request->validate([
+                'root_type_name' => 'required',
+            ], [
+                'root_type_name.required' => 'Tên danh mục không được để trống',
+            ]);
+
+            DB::beginTransaction();
+            $root_type = RootType::findOrFail($id);
+            $root_type->name = $request->input('root_type_name');
+
+
+            $root_type->save();
+            DB::commit();
+            return ApiResponse::updateSuccessResponse();
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
     }
 
     /**

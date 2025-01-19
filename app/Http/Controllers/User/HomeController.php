@@ -18,12 +18,11 @@ class HomeController extends Controller
         try {
             $types = Type::where('active_flg', ACTIVE)->withCount('properties')->take(8)->get();
             $statuses = Status::all()->toArray();
-            $root_types = RootType::all()->toArray();
             $labels = config('constants.property-basic-info.property-labels');
             $agents = User::where('active_flg', ACTIVE)->take(4)->get();
-            $typesByPurpose = Type::with('properties')->get()->groupBy('property_purpose_id');
-
-
+            // $typesByPurpose = Type::with('properties')->get()->groupBy('property_purpose_id');
+            $root_types = RootType::with('types')->where('active_flg', ACTIVE)->get();
+            
             $userCount = User::count();
             $sellCount = Property::leftJoin('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
                 ->where('property_types.property_purpose_id', FOR_SELL)
@@ -91,7 +90,6 @@ class HomeController extends Controller
                     'propertiesForInvest',
                     'propertiesForSale',
                     'types',
-                    'typesByPurpose',
                     'statuses',
                     'root_types',
                     'agents',

@@ -17,22 +17,22 @@
               </div>
 
               @php
-                  $purposes = App\Models\Type::distinct('property_purpose_id')->pluck('property_purpose_id');
+                  $root_types = App\Models\RootType::where('active_flg', 0)->get();
                   $news_types = App\Models\NewsType::where('active_flg', 0)->get();
               @endphp
 
-              @foreach ($purposes as $purposeId)
+              @foreach ($root_types as $root_type)
                   <div class="accordion-item">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                          data-bs-target="#collapse{{ $purposeId }}" aria-expanded="false"
-                          aria-controls="collapse{{ $purposeId }}">
-                          {{ App\Models\Type::where('property_purpose_id', $purposeId)->first()->getPurposeNameAttribute() }}
+                          data-bs-target="#collapse{{ $root_type->id }}" aria-expanded="false"
+                          aria-controls="collapse{{ $root_type->id }}">
+                          {{ $root_type['name'] }}
                       </button>
 
-                      <div id="collapse{{ $purposeId }}" class="accordion-collapse collapse"
+                      <div id="collapse{{ $root_type->id }}" class="accordion-collapse collapse"
                           data-bs-parent="#navbarAccordion">
                           <div class="accordion-body">
-                              @foreach (App\Models\Type::where('property_purpose_id', $purposeId)->get() as $type)
+                              @foreach (App\Models\Type::where('property_purpose_id', $root_type->id)->get() as $type)
                                   <div class="accordion-item">
                                       <a href="{{ route('user.posts.show-by-type', $type->slug) }}"
                                           class="accordion-link">

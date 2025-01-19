@@ -21,8 +21,12 @@ $(function initDataTable() {
             { "data": "created_at", "width": "10%" },
             {
                 "data": null,
-                "render": function (row) {
-                    return "<button onclick='openEditModal(" + row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='openDeleteModal(" + row.id + ")' class='btn btn-danger'>Xoá</button>";
+                "render": function (row) {                    
+                    if(row.active_flg == ACTIVE)                        
+                        return "<button onclick='openEditModal(" + row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeRootType("+ row.id +")' class='btn btn-secondary'>&nbsp Ẩn &nbsp</button>";
+                    else{
+                        return "<button onclick='openEditModal("+ row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeRootType("+ row.id +")' class='btn btn-success'>Hiện</button>";
+                    }
                 },
                 "width": "20%",
                 "orderable": false
@@ -77,12 +81,43 @@ async function createRootType() {
     }
 }
 
+async function activeRootType(id) {
+    try {
+        const response = await sendRequest(`${window.location.origin}/admin/root-types/toggle-active/${id}`, 'PUT');
+        if (response.status == 200) {
+            $('#root-type-table').DataTable().ajax.reload(null, false);
+            showMessage(response.message);
+        }
+    } catch (error) {
+        showMessage(error.message);
+    }
+}
+
+async function updateRootType(id) {
+    try {
+        data = { root_type_name: $('[name="root_type_name"]').val(), }
+        const response = await sendRequest(
+            `${window.location.origin}/admin/root-types/${id}`,
+            'PUT',
+            data
+        );
+
+        if (response.status == 200) {
+            $('#root-type-table').DataTable().ajax.reload();
+            $('#createNewRootType').modal('hide');
+            showMessage(response.message);
+        }
+    } catch (error) {
+        showMessage(error.message);
+    }
+}
+
 function openEditModal(rootTypeId, rootTypeName) {
     $('#createNewRootTypeLabel').text('Chỉnh sửa tên danh mục lớn');
     $('#create-root-type-submit-btn').text('Cập nhật');
-    $('#legal_id').val(rootTypeId);
-    $('[name="legal_name"]').val(rootTypeName);
-    $('#createNewLegal').modal('show');
+    $('#root_type_id').val(rootTypeId);
+    $('[name="root_type_name"]').val(rootTypeName);
+    $('#createNewRootType').modal('show');
 }
 
 function openCreateModal() {

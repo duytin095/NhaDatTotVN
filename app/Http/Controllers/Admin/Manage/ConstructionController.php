@@ -17,8 +17,13 @@ class ConstructionController extends Controller
      */
     public function index()
     {
-        $active_flg = ACTIVE;
-        return view('admin.manage.construction.index', compact('active_flg'));
+        try{
+            $active_flg = ACTIVE;
+            return view('admin.manage.construction.index', compact('active_flg'));
+        }catch (\Throwable $th) {
+            if (config('app.debug')) return response()->json($th->getMessage());
+            abort(500);
+        }
     }
 
     public function get()

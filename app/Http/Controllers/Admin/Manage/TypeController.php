@@ -7,6 +7,7 @@ use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\RootType;
 use Spatie\FlareClient\Api;
 
 class TypeController extends Controller
@@ -17,9 +18,9 @@ class TypeController extends Controller
     public function index()
     {
         try {
-            $purposes = config('constants.property-basic-info.property-purposes');
+            $root_types = RootType::where('active_flg', ACTIVE)->get();
             $active_flg = ACTIVE;
-            return view('admin.manage.type.index', compact('purposes', 'active_flg'));
+            return view('admin.manage.type.index', compact('root_types', 'active_flg'));
         }catch (\Throwable $th) {
             if (config('app.debug')) return response()->json($th->getMessage());
             abort(500);
@@ -30,13 +31,10 @@ class TypeController extends Controller
     {
         try {
             $types = Type::orderBy('created_at', 'desc')
+                ->with('rootType')
                 ->get()
                 ->toArray();
-            $propertyPurposes = config('constants.property-basic-info.property-purposes');
 
-            foreach ($types as &$type) {
-                $type['property_purpose_name'] = $propertyPurposes[$type['property_purpose_id']]['name'];
-            }
             return response()->json([
                 'status' => 200,
                 'data' => $types,

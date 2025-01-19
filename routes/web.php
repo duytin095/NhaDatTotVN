@@ -52,7 +52,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
         // DANH MUC
         Route::get      ('/types', [TypeController::class, 'index'])->name('types.index');
-        Route::get      ('/types/data', [TypeController::class, 'get'])->name('types.get-types');
+        Route::get      ('/types/get', [TypeController::class, 'get'])->name('types.get');
         Route::get      ('/types/all-data', [TypeController::class, 'getAllTypes'])->name('types.get-all-types');
         Route::put      ('/types/toggle-active/{id}', [TypeController::class, 'toggleActive'])->name('types.toggle-active');
 
@@ -60,6 +60,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get      ('/root-types', [RootTypeController::class, 'index'])->name('root-types.index');
         Route::get      ('/root-types/get', [RootTypeController::class, 'get'])->name('root-types.get');
         Route::post     ('/root-types/store', [RootTypeController::class, 'store'])->name('root-types.store');
+        Route::put      ('/root-types/{id}', [RootTypeController::class, 'update'])->name('root-types.update');
         Route::put      ('/root-types/toggle-active/{id}', [RootTypeController::class, 'toggleActive'])->name('root-types.toggle-active');
 
         Route::post     ('/types/store', [TypeController::class, 'store'])->name('types.store');
@@ -175,7 +176,7 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::post     ('/posts/delete/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
     });
 
-    Route::get      ('/posts/search', [PostController::class, 'search'])->name('posts.search');
+    Route::get      ('/posts-by-type/search', [PostController::class, 'search'])->name('posts-by-type.search');
 
     // !!!! these lines should be placed after /posts/create to prevent error!!!! 
     Route::get      ('/posts-by-type/{slug}', [PostController::class, 'showByType'])->name('posts.show-by-type');

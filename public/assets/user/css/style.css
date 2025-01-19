@@ -12755,6 +12755,9 @@ a.property-title{
   overflow: hidden;
   white-space: normal;
   text-transform: lowercase;
+  
+  line-height: 2;
+  padding-bottom: 0.2em;
 }
 a.property-title::first-letter {
   text-transform: capitalize;
@@ -13710,6 +13713,7 @@ Main Banner Area CSS
 .main-banner-content .search-info-tabs .nav .nav-item {
   border: none;
   margin-right: 5px;
+  margin-top: 10px;
   position: relative;
 }
 .main-banner-content .search-info-tabs .nav .nav-item::after {

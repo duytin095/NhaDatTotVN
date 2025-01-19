@@ -45,8 +45,8 @@
                         class="link-btn">{{ $property['type']['property_type_name'] }}</a>
                 </li>
                 <li>
-                    <a href="{{ route('user.posts.show-by-type', $property['type']['purpose_slug']) }}"
-                        class="link-btn">{{ $property['type']['purpose_name'] }}</a>
+                    <a href="{{ route('user.posts.show-by-type', $property->type->rootType->slug) }}"
+                        class="link-btn">{{ $property->type->rootType->name }}</a>
                 </li>
             </ul>
             <ul class="info-list">
@@ -92,7 +92,7 @@
                     </h3>
                     <span>{{ $property['property_address'] }}</span>
                     <div style="display: flex; align-items: center;">
-                        <span>{{ $property['diff_for_humans'] }}</span>
+                        <span class="p-1">{{ $property['diff_for_humans'] }}</span>
                         @if ($property['seller']['pricing_plan_id'] === VIP1 || $property['seller']['pricing_plan_id'] === VIP_DAC_BIET)
                             <span class="bg-primary text-white p-1 rounded mx-2">
                                 <i class="ri-phone-line"></i> {{ $property['seller']['user_phone'] }}
@@ -140,12 +140,6 @@
                                 <i class="ri-delete-bin-line"></i>
                             </button>
                         </li>
-                        {{-- <li>
-                            <button type="button" onclick="openDeleteModal({{ $property['property_id'] }})"
-                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Hiển thị">
-                                <i class="ri-delete-bin-line"></i>
-                            </button>
-                        </li> --}}
                     @endif
                 </ul>
             </div>

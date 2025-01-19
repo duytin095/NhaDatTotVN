@@ -24,7 +24,6 @@ class PropertyController extends Controller
         } catch (\Throwable $th) {
             return ApiResponse::errorResponse($th);
         }
-       
     }
 
     public function get()
