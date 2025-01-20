@@ -129,13 +129,11 @@ function clearFormSelectors(selectors) {
 function clearImage(selector) {
     $(selector).attr('src', '');
 }
-function setImage(selector, url = 'null') {   
-    // console.log(url);
-     
-    if(url !== null) {
+function setImage(selector, url = null) {        
+    if(url !== null) {        
         $(selector).attr('src',  `${window.location.origin}/${url}`);
         return;
-    }else if(url === null) {        
+    }else if(url === null || url === 'null') {        
         $(selector).attr('src', 'https://placehold.co/200');
         return;
     }
@@ -174,7 +172,7 @@ function initDataTable() {
             {
                 "data": null,
                 "render": function (row) {
-                    if (row.property_type_image === null) {
+                    if (row.property_type_image === null || row.property_type_image === 'null') {
                         return '<img src="' + window.location.origin + '/assets/user/images/default-type.jpg" width="50" height="50">';
                     } else {
                         return '<img src="' + window.location.origin + '/' + JSON.parse(row.property_type_image) + '" width="50" height="50">';

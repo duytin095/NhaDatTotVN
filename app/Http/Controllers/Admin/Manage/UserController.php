@@ -9,13 +9,20 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Exception;
+use Throwable;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $active_flg = ACTIVE;
-        return view('admin.manage.user.index', compact('active_flg'));
+        try {
+            $active_flg = ACTIVE;
+            return view('admin.manage.user.index', compact('active_flg'));
+        } catch (\Throwable $th) {
+            if (config('app.debug')) return response()->json($th->getMessage());
+            abort(500);
+        }
     }
 
     public function get()

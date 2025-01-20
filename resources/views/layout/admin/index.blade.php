@@ -56,6 +56,7 @@
 </head>
 
 <body>
+    @yield('404')
     @yield('auth')
     @if (Auth::guard('admin')->check())
         <div class="page-wrapper">

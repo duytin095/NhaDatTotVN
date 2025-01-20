@@ -70,8 +70,7 @@
 
                         <div class="col-12 d-flex flex-column justify-content-center align-items-center">
                             <div class="">
-                                <img name="type-image-preview" src="https://placehold.co/200x200" class="rounded"
-                                    alt="type image">
+                                <img name="type-image-preview" src="https://placehold.co/200x200" class="rounded" alt="type image">
                             </div>
                             <div>
                                 <button style="color: black;" class="file-upload">

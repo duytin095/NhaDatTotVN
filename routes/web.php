@@ -53,6 +53,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         // DANH MUC
         Route::get      ('/types', [TypeController::class, 'index'])->name('types.index');
         Route::get      ('/types/get', [TypeController::class, 'get'])->name('types.get');
+        Route::get      ('/types/{slug}', [TypeController::class, 'get'])->name('types.get');
         Route::get      ('/types/all-data', [TypeController::class, 'getAllTypes'])->name('types.get-all-types');
         Route::put      ('/types/toggle-active/{id}', [TypeController::class, 'toggleActive'])->name('types.toggle-active');
 
@@ -117,13 +118,18 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::put      ('/legals/{id}', [LegalController::class, 'update'])->name('legals.update');
         Route::delete   ('/legals/{id}', [LegalController::class, 'destroy'])->name('legals.destroy');
 
-        // DANNH SACH TINH TRANG
+        // DANH SACH TINH TRANG
         Route::get      ('/statuses', [StatusController::class, 'index'])->name('statuses.index');
         Route::get      ('/statuses/get', [StatusController::class, 'get'])->name('statuses.get');
         Route::post     ('/statuses/store', [StatusController::class, 'store'])->name('statuses.store');
         Route::put      ('/statuses/{id}', [StatusController::class, 'update'])->name('statuses.update');
         Route::delete   ('/statuses/{id}', [StatusController::class, 'destroy'])->name('statuses.destroy');
     });
+
+    Route::get('/admin/404', function () {
+        return view('errors.404-admin');
+    })->name('admin.404');
+    
 });
 
 Route::name('user.')->prefix('user')->group(function () {

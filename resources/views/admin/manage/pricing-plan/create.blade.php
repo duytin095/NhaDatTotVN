@@ -16,6 +16,16 @@
                             <div class="field-placeholder">Tên gói <span class="text-danger">*</span></div>
                         </div>
                     </div>
+
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="field-wrapper">
+                            <div class="input-group">
+                                <input type="color" class="form-control" value="#ff0000">
+                            </div>
+                            <div class="field-placeholder">Màu sắc tiêu đề<span class="text-danger">*</span></div>
+                        </div>
+                    </div>
+
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="field-wrapper">
                             <div class="input-group">
@@ -25,6 +35,7 @@
                             <div class="field-placeholder">Giá ngày <span class="text-danger">*</span></div>
                         </div>
                     </div>
+
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="field-wrapper">
                             <div class="input-group">

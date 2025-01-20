@@ -82,7 +82,6 @@
                         <ul>
                             <li><a href="{{ route('admin.properties.index') }}">Danh sách tin đăng</a></li>
                         </ul>
-
                     </div>
                 </div>
             </div>
@@ -107,9 +106,8 @@
                 <div class="sidebarMenuScroll">
                     <div class="sidebar-menu">
                         <ul>
-                            <li>
-                                <a href="{{ route('admin.types.index') }}">Tất cả danh mục</a>
-                            </li>
+                            <li> <a href="{{ route('admin.types.index') }}">Tất cả danh mục</a> </li>
+                            
                         </ul>
                     </div>
                 </div>
