@@ -95,8 +95,8 @@
                                                 class="link-btn">{{ $property['type']['property_type_name'] }}</a>
                                         </li>
                                         <li>
-                                            <a href="{{ route('user.posts.show-by-type', $property['type']['purpose_slug']) }}"
-                                                class="link-btn">{{ $property['type']['purpose_name'] }}</a>
+                                            <a href="{{ route('user.posts.show-by-type', $property->type->rootType->slug) }}"
+                                                class="link-btn">{{ $property->type->rootType->name }}</a>
                                         </li>
                                     </ul>
                                     <div class="price">{{ $property->formatted_price }} </div>

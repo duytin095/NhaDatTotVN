@@ -17,16 +17,17 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="news-table" class="table custom-table">
+                            <table id="news-table" class="table v-middle">
                                 <thead>
                                     <tr>
                                         <th>Tiêu đề</th>
+                                        <th>Lượt xem</th>
+                                        <th>Trạng thái</th>
                                         <th>Ngày thêm</th>
                                         <th>Thao tác</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>

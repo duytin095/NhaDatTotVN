@@ -38,6 +38,10 @@ $('#create-legal-submit-btn').on('click', function () {
     }
 });
 
+$('#createNewLegal').on('shown.bs.modal', function () {
+    $('[name="legal_name"]').focus();
+});
+
 async function createLegal() {
     try {
         let data = { legal_name: $('[name="legal_name"]').val(), }

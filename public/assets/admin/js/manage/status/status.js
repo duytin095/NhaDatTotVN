@@ -7,7 +7,13 @@ $(function initDataTable() {
             }
         },
         "columns": [
-            { "data": "name", "width": "70%" },
+            {
+                "data": null,
+                "width": "70%",
+                "render": function (row) {
+                    return '<span>' + row.name + '</span>';
+                }
+            },
             { "data": "created_at", "width": "10%" },
             {
                 "data": null,
@@ -32,6 +38,10 @@ $(function initDataTable() {
 $('#create-status-submit-btn').on('click', function () {
     const status_id = $('#status_id').val();
     status_id ? updateStatus(status_id) : createStatus();
+});
+
+$('#createNewStatus').on('shown.bs.modal', function () {
+    $('[name="status_name"]').focus();
 });
 
 async function createStatus() {

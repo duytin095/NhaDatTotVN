@@ -17,7 +17,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="construction-table" class="table custom-table">
+                        <table id="construction-table" class="table v-middle">
                             <thead>
                                 <tr>
                                     <th>Tên dự án</th>

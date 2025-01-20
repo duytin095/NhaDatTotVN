@@ -13,6 +13,7 @@
                                 <tr>
                                     <th>Tiêu đề</th>
                                     <th>Người đăng</th>
+                                    <th>Lượt xem</th>
                                     <th>Danh mục</th>
                                     <th>Ngày thêm</th>
                                     <th>Trạng thái</th>

@@ -129,11 +129,13 @@ function clearFormSelectors(selectors) {
 function clearImage(selector) {
     $(selector).attr('src', '');
 }
-function setImage(selector, url = 'null') {    
-    if(url !== 'null') {
+function setImage(selector, url = 'null') {   
+    // console.log(url);
+     
+    if(url !== null) {
         $(selector).attr('src',  `${window.location.origin}/${url}`);
         return;
-    }else if(url === 'null') {
+    }else if(url === null) {        
         $(selector).attr('src', 'https://placehold.co/200');
         return;
     }
@@ -163,7 +165,7 @@ function imageUpload() {
 function initDataTable() {
     $('#type-table').DataTable({
         "ajax": {
-            "url": "/admin/types/data",
+            "url": "/admin/types/get",
             "dataSrc": function (json) {
                 return json.data;
             }
@@ -181,14 +183,30 @@ function initDataTable() {
                 "width": "5%",
                 "orderable": false
             },
-            { "data": "property_type_name", "width": "55%" },
-            { "data": "property_purpose_name", "width": "10%" },
+            { 
+                "data": null,
+                "width": "55%",
+                "render": function (row) {
+                    return '<a href="/user/posts-by-type/' + row.slug + '" target="_blank" class="text-truncate">' + row.property_type_name + '</a>'; 
+                }
+            },
+            { "data": "root_type.name", "width": "10%" },
             { "data": "created_at", "width": "10%" },
+            {
+                "data": null,
+                "render": function (row) {
+                    if (row.active_flg == ACTIVE)
+                        return "<span class='badge bg-success'>Hiển thị</span>"
+                    else
+                        return "<span class='badge bg-danger'>Đã ẩn</span>"
+                },
+                "width": "5%"
+            },
             {
                 "data": null,
                 "render": function (row) {                    
                     if(row.active_flg == ACTIVE)                        
-                        return "<button onclick='openUpdateModal("+JSON.stringify(row)+")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-secondary'>Ẩn</button>";
+                        return "<button onclick='openUpdateModal("+JSON.stringify(row)+")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-secondary'>&nbsp Ẩn &nbsp</button>";
                     else{
                         return "<button onclick='openUpdateModal("+JSON.stringify(row)+")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-success'>Hiện</button>";
                     }

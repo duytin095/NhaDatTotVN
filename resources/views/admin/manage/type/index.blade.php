@@ -15,13 +15,14 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="type-table" class="table custom-table">
+                    <table id="type-table" class="table v-middle">
                         <thead>
                             <tr>
                                 <th>Ảnh</th>
                                 <th>Tên</th>
                                 <th>Thuộc danh mục</th>
                                 <th>Ngày thêm</th>
+                                <th>Trạng thái</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
@@ -59,8 +60,8 @@
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                             <div class="field-wrapper">
                                 <select class="form-select" id="purpose-list">
-                                    @foreach ($purposes as $key => $purpose)
-                                        <option value="{{ $key }}">{{ $purpose['name'] }}</option>
+                                    @foreach ($root_types as $root_type)
+                                        <option value="{{ $root_type['id'] }}">{{ $root_type['name'] }}</option>
                                     @endforeach
                                 </select>
                                 <div class="field-placeholder">Loại bất động sản</div>
@@ -98,8 +99,8 @@
 @endpush
 <style>
     [name="type-image-preview"] {
-        width: 200px;
-        height: 200px;
+        min-width: 200px !important;
+        min-height: 200px !important;
         object-fit: cover;
     }
 

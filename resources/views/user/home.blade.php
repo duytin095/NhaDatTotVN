@@ -10,28 +10,28 @@
                         <h1>Nhà Đất Tốt VN</h1>
                         <div class="search-info-tabs">
                             <ul class="nav nav-tabs" id="search_tab" role="tablist">
-                                @foreach ($purposes as $key => $purpose)
+                                @foreach ($root_types as $root_type)
                                     <li class="nav-item">
                                         <span class="nav-link {{ $loop->first ? 'active' : '' }}" data-bs-toggle="tab"
-                                            href="#{{ $key }}" role="tab"
-                                            aria-controls="{{ $key }}">{{ $purpose['name'] }}</span>
+                                            href="#{{ $root_type['id'] }}" role="tab"
+                                            aria-controls="{{ $root_type['id'] }}">{{ $root_type['name'] }}</span>
                                     </li>
                                 @endforeach
                             </ul>
 
                             <div class="tab-content" id="search_tab_content">
-                                @foreach ($purposes as $key => $purpose)
+                                @foreach ($root_types as $root_type)
                                     <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
-                                        id="{{ $key }}" role="tabpanel">
-                                        <form class="search-form" action="{{ route('user.posts.search') }}" method="GET">
+                                        id="{{ $root_type['id'] }}" role="tabpanel">
+                                        <form class="search-form" action="{{ route('user.posts-by-type.search') }}" method="GET">
                                             <div class="row justify-content-center align-items-end">
                                                 <div class="col-lg-4 col-md-6">
                                                     <div class="form-group">
                                                         <label>Danh mục</label>
                                                         <select class="form-select form-control"
-                                                            id="type_list_{{ $key }}" name="property_type_id">
+                                                            id="type_list_{{ $root_type['id'] }}" name="property_type_id">
                                                             <option value="0" disabled selected>Chọn danh mục</option>
-                                                            @foreach ($typesByPurpose[$key] as $type)
+                                                            @foreach ($root_type->types as $type)
                                                                 <option value="{{ $type->property_type_id }}">
                                                                     {{ $type->property_type_name }}</option>
                                                             @endforeach
@@ -80,7 +80,7 @@
                                                 <div class="col-lg-4 col-md-6">
                                                     <div class="form-group">
                                                         <input type="hidden" name="property_purpose_id"
-                                                            value="{{ $key }}">
+                                                            value="{{ $root_type['id'] }}">
                                                         <button type="submit" class="default-btn">
                                                             <i class="ri-search-2-line"></i>
                                                             Tìm kiếm

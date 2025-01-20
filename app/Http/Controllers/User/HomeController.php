@@ -8,6 +8,7 @@ use App\Models\Status;
 use App\Models\Property;
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Models\RootType;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -17,12 +18,11 @@ class HomeController extends Controller
         try {
             $types = Type::where('active_flg', ACTIVE)->withCount('properties')->take(8)->get();
             $statuses = Status::all()->toArray();
-            $purposes = config('constants.property-basic-info.property-purposes');
             $labels = config('constants.property-basic-info.property-labels');
             $agents = User::where('active_flg', ACTIVE)->take(4)->get();
-            $typesByPurpose = Type::with('properties')->get()->groupBy('property_purpose_id');
-
-
+            // $typesByPurpose = Type::with('properties')->get()->groupBy('property_purpose_id');
+            $root_types = RootType::with('types')->where('active_flg', ACTIVE)->get();
+            
             $userCount = User::count();
             $sellCount = Property::leftJoin('property_types', 'properties.property_type_id', '=', 'property_types.property_type_id')
                 ->where('property_types.property_purpose_id', FOR_SELL)
@@ -90,9 +90,8 @@ class HomeController extends Controller
                     'propertiesForInvest',
                     'propertiesForSale',
                     'types',
-                    'typesByPurpose',
                     'statuses',
-                    'purposes',
+                    'root_types',
                     'agents',
                     'userCount',
                     'sellCount',

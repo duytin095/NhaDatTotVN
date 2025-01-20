@@ -18,6 +18,11 @@
                 <i class="icon-map"></i>
                 <span class="nav-link-text">Tin đăng</span>
             </a>
+            <a class="nav-link" id="root-types-tab" data-bs-toggle="tab" href="#tab-root-types" role="tab"
+                aria-controls="tab-root-types" aria-selected="false">
+                <i class="icon-layers1"></i>
+                <span class="nav-link-text">Danh mục lớn</span>
+            </a>
             <a class="nav-link" id="types-tab" data-bs-toggle="tab" href="#tab-types" role="tab"
                 aria-controls="tab-types" aria-selected="false">
                 <i class="icon-layers2"></i>
@@ -82,6 +87,19 @@
                 </div>
             </div>
 
+            <!-- Root Types tab -->
+            <div class="tab-pane fade" id="tab-root-types" role="tabpanel" aria-labelledby="root-types-tab">
+                <div class="tab-pane-header">Danh mục lớn</div>
+                <div class="sidebarMenuScroll">
+                    <div class="sidebar-menu">
+                        <ul>
+                            <li>
+                                <a href="{{ route('admin.root-types.index') }}">Danh sách danh mục lớn</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
             <!-- Types tab -->
             <div class="tab-pane fade" id="tab-types" role="tabpanel" aria-labelledby="types-tab">
@@ -90,7 +108,7 @@
                     <div class="sidebar-menu">
                         <ul>
                             <li>
-                                <a href="{{ route('admin.types.show') }}">Tất cả danh mục</a>
+                                <a href="{{ route('admin.types.index') }}">Tất cả danh mục</a>
                             </li>
                         </ul>
                     </div>

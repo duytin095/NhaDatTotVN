@@ -1,20 +1,20 @@
 <?php
 
 return [
-    'property-purposes' => [
-        FOR_SELL => [
-            'name' => 'Bán',
-            'slug' => 'ban',
-        ],
-        FOR_RENT => [
-            'name' => 'Cho thuê',
-            'slug' => 'cho-thue',
-        ],
-        FOR_INVEST => [
-            'name' => 'Dự án',
-            'slug' => 'du-an',
-        ],
-    ],
+    // 'property-purposes' => [
+    //     FOR_SELL => [
+    //         'name' => 'Bán',
+    //         'slug' => 'ban',
+    //     ],
+    //     FOR_RENT => [
+    //         'name' => 'Cho thuê',
+    //         'slug' => 'cho-thue',
+    //     ],
+    //     FOR_INVEST => [
+    //         'name' => 'Dự án',
+    //         'slug' => 'du-an',
+    //     ],
+    // ],
     'property-labels' => [
         0 => 'Không',
         1 => 'Chính chủ',

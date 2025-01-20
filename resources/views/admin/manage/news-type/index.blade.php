@@ -17,10 +17,11 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="news-type-table" class="table custom-table">
+                            <table id="news-type-table" class="table v-middle">
                                 <thead>
                                     <tr>
                                         <th>Tên</th>
+                                        <th>Trạng thái</th>
                                         <th>Ngày thêm</th>
                                         <th>Thao tác</th>
                                     </tr>
@@ -51,7 +52,7 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 
                             <div class="field-wrapper">
-                                <input name="news_type_name" class="form-control" type="text">
+                                <input maxlength="28" name="news_type_name" class="form-control" type="text">
                                 <div class="field-placeholder">Tên loại tin tức<span class="text-danger">*</span>
                                 </div>
 

@@ -28,6 +28,10 @@ $('#createNewNewsType').on('hidden.bs.modal', function () {
     $('#news_type_id').val('');
 });
 
+$('#createNewNewsType').on('shown.bs.modal', function () {
+    $('[name="news_type_name"]').focus();
+});
+
 async function createNewsType() {
     try {
         let data = {
@@ -101,7 +105,17 @@ function initDataTable() {
             }
         },
         "columns": [
-            { "data": "name", "width": "70%" },
+            { "data": "name", "width": "50%" },
+            {
+                "data": null,
+                "render": function (row) {
+                    if (row.active_flg == ACTIVE)
+                        return "<span class='badge bg-success'>Hiển thị</span>"
+                    else
+                        return "<span class='badge bg-danger'>Đã ẩn</span>"
+                },
+                "width": "5%"
+            },
             { "data": "created_at", "width": "10%" },
             {
                 "data": null,

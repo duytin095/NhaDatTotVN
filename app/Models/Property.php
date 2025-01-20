@@ -80,6 +80,7 @@ class Property extends Model
         'delete_flg',
     ];
 
+
     public function type()
     {
         return $this->belongsTo(Type::class, 'property_type_id', 'property_type_id');
