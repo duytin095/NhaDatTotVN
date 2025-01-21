@@ -45,7 +45,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get      ('/properties/create', [PropertyController::class, 'create'])->name('properties.create');
         // Route::post     ('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
         Route::get      ('/properties/data', [PropertyController::class, 'get'])->name('properties.get');
-        Route::put      ('/properties/toggle-active/{id}', [PropertyController::class, 'toggleActive'])->name('properties.toggle-active');
+        Route::put      ('/properties/toggle-active/{slug}', [PropertyController::class, 'toggleActive'])->name('properties.toggle-active');
         // Route::get      ('/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties.edit');
         // Route::put      ('/properties/update/{id}', [PropertyController::class, 'update'])->name('properties.update');
         // Route::delete   ('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.destroy');
@@ -53,7 +53,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
         // DANH MUC
         Route::get      ('/types', [TypeController::class, 'index'])->name('types.index');
         Route::get      ('/types/get', [TypeController::class, 'get'])->name('types.get');
-        Route::get      ('/types/{slug}', [TypeController::class, 'get'])->name('types.get');
+        Route::get      ('/types/{slug}', [TypeController::class, 'indexByRootType'])->name('types.index-by-root-type');
+        Route::get      ('/types/get-by-root-type/{slug}', [TypeController::class, 'getTypesByRootType'])->name('types.get-by-root-type');
         Route::get      ('/types/all-data', [TypeController::class, 'getAllTypes'])->name('types.get-all-types');
         Route::put      ('/types/toggle-active/{id}', [TypeController::class, 'toggleActive'])->name('types.toggle-active');
 

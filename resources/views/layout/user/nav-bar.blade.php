@@ -133,3 +133,9 @@
         </div>
     </div>
 </nav>
+<style>
+    .navbar-nav.ms-auto {
+        display: flex;
+        flex-wrap: wrap;
+    }
+</style>
