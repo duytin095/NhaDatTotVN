@@ -42,13 +42,6 @@ var cleave = new Cleave('#time-formatting2', {
 
 
 
-var cleaveG = new Cleave('#input-numeral-thousand', {
-	numeral: true,
-	numeralThousandsGroupStyle: 'thousand'
-});
-
-
-
 var cleaveG = new Cleave('#input-numeral-lakh', {
 	numeral: true,
 	numeralThousandsGroupStyle: 'lakh'

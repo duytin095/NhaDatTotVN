@@ -17,11 +17,11 @@ const rootTypeTableColumns = [
     { "data": "created_at", "width": "10%" },
     {
         "data": null,
-        "render": function (row) {                    
-            if(row.active_flg == ACTIVE)                        
-                return "<button onclick='openEditModal(" + row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeRootType("+ row.id +")' class='btn btn-secondary'>&nbsp Ẩn &nbsp</button>";
-            else{
-                return "<button onclick='openEditModal("+ row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeRootType("+ row.id +")' class='btn btn-success'>Hiện</button>";
+        "render": function (row) {
+            if (row.active_flg == ACTIVE)
+                return "<button onclick='openEditModal(" + row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeRootType(" + row.id + ")' class='btn btn-secondary'>&nbsp Ẩn &nbsp</button>";
+            else {
+                return "<button onclick='openEditModal(" + row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeRootType(" + row.id + ")' class='btn btn-success'>Hiện</button>";
             }
         },
         "width": "20%",
@@ -31,7 +31,7 @@ const rootTypeTableColumns = [
 
 const dataTableOptions = {
     "ajax": {
-        "url": "/admin/properties/data",
+        "url": "/admin/root-types/get",
         "dataSrc": function (json) {
             return json.data;
         }
@@ -45,51 +45,6 @@ const dataTableOptions = {
         "info": "Hiển thị trang _PAGE_ của _PAGES_",
     }
 };
-
-$(function initDataTable() {
-    $('#root-type-table').DataTable({
-        "ajax": {
-            "url": "/admin/root-types/get",
-            "dataSrc": function (json) {
-                return json.data;
-            }
-        },
-        "columns": [
-            { "data": "name", "width": "65%" },
-            {
-                "data": null,
-                "render": function (row) {
-                    if (row.active_flg == ACTIVE)
-                        return "<span class='badge bg-success'>Hiển thị</span>"
-                    else
-                        return "<span class='badge bg-danger'>Đã ẩn</span>"
-                },
-                "width": "5%"
-            },
-            { "data": "created_at", "width": "10%" },
-            {
-                "data": null,
-                "render": function (row) {                    
-                    if(row.active_flg == ACTIVE)                        
-                        return "<button onclick='openEditModal(" + row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeRootType("+ row.id +")' class='btn btn-secondary'>&nbsp Ẩn &nbsp</button>";
-                    else{
-                        return "<button onclick='openEditModal("+ row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeRootType("+ row.id +")' class='btn btn-success'>Hiện</button>";
-                    }
-                },
-                "width": "20%",
-                "orderable": false
-            }
-        ],
-        "ordering": true,
-        "order": [[1, "desc"]],
-        "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50, "All"]],
-        "pageLength": 50,
-        "language": {
-            "lengthMenu": "Hiển thị _MENU_ tin/trang",
-            "info": "Hiển thị trang _PAGE_ của _PAGES_",
-        }
-    });
-});
 
 $('#create-root-type-submit-btn').on('click', function () {
     var root_type_id = $('#root_type_id').val();

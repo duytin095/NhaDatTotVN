@@ -32,7 +32,7 @@
                             {{ $root_type['name'] }}
 
                             @php
-                                $child_types = App\Models\Type::where('property_purpose_id', $root_type['id'])->get();
+                                $child_types = App\Models\Type::where('property_purpose_id', $root_type['id'])->where('active_flg', ACTIVE)->get();
                             @endphp
                             @if ($child_types->count() > 0)
                                 <i class="ri-arrow-down-s-line"></i>

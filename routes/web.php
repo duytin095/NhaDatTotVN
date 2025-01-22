@@ -110,7 +110,9 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
         // DANH SACH GOI
         Route::get      ('/pricing-plans', [PricingPlanController::class, 'index'])->name('pricing-plans.index');
+        Route::get      ('/pricing-plans/get', [PricingPlanController::class, 'get'])->name('pricing-plans.get');
         Route::get      ('/pricing-plans/create', [PricingPlanController::class, 'create'])->name('pricing-plans.create');
+        Route::post     ('/pricing-plans/store', [PricingPlanController::class, 'store'])->name('pricing-plans.store');
 
         // DANH SACH PHAP LY
         Route::get      ('/legals', [LegalController::class, 'index'])->name('legals.index');

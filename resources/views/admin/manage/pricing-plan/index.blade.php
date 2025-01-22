@@ -21,6 +21,12 @@
                             <thead>
                                 <tr>
                                     <th>Tên gói</th>
+                                    <th>Giá ngày</th>
+                                    <th>Giá tuần</th>
+                                    <th>Giá tháng</th>
+                                    <th>Kiểu chữ</th>
+                                    <th>Màu sắc tiêu đề</th>
+                                    <th>Trạng thái</th>
                                     <th>Ngày thêm</th>
                                     <th>Thao tác</th>
                                 </tr>
