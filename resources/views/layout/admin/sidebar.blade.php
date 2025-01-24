@@ -82,7 +82,6 @@
                         <ul>
                             <li><a href="{{ route('admin.properties.index') }}">Danh sách tin đăng</a></li>
                         </ul>
-
                     </div>
                 </div>
             </div>
@@ -102,14 +101,18 @@
             </div>
 
             <!-- Types tab -->
+            @php
+                $rootTypes = \App\Models\RootType::get();
+            @endphp
             <div class="tab-pane fade" id="tab-types" role="tabpanel" aria-labelledby="types-tab">
                 <div class="tab-pane-header">Danh mục</div>
                 <div class="sidebarMenuScroll">
                     <div class="sidebar-menu">
                         <ul>
-                            <li>
-                                <a href="{{ route('admin.types.index') }}">Tất cả danh mục</a>
-                            </li>
+                            <li> <a href="{{ route('admin.types.index') }}">Tất cả danh mục</a> </li>
+                            @foreach ($rootTypes as $rootType)
+                                <li> <a href="{{ route('admin.types.index-by-root-type', $rootType->slug) }}"> {{ $rootType->name }} </a> </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>

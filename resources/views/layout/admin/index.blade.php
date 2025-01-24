@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+
     <!-- Meta -->
     <meta name="description" content="Responsive Bootstrap4 Dashboard Template">
     <link rel="shortcut icon" href="img/fav.png">
@@ -53,9 +54,11 @@
     <!-- Notify -->
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/notify/notify-flat.css') }}"/>
 
+    @vite('resources/js/app.js')
 </head>
 
 <body>
+    @yield('404')
     @yield('auth')
     @if (Auth::guard('admin')->check())
         <div class="page-wrapper">
@@ -154,6 +157,7 @@
     <script src="{{ asset('assets/js/sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2-custom.js') }}"></script>
     <script src="{{ asset('assets/js/ajax.js') }}"></script>
+    <script src="{{ asset('assets/js/common.js') }}"></script>
 
     <!-- Summernote JS -->
     <script src="{{ asset('assets/admin/vendor/summernote/summernote-bs4.js') }}"></script>
@@ -164,6 +168,7 @@
     
     <!-- Main Js Required -->
     <script src="{{ asset('assets/admin/js/main.js') }}"></script>
+
 
     @stack('scripts')
 </body>

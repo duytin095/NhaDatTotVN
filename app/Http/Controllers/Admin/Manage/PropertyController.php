@@ -12,9 +12,6 @@ use App\Http\Controllers\Controller;
 
 class PropertyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         try {
@@ -42,13 +39,9 @@ class PropertyController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $purposes = config('constants.property-basic-info.property-purposes');
-        return view('admin.manage.property.create', compact('purposes'));
+        return view('admin.manage.property.create');
     }
 
     public function getProperties(Request $request)
@@ -188,16 +181,10 @@ class PropertyController extends Controller
                 'property_longitude' => $request->input('property_longitude'),
             ]);
             DB::commit();
-            return response()->json([
-                'status' => 200,
-                'message' => 'Property created successfully',
-            ]);
+            return ApiResponse::createSuccessResponse();
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json([
-                'status' => 500,
-                'message' => $th->getMessage(),
-            ]);
+            return ApiResponse::errorResponse($th);
         }
     }
     public function storeImage(Request $request)
@@ -303,10 +290,7 @@ class PropertyController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function delete(string $id)
     {
         try {
             DB::beginTransaction();

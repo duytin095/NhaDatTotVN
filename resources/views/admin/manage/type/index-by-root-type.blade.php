@@ -11,7 +11,7 @@
 
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Danh sách danh mục</div>
+                <div class="card-title">Danh sách danh mục thuộc {{ $root_type['name'] }}</div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -94,7 +94,7 @@
     <script>
         const ACTIVE = {{ $active_flg }}
     </script>
-    <script src="{{ asset('assets/admin/js/manage/type/type.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/manage/type/type-by-root-type.js') }}"></script>
 @endpush
 <style>
     [name="type-image-preview"] {

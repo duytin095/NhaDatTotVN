@@ -45,7 +45,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get      ('/properties/create', [PropertyController::class, 'create'])->name('properties.create');
         // Route::post     ('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
         Route::get      ('/properties/data', [PropertyController::class, 'get'])->name('properties.get');
-        Route::put      ('/properties/toggle-active/{id}', [PropertyController::class, 'toggleActive'])->name('properties.toggle-active');
+        Route::put      ('/properties/toggle-active/{slug}', [PropertyController::class, 'toggleActive'])->name('properties.toggle-active');
+        Route::put      ('/properties/{id}', [PropertyController::class, 'delete'])->name('properties.delete');
         // Route::get      ('/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties.edit');
         // Route::put      ('/properties/update/{id}', [PropertyController::class, 'update'])->name('properties.update');
         // Route::delete   ('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.destroy');
@@ -53,6 +54,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
         // DANH MUC
         Route::get      ('/types', [TypeController::class, 'index'])->name('types.index');
         Route::get      ('/types/get', [TypeController::class, 'get'])->name('types.get');
+        Route::get      ('/types/{slug}', [TypeController::class, 'indexByRootType'])->name('types.index-by-root-type');
+        Route::get      ('/types/get-by-root-type/{slug}', [TypeController::class, 'getTypesByRootType'])->name('types.get-by-root-type');
         Route::get      ('/types/all-data', [TypeController::class, 'getAllTypes'])->name('types.get-all-types');
         Route::put      ('/types/toggle-active/{id}', [TypeController::class, 'toggleActive'])->name('types.toggle-active');
 
@@ -108,7 +111,14 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
         // DANH SACH GOI
         Route::get      ('/pricing-plans', [PricingPlanController::class, 'index'])->name('pricing-plans.index');
+        Route::get      ('/pricing-plans/get', [PricingPlanController::class, 'get'])->name('pricing-plans.get');
         Route::get      ('/pricing-plans/create', [PricingPlanController::class, 'create'])->name('pricing-plans.create');
+        Route::post     ('/pricing-plans/store', [PricingPlanController::class, 'store'])->name('pricing-plans.store');
+        Route::get      ('/pricing-plans/edit/{id}', [PricingPlanController::class, 'edit'])->name('pricing-plans.edit');
+        Route::put      ('/pricing-plans/update/{id}', [PricingPlanController::class, 'update'])->name('pricing-plans.update');
+        Route::put      ('/pricing-plans/toggle-active/{id}', [PricingPlanController::class, 'toggleActive'])->name('pricing-plans.toggle-active');
+        Route::put      ('/pricing-plans/delete/{id}', [PricingPlanController::class, 'delete'])->name('pricing-plans.delete');
+
 
         // DANH SACH PHAP LY
         Route::get      ('/legals', [LegalController::class, 'index'])->name('legals.index');
@@ -117,13 +127,18 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::put      ('/legals/{id}', [LegalController::class, 'update'])->name('legals.update');
         Route::delete   ('/legals/{id}', [LegalController::class, 'destroy'])->name('legals.destroy');
 
-        // DANNH SACH TINH TRANG
+        // DANH SACH TINH TRANG
         Route::get      ('/statuses', [StatusController::class, 'index'])->name('statuses.index');
         Route::get      ('/statuses/get', [StatusController::class, 'get'])->name('statuses.get');
         Route::post     ('/statuses/store', [StatusController::class, 'store'])->name('statuses.store');
         Route::put      ('/statuses/{id}', [StatusController::class, 'update'])->name('statuses.update');
         Route::delete   ('/statuses/{id}', [StatusController::class, 'destroy'])->name('statuses.destroy');
     });
+
+    Route::get('/admin/404', function () {
+        return view('errors.404-admin');
+    })->name('admin.404');
+    
 });
 
 Route::name('user.')->prefix('user')->group(function () {

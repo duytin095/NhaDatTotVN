@@ -13130,6 +13130,7 @@ Navbar Area CSS
   margin-right: 0;
 }
 .navbar .navbar-nav .nav-item:first-child {
+  margin-bottom: 16px;
   margin-left: 0;
 }
 .navbar .navbar-nav .nav-item:hover .nav-link, .navbar .navbar-nav .nav-item.active .nav-link {

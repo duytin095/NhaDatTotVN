@@ -13,6 +13,7 @@ public/hot
 public/temp
 public/assets/user/images/news
 public/assets/media/images/users
+public/assets/media/images/types
 
 # Laravel 5 & Lumen specific with changed public path
 public_html/storage

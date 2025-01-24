@@ -5,9 +5,7 @@
         <div class="not-found-content text-center">
             <img src="{{ asset('assets/user/images/error.png') }}" alt="error-image">
             <h3>Oops! Không tìm thấy trang</h3>
-            <a href="{{ route('user.home.index') }}" class="default-btn">
-                Về trang chủ
-            </a>
+            <a href="{{ route('user.home.index') }}" class="default-btn">Trang chủ</a>
         </div>
     </div>
 </div>

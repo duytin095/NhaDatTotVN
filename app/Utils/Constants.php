@@ -47,5 +47,8 @@ const POST_FEE = 2000;
 const UNVERIFIED = 0;
 const VERIFIED = 1;
 
+const NORMAL_FONT = 0;
+const BOLD_FONT = 1;
+
 const LOCAL_HOST = 'http://127.0.0.1:8000';
 const PRODUCTION_HOST = '';

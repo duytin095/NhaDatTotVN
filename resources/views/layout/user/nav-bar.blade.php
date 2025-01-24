@@ -23,7 +23,6 @@
                 @php
                     $root_types = App\Models\RootType::where('active_flg', 0)->get();
                     $news_types = App\Models\NewsType::where('active_flg', 0)->get();
-
                 @endphp
 
                 @foreach ($root_types as $root_type)
@@ -31,18 +30,27 @@
                         <a href="{{ route('user.posts.show-by-type', ['slug' => $root_type['slug']]) }}"
                             class="dropdown-toggle nav-link {{ request()->segment(2) == 'posts-by-type' && request()->segment(3) == $root_type['slug'] ? 'active' : '' }}">
                             {{ $root_type['name'] }}
-                            <i class="ri-arrow-down-s-line"></i>
+
+                            @php
+                                $child_types = App\Models\Type::where('property_purpose_id', $root_type['id'])->where('active_flg', ACTIVE)->get();
+                            @endphp
+                            @if ($child_types->count() > 0)
+                                <i class="ri-arrow-down-s-line"></i>
+                            @endif
                         </a>
-                        <ul class="dropdown-menu">
-                            @foreach (App\Models\Type::where('property_purpose_id', $root_type['id'])->get() as $type)
-                                <li class="nav-item">
-                                    <a href="{{ route('user.posts.show-by-type', ['slug' => $type->slug]) }}"
-                                        class="nav-link {{ Request::is('user/posts-by-type' . '/' . $type->slug) ? 'active' : '' }}">
-                                        {{ $type->property_type_name }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
+
+                        @if ($child_types->count() > 0)
+                            <ul class="dropdown-menu">
+                                @foreach (App\Models\Type::where('property_purpose_id', $root_type['id'])->get() as $type)
+                                    <li class="nav-item">
+                                        <a href="{{ route('user.posts.show-by-type', ['slug' => $type->slug]) }}"
+                                            class="nav-link {{ Request::is('user/posts-by-type' . '/' . $type->slug) ? 'active' : '' }}">
+                                            {{ $type->property_type_name }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
                     </li>
                 @endforeach
 
@@ -125,4 +133,9 @@
         </div>
     </div>
 </nav>
-
+<style>
+    .navbar-nav.ms-auto {
+        display: flex;
+        flex-wrap: wrap;
+    }
+</style>

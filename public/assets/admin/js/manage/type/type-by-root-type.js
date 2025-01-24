@@ -24,14 +24,14 @@ async function createType() {
         formData.append('property_type_name', $('[name="property_type_name"]').val());
         formData.append('property_purpose_id', $('#purpose-list').val());
         formData.append('image', $('.type-image-file-input')[0].files[0]);
-        
+
         const response = await sendRequest(`${window.location.origin}/admin/types/store`, 'POST', formData, true);
 
         if (response.status == 200) {
             $('#type-table').DataTable().ajax.reload();
             showMessage(response.message);
             $('.type-image-file-input')[0].value = '';
-            $('#createNewType').modal('hide');            
+            $('#createNewType').modal('hide');
         }
     } catch (error) {
         if (error.status == 422) {
@@ -53,7 +53,7 @@ async function updateType(id) {
         formData.append('property_type_name', $('[name="property_type_name"]').val());
         formData.append('property_purpose_id', $('#purpose-list').val());
 
-        
+
         // formData.append('image', $('.type-image-file-input')[0].files[0]);
         const imageFileInput = $('.type-image-file-input')[0];
         if (imageFileInput.files.length > 0) {
@@ -95,7 +95,7 @@ function openDeleteModal(id) {
     confirmEvent(event);
 }
 
-function openUpdateModal(data) {    
+function openUpdateModal(data) {
     correspondingModalText('Chỉnh sửa danh mục', 'Cập nhật');
     clearFormSelectors(['[name="type_id"]', '[name="property_type_name"]'], '[name="property_purpose_id"]');
     clearImage('[name="type-image-preview"]');
@@ -105,7 +105,7 @@ function openUpdateModal(data) {
     $('[name="property_type_name"]').val(data.property_type_name);
     $('#purpose-list option[value="' + data.property_purpose_id + '"]').prop('selected', true);
     setImage('[name="type-image-preview"]', JSON.parse(data.property_type_image));
-   
+
     $('#createNewType').modal('show');
 }
 function openCreateModal() {
@@ -117,23 +117,23 @@ function openCreateModal() {
 
     $('#createNewType').modal('show');
 }
-function correspondingModalText(label, buttonText){
+function correspondingModalText(label, buttonText) {
     $('#createNewTypeLabel').text(label);
     $('#create-type-submit-btn').text(buttonText);
 }
 function clearFormSelectors(selectors) {
-    $.each(selectors, function(index, selector) {
+    $.each(selectors, function (index, selector) {
         $(selector).val('');
     });
 }
 function clearImage(selector) {
     $(selector).attr('src', '');
 }
-function setImage(selector, url = null) {        
-    if(url !== null) {        
-        $(selector).attr('src',  `${window.location.origin}/${url}`);
+function setImage(selector, url = null) {
+    if (url !== null) {
+        $(selector).attr('src', `${window.location.origin}/${url}`);
         return;
-    }else if(url === null || url === 'null') {        
+    } else if (url === null || url === 'null') {
         $(selector).attr('src', 'https://placehold.co/200');
         return;
     }
@@ -142,28 +142,29 @@ function imageUpload() {
     fileInput = $('.type-image-file-input');
     imageElement = $('[name="type-image-preview"]');
 
-    fileInput.on('change', function() {
+    fileInput.on('change', function () {
         // Get the selected file
         const file = this.files[0];
-    
+
         // Create a FileReader instance
         const reader = new FileReader();
-    
+
         // Add an event listener to the FileReader
-        reader.onload = function(event) {
+        reader.onload = function (event) {
             // Set the image source to the uploaded image
             imageElement.attr('src', event.target.result);
         };
-    
+
         // Read the file as a data URL
         reader.readAsDataURL(file);
     });
 }
 
 function initDataTable() {
+    const slug = window.location.pathname.split('/').pop();
     $('#type-table').DataTable({
         "ajax": {
-            "url": "/admin/types/get",
+            "url": `/admin/types/get-by-root-type/${slug}`,
             "dataSrc": function (json) {
                 return json.data;
             }
@@ -181,11 +182,11 @@ function initDataTable() {
                 "width": "5%",
                 "orderable": false
             },
-            { 
+            {
                 "data": null,
                 "width": "55%",
                 "render": function (row) {
-                    return '<a href="/user/posts-by-type/' + row.slug + '" target="_blank" class="text-truncate">' + row.property_type_name + '</a>'; 
+                    return '<a href="/user/posts-by-type/' + row.slug + '" target="_blank" class="text-truncate">' + row.property_type_name + '</a>';
                 }
             },
             { "data": "root_type.name", "width": "10%" },
@@ -202,11 +203,11 @@ function initDataTable() {
             },
             {
                 "data": null,
-                "render": function (row) {                    
-                    if(row.active_flg == ACTIVE)                        
-                        return "<button onclick='openUpdateModal("+JSON.stringify(row)+")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-secondary'>&nbsp Ẩn &nbsp</button>";
-                    else{
-                        return "<button onclick='openUpdateModal("+JSON.stringify(row)+")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType("+ row.property_type_id +")' class='btn btn-success'>Hiện</button>";
+                "render": function (row) {
+                    if (row.active_flg == ACTIVE)
+                        return "<button onclick='openUpdateModal(" + JSON.stringify(row) + ")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType(" + row.property_type_id + ")' class='btn btn-secondary'>&nbsp Ẩn &nbsp</button>";
+                    else {
+                        return "<button onclick='openUpdateModal(" + JSON.stringify(row) + ")' class='btn btn-primary'>Sửa</button>  <button onclick='activeType(" + row.property_type_id + ")' class='btn btn-success'>Hiện</button>";
                     }
                 },
                 "width": "20%",

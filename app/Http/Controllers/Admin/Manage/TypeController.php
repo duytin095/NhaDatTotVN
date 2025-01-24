@@ -27,6 +27,20 @@ class TypeController extends Controller
         }
     }
 
+    public function indexByRootType(string $slug)
+    {
+        try {
+            $root_types = RootType::where('active_flg', ACTIVE)->get();
+            $root_type = RootType::where('slug', $slug)->first();
+            $active_flg = ACTIVE;
+            return view('admin.manage.type.index-by-root-type', compact('root_types', 'root_type', 'active_flg'));
+        }catch (\Throwable $th) {
+            if (config('app.debug')) return response()->json($th->getMessage());
+            abort(500);
+        }
+    }
+
+
     public function get()
     {
         try {
@@ -43,6 +57,26 @@ class TypeController extends Controller
             return ApiResponse::errorResponse($th);
         }
     }
+
+    public function getTypesByRootType(string $slug)
+    {
+        try {
+            $root_type_id = RootType::where('slug', $slug)->firstOrFail()->id;
+
+            $types = Type::orderBy('created_at', 'desc')
+            ->with('rootType')
+            ->where('property_purpose_id', $root_type_id)
+            ->get()->toArray();
+
+            return response()->json([
+                'status' => 200,
+                'data' => $types,
+            ]);
+        } catch (\Throwable $th) {
+            return ApiResponse::errorResponse($th);
+        }
+    }
+
     public function getAllTypes()
     {
         try {

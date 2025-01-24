@@ -14,9 +14,9 @@
                             <select id="type_list" class="form-select form-control">
                                 <option value="" disabled selected>Chọn loại bất động sản <span>(BẮT BUỘC)</span>
                                 </option>
-                                @foreach ($purposes as $key => $purpose)
-                                    <optgroup label="{{ $purpose['name'] }}">
-                                        @foreach ($types[$key] as $type)
+                                @foreach ($rootTypes as $rootType)
+                                    <optgroup label="{{ $rootType['name'] }}">
+                                        @foreach ($types[$rootType['id']] as $type)
                                             <option value="{{ $type->property_type_id }}"> {{ $type->property_type_name }}
                                             </option>
                                         @endforeach
