@@ -3,7 +3,7 @@ $(function(){
 });
 
 const rootTypeTableColumns = [
-    { "data": "name", "width": "30%" },
+    { "data": "name", "width": "25%" },
     { 
         "data": null,
         "render": function (row) {
@@ -53,17 +53,17 @@ const rootTypeTableColumns = [
         },
         "width": "5%"
     },
-    { "data": "created_at", "width": "10%" },
+    { "data": "created_at", "width": "5%" },
     {
         "data": null,
         "render": function (row) {
             if (row.active_flg == ACTIVE)
-                return "<button onclick='openEditModal(" + row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeRootType(" + row.id + ")' class='btn btn-secondary'>&nbsp Ẩn &nbsp</button>";
+                return "<a href='/admin/pricing-plans/edit/" + row.id + "' class='btn btn-primary'>Sửa</a>  <button onclick='activePrincingPlan(" + row.id + ")' class='btn btn-secondary'>&nbsp Ẩn &nbsp</button>";
             else {
-                return "<button onclick='openEditModal(" + row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activeRootType(" + row.id + ")' class='btn btn-success'>Hiện</button>";
+                return "<button onclick='openEditModal(" + row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activePrincingPlan(" + row.id + ")' class='btn btn-success'>Hiện</button>";
             }
         },
-        "width": "20%",
+        "width": "30%",
         "orderable": false
     }
 ];
@@ -84,3 +84,38 @@ const dataTableOptions = {
         "info": "Hiển thị trang _PAGE_ của _PAGES_",
     }
 };
+
+async function activePrincingPlan(id) {
+    try {
+        const response = await sendRequest(`${window.location.origin}/admin/pricing-plans/toggle-active/${id}`, 'PUT');
+        if (response.status == 200) {
+            $('#pricing-plan-table').DataTable().ajax.reload(null, false);
+            showMessage(response.message);
+        }
+    } catch (error) {
+        showMessage(error.message);
+    }
+}
+
+async function deletePricingPlan(id) {
+    try {
+        const response = await sendRequest(`${window.location.origin}/admin/pricing-plans/delete/p${id}`, 'PUT');
+        if (response.status == 200) {
+            $('#pricing-plan-table').DataTable().ajax.reload();
+            showMessage(response.message);
+        }
+    } catch (error) {
+        showMessage(error.message);
+    }
+}
+
+function openDeleteModal(id) {
+    let event = {
+        icon: 'warning',
+        title: 'Cảnh báo',
+        text: 'Xác nhận xoá gói đăng ký?',
+        action: 'deletePricingPlan',
+        data: id,
+    }
+    confirmEvent(event);
+}

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->tinyInteger('font_type')->default(NORMAL_FONT);
 
             $table->tinyInteger('active_flg')->default(ACTIVE);
+            $table->tinyInteger('delete_flg')->default(INACTIVE);
         });
     }
 
@@ -37,7 +38,9 @@ return new class extends Migration
             $table->dropColumn('font_type');
             $table->dropColumn('phone_display');
             $table->dropColumn('auto_approve');
+            
             $table->dropColumn('active_flg');
+            $table->dropColumn('delete_flg');
         });
     }
 };

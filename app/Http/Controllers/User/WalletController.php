@@ -7,6 +7,7 @@ use App\Models\Wallet;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\PricingPlan;
 use App\Services\UserBreadcrumbService;
 
 class WalletController extends Controller
@@ -48,7 +49,9 @@ class WalletController extends Controller
         $this->breadcrumbService->addCrumb('Ví tiền', '/user/wallet');
         $this->breadcrumbService->addCrumb('Bảng giá');
 
-        return view('user.wallet.pricing-plan')
+        $pricing_plans = PricingPlan::where('active_flg', ACTIVE)->where('delete_flg', INACTIVE)->get();
+
+        return view('user.wallet.pricing-plan', compact('pricing_plans'))
             ->with('breadcrumbs', $this->breadcrumbService->getBreadcrumbs());
     }
 

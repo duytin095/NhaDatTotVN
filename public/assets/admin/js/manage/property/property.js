@@ -67,3 +67,26 @@ async function activeProperty(id) {
         showMessage(error.message);
     }
 }
+
+async function deleteProperty(id) {
+    try {
+        const response = await sendRequest(`${window.location.origin}/admin/properties/${id}`, 'PUT');
+        if (response.status == 200) {
+            $('#property-table').DataTable().ajax.reload();
+            showMessage(response.message);
+        }
+    } catch (error) {
+        showMessage(error.message);
+    }
+}
+
+function openDeleteModal(id) {
+    let event = {
+        icon: 'question',
+        title: 'Xoá tin đăng',
+        text: 'Xác nhận xoá tin đăng?',
+        action: 'deleteProperty',
+        data: id,
+    }
+    confirmEvent(event);
+}

@@ -24,6 +24,7 @@ class PricingPlan extends Model
         'auto_approve',
         
         'active_flg',
+        'delete_flg',
     ];
     public function users(){
         return $this->hasMany(User::class);

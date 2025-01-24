@@ -41,8 +41,9 @@ $(function () {
 });
 
 function logData() {   
-    const data = {
-        title: $('[name="title"]').val(),
+    let data = { 
+        id: $('[name="id"]').val(),
+        name: $('[name="name"]').val(),
         daily_fee: parseFloat(cleaveDayFee.getRawValue()),
         weekly_fee: parseFloat(cleaveWeekFee.getRawValue()),
         monthly_fee: parseFloat(cleaveMonthFee.getRawValue()),
@@ -50,13 +51,11 @@ function logData() {
         font_type: $('input[name="fontRadioOptions"]:checked').val(),
         auto_approve: $('[name="approveRadioOptions"]:checked').val(),
         phone_display: $('[name="phoneDisplayRadioOptions"]:checked').val(),
-
-        // Add more fields as needed
-    };
+    }
     console.log(data);
 }
 
-async function createPricingPlan() {
+async function updatePricingPlan() {
     try {
         let data = { 
             name: $('[name="name"]').val(),
@@ -68,17 +67,18 @@ async function createPricingPlan() {
             auto_approve: $('[name="approveRadioOptions"]:checked').val(),
             phone_display: $('[name="phoneDisplayRadioOptions"]:checked').val(),
         }
+        
+        let id = $('[name="id"]').val();
 
         const response = await sendRequest(
-            `${window.location.origin}/admin/pricing-plans/store`,
-            'POST',
+            `${window.location.origin}/admin/pricing-plans/update/${id}`,
+            'PUT',
             data
         );
 
         if (response.status == 200) {
-            window.location.href = response.redirect;
+            showMessage(response.message);
         }
-
     } catch (error) {
         showMessage(error.message);
     }

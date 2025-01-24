@@ -12,9 +12,6 @@ use App\Http\Controllers\Controller;
 
 class PropertyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         try {
@@ -42,13 +39,9 @@ class PropertyController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $purposes = config('constants.property-basic-info.property-purposes');
-        return view('admin.manage.property.create', compact('purposes'));
+        return view('admin.manage.property.create');
     }
 
     public function getProperties(Request $request)
@@ -297,10 +290,7 @@ class PropertyController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function delete(string $id)
     {
         try {
             DB::beginTransaction();

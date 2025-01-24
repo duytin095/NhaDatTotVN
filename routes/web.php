@@ -46,6 +46,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         // Route::post     ('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
         Route::get      ('/properties/data', [PropertyController::class, 'get'])->name('properties.get');
         Route::put      ('/properties/toggle-active/{slug}', [PropertyController::class, 'toggleActive'])->name('properties.toggle-active');
+        Route::put      ('/properties/{id}', [PropertyController::class, 'delete'])->name('properties.delete');
         // Route::get      ('/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties.edit');
         // Route::put      ('/properties/update/{id}', [PropertyController::class, 'update'])->name('properties.update');
         // Route::delete   ('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.destroy');
@@ -113,6 +114,11 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get      ('/pricing-plans/get', [PricingPlanController::class, 'get'])->name('pricing-plans.get');
         Route::get      ('/pricing-plans/create', [PricingPlanController::class, 'create'])->name('pricing-plans.create');
         Route::post     ('/pricing-plans/store', [PricingPlanController::class, 'store'])->name('pricing-plans.store');
+        Route::get      ('/pricing-plans/edit/{id}', [PricingPlanController::class, 'edit'])->name('pricing-plans.edit');
+        Route::put      ('/pricing-plans/update/{id}', [PricingPlanController::class, 'update'])->name('pricing-plans.update');
+        Route::put      ('/pricing-plans/toggle-active/{id}', [PricingPlanController::class, 'toggleActive'])->name('pricing-plans.toggle-active');
+        Route::put      ('/pricing-plans/delete/{id}', [PricingPlanController::class, 'delete'])->name('pricing-plans.delete');
+
 
         // DANH SACH PHAP LY
         Route::get      ('/legals', [LegalController::class, 'index'])->name('legals.index');

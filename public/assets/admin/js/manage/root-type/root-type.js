@@ -3,7 +3,12 @@ $(function () {
 });
 
 const rootTypeTableColumns = [
-    { "data": "name", "width": "65%" },
+    { "data": null,
+        "render": function (row) {
+            return '<a href="/admin/types/' + row.slug + '">' + row.name + '</a>';
+        },
+        "width": "65%"
+    },
     {
         "data": null,
         "render": function (row) {

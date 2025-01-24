@@ -27,6 +27,8 @@
     <title>Nhà đất tốt VN</title>
 
     <link rel="icon" type="image/png" href="{{ asset('assets/user/images/favicon.png') }}">
+
+    @vite('resources/js/app.js')
 </head>
 
 <body>

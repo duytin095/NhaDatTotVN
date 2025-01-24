@@ -73,13 +73,13 @@ class PostController extends Controller
 
         try {
             $types = Type::where('active_flg', ACTIVE)->orderBy('property_purpose_id', 'asc')->get()->groupBy('property_purpose_id');
-            $purposes = config('constants.property-basic-info.property-purposes');
+            $rootTypes = RootType::where('active_flg', ACTIVE)->get();
             $directions = config('constants.property-basic-info.property-directions');
             $legals = Legal::where('active_flg', ACTIVE)->get();
             $statuses = Status::where('active_flg', ACTIVE)->get();
             $videoLinks = config('constants.property-basic-info.video-links');
             $constructions = Construction::where('active_flg', ACTIVE)->get();
-            return view('user.post-create', compact('purposes', 'types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
+            return view('user.post-create', compact('rootTypes', 'types', 'directions', 'legals', 'statuses', 'videoLinks', 'constructions'), [
                 'breadcrumbs' => $this->breadcrumbService->getBreadcrumbs()
             ]);
         } catch (\Throwable $th) {
