@@ -23,7 +23,7 @@ $().ready(function () {
     //   method: 'POST',
     //   headers: {
     //     'Content-Type': 'application/json',
-    //     'access_token': 'fkrBEXZPkcsgvaez4jUzRglZHpWIokmcmQT-0Jh3-H7Ua4a6Cwxv5Tte0XPWZF46hjvMLbVqvrMJgcjqQyNeMuUcJ79KnU16ih9lP6_-_ss3i4X5RlZiPAQoOcfPmV8wePHT4aJ6xZMkY7WJS-dr6RgXKKrzvVzFpfSAJdVNctFBcp9UEQg60-N80Y9S_O8acRCwSbdDYaMHfWrqTVY5VSZCFdSC_enCrunsJGQ-_c3XzML88g3_0SVe3G0QgvbKsvis12BMZIEPb08L9T2M5iRW2mOzdRaZvT0D1WA6cp78ooqn1gsV0-V4C291hAOMgTCpG46LfMgunn19LVMJQ-UBP3yBrkGJpAb41J6QlY3Oi4LpPEA_TPRH6LPQWv0BkAbY2thCvYEVZNmM8_3FGfl7V5LsCOi7mcGPnBfc'
+    //     'access_token': ''
     //   },
     //   body: JSON.stringify({
     //     'mode': 'development',

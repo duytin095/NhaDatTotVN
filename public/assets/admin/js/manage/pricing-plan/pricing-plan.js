@@ -60,7 +60,7 @@ const rootTypeTableColumns = [
             if (row.active_flg == ACTIVE)
                 return "<a href='/admin/pricing-plans/edit/" + row.id + "' class='btn btn-primary'>Sửa</a>  <button onclick='activePrincingPlan(" + row.id + ")' class='btn btn-secondary'>&nbsp Ẩn &nbsp</button>";
             else {
-                return "<button onclick='openEditModal(" + row.id + ", \"" + row.name + "\")' class='btn btn-primary'>Sửa</button>  <button onclick='activePrincingPlan(" + row.id + ")' class='btn btn-success'>Hiện</button>";
+                return "<a href='/admin/pricing-plans/edit/" + row.id + "' class='btn btn-primary'>Sửa</a>  <button onclick='activePrincingPlan(" + row.id + ")' class='btn btn-success'>Hiện</button>";
             }
         },
         "width": "30%",

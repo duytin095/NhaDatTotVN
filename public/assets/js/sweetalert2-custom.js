@@ -79,6 +79,25 @@ function confirmEvent(event) {
         }
     })
 }
+function showMessageWithLoading(url) {
+    Swal.fire({
+        title: 'Đang xử lý...',
+        showLoading: true,
+        onBeforeOpen: () => {
+          // Make your server request here
+          fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              Swal.hideLoading();
+              Swal.fire('Thành công!', data.message, 'success');
+            })
+            .catch(error => {
+              Swal.hideLoading();
+              Swal.fire('Lỗi!', error.message, 'error');
+            });
+        }
+      });
+}
 
 function forceReload(icon = 'success', title = 'Thành công', text = 'Vui lòng tải lại trang') {
     Swal.fire({

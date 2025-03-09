@@ -7,9 +7,9 @@
         <div class="header">
             <h3>{{ $plan->name }}</h3>
         </div>
-        <div class="price-btn">
+        {{-- <div class="price-btn">
             <a href="contact.html" class="default-btn">Mua ngay</a>
-        </div>
+        </div> --}}
         <ul class="list">
             <li><i class="ri-check-fill"></i>Giá ngày:&nbsp; <strong class="format-price"> {{ $plan->daily_fee }}
                     đ</strong>
