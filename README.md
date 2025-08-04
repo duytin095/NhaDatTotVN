@@ -24,3 +24,5 @@ This project allows users to browse, post, and manage property listings with a r
 <img width="3360" height="1932" alt="image" src="https://github.com/user-attachments/assets/4c9cba00-b206-4f87-95b6-d0106c60377f" />
 <img width="3360" height="1932" alt="image" src="https://github.com/user-attachments/assets/f2a2dacb-5628-44a5-b0ad-eb064c97ddfd" />
 <img width="3360" height="1932" alt="image" src="https://github.com/user-attachments/assets/79276d7c-b9bd-4d17-90d0-b814e56ce92a" />
+<img width="3360" height="9892" alt="image" src="https://github.com/user-attachments/assets/8018cd9c-ffc3-4308-9436-4d3d0ecc30d1" />
+
